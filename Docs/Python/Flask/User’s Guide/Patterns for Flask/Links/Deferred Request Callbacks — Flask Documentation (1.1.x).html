@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Deferred Request Callbacks &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Adding HTTP Method Overrides" href="../methodoverrides/" />
+    <link rel="prev" title="Streaming Contents" href="../streaming/" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/patterns/deferredcallbacks/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/patterns/deferredcallbacks/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "patterns/deferredcallbacks"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../methodoverrides/" title="Adding HTTP Method Overrides"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../streaming/" title="Streaming Contents"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../">Flask Documentation (1.1.x)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Patterns for Flask</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="deferred-request-callbacks">
+<span id="deferred-callbacks"></span><h1>Deferred Request Callbacks<a class="headerlink" href="#deferred-request-callbacks" title="Permalink to this headline">¶</a></h1>
+<p>One of the design principles of Flask is that response objects are created and
+passed down a chain of potential callbacks that can modify them or replace
+them. When the request handling starts, there is no response object yet. It is
+created as necessary either by a view function or by some other component in
+the system.</p>
+<p>What happens if you want to modify the response at a point where the response
+does not exist yet?  A common example for that would be a
+<a class="reference internal" href="../../api/#flask.Flask.before_request" title="flask.Flask.before_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">before_request()</span></code></a> callback that wants to set a cookie on the
+response object.</p>
+<p>One way is to avoid the situation. Very often that is possible. For instance
+you can try to move that logic into a <a class="reference internal" href="../../api/#flask.Flask.after_request" title="flask.Flask.after_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">after_request()</span></code></a>
+callback instead. However, sometimes moving code there makes it more
+more complicated or awkward to reason about.</p>
+<p>As an alternative, you can use <a class="reference internal" href="../../api/#flask.after_this_request" title="flask.after_this_request"><code class="xref py py-func docutils literal notranslate"><span class="pre">after_this_request()</span></code></a> to register
+callbacks that will execute after only the current request. This way you can
+defer code execution from anywhere in the application, based on the current
+request.</p>
+<p>At any time during a request, we can register a function to be called at the
+end of the request. For example you can remember the current language of the
+user in a cookie in a <a class="reference internal" href="../../api/#flask.Flask.before_request" title="flask.Flask.before_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">before_request()</span></code></a> callback:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">after_this_request</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">before_request</span>
+<span class="k">def</span> <span class="nf">detect_user_language</span><span class="p">():</span>
+    <span class="n">language</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">cookies</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user_lang&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">language</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="n">guess_language_from_request</span><span class="p">()</span>
+
+        <span class="c1"># when the response exists, set a cookie with the language</span>
+        <span class="nd">@after_this_request</span>
+        <span class="k">def</span> <span class="nf">remember_language</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">set_cookie</span><span class="p">(</span><span class="s1">&#39;user_lang&#39;</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">response</span>
+
+    <span class="n">g</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../">
+              <img class="logo" src="../../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../">Overview</a>
+    <ul>
+      <li><a href="../">Patterns for Flask</a>
+        <ul>
+          <li>Previous: <a href="../streaming/" title="previous chapter">Streaming Contents</a>
+          <li>Next: <a href="../methodoverrides/" title="next chapter">Adding HTTP Method Overrides</a></ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<title>Chapter 1 Challenges - Linux Shell Scripting Tutorial - A Beginner's handbook</title>
+<script type="764e9c38212f5af9601211b3-text/javascript">document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script type="764e9c38212f5af9601211b3-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Chapter_1_Challenges","wgTitle":"Chapter 1 Challenges","wgCurRevisionId":1975,"wgRevisionId":1975,"wgArticleId":117,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Exercises","Introduction to Shells"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"Chapter_1_Challenges","wgRelevantArticleId":117,"wgRequestId":"5a7f413a386fd1f687cdd6e9","wgCSPNonce":false,"wgIsProbablyEditable":false,"wgRelevantPageIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgMFExpandAllSectionsUserOption":true,"wgMFEnableFontChanger":true,"wgMFDisplayWikibaseDescriptions":{"search":false,"nearby":false,"watchlist":false,"tagline":false}});mw.loader.state({"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"ready","user.tokens":"loading","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});});</script>
+<script type="764e9c38212f5af9601211b3-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){mw.loader.implement("user.tokens@0tffind",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});});</script>
+<script type="764e9c38212f5af9601211b3-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){RLPAGEMODULES=["site","mediawiki.page.startup","mediawiki.page.ready","mediawiki.searchSuggest","skins.vector.js"];mw.loader.load(RLPAGEMODULES);});</script>
+<link rel="stylesheet" href="/wiki/load.php?lang=en&amp;modules=mediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.skinning.interface%7Cskins.vector.styles&amp;only=styles&amp;skin=vector" />
+<script async="" src="/wiki/load.php?lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector" type="764e9c38212f5af9601211b3-text/javascript"></script>
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="/wiki/load.php?lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector" />
+<meta name="generator" content="MediaWiki 1.33.1" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/wiki/opensearch_desc.php" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="https://bash.cyberciti.biz/wiki/api.php?action=rsd" />
+<link rel="license" href="//creativecommons.org/licenses/by-nc-sa/3.0/" />
+<link rel="alternate" type="application/atom+xml" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook Atom feed" href="/wiki/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<!--[if lt IE 9]><script src="/wiki/load.php?lang=en&amp;modules=html5shiv&amp;only=scripts&amp;skin=vector&amp;sync=1"></script><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Chapter_1_Challenges rootpage-Chapter_1_Challenges skin-vector action-view">
+<div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+<a id="top"></a>
+<div class="mw-indicators mw-body-content">
+</div>
+<p>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="764e9c38212f5af9601211b3-text/javascript"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7825705102693166" data-ad-slot="2740569446" data-ad-format="auto"></ins>
+<script type="764e9c38212f5af9601211b3-text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<h1 id="firstHeading" class="firstHeading" lang="en">Chapter 1 Challenges</h1>
+<div id="bodyContent" class="mw-body-content">
+<div id="siteSub" class="noprint">From Linux Shell Scripting Tutorial - A Beginner&#039;s handbook</div>
+<div id="contentSub"></div>
+<div id="jump-to-nav"></div>
+<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+<a class="mw-jump-link" href="#p-search">Jump to search</a>
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><span style="width: 100%; background: #FAF5FF; border-color:#DDCEF2;border-style:solid;border-width:0.077em;padding:2px;line-height:1px;"> <a href="/guide/Why_shell_scripting" title="Why shell scripting">&#8592; Why shell scripting</a> • <b><a href="/guide/Main_Page" title="Main Page">Home</a></b> • <a href="/guide/Chapter_2:_Getting_Started_With_Shell_Programming" title="Chapter 2: Getting Started With Shell Programming">Chapter 2: Getting Started With Shell Programming &#8594;</a></span>
+</p>
+<ul><li>What is the shell?</li>
+<li>Decide whether the following sentence is true or false:</li></ul>
+<ol><li>Linux is a collection of programs and utilities glued together by the bash shell.</li>
+<li>Shell manages files and data.</li>
+<li>Shell manages networks, memory and other resources.</li>
+<li>Linux kernel runs programs and loads them into the memory.</li>
+<li>Bash shell is a poor user interface.</li>
+<li>Bourne Shell is also known as /bin/sh.</li>
+<li>Bash Shell is also known as /bin/bash or /usr/local/bin/bash.</li>
+<li>C Shell offers more C like syntax.</li>
+<li>A few commands are built into the shell.</li>
+<li>Linux file system organised as hierarchy.</li>
+<li>To refer to several files with similar names you need to use wildcards.</li>
+<li>Wildcards increase command typing time.</li>
+<li>Command ls is used to list directories.</li>
+<li>rmdir command will only remove empty directories.</li>
+<li>Everything is file in Linux.</li>
+<li>rm -i filename command will prompts for confirmation.</li>
+<li>Linux can run many programs at the same time.</li>
+<li>The bash shell is just a program.</li></ol>
+<ul><li>Write a command names, which can display the files to the terminal.</li>
+<li>Write a command to list details of all files ending in '.perl' in reverse time order.</li>
+<li>Write a command to list your running programs.</li>
+<li>Write a command to list files waiting to be printed.</li>
+<li>Write a command to delete 3 files called file1.txt, file2.txt, and data1.txt.</li>
+<li>Write a command to creates a new sub-directory called 'foo' in /tmp.</li>
+<li>Write a command to delete the directory called 'foo'.</li>
+<li>Write a command to read all ls command options.</li>
+<li><a href="/guide/Chapter_1_answers" title="Chapter 1 answers">Chapter 1 answers</a></li></ul>
+<p><span style="width: 100%; background: #FAF5FF; border-color:#DDCEF2;border-style:solid;border-width:0.077em;padding:2px;line-height:1px;"> <a href="/guide/Why_shell_scripting" title="Why shell scripting">&#8592; Why shell scripting</a> • <b><a href="/guide/Main_Page" title="Main Page">Home</a></b> • <a href="/guide/Chapter_2:_Getting_Started_With_Shell_Programming" title="Chapter 2: Getting Started With Shell Programming">Chapter 2: Getting Started With Shell Programming &#8594;</a></span>
+</p>
+
+
+
+</div></div>
+<p>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="764e9c38212f5af9601211b3-text/javascript"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-7825705102693166" data-ad-slot="5804044661"></ins>
+<script type="764e9c38212f5af9601211b3-text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<div class="printfooter">Retrieved from "<a dir="ltr" href="https://bash.cyberciti.biz/wiki/index.php?title=Chapter_1_Challenges&amp;oldid=1975">https://bash.cyberciti.biz/wiki/index.php?title=Chapter_1_Challenges&amp;oldid=1975</a>"</div>
+<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/guide/Special:Categories" title="Special:Categories">Categories</a>: <ul><li><a href="/guide/Category:Exercises" title="Category:Exercises">Exercises</a></li><li><a href="/guide/Category:Introduction_to_Shells" title="Category:Introduction to Shells">Introduction to Shells</a></li></ul></div></div>
+<div class="visualClear"></div>
+</div>
+</div>
+<div id="mw-navigation">
+<h2>Navigation menu</h2>
+<div id="mw-head">
+<div id="p-personal" role="navigation" aria-labelledby="p-personal-label">
+<h3 id="p-personal-label">Personal tools</h3>
+<ul>
+<li id="pt-login"><a href="/wiki/index.php?title=Special:UserLogin&amp;returnto=Chapter+1+Challenges" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li> </ul>
+</div>
+<div id="left-navigation">
+<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+<h3 id="p-namespaces-label">Namespaces</h3>
+<ul>
+<li id="ca-nstab-main" class="selected"><span><a href="/guide/Chapter_1_Challenges" title="View the content page [c]" accesskey="c">Page</a></span></li><li id="ca-talk" class="new"><span><a href="/wiki/index.php?title=Talk:Chapter_1_Challenges&amp;action=edit&amp;redlink=1" rel="discussion" title="Discussion about the content page (page does not exist) [t]" accesskey="t">Discussion</a></span></li> </ul>
+</div>
+<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+<input type="checkbox" class="vectorMenuCheckbox" aria-labelledby="p-variants-label" />
+<h3 id="p-variants-label">
+<span>Variants</span>
+</h3>
+<ul class="menu">
+</ul>
+</div>
+</div>
+<div id="right-navigation">
+<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+<h3 id="p-views-label">Views</h3>
+<ul>
+<li id="ca-view" class="collapsible selected"><span><a href="/guide/Chapter_1_Challenges">Read</a></span></li><li id="ca-viewsource" class="collapsible"><span><a href="/wiki/index.php?title=Chapter_1_Challenges&amp;action=edit" title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li><li id="ca-history" class="collapsible"><span><a href="/wiki/index.php?title=Chapter_1_Challenges&amp;action=history" title="Past revisions of this page [h]" accesskey="h">View history</a></span></li> </ul>
+</div>
+<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+<input type="checkbox" class="vectorMenuCheckbox" aria-labelledby="p-cactions-label" />
+<h3 id="p-cactions-label"><span>More</span></h3>
+<ul class="menu">
+</ul>
+</div>
+<div id="p-search" role="search">
+<h3>
+<label for="searchInput">Search</label>
+</h3>
+<form action="/wiki/index.php" id="searchform">
+<div id="simpleSearch">
+<input type="search" name="search" placeholder="Search Linux Shell Scripting Tutorial - A Beginner&#039;s handbook" title="Search Linux Shell Scripting Tutorial - A Beginner&#039;s handbook [f]" accesskey="f" id="searchInput" /><input type="hidden" value="Special:Search" name="title" /><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" /><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" /> </div>
+</form>
+</div>
+</div>
+</div>
+<div id="mw-panel">
+<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/guide/Main_Page" title="Visit the main page"></a></div>
+<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+<h3 id="p-navigation-label">Navigation</h3>
+<div class="body">
+<ul>
+<li id="n-mainpage-description"><a href="/guide/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li><li id="n-recentchanges"><a href="/guide/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-randompage"><a href="/guide/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li><li id="n-help-mediawiki"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Contents">Help about MediaWiki</a></li> </ul>
+</div>
+</div>
+<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+<h3 id="p-tb-label">Tools</h3>
+<div class="body">
+<ul>
+<li id="t-whatlinkshere"><a href="/guide/Special:WhatLinksHere/Chapter_1_Challenges" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/guide/Special:RecentChangesLinked/Chapter_1_Challenges" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/guide/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="/wiki/index.php?title=Chapter_1_Challenges&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/wiki/index.php?title=Chapter_1_Challenges&amp;oldid=1975" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/wiki/index.php?title=Chapter_1_Challenges&amp;action=info" title="More information about this page">Page information</a></li> </ul>
+</div>
+</div>
+<center><p><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="764e9c38212f5af9601211b3-text/javascript"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px; " data-ad-client="ca-pub-7825705102693166" data-ad-slot="8378479061"></ins>
+<script type="764e9c38212f5af9601211b3-text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p></center>
+</div>
+</div>
+<div id="footer" role="contentinfo">
+<ul id="footer-info">
+<li id="footer-info-lastmod"> This page was last edited on 25 December 2009, at 13:31.</li>
+<li id="footer-info-copyright">Content is available under <a class="external" rel="nofollow" href="//creativecommons.org/licenses/by-nc-sa/3.0/">Attribution-Noncommercial-Share Alike 3.0 Unported</a> unless otherwise noted.</li>
+</ul>
+<ul id="footer-places">
+<li id="footer-places-privacy"><a href="/guide/Linux_Shell_Scripting_Tutorial_-_A_Beginner%27s_handbook:Privacy_policy" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook:Privacy policy">Privacy policy</a></li>
+<li id="footer-places-about"><a href="/guide/Linux_Shell_Scripting_Tutorial_-_A_Beginner%27s_handbook:About" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook:About">About Linux Shell Scripting Tutorial - A Beginner&#039;s handbook</a></li>
+<li id="footer-places-disclaimer"><a href="/guide/Linux_Shell_Scripting_Tutorial_-_A_Beginner%27s_handbook:General_disclaimer" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook:General disclaimer">Disclaimers</a></li>
+<li id="footer-places-mobileview"><a href="https://bash.cyberciti.biz/wiki/index.php?title=Chapter_1_Challenges&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+</ul>
+<ul id="footer-icons" class="noprint">
+<li id="footer-copyrightico">
+<a href="//creativecommons.org/licenses/by-nc-sa/3.0/"><img src="//i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="Attribution-Noncommercial-Share Alike 3.0 Unported" width="88" height="31" /></a> </li>
+<li id="footer-poweredbyico">
+<a href="//www.mediawiki.org/"><img src="/wiki/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/wiki/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /wiki/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31" /></a> </li>
+</ul>
+<div style="clear: both;"></div>
+</div>
+<script type="764e9c38212f5af9601211b3-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.008","walltime":"0.009","ppvisitednodes":{"value":23,"limit":1000000},"ppgeneratednodes":{"value":114,"limit":1000000},"postexpandincludesize":{"value":682,"limit":2097152},"templateargumentsize":{"value":272,"limit":2097152},"expansiondepth":{"value":2,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":0,"limit":5000000},"timingprofile":["100.00%    1.786      1 -total"," 92.83%    1.658      2 Template:Navigation"]},"cachereport":{"timestamp":"20200227173743","ttl":86400,"transientcontent":false}}});});</script>
+<script type="764e9c38212f5af9601211b3-text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-108650-10', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script type="764e9c38212f5af9601211b3-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":47});});</script>
+<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="764e9c38212f5af9601211b3-|49" defer=""></script></body>
+</html>

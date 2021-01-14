@@ -1,0 +1,48 @@
+usage: crunch <min-len> <max-len> [charset] [-o wordlist.txt] [-t [FIXED]@@@@] [-s startblock] [-c number]
+
+or
+
+usage: crunch <min-len> <max-len> [-f <path to charset.lst> charset-name] [-o wordlist.txt] [-t [FIXED]@@@@] [-s startblock] [-c number]
+
+min-len is the minimum length string you want crunch to start at
+
+max-len is the maximum length string you want crunch to end at
+
+[charset] is optional.  You may specify a character set for crunch to use on the command line or if you leave it blank crunch will use abcdefghijklmnopqrstuvwxyz as the character set.  NOTE: If you want to include the space character in your character set you use enclose your character set in quotes i.e. "abc "
+
+[-f <path to charset.lst> <charset-name>] is the alternative to setting the character set on command line.  This parameter allows you to specify a character set from the charset.lst.
+NOTE: You may either not specify a charset, you may specify a character set on the command line, or you may specify -f <path to charset.lst> <charset-name>.  You can only do one.
+
+[-t [FIXED]@%^] is optional and allows you to specify a pattern, eg: @@god@@@@ where the only the @'s will change.  You can specify @ or % or ^  which will allow to change letters numbers and symbols.  For example @@dog%^ abcd 1234 @#$% the @'s will chnage with the characters the % will change with the numbers and the ^ will change with the symbols you specifed.  If you use %dog^ + 1234 @#$% the plus sign is a placeholder.
+
+[-s startblock] is optional and allows you to specify the starting string, eg: 03god22fs
+
+[-i] is optional and will invert the output.  Instad of aaa, aab, aac you will get aaa, baa, caa, etc
+
+[-o wordlist.txt] is optional allows you to specify the file to write the output to, eg: wordlist.txt
+
+[-c number] is optional and specifies the number of lines to write to output file, only works if -o START is used, eg: 60  The ouput files will be in the format of starting letter-ending letter for example: ./crunch 1 1 -f /pentest/password/crunch/charset.lst mixalpha-numeric-all-space -o START -c 60 will result in 2 files: a-7.txt and 8-\ .txt  The reason for the slash in  the second filename is the ending character is space and ls has to escape it to print it.  Yes you will need to put in the \ when specifing the filename.
+
+[-b size] is optional and will break apart the output file based on the size you specify.  you must specify the size as a number followed by kb, mb, gb, kib, mib, or gib.  kb, mb, and gb are based on the power of 10 (i.e. 1 kb = 1000 bytes).  kib, mib, and gib are based on the power of two (i.e. 1 kb = 1024 bytes).  To use this option you must specify -o START.  NOTE There is no space between the number and the type.  For example 500mb is correct, 500 mb is NOT correct.
+
+[-z option] is optional and will compress the outfile using bzip, gzip, or lzma
+
+[-p string-of-letters] is optional crunch will now generate permutations instead of combinations.  The string of letters is the string of letters you use to permute.  This parameter ignores min and max
+
+[-m string1 string2 string3 ...] is optional crunch will now generate permututions of the strings you specify.  This parameter ignores min and max
+
+[-r] is optional and resume a previous crunch session.  You must use the same syntax as the original command.  This option will not work with the -p or -m options.
+
+# examples:
+
+./crunch 1 8
+crunch will display a wordlist that starts at a and ends at zzzzzzzz
+
+./crunch 1 6 abcdefg
+crunch will display a wordlist using the charcterset abcdefg that starts at a and ends at gggggg
+
+./crunch 1 8 -f charset.lst mixalpha-numeric-all-space -o wordlist.txt
+crunch will use the mixalpha-numberic-all-space character set from charset.lst and will write the wordlist to a file named wordlist.txt.  The file will start with a and end with "        "
+
+./crunch 8 8 -f charset.lst mixalpha-numeric-all-space -o wordlist.txt -t @@dog@@@ -s cbdogaaa
+crunch will generate a 8 character wordlist using the mixalpha-number-all-space characterset from charset.lst and will write the wordlist to a file named wordlist.txt.  The file will start at cbdogaaa and end at "  dog   "

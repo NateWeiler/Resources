@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CSS selectors</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  <style>
+  /* General styles */
+
+hr {
+  width: 80%;
+  margin: 50px auto;
+}
+
+/* Element selectors example */
+
+#element-selectors h1 {
+  color: red;
+  text-shadow: 1px 1px 1px black;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.1));
+  padding: 3px;
+  text-align: center;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5), inset -2px -2px 5px rgba(255,255,255,0.5);
+}
+
+/* Class selectors example */
+
+#class-selectors .base-box {
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+  padding: 3px 3px 3px 7px;
+}
+
+#class-selectors .important {
+  font-weight: bold;
+}
+
+#class-selectors .editor-note {
+  background-color: #9999ff;
+  border-left: 6px solid #333399;
+}
+
+#class-selectors .warning {
+  background-color: #ff9999;
+  border-left: 6px solid #993333;
+}
+
+/* ID selectors example */
+
+#id-selectors p {
+  text-transform: uppercase;
+  padding: 5px;
+}
+
+#id-selectors #first {
+  background-color: goldenrod;
+}
+
+#id-selectors #second {
+  background-color: silver;
+}
+
+#id-selectors #third {
+  background-color: #CD7F32;
+}
+
+/* Attribute selectors */
+
+#attribute-selectors li[lang="en-GB"] {
+  background: url("en-GB.png") 5px center no-repeat;
+}
+
+#attribute-selectors li[lang="de"] {
+  background: url("de.png") 5px center no-repeat;
+}
+
+#attribute-selectors li[lang="es"] {
+  background: url("es.png") 5px center no-repeat;
+}
+
+#attribute-selectors li[data-perf*="inc"] {
+  background-color: rgba(0,255,0,0.7);
+}
+
+#attribute-selectors li[data-perf*="same"] {
+  background-color: rgba(0,0,255,0.5);
+}
+
+#attribute-selectors li[data-perf*="dec"] {
+  background-color: rgba(255,0,0,0.7);
+}
+
+#attribute-selectors li[data-perf*="pro"] {
+  font-weight: bold;
+}
+
+#attribute-selectors li[data-perf*="rel"] {
+  font-style: italic;
+  color: #666;
+}
+
+#attribute-selectors ol {
+  padding: 0;
+}
+
+#attribute-selectors li {
+  padding: 3px 3px 3px 34px;
+  margin-bottom: 5px;
+  list-style-position: inside;
+}
+
+/* Pseudo class selectors */
+
+#pseudo-class-selectors ul {
+  padding: 0;
+}
+
+#pseudo-class-selectors li {
+  padding: 3px;
+  margin-bottom: 5px;
+  list-style-type: none;
+}
+
+#pseudo-class-selectors a {
+  text-decoration: none;
+  color: black;
+}
+
+#pseudo-class-selectors a:hover {
+  text-decoration: underline;
+  color: red;
+}
+
+#pseudo-class-selectors li:nth-of-type(2n) {
+  background-color: #ccc;
+}
+
+#pseudo-class-selectors li:nth-of-type(2n+1) {
+  background-color: #eee;
+}
+
+/* Pseudo element selectors */
+
+#pseudo-element-selectors p::first-line {
+  text-transform: uppercase;
+}
+
+#pseudo-element-selectors p::first-letter {
+  font-size: 3em;
+  border: 1px solid black;
+  background: red;
+  display: block;
+  float: left;
+  padding: 2px;
+  margin-right: 4px;
+}
+
+/* Combinators */
+
+#combinators ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+#combinators ul a {
+  text-decoration: none;
+  display: inline-block;
+  color: black;
+  background-color: red;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+#combinators ul a:hover {
+  color: red;
+  background-color: black;
+}
+
+h1 + p {
+  font-weight: bold;
+  color: blue;
+}
+
+  </style>
+    <div id="element-selectors">
+      <h1>Hello World!</h1>
+      <p>This is a paragraph.</p>
+
+      <ul>
+        <li>This is</li>
+        <li>A list</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <div id="class-selectors">
+      <p class="base-box warning">My first paragraph.</p>
+      <p class="">My second paragraph.</p>
+      <p class="">My third paragraph</p>
+    </div>
+
+    <hr>
+
+    <div id="id-selectors">
+      <p id="first"><strong>Winner</strong>: Velma Victory</p>
+      <p id="second"><strong>2nd</strong>: Colin Contender</p>
+      <p id="third"><strong>3rd</strong>: Phoebe Player</p>
+    </div>   
+
+    <hr>
+
+    <div id="attribute-selectors">
+      <ol>
+        <li lang="en-GB" data-perf="inc-pro">Manchester United</li>
+        <li lang="es" data-perf="same-pro">Barcelona</li>
+        <li lang="de" data-perf="dec">Bayern Munich</li>
+
+        <li lang="es" data-perf="same">Real Madrid</li>
+        <li lang="de" data-perf="inc-rel">Borussia Dortmund</li>
+        <li lang="en-GB" data-perf="dec-rel">Southampton FC</li>
+      </ol>
+    </div>
+
+    <hr>
+
+    <div id="pseudo-class-selectors">
+      <ul>
+        <li><a href="#">United Kingdom</a></li>
+        <li><a href="#">Germany</a></li>
+        <li><a href="#">Finland</a></li>
+        <li><a href="#">Russia</a></li>
+        <li><a href="#">Spain</a></li>
+        <li><a href="#">Poland</a></li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <div id="pseudo-element-selectors">
+      <p>This is my very important paragraph. I am a distinguished gentleman of such renown that my paragraph needs to be styled in a manner befitting my majesty. Bow before my splendour, dear students, and go forth and learn CSS!</p>
+    </div>
+
+    <hr>
+
+    <div id="combinators"> 
+
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+
+      <h1>Welcome to my website</h1>
+
+      <p>Hello, and welcome! I hope you enjoy your time here.</p>
+
+      <h2>My philosophy</h2>
+
+      <p>I am a believer in chilling out, and not getting grumpy. I think everyone else should follow this ideal, and <a href="#">drink green tea</a>.</p>
+    
+    </div>   
+  </body>
+</html> 

@@ -1,0 +1,152 @@
+#!g:\code\editor\python\stackless37\python.exe
+
+from grattify import *
+import sys, os
+
+#keep log of already downloaded songs, to be able to diff?
+
+#MAIN EXECUTION
+
+failedDownloads = []
+if len(sys.argv) > 2: #using command line arguments
+	if sys.argv[1] == "-album" or sys.argv[1] == "-a":
+		artist = sys.argv[2]
+		album = sys.argv[3]
+		saveDir = album
+		if not os.path.exists(saveDir):
+			os.makedirs(saveDir)
+		tracks = getAlbum(artist,album)
+		for i,track in enumerate(tracks):
+			print "\nDOWNLOADING SONG %d / %d\n" % (i+1,len(tracks))
+			if not downloadSong(track,artist,1,saveDir,None,str(i+1)):
+				failedDownloads.append((track,artist))
+
+	if sys.argv[1] == "-song" or sys.argv[1] == "-s":
+		saveDir = "songFolder"
+		if not os.path.exists(saveDir):
+			os.makedirs(saveDir)
+		artist = sys.argv[2]
+		song = sys.argv[3]
+		if len(sys.argv) > 4: #numeric attempt has been specified
+			attempt = int(sys.argv[4])
+		else:
+			attempt = 1
+		if not downloadSong(song,artist,attempt,saveDir):
+			failedDownloads.append((song,artist))
+
+	if sys.argv[1] == "-top" or sys.argv[1] == "-t":
+		n = int(sys.argv[2])
+		artist = sys.argv[3]
+		saveDir = artist + "_Top_"+sys.argv[2]
+		if not os.path.exists(saveDir):
+			os.makedirs(saveDir)
+		tracks = getTopN(artist,n)
+		for i,track in enumerate(tracks):
+			print "\nDOWNLOADING SONG %d / %d\n" % (i+1,len(tracks))
+			if not downloadSong(track,artist,1,saveDir,str(i+1)):
+				failedDownloads.append((track,artist))
+
+	if sys.argv[1] == "-file" or sys.argv[1] == "-f":
+		inFile = file(sys.argv[2])
+		saveDir = sys.argv[2][:sys.argv[2].find('.')]
+		if not os.path.exists(saveDir):
+			os.makedirs(saveDir)
+		lines = inFile.readlines()
+		try:
+			attempt = int(lines[0].strip())
+		except:
+			attempt = 1
+		for i,line in enumerate(lines):
+			print "\nDOWNLOADING LINE %d / %d\n" % (i+1,len(lines))
+			songParts = line.split("-")
+			if line[:6].lower()=="album:": #album:the wall,pink floyd
+				artist = songParts[-1]
+				album = "-".join(songParts[:-1])
+				album=album[6:]
+				tracks = getAlbum(artist,album)
+				if not tracks:
+					failedDownloads.append(("Album: "+album,artist))
+				for j,track in enumerate(tracks):
+					if not downloadSong(track,artist,attempt,saveDir,str(j+1)):
+						failedDownloads.append((track,artist))
+			if line[:3].lower()=="top": #top 5:pink floyd
+				colonIndex=line.find(':')
+				artist = line[colonIndex+1:].strip()
+				n = int(line[3:colonIndex].strip())
+				if n:
+					tracks = getTopN(artist,n)
+					if not tracks:
+						failedDownloads.append(("Top "+str(n),artist))
+						continue
+				else:
+					print "SYNTAX ERROR: "+line
+					print "SKIPPING"
+					continue
+				for j,track in enumerate(tracks):
+					if not downloadSong(track,artist,attempt,saveDir,str(j+1)):
+						failedDownloads.append((track,artist))
+			else: #hey you,pink floyd
+				artist = songParts[0]
+				track = "-".join(songParts[1:])
+				if not downloadSong(track,artist,attempt,saveDir):
+					failedDownloads.append((track,artist))
+
+	if sys.argv[1] == "-spotify" or sys.argv[1] == "-sp":
+		username = sys.argv[2]
+		#check if user specified particular playlists
+		if len(sys.argv) > 3:
+			playlists = getSpotifyPlaylists(username,sys.argv[3:])
+		else:
+			playlists = getSpotifyPlaylists(username,[])
+		pp = pprint.PrettyPrinter(indent=4)
+		pp.pprint(playlists)
+		for playlist in playlists:
+			saveDir = playlist['name']
+			if not os.path.exists(saveDir):
+				os.makedirs(saveDir)
+			for i,track in enumerate(playlist['tracks']):
+				print "\nDOWNLOADING SONG %d / %d in playlist: %s\n" % (i+1,len(playlist['tracks']),playlist['name'])
+				if not downloadSong(track[1],track[0],1,saveDir,str(i+1)):
+					failedDownloads.append((track[1],track[0]))
+
+	if sys.argv[1] == "-pandora" or sys.argv[1] == "-p":
+		saveDir = "Pandora_Liked_Songs"
+		if not os.path.exists(saveDir):
+			os.makedirs(saveDir)
+		pandoraFile = sys.argv[2]
+		tracks = parsePandoraLikes(pandoraFile)
+		for i,track in enumerate(tracks):
+			print "\nDOWNLOADING SONG %d / %d\n" % (i+1,len(tracks))
+			if not downloadSong(track[0],track[1],1,saveDir):
+				failedDownloads.append((track[0],track[1]))
+
+	if sys.argv[1] == "-link" or sys.argv[1] == "-l":
+		saveDir = "songFolder"
+		if not os.path.exists(saveDir):
+			os.makedirs(saveDir)
+		ytlink = sys.argv[2]
+		artist = sys.argv[3]
+		song = sys.argv[4]
+		if not downloadSong(artist,song,1,saveDir,ytlink=ytlink):
+			failedDownloads.append((song,artist))
+
+	if sys.argv[1] == "-debug":
+		ms = compare(sys.argv[2],sys.argv[3])
+		print "%d Changes" % len(ms)
+		for m in ms:
+			print m
+
+	if len(failedDownloads) > 0:
+		print "Some songs failed to download :("
+		for fail in failedDownloads:
+			print fail
+	else:
+		print "All songs downloaded!"
+else:
+	print "USAGE:"
+	print '-spotify myUserName'
+	print '-song "The Beatles" "Come Together"'
+	print '-album "The Beatles" "Abbey Road"'
+	print '-top 5 "The Beatles"'
+	print '-file "songList.txt"'
+	print '-link "https://www.youtube.com/watch?v=uSM5MpKSnqE" "The Beatles" "Come Together"'

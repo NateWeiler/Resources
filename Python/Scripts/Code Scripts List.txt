@@ -1,0 +1,245 @@
+A simple drawing program with Turtle.py
+Accessing the HTML content from webpage.py
+Add Numbers.py
+Affine Cipher.py
+Affine Hacker.py
+Affine Key Test.py
+ascii Mapper.py
+Auto Sort Imports.py
+Awesome GUI Date Picker.py
+BBC News RSS Reader.py
+Bitcion & Ethereum Price Ticker.py
+Body Mass Index Calculator.py
+Caesar Cipher.py
+Caesar Hacker.py
+cat Merge PDF's.py
+Centre Root Window on Screen.py
+Change Tk Window Icon.py
+Changing Line Color.py
+Check Audio.py
+Check if Directory Exists or Create It.py
+Check if String is a Palindrome.py
+Check Pw.py
+Check Website Status.py
+Clipboard Manager.py
+Clock.py
+Control Desktop App.py
+Convert docx to Text.py
+Convert Image to Greyscale.py
+Convert to Almost Any Audio Format.py
+Convert to Almost Any Video Format.py
+Copy & Paste to & from Clipboard.py
+Count How Many Files in a Directory.py
+Countdown from 10 to 1.py
+Crawl a Webpage & Extracts All Links.py
+Create Tabbed Widget.py
+Crop Image & Save.py
+Crypto Math.py
+Current Time In Hours And Minutes.py
+Data Transfer(50,000).py
+Demux Audio from a Video.py
+Detect English.py
+Detect USB Drives on Windows Machine.py
+Determine System Platform.py
+Display Live Webcam.py
+Do a Google Search & Return Results.py
+doc to txt File.py
+Download Audio Only of a Youtube Video.py
+Downloading Files.py
+Draw a Circle.py
+Draw a Hexagon.py
+Draw a Line.py
+Draw a Spiraling Star.py
+Draw a Square(using loops).py
+Draw a Square.py
+Draw a Star.py
+Draw a lot of Circles.py
+Empty Recycle Bin.py
+Encrypt & Decrypt a String.py
+Enhance Image Detail.py
+Example.py
+Execute an External Program.py
+Extract All Links from a Webpage.py
+Extract All Website Links.py
+Extract doc Info.py
+Extract JPEGs from PDFs.py
+Fetch Song Lyrics.py
+Four Simple Image Filters.py
+Freq Analysis.py
+Get a Definition for a Word.py
+Get Browser History.py
+Get CPU Speed.py
+Get Current Bitcoin Value.py
+Get Current Time Module.py
+Get Current Time Object.py
+Get Current Time.py
+Get Current Timezone Time.py
+Get Current Weather.py
+Get exif Data from Photo.py
+Get File Size.py
+Get Image Type from Header.py
+Get Latest Sports Scores.py
+Get Motherboard Serial Number.py
+get pip.py
+Get Synonyms from Thesaurus.py
+Get Systems Current Date and Time.py
+Get Total Folder Size.py
+Get Tweets No API.py
+Get URLs From Sitemap.py
+Get User Selected Directory.py
+Get Version of Windows Used.py
+Get Video File Info.py
+Git All.py
+Git Bash Commit.py
+Git Clone Example.py
+Git Commit Windows.py
+Git Commit.py
+Git Status.py
+Google News RSS Feed.py
+GPA Calculator.py
+Grab All Links from Webpage.py
+hash md5 sha256.py
+Hello Function.py
+Hello World In Flask.py
+Hello.py
+Hotkey Shortcuts.py
+Interactive Turtle.py
+ive video sketcher.py
+jsonparser1.py
+jsonparser2.py
+Jumping Around and Changing Speed.py
+Kill Running Programs.py
+Last Modified Date And Size Of File.py
+List All Running Processes.py
+Listbox To do App.py
+Loops and Counting.py
+Make Public Private Keys.py
+Make Word Patterns.py
+Matrix of Dots 5 Dots wide 7 Dots High.py
+Merge alot of PDF's.py
+Merge PDF's.py
+Merge Two or More PDF's into One.py
+Most Common Used Words in Text.py
+Move a Rectangle with Text Inside of It.py
+Multi Color Squre with Turtle.py
+Music Player.py
+newfile.py
+Non lambda Multi Callback.py
+Number of Files in Current Directory.py
+Number Of Words In A Text File.py
+OCR Text From Image.py
+Open a Webpage in Default Browser.py
+Open WebCam in Full Screen Mode.py
+Output CLI Calendar.py
+Parsing the HTML Content.py
+Pass Data Transfer(10,000).py
+Pass Parameter from Callback.py
+Passing Reference.py
+Password Generator.py
+PDF Encrypt.py
+PDF Merging.py
+PDF Splitting.py
+PDF Watermarker.py
+PDF2mp3.py
+Percent Free Space On Fixed Drives.py
+Photo Cartoonizer.py
+Pip Update.py
+Place Text On Image And Save It.py
+Play mp3 using Pygame.py
+Play Sound.py
+Plays Windows System Sounds.py
+Pretty env Script.py
+Pretty Path Script.py
+Pretty Py Path Script.py
+Prime Num.py
+Print Text On Webcam And Save Video.py
+Print Today's Date For Humans.py
+Profanity Checker.py
+Public Key Cipher.py
+pyperclip.py
+Python to Powerpoint.py
+pyttsx Text to Speech Example.py
+pyttsx3 Changing Voice Rate Volume.py
+Quadratic Equation Solver.py
+Rabin-Miller Algorithm.py
+Rainbow Benzene.py
+Ram Free Checker.py
+Randomly Shuffle String.py
+Range of Numbers Test.py
+Record Online Live Streaming Videos.py
+Recursively Remove Files by Matching Pattern or Wildcard using os.walk().py
+Remove All Files You Do Not Need in Subfolders.py
+Remux Audio Back onto a Video.py
+Replace Defined Chars In String.py
+Report Disk Usage.py
+Resize Image & Save.py
+Reverse Cipher.py
+Right Click Menu For Tkinter.py
+Rocketship You Can Control Using the Arrow Keys in Turtle.py
+Rotatary Scale in Tkinter.py
+Rotate Image.py
+Rotate Pages.py
+Round Dance.py
+Save FTP Dir Listing to Text File.py
+Scrape Wikipedia Info.py
+Scroll Down Huge Twitter Pages Automatically.py
+Search for File Type.py
+Searching & Navigating Through the Parse Tree.py
+Send Email with Attachment.py
+Send Tests via Email to Students.py
+Sharpen Image.py
+Show Start Up Programs.py
+Shutdown Windows.py
+Simple Math.py
+Simple Presentation.py
+Simple Sub Cipher.py
+Simple Sub Dictionary Hacker.py
+Simple Sub Hacker.py
+Sort Names By Surname.py
+Spiral Helix Pattern.py
+Spiral Square Inside Out.py
+Spiral Square Outside In.py
+Start Coding With a Simple Game.py
+Store Variable To File.py
+Store Variables To File and Retrieve.py
+String Test.py
+Take a Screenshot V2 Cross Platform.py
+Teaching with Turtle.py
+Text To Art.py
+Text to Realistic Speech.py
+The Option Menu Widget.py
+Timelapse Video Recorder.py
+Tk Colour Picker.py
+Tk GUI Vertical Scale.py
+TKinter App to Evaluate Tests part 1.py
+Tkinter Smart Option Menu.py
+Tkinter to Make PDF Fast & Free with Text or HTML.py
+Transposition Decrypt.py
+Transposition Encrypt.py
+Transposition File Cipher.py
+Transposition File Hacker.py
+Transposition Hacker.py
+Transposition Test.py
+Turtle You Can Control Using the Arrow Keys.py
+Turtles in Space.py
+Unzip a Zip Archive.py
+Upgrade PIP.py
+User Input Dialog.py
+User Input Pattern.py
+Using Images in Turtle with Background.py
+Using Images in Turtle.py
+Vigenere Cipher.py
+Vigenere Dictionary Hacker.py
+Vigenere Hacker.py
+Web Page to Text File.py
+Webpage To PDF.py
+Webscraping NYC MTA.py
+Website Blocker.py
+wget Files from the Internet.py
+What Browsers Are on the System.py
+WhoIS Domain Look Up.py
+Windows Pop Up Notification.py
+Windows Screen Grabber.py
+Word Frequency.py
+Word Patterns.py
+Zoom And Save Image.py

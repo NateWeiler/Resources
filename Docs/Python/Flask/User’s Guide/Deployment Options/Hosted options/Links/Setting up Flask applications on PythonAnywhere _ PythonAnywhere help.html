@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Setting up Flask applications on PythonAnywhere | PythonAnywhere help</title>
+
+    
+        <link href="/assets/css/rst.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/code.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/colorbox.css" rel="stylesheet" type="text/css">
+        <link href="/assets/css/theme.css" rel="stylesheet" type="text/css">
+    
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i">
+  <link rel="stylesheet" href="https://www.pythonanywhere.com/help_css/">
+
+  <style>
+html, body{height: 100%;}
+#id_copyright_div {position: relative !important;}
+  </style>
+  <style>
+    #tipue_search_input {
+      margin-left: 36px !important;
+    }
+    .ui-dialog-titlebar-close span {
+      margin-left: -8px !important;
+      margin-top: -8px !important;
+    }
+  </style>
+  <style>
+    #id_feedback_container {
+      position: fixed;
+      left: 0;
+      top: 10%;
+      right: 0;
+      bottom: 0;
+      background-color: transparent;
+      z-index: 10;
+    }
+    .floaty-iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+  <style>
+    .fullscreen-main-navbar {
+      padding: 5px 10px 5px 10px;
+    }
+  </style>
+
+
+    
+            <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml">
+
+      <link rel="canonical" href="https://help.pythonanywhere.com/pages/Flask/">
+
+
+
+
+    
+        <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+
+    
+<link rel="stylesheet" type="text/css" href="/assets/css/tipuesearch.css">
+<link rel="stylesheet" type="text/css" href="https://www.pythonanywhere.com/static/anywhere/styles/bootstrap_base.css">
+
+
+
+    
+
+    <meta name="author" content="PythonAnywere">
+    
+
+    
+
+    
+
+
+
+</head>
+<body>
+
+<!-- Menubar -->
+
+
+  <div style="min-height: 100%; position: relative;">
+  <nav class="navbar navbar-default fullscreen-main-navbar help-navbar">
+  <div class="navbar-header">
+    <a class="brand" href="//www.pythonanywhere.com/"><img id="id_logo" src="//www.pythonanywhere.com/static/anywhere/images/PA-logo.svg" style="height: 35px" title="PythonAnywhere logo" alt="PythonAnywhere logo"></a>
+  </div>
+  <div class="extra-nav-content">
+      
+<div class="navbar-form pull-right">
+<input type="text" id="tipue_search_input" placeholder="Search">
+</div>
+  </div>
+  <div class="fullscreen-mini-nav">
+    <ul id="id_header_links" class="nav navbar-nav navbar-right help-links">
+    <li><a id="id_feedback_link" class="feedback_link btn-link" onclick="showDialog()" style="cursor: pointer">Send feedback</a></li>
+    <li><a id="id_forums_link" class="btn-link" href="//www.pythonanywhere.com/forums/">Forums</a></li>
+    <li><a id="id_help_link" class="btn-link" href="/">Help</a></li>
+    <li><a href="//blog.pythonanywhere.com/" class="btn-link" id="id_blog_link">Blog</a></li>
+  </ul>
+  </div>
+
+  </nav>
+
+  <div id="tipue_search_content" style="margin-left: auto; margin-right: auto; padding: 20px;display:none"></div>
+
+
+    <div id="id_feedback_container" class="hidden">
+      <iframe id="id_feedback_frame" name="feedback_frame" class="floaty-iframe" src="https://www.pythonanywhere.com/feedback/form/"></iframe>
+    </div>
+
+
+<!-- End of Menubar -->
+<div class="container" id="content" role="main">
+    <!--Body content-->
+    <div class="row-fluid">
+        <div class="span2"></div>
+        <div class="span8">
+            
+            
+<article class="storypage" itemscope="itemscope" itemtype="http://schema.org/Article">
+    <header>
+        
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="/pages/Flask/" class="u-url">Setting up Flask applications on PythonAnywhere</a></h1>
+
+        
+
+    </header>
+    <div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>There are two main ways to set up a Flask application on PythonAnywhere:</p>
+<ol>
+<li>Starting from scratch using our default versions of Flask</li>
+<li>Importing a pre-existing app using Manual configuration, and using a virtualenv</li>
+</ol>
+<p>The first option works well if you're just playing around and want to throw
+something together from scratch. Go to the <a href="https://www.pythonanywhere.com/web_app_setup">Web
+Tab</a> and hit <strong>Add a new Web
+App</strong>, and choose Flask and the Python version you want.</p>
+<p>The second option is described in more detail below</p>
+<h3 id="getting-your-code-onto-pythonanywhere">Getting your code onto PythonAnywhere</h3>
+<p>This guide assumes you've already managed to get your code onto PythonAnywhere.
+Check out the <a href="/pages/UploadingAndDownloadingFiles">uploading and downloading
+files</a> guide if you need to.</p>
+<p>For the purposes of these examples, we'll assume your code lives at
+<code>/home/yourusername/mysite</code></p>
+<h3 id="check-your-config">Check your config</h3>
+<p>If you're importing existing code, review all of your Flask configuration
+settings to ensure that they match their new home. For instance, if you've
+specified a SERVER_NAME in your config, make sure that it matches the web app
+name.</p>
+<h3 id="setting-up-your-virtualenv">Setting up your virtualenv</h3>
+<p>Open up a  new Bash console from your <a href="https://www.pythonanywhere.com/consoles">Dashboard</a> and run</p>
+<pre class="code literal-block">mkvirtualenv --python<span class="o">=</span>/usr/bin/python3.6 my-virtualenv  <span class="c"># use whichever python version you prefer</span>
+pip install flask
+</pre>
+
+
+<p>You'll see the prompt changes from a <code>$</code> to saying <code>(my-virtualenv)$</code> -- that's
+how you can tell your virtualenv is active. Whenever you want to work on your
+project in the console, you need to make sure the virtualenv is active. You can
+reactivate it at a later date with</p>
+<pre class="code literal-block"><span class="nv">$ </span>workon my-virtualenv
+<span class="o">(</span>my-virtualenv<span class="o">)</span><span class="err">$</span>
+</pre>
+
+
+<p>You can also install any other dependencies you may have at this point, like
+Sqlalchemy, using <code>pip install flask-sqlalchemy</code>, or <code>pip install -r
+requirements.txt</code>, if you have a requirements.txt</p>
+<h3 id="setting-up-the-web-app-using-manual-configuration">Setting up the Web app using Manual configuration</h3>
+<p>Go to the <a href="https://www.pythonanywhere.com/web_app_setup">Web Tab</a> and hit <strong>Add
+a new web app</strong>. Choose <strong>Manual Configuration</strong>, and then choose the <strong>Python
+version</strong> -- make sure it's the same version as the one you used in your
+virtualenv</p>
+<p>Now go to the <strong>Virtualenv</strong> section, and enter your virtualenv name:
+<em>my-virtualenv</em>. When you hit enter, you'll see it updates to the full path to
+your virtuaelenv (<em>/home/yourusername/.virtualenvs/my-virtualenv</em>).</p>
+<p>Finally, go edit the wsgi configuration file. You'll find a link to it near the
+top of the Web tab.</p>
+<h3 id="configuring-the-wsgi-file">Configuring the WSGI file</h3>
+<p>To configure this file, you need to know which file your flask app lives in.
+The flask app usually looks something like this:</p>
+<pre class="code literal-block"><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+</pre>
+
+
+<p>Make a note of the path to that file, and the name of the app variable (is it
+"app"? Or "application"?) -- in this example, let's say it's
+<code>/home/yourusername/mysite/flask_app.py</code>, and the variable is "app".</p>
+<p>In your WSGI file, skip down to the flask section, uncomment it, and make it
+looks something like this:</p>
+<pre class="code literal-block"><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s">'/home/yourusername/mysite'</span>
+<span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+   <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">flask_app</span> <span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">application</span>
+</pre>
+
+
+<h3 id="do-not-use-apprun">Do not use app.run()</h3>
+<p>When you're using Flask on your own PC, you'll often "run" flask using a line
+that looks something like this:</p>
+<pre class="code literal-block"><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">'127.0.0.1'</span><span class="p">,</span><span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span><span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre>
+
+
+<p>That won't work on PythonAnywhere -- the only way your app will appear on the
+public internet is if it's configured via the web tab, with a wsgi file.</p>
+<p>More importantly, <strong>'if app.run() gets called when we import your code, it will
+crash your app</strong>', and you'll see a 504 error on your site, as detailed in
+<a href="/pages/Flask504Error">Flask504Error</a></p>
+<p>Thankfully, most Flask tutorials out there suggest you put the <code>app.run()</code>
+inside an <code>if __name__ = '__main__':</code> clause, which will be OK, because that
+won't get run when we import it.</p>
+<p>This is ok</p>
+<pre class="code literal-block"><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">home</span><span class="p">():</span>
+    <span class="c"># etc etc, flask app code</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre>
+
+
+<p>This is not ok:</p>
+<pre class="code literal-block"><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">home</span><span class="p">():</span>
+    <span class="c"># etc etc, flask app code</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre>
+
+
+<h3 id="what-about-my-database-config">What about my database config?</h3>
+<p>Many guides on the Internet also suggest you put your database setup inside the
+<code>__main__</code> clause, like this:</p>
+<pre class="code literal-block"><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre>
+
+
+<p>That will work fine on your machine, but, again, we don't want to use app.run()
+on <a href="https://www.pythonanywhere.com/">PythonAnywere</a>. But you'll still want to
+be able to run <code>db.create_all()</code> every so often on PythonAnywhere, to update
+your database tables or whatever it may be.</p>
+<p>Two solutions -- either just run it from a Bash console (remembering to
+activate your virtualenv first) and then Ctrl+C the flask server when it runs</p>
+<pre class="code literal-block"><span class="nv">$ </span>workon my-virtualenv
+<span class="o">(</span>my-virtualenv<span class="o">)</span><span class="nv">$ </span>python flask_app.py
+ * Running on http://127.0.0.1:5000/
+^C
+<span class="o">(</span>my-virtualenv<span class="o">)</span><span class="err">$</span>
+</pre>
+
+
+<p>Or make a clever little if in your main that checks if it's running on
+PythonAnywhere, eg:</p>
+<pre class="code literal-block"><span class="kn">from</span> <span class="nn">socket</span> <span class="kn">import</span> <span class="n">gethostname</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">create_all</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s">'liveconsole'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gethostname</span><span class="p">():</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre>
+</div>
+    </div>
+    
+
+</article>
+
+        </div>
+    </div>
+    <!--End of body content-->
+    <div class="footerbox">
+        <div id="id_footer" class="container">
+
+            <footer id="id_copyright_div">
+                <p>
+                    <i>Want to improve this page?
+                        <a href="https://github.com/pythonanywhere/help_pages">Submit a pull request!</a></i>
+                </p>
+                <p>
+                    
+                           Copyright © 2011-2020 <a href="https://www.pythonanywhere.com/about/company_details/">PythonAnywhere LLP</a>
+                           —
+                           <a href="https://www.pythonanywhere.com/terms/">Terms</a>
+                           —
+                           <a href="https://www.pythonanywhere.com/privacy/">Privacy &amp; Cookies</a><br>
+                           "Python" is a registered trademark of the Python Software Foundation.
+                </p>
+            </footer>
+        </div>
+        
+    </div>
+</div>
+
+            <script src="/assets/js/all-nocdn.js"></script>
+    
+
+    <script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script>
+    <!-- fancy dates -->
+    <script>
+    moment.locale("");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script>
+    <!-- end fancy dates -->
+    
+
+  <script type="text/javascript" src="//code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+  <script type="text/javascript">
+
+    window.onmessage = function(e) {
+      if (e.data=="hideiframe") {
+      document.getElementById('id_feedback_container').className='hidden';
+      }
+      }
+
+      function showDialog() {
+        document.getElementById('id_feedback_container').className='';
+        window.frames[0].postMessage("showdialog", "https://www.pythonanywhere.com");
+        return false;
+        }
+
+      </script>
+
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-18014859-11', 'auto');
+        ga('send', 'pageview');
+
+      </script>
+    
+
+<script src="/assets/js/tipuesearch_set.js"></script>
+<script src="/assets/js/tipuesearch.js"></script>
+<script>
+$(document).ready(function() {
+    $('#tipue_search_input').tipuesearch({
+        'mode': 'json',
+        'contentLocation': '/assets/js/tipuesearch_content.json',
+        'showUrl': false
+    });
+});
+</script>
+
+
+</div>
+</body>
+</html>

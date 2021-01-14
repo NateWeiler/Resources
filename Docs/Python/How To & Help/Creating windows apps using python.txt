@@ -1,0 +1,28 @@
+Creating windows apps using python
+Recently, I made my very own version of the snake game using pygame. I was so excited about it and wanted to share it with the world. A few of my friends know how to code, and they generally use python, so they had python installed on their PCs, I just sent the code to them, and they executed it without any problems. It felt nice seeing how amazed and excited they were too. But sadly, some of my friends’ don’t code. Thus, I was unable to share the game with them. It made me feel a bit bad for them, but then I read up about how to convert python code to an executable file (.exe) that can be run straight from windows and voila!
+
+I experimented a bit, so I tried pyinstaller, cx_freeze, and another program called auto-py-to-exe. I found the last one handy, it uses pyinstaller, but it has a friendly interface. As this post is aimed towards the general public, it is appropriate that I talk about auto-py-to-exe.
+
+First, we need to install auto-py-to-exe. There are several ways to do that, but I prefer pip, so open up your command prompt (windows) or bash shell (Linux) and type pip install auto-py-to-exe. Then we wait till it is downloaded and installed. Next, type in auto-py-to-exe in the command prompt as shown in the figure below:
+
+Command to open auto-py-to-exe
+
+The following window opens:
+
+The auto-py-to-exe window
+
+We select the path to the file where our python script is store. Next, we choose whether we want a directory as an output or a single file as an output. In my experience, it is easier to debug code from a folder, and it runs faster as compared to one file after conversion. The one file mode, however, produces just one file and thus is easily transferable or portable (generally, people have problems with one directory mode if they move some files out of the directory). If you want to deploy the app as a standard python script running in the command line, you select the ‘Console based’ window option. Otherwise, you choose the ‘Window-based’ window option, which displays the GUI. If you have a .ico file, you can use that to create an icon for your file.
+
+In the advanced options, you can set the directory where the file is to be saved and any other relevant details (generally not required). In your python script, however, if you have some hidden imports, e.g., imports of the sort __import__ as opposed to import, then you have to include those package names under the hidden import option. Lastly, click on the blue button at the end of the application window and done!
+
+Here is an example of all the options I used while making an executable of the snake game that I developed.
+
+So, I have provided the script location and the location of an icon file that I have. I have selected the One Directory and Window Based options and clicked on convert. After conversion, click on the open output folder option to see the output folder:
+
+Here is the program in the directory along with all the dependencies:
+
+Now I can run the game and play:
+
+Screenshot of the game
+
+To read more about how auto-py-to-exe or pyinstaller works, have a look at the documentation here. If you want to learn how to make your own snake game in python using pygame, go here.

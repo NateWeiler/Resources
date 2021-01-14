@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Extensions &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Command Line Interface" href="../cli/" />
+    <link rel="prev" title="Modular Applications with Blueprints" href="../blueprints/" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/extensions/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/extensions/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "extensions"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../cli/" title="Command Line Interface"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../blueprints/" title="Modular Applications with Blueprints"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../">Flask Documentation (1.1.x)</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="extensions">
+<span id="id1"></span><h1>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">¶</a></h1>
+<p>Extensions are extra packages that add functionality to a Flask
+application. For example, an extension might add support for sending
+email or connecting to a database. Some extensions add entire new
+frameworks to help build certain types of applications, like a REST API.</p>
+<div class="section" id="finding-extensions">
+<h2>Finding Extensions<a class="headerlink" href="#finding-extensions" title="Permalink to this headline">¶</a></h2>
+<p>Flask extensions are usually named “Flask-Foo” or “Foo-Flask”. You can
+search PyPI for packages tagged with <a class="reference external" href="https://pypi.org/search/?c=Framework+%3A%3A+Flask">Framework :: Flask</a>.</p>
+</div>
+<div class="section" id="using-extensions">
+<h2>Using Extensions<a class="headerlink" href="#using-extensions" title="Permalink to this headline">¶</a></h2>
+<p>Consult each extension’s documentation for installation, configuration,
+and usage instructions. Generally, extensions pull their own
+configuration from <a class="reference internal" href="../api/#flask.Flask.config" title="flask.Flask.config"><code class="xref py py-attr docutils literal notranslate"><span class="pre">app.config</span></code></a> and are
+passed an application instance during initialization. For example,
+an extension called “Flask-Foo” might be used like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask_foo</span> <span class="k">import</span> <span class="n">Foo</span>
+
+<span class="n">foo</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">()</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="n">FOO_BAR</span><span class="o">=</span><span class="s1">&#39;baz&#39;</span><span class="p">,</span>
+    <span class="n">FOO_SPAM</span><span class="o">=</span><span class="s1">&#39;eggs&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">foo</span><span class="o">.</span><span class="n">init_app</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-extensions">
+<h2>Building Extensions<a class="headerlink" href="#building-extensions" title="Permalink to this headline">¶</a></h2>
+<p>While the <a class="reference external" href="https://pypi.org/search/?c=Framework+%3A%3A+Flask">PyPI</a> contains many Flask extensions, you may
+not find an extension that fits your need. If this is the case, you can
+create your own. Read <a class="reference internal" href="../extensiondev/"><span class="doc">Flask Extension Development</span></a> to develop your own Flask
+extension.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../">
+              <img class="logo" src="../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Extensions</a><ul>
+<li><a class="reference internal" href="#finding-extensions">Finding Extensions</a></li>
+<li><a class="reference internal" href="#using-extensions">Using Extensions</a></li>
+<li><a class="reference internal" href="#building-extensions">Building Extensions</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../">Overview</a>
+    <ul>
+          <li>Previous: <a href="../blueprints/" title="previous chapter">Modular Applications with Blueprints</a>
+          <li>Next: <a href="../cli/" title="next chapter">Command Line Interface</a>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

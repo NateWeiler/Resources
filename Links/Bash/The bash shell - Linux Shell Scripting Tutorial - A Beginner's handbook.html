@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<title>The bash shell - Linux Shell Scripting Tutorial - A Beginner's handbook</title>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"The_bash_shell","wgTitle":"The bash shell","wgCurRevisionId":3085,"wgRevisionId":3085,"wgArticleId":57,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Introduction to Shells"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"The_bash_shell","wgRelevantArticleId":57,"wgRequestId":"f57df9127353dd54524fc2d0","wgCSPNonce":false,"wgIsProbablyEditable":false,"wgRelevantPageIsProbablyEditable":false,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgMFExpandAllSectionsUserOption":true,"wgMFEnableFontChanger":true,"wgMFDisplayWikibaseDescriptions":{"search":false,"nearby":false,"watchlist":false,"tagline":false}});mw.loader.state({"site.styles":"ready","noscript":"ready","user.styles":"ready","user":"ready","user.options":"ready","user.tokens":"loading","ext.cite.styles":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","mediawiki.toc.styles":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});});</script>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){mw.loader.implement("user.tokens@0tffind",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});});</script>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){RLPAGEMODULES=["ext.cite.ux-enhancements","site","mediawiki.page.startup","mediawiki.page.ready","mediawiki.toc","mediawiki.searchSuggest","skins.vector.js"];mw.loader.load(RLPAGEMODULES);});</script>
+<link rel="stylesheet" href="/wiki/load.php?lang=en&amp;modules=ext.cite.styles%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.skinning.interface%7Cmediawiki.toc.styles%7Cskins.vector.styles&amp;only=styles&amp;skin=vector" />
+<script async="" src="/wiki/load.php?lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector" type="2c1b24864fee42cec650fd8a-text/javascript"></script>
+<meta name="ResourceLoaderDynamicStyles" content="" />
+<link rel="stylesheet" href="/wiki/load.php?lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector" />
+<meta name="generator" content="MediaWiki 1.33.1" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="search" type="application/opensearchdescription+xml" href="/wiki/opensearch_desc.php" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook (en)" />
+<link rel="EditURI" type="application/rsd+xml" href="https://bash.cyberciti.biz/wiki/api.php?action=rsd" />
+<link rel="license" href="//creativecommons.org/licenses/by-nc-sa/3.0/" />
+<link rel="alternate" type="application/atom+xml" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook Atom feed" href="/wiki/index.php?title=Special:RecentChanges&amp;feed=atom" />
+<!--[if lt IE 9]><script src="/wiki/load.php?lang=en&amp;modules=html5shiv&amp;only=scripts&amp;skin=vector&amp;sync=1"></script><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-The_bash_shell rootpage-The_bash_shell skin-vector action-view">
+<div id="mw-page-base" class="noprint"></div>
+<div id="mw-head-base" class="noprint"></div>
+<div id="content" class="mw-body" role="main">
+<a id="top"></a>
+<div class="mw-indicators mw-body-content">
+</div>
+<p>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="2c1b24864fee42cec650fd8a-text/javascript"></script>
+
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7825705102693166" data-ad-slot="2740569446" data-ad-format="auto"></ins>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<h1 id="firstHeading" class="firstHeading" lang="en">The bash shell</h1>
+<div id="bodyContent" class="mw-body-content">
+<div id="siteSub" class="noprint">From Linux Shell Scripting Tutorial - A Beginner&#039;s handbook</div>
+<div id="contentSub"></div>
+<div id="jump-to-nav"></div>
+<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+<a class="mw-jump-link" href="#p-search">Jump to search</a>
+<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p><span style="width: 100%; background: #FAF5FF; border-color:#DDCEF2;border-style:solid;border-width:0.077em;padding:2px;line-height:1px;"> <a href="/guide/Chapter_2:_Getting_Started_With_Shell_Programming" title="Chapter 2: Getting Started With Shell Programming">&#8592; Chapter 2: Getting Started With Shell Programming</a> • <b><a href="/guide/Main_Page" title="Main Page">Home</a></b> • <a href="/guide/Shell_commands" title="Shell commands">Shell commands &#8594;</a></span>
+</p><p>Bash is the <a href="/guide/Shell" title="Shell">shell</a>, or command language interpreter, for the <a href="/guide/Linux" title="Linux">Linux</a> operating system. The name is an acronym for the Bourne-Again SHell, a pun on Stephen Bourne, the author of the direct ancestor of the current Unix shell sh, which appeared in the Seventh Edition Bell Labs Research version of Unix Bash Reference Manual<sup id="cite_ref-1" class="reference"><a href="#cite_note-1">&#91;1&#93;</a></sup>.
+</p>
+<div id="toc" class="toc"><input type="checkbox" role="button" id="toctogglecheckbox" class="toctogglecheckbox" style="display:none" /><div class="toctitle" lang="en" dir="ltr"><h2>Contents</h2><span class="toctogglespan"><label class="toctogglelabel" for="toctogglecheckbox"></label></span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Introduction_to_BASH"><span class="tocnumber">1</span> <span class="toctext">Introduction to BASH</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#The_improvements_offered_by_BASH_include:"><span class="tocnumber">1.1</span> <span class="toctext">The improvements offered by BASH include:</span></a>
+<ul>
+<li class="toclevel-3 tocsection-3"><a href="#Bash_v4.0_Features"><span class="tocnumber">1.1.1</span> <span class="toctext">Bash v4.0 Features</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-4"><a href="#Authors"><span class="tocnumber">2</span> <span class="toctext">Authors</span></a>
+<ul>
+<li class="toclevel-2 tocsection-5"><a href="#Download_Bash_Shell"><span class="tocnumber">2.1</span> <span class="toctext">Download Bash Shell</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-6"><a href="#External_links"><span class="tocnumber">3</span> <span class="toctext">External links</span></a></li>
+<li class="toclevel-1 tocsection-7"><a href="#References"><span class="tocnumber">4</span> <span class="toctext">References</span></a></li>
+</ul>
+</div>
+<h2><span class="mw-headline" id="Introduction_to_BASH">Introduction to BASH</span></h2>
+<ul><li>Developed by <a href="/guide/GNU" title="GNU">GNU</a> project.</li>
+<li>The default Linux shell.</li>
+<li>Backward-compatible with the original <a href="/guide/Sh" title="Sh">sh</a> <a href="/guide/UNIX" class="mw-redirect" title="UNIX">UNIX</a> <a href="/guide/Shell" title="Shell">shell</a>.</li>
+<li>Bash is largely compatible with sh and incorporates useful features from the Korn shell ksh and the C shell csh.</li>
+<li>Bash is the default shell for <a href="/guide/Linux" title="Linux">Linux</a>. However, it does run on every version of <a href="/guide/Unix" title="Unix">Unix</a> and a few other operating systems such as <a href="/guide/Ms-dos" title="Ms-dos">ms-dos</a>, <a href="/guide/Os/2" title="Os/2">os/2</a>, and <a href="/guide/Windows" title="Windows">Windows</a> platforms.</li></ul>
+<p>Quoting from the official Bash home page:
+</p><p><i>Bash is the shell, or command language interpreter, that will appear in the GNU operating system. It is intended to conform to the IEEE POSIX P1003.2/ISO 9945.2 Shell and Tools standard. It offers functional improvements over sh for both programming and interactive use. In addition, most sh scripts can be run by Bash without modification.</i>
+</p>
+<h3><span class="mw-headline" id="The_improvements_offered_by_BASH_include:">The improvements offered by BASH include:</span></h3>
+<p>The Bash syntax is an improved version of the Bourne shell syntax. In most cases Bourne shell scripts can be executed by Bash without any problems.
+</p>
+<ul><li>Command line editing.</li>
+<li>Command line completion.</li>
+<li>Unlimited size command history.</li>
+<li>Prompt control.</li>
+<li>Indexed arrays of unlimited size (Arrays).</li>
+<li>Integer arithmetic in any base from two to sixty-four.</li>
+<li>Bash startup files - You can run bash as an interactive login shell, or interactive non-login shell. See <a rel="nofollow" class="external text" href="https://bash.cyberciti.biz/bash-reference-manual/Bash-Startup-Files.html">Bash startup files</a> for more information.</li>
+<li>Bash conditional expressions: Used in composing various expressions for the test builtin or [[ or [ commands.</li>
+<li>The Directory Stack - History of visited directories.</li>
+<li>The Restricted Shell: A more controlled mode of shell execution.</li>
+<li>Bash POSIX Mode: Making Bash behave more closely to what the POSIX standard specifies.</li></ul>
+<h4><span class="mw-headline" id="Bash_v4.0_Features">Bash v4.0 Features</span></h4>
+<ul><li>Usual run time environment: <a href="/guide/POSIX" class="mw-redirect" title="POSIX">POSIX</a></li>
+<li><a href="/wiki/index.php?title=Command_and_file_name_completion&amp;action=edit&amp;redlink=1" class="new" title="Command and file name completion (page does not exist)">Command and file name completion</a> - Bash can automatically fill in partially typed commands or arguments to the commands such as file name, hostname and much more.</li>
+<li>Arithmetic support:
+<ul><li><a href="/guide/Integer_arithmetic" title="Integer arithmetic">Integer arithmetic</a> supported.</li>
+<li><a href="/wiki/index.php?title=Floating_point_arithmetic&amp;action=edit&amp;redlink=1" class="new" title="Floating point arithmetic (page does not exist)">Floating point arithmetic</a> is not supported.</li>
+<li><a href="/wiki/index.php?title=Exponential_notation&amp;action=edit&amp;redlink=1" class="new" title="Exponential notation (page does not exist)">Exponential notation</a> is limited via <a href="/wiki/index.php?title=Printf_builtin&amp;action=edit&amp;redlink=1" class="new" title="Printf builtin (page does not exist)">printf builtin</a>.</li>
+<li><a href="/wiki/index.php?title=Date_and_time_arithmetic&amp;action=edit&amp;redlink=1" class="new" title="Date and time arithmetic (page does not exist)">Date and time arithmetic</a> is not supported.</li></ul></li>
+<li><a href="/wiki/index.php?title=Hash_table&amp;action=edit&amp;redlink=1" class="new" title="Hash table (page does not exist)">Hash table</a>: Bash uses a hash table to remember the full pathnames of executable files.</li>
+<li><a href="/guide/Pattern_Matching" title="Pattern Matching">Pattern Matching</a> and <a href="/guide/Regular_expressions" title="Regular expressions">regular expressions</a> are supported.</li>
+<li><a href="/wiki/index.php?title=Globbing&amp;action=edit&amp;redlink=1" class="new" title="Globbing (page does not exist)">Globbing</a> - For example, you can use *.conf to match all those conf files in /etc directory.</li>
+<li><a href="/wiki/index.php?title=Directory_stack&amp;action=edit&amp;redlink=1" class="new" title="Directory stack (page does not exist)">Directory stack</a> is supported via <a href="/guide/Pushd" title="Pushd">pushd</a> and <a href="/guide/Popd" title="Popd">popd</a> builtins.</li>
+<li><a href="/guide/Command_history" title="Command history">Command history</a> and <a href="/guide/History_completion" title="History completion">History completion</a> fully supported by Bash.</li>
+<li><a href="/wiki/index.php?title=Custom_command_prompt&amp;action=edit&amp;redlink=1" class="new" title="Custom command prompt (page does not exist)">Custom command prompt</a> - Allows you to change the default prompt.</li></ul>
+<h2><span class="mw-headline" id="Authors">Authors</span></h2>
+<ul><li>Brian J. Fox authored the <a href="/guide/GNU" title="GNU">GNU</a> <a href="/guide/Bash" title="Bash">Bash</a> <a href="/guide/Shell" title="Shell">shell</a>, in 1987.</li>
+<li>Fox maintained <a href="/guide/Bash" title="Bash">Bash</a> as the primary maintainer until 1993, at which point Chet Ramey took over.</li>
+<li>Chet Ramey is the current maintainer of the GNU Bourne Again Shell and GNU Readline.</li></ul>
+<h3><span class="mw-headline" id="Download_Bash_Shell">Download Bash Shell</span></h3>
+<ul><li>Bash is the default shell under <a href="/guide/Linux" title="Linux">Linux</a>. The current production versions are Bash 3.x and 4.x. You can grab it from the <a rel="nofollow" class="external text" href="https://ftp.gnu.org/gnu/bash/">official website</a>.</li></ul>
+<h2><span class="mw-headline" id="External_links">External links</span></h2>
+<ul><li><a rel="nofollow" class="external text" href="https://www.gnu.org/software/bash/bash.html">Bash home page</a></li>
+<li><a rel="nofollow" class="external text" href="https://cnswww.cns.cwru.edu/php/chet/">Chet's home page</a></li></ul>
+<h2><span class="mw-headline" id="References">References</span></h2>
+<div class="mw-references-wrap"><ol class="references">
+<li id="cite_note-1"><span class="mw-cite-backlink"><a href="#cite_ref-1">↑</a></span> <span class="reference-text">Bash Reference Manual.</span>
+</li>
+</ol></div>
+<p><span style="width: 100%; background: #FAF5FF; border-color:#DDCEF2;border-style:solid;border-width:0.077em;padding:2px;line-height:1px;"> <a href="/guide/Chapter_2:_Getting_Started_With_Shell_Programming" title="Chapter 2: Getting Started With Shell Programming">&#8592; Chapter 2: Getting Started With Shell Programming</a> • <b><a href="/guide/Main_Page" title="Main Page">Home</a></b> • <a href="/guide/Shell_commands" title="Shell commands">Shell commands &#8594;</a></span>
+</p>
+
+
+
+</div></div>
+<p>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="2c1b24864fee42cec650fd8a-text/javascript"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-7825705102693166" data-ad-slot="5804044661"></ins>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<div class="printfooter">Retrieved from "<a dir="ltr" href="https://bash.cyberciti.biz/wiki/index.php?title=The_bash_shell&amp;oldid=3085">https://bash.cyberciti.biz/wiki/index.php?title=The_bash_shell&amp;oldid=3085</a>"</div>
+<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/guide/Special:Categories" title="Special:Categories">Category</a>: <ul><li><a href="/guide/Category:Introduction_to_Shells" title="Category:Introduction to Shells">Introduction to Shells</a></li></ul></div></div>
+<div class="visualClear"></div>
+</div>
+</div>
+<div id="mw-navigation">
+<h2>Navigation menu</h2>
+<div id="mw-head">
+<div id="p-personal" role="navigation" aria-labelledby="p-personal-label">
+<h3 id="p-personal-label">Personal tools</h3>
+<ul>
+<li id="pt-login"><a href="/wiki/index.php?title=Special:UserLogin&amp;returnto=The+bash+shell" title="You are encouraged to log in; however, it is not mandatory [o]" accesskey="o">Log in</a></li> </ul>
+</div>
+<div id="left-navigation">
+<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+<h3 id="p-namespaces-label">Namespaces</h3>
+<ul>
+<li id="ca-nstab-main" class="selected"><span><a href="/guide/The_bash_shell" title="View the content page [c]" accesskey="c">Page</a></span></li><li id="ca-talk"><span><a href="/guide/Talk:The_bash_shell" rel="discussion" title="Discussion about the content page [t]" accesskey="t">Discussion</a></span></li> </ul>
+</div>
+<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+<input type="checkbox" class="vectorMenuCheckbox" aria-labelledby="p-variants-label" />
+<h3 id="p-variants-label">
+<span>Variants</span>
+</h3>
+<ul class="menu">
+</ul>
+</div>
+</div>
+<div id="right-navigation">
+<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+<h3 id="p-views-label">Views</h3>
+<ul>
+<li id="ca-view" class="collapsible selected"><span><a href="/guide/The_bash_shell">Read</a></span></li><li id="ca-viewsource" class="collapsible"><span><a href="/wiki/index.php?title=The_bash_shell&amp;action=edit" title="This page is protected.&#10;You can view its source [e]" accesskey="e">View source</a></span></li><li id="ca-history" class="collapsible"><span><a href="/wiki/index.php?title=The_bash_shell&amp;action=history" title="Past revisions of this page [h]" accesskey="h">View history</a></span></li> </ul>
+</div>
+<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+<input type="checkbox" class="vectorMenuCheckbox" aria-labelledby="p-cactions-label" />
+<h3 id="p-cactions-label"><span>More</span></h3>
+<ul class="menu">
+</ul>
+</div>
+<div id="p-search" role="search">
+<h3>
+<label for="searchInput">Search</label>
+</h3>
+<form action="/wiki/index.php" id="searchform">
+<div id="simpleSearch">
+<input type="search" name="search" placeholder="Search Linux Shell Scripting Tutorial - A Beginner&#039;s handbook" title="Search Linux Shell Scripting Tutorial - A Beginner&#039;s handbook [f]" accesskey="f" id="searchInput" /><input type="hidden" value="Special:Search" name="title" /><input type="submit" name="fulltext" value="Search" title="Search the pages for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton" /><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton" /> </div>
+</form>
+</div>
+</div>
+</div>
+<div id="mw-panel">
+<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/guide/Main_Page" title="Visit the main page"></a></div>
+<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+<h3 id="p-navigation-label">Navigation</h3>
+<div class="body">
+<ul>
+<li id="n-mainpage-description"><a href="/guide/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li><li id="n-recentchanges"><a href="/guide/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-randompage"><a href="/guide/Special:Random" title="Load a random page [x]" accesskey="x">Random page</a></li><li id="n-help-mediawiki"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Contents">Help about MediaWiki</a></li> </ul>
+</div>
+</div>
+<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+<h3 id="p-tb-label">Tools</h3>
+<div class="body">
+<ul>
+<li id="t-whatlinkshere"><a href="/guide/Special:WhatLinksHere/The_bash_shell" title="A list of all wiki pages that link here [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/guide/Special:RecentChangesLinked/The_bash_shell" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-specialpages"><a href="/guide/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-print"><a href="/wiki/index.php?title=The_bash_shell&amp;printable=yes" rel="alternate" title="Printable version of this page [p]" accesskey="p">Printable version</a></li><li id="t-permalink"><a href="/wiki/index.php?title=The_bash_shell&amp;oldid=3085" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/wiki/index.php?title=The_bash_shell&amp;action=info" title="More information about this page">Page information</a></li> </ul>
+</div>
+</div>
+<center><p><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="2c1b24864fee42cec650fd8a-text/javascript"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:120px;height:600px; " data-ad-client="ca-pub-7825705102693166" data-ad-slot="8378479061"></ins>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></p></center>
+</div>
+</div>
+<div id="footer" role="contentinfo">
+<ul id="footer-info">
+<li id="footer-info-lastmod"> This page was last edited on 13 September 2011, at 14:56.</li>
+<li id="footer-info-copyright">Content is available under <a class="external" rel="nofollow" href="//creativecommons.org/licenses/by-nc-sa/3.0/">Attribution-Noncommercial-Share Alike 3.0 Unported</a> unless otherwise noted.</li>
+</ul>
+<ul id="footer-places">
+<li id="footer-places-privacy"><a href="/guide/Linux_Shell_Scripting_Tutorial_-_A_Beginner%27s_handbook:Privacy_policy" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook:Privacy policy">Privacy policy</a></li>
+<li id="footer-places-about"><a href="/guide/Linux_Shell_Scripting_Tutorial_-_A_Beginner%27s_handbook:About" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook:About">About Linux Shell Scripting Tutorial - A Beginner&#039;s handbook</a></li>
+<li id="footer-places-disclaimer"><a href="/guide/Linux_Shell_Scripting_Tutorial_-_A_Beginner%27s_handbook:General_disclaimer" title="Linux Shell Scripting Tutorial - A Beginner&#039;s handbook:General disclaimer">Disclaimers</a></li>
+<li id="footer-places-mobileview"><a href="https://bash.cyberciti.biz/wiki/index.php?title=The_bash_shell&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+</ul>
+<ul id="footer-icons" class="noprint">
+<li id="footer-copyrightico">
+<a href="//creativecommons.org/licenses/by-nc-sa/3.0/"><img src="//i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" alt="Attribution-Noncommercial-Share Alike 3.0 Unported" width="88" height="31" /></a> </li>
+<li id="footer-poweredbyico">
+<a href="//www.mediawiki.org/"><img src="/wiki/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/wiki/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /wiki/resources/assets/poweredby_mediawiki_176x62.png 2x" width="88" height="31" /></a> </li>
+</ul>
+<div style="clear: both;"></div>
+</div>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.022","walltime":"0.026","ppvisitednodes":{"value":68,"limit":1000000},"ppgeneratednodes":{"value":172,"limit":1000000},"postexpandincludesize":{"value":662,"limit":2097152},"templateargumentsize":{"value":252,"limit":2097152},"expansiondepth":{"value":2,"limit":40},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":304,"limit":5000000},"timingprofile":["100.00%    7.086      1 -total"," 27.60%    1.956      2 Template:Navigation"]},"cachereport":{"timestamp":"20200227181028","ttl":86400,"transientcontent":false}}});});</script>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-108650-10', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script type="2c1b24864fee42cec650fd8a-text/javascript">(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":43});});</script>
+<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="2c1b24864fee42cec650fd8a-|49" defer=""></script></body>
+</html>

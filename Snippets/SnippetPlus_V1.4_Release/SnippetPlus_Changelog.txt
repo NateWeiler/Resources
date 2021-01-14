@@ -1,0 +1,63 @@
+ ************************************************************************************************************************
+ * SnippetPlus plugin for Notepad++
+ * It is a Code Snippet and SurroundWith plugin.
+ * I am C#/VB.Net programmer, so I am sorry to inform you that you need .Net Framework 3.5 to use it.
+ * Even though I use it on daily basis, I take no responsibility of any harm done to your data, comp or personal life :).
+ * Author: Rajesh Kumar (raja@email.cz)
+ ************************************************************************************************************************
+
+
+VERSION HISTORY
+================================================================================
+1.4.0.0
++ Added multiline surroundwith functionality
++ Dockable window now shows both Snippets and SurroundWith at the same time. (users wished it).
+To save space, Reload button functionality is now moved to context menu. Right click Listbox and click Reload (on both Listboxes)
+
+- Fixed indentation
+- Endline character is now based on the Notepad++ mode and not on the OS
+- General will always be enabled no matter if set to true or false.
+- General will be created on start if does not already exist
+- Documentation converted to HTML for better readability (hopefully)
+- This version recreated from scratch. Let me know asap if anything working differently.
+- Only one DLL is needed from this version.
+- From now on my primary email address is: (rajesh dot madhra @ gmail dot com) 
+
+1.3.0.0
++ Added rename functionality for snippets.
++ Added functionality to Add, Delete, Rename languages
+- Data is now kept filtered after deleting an item or changing language.
+- Fixed a minor bug.
+  When Notepad++ started, a message box was shown telling:
+  "SurroundWith LoadData: Value cannot be null. Parameter name: value".
+- Fixed a bug.
+  (SnippetPlus.xml was opened, edited manually and saved in Notepad++. Reload was not pressed and Notepad++ was closed. The edited data was lost when you reopened the SnippetPlus.xml. It was due to a bug that saved the file from memory to save "Use Surround With" status on Notepad++ exit. It started from version 1.2 when I introduced the options functionality)
+
+
+1.2.0.0
++ If current document language has no SurroundWith, then popup list will show SurroundWith from GENERAL language.
++ Added option to remember the status of "Use Surround With" checkbox.
++ Added option MaxItemsInAutoComplete. Now you decide how many items to see in popup list. Default is 5.
+- Fixed a reload bug. (New item was shown in the list but double click did not enter the text into Notepad++)
+- After inserting text, Notepad++ now gets focus
+
+--> Command name changed
+From: Plugins -> SnippetPlus -> SurroundWith 
+To:   Plugins -> SnippetPlus -> Insert SurroundWith
+so please change your contextMenu.xml if you are using right click.
+
+=> Tested only with Notepad++ version 5.7 on only Win7(64) as I do not have other OS to test on. But should work on other platforms.
+If something wrong, kindly let me know.
+
+
+
+1.1.0.0
+- SurroundWith is fully functional and now you can have as many of them as you want.
+- Rearranged internal structure due to performance reasons, so let me know if anything behave differently.
+
+
+1.0.0.0
+Shared with the community
+
+All previous versions than 1.0.0.0
+Created and used only personally

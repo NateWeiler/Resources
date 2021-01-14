@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta charset="utf-8">
+
+    <title>A Non-Nerd's Guide to the Command Line</title>
+
+		<meta name="description" content="Confused by why people still use that old ugly thing? Here's why, and how to use it. Good news! It's not as hard as you think.">
+		<meta name="author" content="Chad Ostrowski">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi)
+        ? 'stylesheets/print/pdf.css'
+        : 'stylesheets/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="javascripts/lib/html5shiv.js"></script>
+		<![endif]-->
+
+    <link href="/stylesheets/site.css" rel="stylesheet" />
+	</head>
+
+  <body class="index">
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+  <section>
+    <h3>A Non-Nerd's Guide To</h3>
+    <h1>The Command Line</h1>
+    <img alt='' src='http://blog.marc-seeger.de/assets/2009/12/30/terminal.png'>
+    <p>To jump right in and start using it, go that way. →
+    <br />
+    ↓ Or go this way to get some context.</p>
+    
+    <p><small>Using <code>→</code>, <code>↓</code>, &amp; <code>space</code> on your keyboard works the best.</small></p>
+  </section>
+  <section>
+    <h2>1969</h2>
+    <p>The year <a href="https://en.wikipedia.org/wiki/Unix">Unix</a> was invented. It's still one of the most-used
+    operating systems in the world (just think: all of Google's servers use
+    it).  Mac OSX and Linux are based on it. When you use the command line,
+    you're using your computer the way people used computers decades before
+    colorful screens and the mouse were in use.</p>
+  </section>
+  <section>
+    <h2>Shell</h2>
+    <p>The <a href="http://www-stat.wharton.upenn.edu/~buja/STAT-540/shell-Bourne-An-Introduction-to-the-Unix-Shell.htm">Bourne Shell</a> (abbreviated as simply <em>sh</em>) was created as a way
+    to interact with Unix in 1977.  Lots of other shells were invented later
+    that added more features.  You may have noticed that your Terminal says
+    something about "bash"&mdash; bash is the <a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bourne-again shell</a> and
+    was first created in 1989. A lot of cool kids these days use <a href="https://friedcpu.wordpress.com/2007/07/24/zsh-the-last-shell-youll-ever-need/">zsh</a>
+    (z shell), if you care about what the cool kids do.</p>
+  </section>
+  <section>
+    <h2>So what?</h2>
+    <p>So why do people still use it?</p>
+    
+    <p>Because it's <em>easy</em>.</p>
+    
+    <p>That is, it's hard to write programs that use graphics. Writing programs
+    that run in a shell, though, is easy peasy. So, there are all kinds
+    of things that you can only do using shell.</p>
+    
+    <p>Getting started in it is a bit strange, admittedly, but it opens up whole
+    new worlds (it <em>is</em> a whole new world). Don't get overwhelmed, just take
+    it slow. Any familiarity will be great, so if it starts feeling
+    overwhelming, just stop for the day.</p>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Ingredients</h2>
+    <h3>On a Mac</h3>
+    <ul>
+      <li>Hit Command &amp; Space and type "Terminal". Open it. This is your "command
+    line".</li>
+      <li>Open up Finder (you can do the Command-Space thing again) and find your
+    home directory (it's the one in the sidebar with a house icon, and it's
+    probably named after you).</li>
+    </ul>
+  </section>
+  <section>
+    <h3>On Linux</h3>
+    <ul>
+      <li>Open your terminal</li>
+      <li>Open your file browser and navigate to your home folder</li>
+    </ul>
+  </section>
+  <section>
+    <h3>On Windows</h3>
+    <ul>
+      <li>Open up <a href="http://git-scm.com/download/win">Git-Bash</a>. This is your "command line".</li>
+      <li>
+        <p>Open your My Documents folder (or whatever it's called these days).</p>
+    
+      </li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Listing</h2>
+    <p>The command line is a very simple way of interacting with a computer (simple
+    for the computer, anyhow!). You just type a command and then hit
+    <code>enter</code>/<code>return</code> on your keyboard.</p>
+    
+    <p><small>This obviously requires a bit of memorization. But
+    the internet is there when we forget.</small></p>
+    
+    <p>One thing people need to do all the time is list files. &darr; This way
+    to try it now! &darr;</p>
+  </section>
+  <section>
+    <p>Type what comes after the dollar sign into your command line, and then
+    hit <code>enter</code>:</p>
+    
+    <pre><code>$ ls&#x000A;</code></pre>
+    
+    <p>Compare it to what you see in Finder/Explorer. It's an old-school way of
+    listing files!</p>
+    
+    <p>&darr; That way to learn more about listing.</p>
+  </section>
+  <section>
+    <h3>Long Listing</h3>
+    <p>Press <code>↑</code> on your keyboard. Now that you got your <code>ls</code> back, turn it
+    into this &amp; hit <code>enter</code>:</p>
+    
+    <pre><code>$ ls -l&#x000A;</code></pre>
+    
+    <p>The <code>-l</code> is called a "flag". You added a <code>-l</code> flag to the <code>ls</code> command,
+    which tells <code>ls</code> to "long list" your files. This gives you all sorts of
+    info about your files, like who owns them, what you can do with them,
+    and the file size. Here's <a href="http://freeengineer.org/learnUNIXin10minutes.html#Listing">what it all means</a>, if
+    you're curious (and brave).</p>
+    
+    <p>One more thing about listing, right this way. ↓</p>
+  </section>
+  <section>
+    <h3>Listing Hidden Files</h3>
+    <p>All this time using your computer, and you never even knew it was hiding
+    all sorts of things from you! Enter this:</p>
+    
+    <pre><code>$ ls -al&#x000A;</code></pre>
+    
+    <p>Now you've added <em>two</em> flags for <code>ls</code>. The <code>l</code> tells it to list "long",
+    the <code>a</code> tells it to list "all". Not just the usual stuff, but all the
+    stuff that's usually hidden from you, too!</p>
+    
+    <p>Hidden files start with a dot. They're often called "dotfiles". Notice
+    the two "files" listed at the top, the single dot and the double dot.
+    These aren't actual files. You'll learn more about them soon. &rarr;</p>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Moving Around</h2>
+    <p>In the days when the command line was created, folders were called
+    <em>directories</em>. So to <strong><em>c</em></strong>hange
+    <strong><em>d</em></strong>irectories, try this:</p>
+    
+    <pre><code>$ cd Desktop&#x000A;$ ls&#x000A;</code></pre>
+    
+    <p>Now you're looking at your desktop on the command line. You
+    <strong><em>c</em></strong>hanged into the
+    <strong><em>d</em></strong>irectory called
+    Desktop.</p>
+    
+    <p>&darr; This way to keep from getting lost.</p>
+  </section>
+  <section>
+    <h3>Where Are You?</h3>
+    <p>In case you forget what directory you're currently working in, you
+    can ask to be told:</p>
+    
+    <pre><code>$ pwd&#x000A;</code></pre>
+    
+    <p>This means Print Working Directory; it prints the directory you're
+    working in <em>to the screen</em>. (When this command was invented, screens
+    didn't exist, so it would have actually printed it!)</p>
+    
+    <p>To get back to where you just came from, you could write <code>cd</code> followed
+    by everything <code>pwd</code> showed you, minus the <code>/Desktop</code>. But there's
+    an easier way. &darr;</p>
+  </section>
+  <section>
+    <h3>Back In With Your Parent</h3>
+    <p>To get into the <em>parent</em> directory, do this</p>
+    
+    <pre><code>$ cd ..&#x000A;</code></pre>
+    
+    <p>So that <code>..</code> that you see when you <code>ls -a</code> is a link to a directory. A
+    link to the parent directory of the one you're in. If this all feels
+    really weird, try just <code>cd</code>ing into different folders and <code>cd ..</code>ing back
+    out for a while, hitting <code>pwd</code> to see where you are in between.</p>
+    
+    <p><code>..</code> isn't the only shortcut, though. &darr;</p>
+  </section>
+  <section>
+    <h3>Be Lazy</h3>
+    <p>Good coders are lazy. They do work up front to prevent long-term work.
+    Here are some tricks to avoid typing:</p>
+    
+    <ul>
+      <li><code>.</code> means "the directory you're in now". <code>ls .</code> = <code>ls</code>; <code>cd .</code> does nothing.
+    But <code>.</code> is useful sometimes.</li>
+      <li><code>~</code> (tilde) means "your home directory". You can <code>cd</code> into really obscure
+    folders and easily <code>ls ~</code> or <code>cd ~</code>.</li>
+      <li><code>cd</code> without anything after it (without any <em>arguments</em>) does the same
+    thing as <code>cd ~</code>. It takes you home.</li>
+      <li><code>*</code> (often called <em>splat</em> because "asterisk" is <em>too long</em>) is a
+    wildcard; try <code>ls ~/D*</code> &amp; <code>ls ~/*s</code>.</li>
+      <li><code>cd -</code> takes you back to the previous directory, so you can switch back &amp;
+    forth between two easily.</li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>A New Name, A Move, A Copy</h2>
+    <p>Renaming a file is the same thing as moving it. You "move" it from
+    one place/name to another. Let's create a file:</p>
+    
+    <pre><code>$ touch tmp.txt&#x000A;</code></pre>
+    
+    <p><small>(<code>touch</code> will create a file if it doesn't exist, or re-save a file that's
+    already there.)</small></p>
+    
+    <p>move it:</p>
+    
+    <pre><code>$ mv tmp.txt ~/Desktop&#x000A;</code></pre>
+    
+    <p>and then rename it:</p>
+    
+    <pre><code>$ cd ~/Desktop&#x000A;$ mv tmp.txt woohoo.txt&#x000A;</code></pre>
+    
+    <p>To learn to make copies, this way. &darr;</p>
+  </section>
+  <section>
+    <h3>Copy Cat</h3>
+    <p>Let's make two of something.</p>
+    
+    <pre><code>$ touch woohoo.txt&#x000A;$ cp woohoo.txt amazing.txt&#x000A;</code></pre>
+    
+    <p><code>cp</code> makes copies. You just tell it the file to copy, and then the new place
+    and name to put it/name it.</p>
+  </section>
+  <section>
+    <h3>Pro Tip: <code>&&</code></h3>
+    <p>Run two commands at once with <code>&amp;&amp;</code>. To make a copy and then list all
+    files (to verify it actually copied), you can do this:</p>
+    
+    <pre><code>cp amazing.txt fabulous.txt &amp;&amp; ls&#x000A;</code></pre>
+    
+    <p>Make sure you use <em>two</em> "&amp;"s, though; using only one does something
+    <em>veeery</em> different!  You'll be very confused if you only use one!</p>
+    
+    <p><small>Using only one <code>&amp;</code> starts something in the background. Search online
+    to find out more about it.</small></p>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Reading Files</h2>
+    <p>Listing files is cool &amp; all, but what if you want to see what's in them?
+    There are lots of ways to do this. Some of the most common are <code>cat</code>
+    (which con<em>cat</em>enates files), <code>more</code>, and <code>less</code>.</p>
+    
+    <p>You'll need a file to read! Download <a href="/this-is-water">this file</a> into your current
+    working directory. Right-click the link (or control-click, or two-finger
+    click) and select "save link as". If you can't remember where
+    you should save it to, use <a href="#/3/1">pwd</a> to remind yourself.</p>
+    
+    <p>Now let's read it! &darr;</p>
+  </section>
+  <section>
+    <p>Try three ways of reading it. Try these one at a time:</p>
+    
+    <pre><code>$ cat this-is-water&#x000A;$ more this-is-water&#x000A;$ less this-is-water&#x000A;</code></pre>
+    
+    <p>Oh no! Now your whole terminal window has been taken over by <code>less</code>! And
+    the scrolling's all weird! What to do? &darr;</p>
+  </section>
+  <section>
+    <h3>More with Less</h3>
+    <p>So <code>cat</code> and <code>more</code> just plopped the contents of the file into <em>standard
+    output</em>, but <code>less</code> took things over &amp; messed up your scrolling. To get
+    out of it, hit <code>q</code>. Phew!</p>
+    
+    <p>Ok, but let's try it again, with a bigger file. Download <a href="/my-father-moved-through-dooms-of-love">this</a>
+    to your current working directory and then type</p>
+    
+    <pre><code>$ less my-father&#x000A;</code></pre>
+    
+    <p><small>At this point I <em>must</em> pause and tell you to hit <em>Tab</em> on your
+    keyboard. Ta-da! Stop typing so much.</small></p>
+    
+    <p>Now open it up with <code>less</code> again, and let's learn how to scroll. &darr;</p>
+  </section>
+  <section>
+    <h3>Less &amp; More Scrolling</h3>
+    <ul>
+      <li>Scroll by one line: <code>j</code> and <code>k</code></li>
+      <li>Scroll half pages: <code>d</code> and <code>u</code></li>
+      <li>Scroll whole pages: <code>space</code> and <code>b</code></li>
+    </ul>
+    
+    <p><code>space</code> and <code>b</code> scroll a page at a time. <code>d</code> and <code>u</code> scroll half a page.
+    <code>e</code> and <code>y</code>, line by line.</p>
+    
+    <p>Now try reading the file with <code>more</code>. You can use all of these same
+    scrolling commands. Lots of programs use them.</p>
+  </section>
+</section>
+<section>
+  <section>
+    <h2>Delete, Delete.</h2>
+    <p>The command line has no safety nets! When you delete things, they're gone
+    for good. No steenkin' <em>trash</em>, no steenkin' <em>recycle bin</em>. Just <em>gone</em>.
+    So be careful!</p>
+    
+    <p>But to get rid of the files you just downloaded, you can</p>
+    
+    <pre><code>$ rm my-father-moved-through-dooms-of-love this-is-water&#x000A;</code></pre>
+    
+    <p>Note that you just passed <code>rm</code> <em>two</em> files to delete. You can list
+    however many you want.</p>
+    
+    <p>But to <code>rm</code> whole folders, you'll need a different trick. &darr;</p>
+  </section>
+  <section>
+    <h3>Removing Whole Directories</h3>
+    <p>If you try to <code>rm</code> a directory, <code>rm</code> will get all whiny and say it can't.
+    But you can make it do it anyway by passing it the <code>-r</code> flag.  (The <code>-r</code>
+    stands for <em>recursive</em>, because if you're peculiar you might say that
+    you're deleting the folder and then <em>recursively</em> deleting everything in
+    it. Maybe?? Anyhow.) Try it out! Make a directory then delete it:</p>
+    
+    <pre><code>$ mkdir worthless-folder&#x000A;$ rm worthless-folder&#x000A;$ rm -r worthless-folder&#x000A;</code></pre>
+  </section>
+</section>
+<section>
+  <h2>Congratulations!</h2>
+  <p>You're now significantly more hireable! That's really all it takes. You're
+  on your way to tapping into the unbridled power of the shell.</p>
+  
+  <p>These were the basics. Play with what you learned! Have fun! Come back here
+  when you forget things.</p>
+  
+  <p>When you're ready, you can learn how the pros do it with the <a href="/fledgling/">fledgling
+  nerd's guide to the command line</a>.</p>
+</section>
+
+      </div>
+    </div>
+
+
+    <script src="/javascripts/reveal.js"></script><script src="/javascripts/lib/head.min.js"></script>
+    <script>
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: '/javascripts/lib/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '/javascripts/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '/javascripts/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '/javascripts/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '/javascripts/plugin/zoom-js/zoom.js', async: true },
+          { src: '/javascripts/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+	</body>
+</html>

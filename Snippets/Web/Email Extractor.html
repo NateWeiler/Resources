@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Extractor</title>
+</head>
+
+<body>
+    <table cellpadding="5" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse">
+        <tr>
+            <td>
+                <table cellpadding="2" cellspacing="0" style="border-collapse: collapse">
+                    <tr>
+                        <td>
+                            <b>Enter URL:</b>
+                        </td>
+                        <td>
+                            <input type="text" name="url" value="" size="40" />
+                        </td>
+                        <td>
+                            <input type="button" value="Extract Emails" onclick="OnSubmitPluginInput(this,'https://www.webtoolhub.com/plugins/wt561358-email-extractor.aspx');" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td colspan="2" style="font-size: 9pt;">
+                            (e.g. yourwebsite.com)
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <iframe name="pluginframe561358" frameborder="0" style="width: 100%; height: 300px"></iframe>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript" src="https://secure.webtoolhub.com/plugin.axd"></script>
+</body>
+
+</html>

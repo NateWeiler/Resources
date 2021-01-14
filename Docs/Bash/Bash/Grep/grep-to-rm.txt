@@ -1,0 +1,27 @@
+find . -type f -print0 | xargs --null grep -Z -L 'my string' | xargs --null rm
+
+grep -r -L -Z 'my string' . | xargs --null rm
+
+grep -rLZ "$str" . | while IFS= read -rd '' x; do rm "$x"; done
+
+find yourdir -type f -exec grep -F -L 'yourstring' '{}' + | xargs -d '\n' rm
+
+grep -rLZ '.git' . | xargs --null rm
+
+find . -type f '!' -exec grep -q "my string" {} \; -exec echo rm {} \;
+
+find . -maxdepth 1 -name '*license*' -delete
+
+
+
+
+
+touch 0 1 2 3 4 5 6 7 8 9
+find . -name \[0-9] -ok rm {} \;
+
+
+
+
+
+
+

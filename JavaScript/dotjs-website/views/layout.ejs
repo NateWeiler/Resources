@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>dotJS - <%= title %></title>
+  <link rel="icon" href="/favicon.png">
+  <meta property="og:title" content="dotJS">
+  <meta property="og:url" content="http://www.dotjs.eu">
+  <meta property="fb:admins" content="540702632">
+  <meta property="og:image" content="http://www.dotjs.eu/images/logo.png">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="The largest JavaScript conference in France">
+  <meta itemprop="name" content="dotJS">
+  <meta itemprop="description" content="The largest JavaScript conference in France">
+  <meta itemprop="image" content="http://www.dotjs.eu/images/logo.png">
+  <meta name="google-site-verification" content="XHuushjVYcLmHYucyo4K1dioGybxO_S6fTCc5wUg9D0">
+  <!-- Included CSS Files -->
+  <link rel="stylesheet" href="/stylesheets/foundation.css">
+  <link rel="stylesheet" href="/stylesheets/app.css">
+  <link rel="stylesheet" href="/stylesheets/TitilliumText-fontfacekit/stylesheet.css">
+  <!--[if lt IE 9]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+  <![endif]-->
+  <script src="/javascripts/modernizr.foundation.js"></script>
+  <!-- IE Fix for HTML5 Tags -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <!-- container -->
+  <div class="container">
+    <div class="header">
+      <div class="row">
+        <div class="three columns logo">
+          <a href="/"><h1>dotJS</h1></a>
+        </div>
+        <div class="nine columns">
+          <ul class="nav-bar">
+            <li><a href="/">Speakers</a></li>
+            <li><a href="/venue">Venue</a></li>
+            <li><a href="/partners">Partners</a></li>
+            <li><a href="/workshops">Workshops</a></li>
+            <li><a href="/about">F.A.Q.</a></li>
+            <li class="buy"><a href="http://amiando.com/dotjs">> Buy tickets</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="page page_name_<%= name || "none" %>">
+      <%- body -%>
+    </div>
+    <div class="footer">
+      <div class="row text-center">
+        <div class="twelve columns vardotJS">
+          <strong>var dotJS</strong> = [ <a href="/">Speakers</a>, <a href="/partners">Partners</a>, <a href="/venue">Venue</a>, <a href="/workshops">Workshops</a>, <a href="/about">F.A.Q.</a>, <a href="http://amiando.com/dotjs">Tickets</a>, <a href="mailto:contact@dotjs.eu">Contact</a> ];<br>
+          <strong>var credits</strong> = { design: <a href="http://www.svay.com">Maurice Svay</a>, animation: <a href="http://mbostock.github.com/d3/ex/voronoi.html">d3.js</a> };
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- container -->
+  <!-- Included JS Files -->
+  <script src="/javascripts/jquery.min.js"></script>
+  <script src="/javascripts/foundation.js"></script>
+  <script src="/javascripts/app.js"></script>
+  <script src="http://d3js.org/d3.v2.js"></script>
+  <script>
+  var width = window.innerWidth,
+    height = 200;
+
+  var vertices = d3.range(100).map(function(d) {
+    return [Math.random() * width, Math.random() * height];
+  });
+
+  var svg = d3.select(".footer")
+    .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("class", "PiYG")
+      .on("mousemove", update);
+
+  svg.selectAll("path")
+      .data(d3.geom.voronoi(vertices))
+    .enter().append("path")
+      .attr("class", function(d, i) { return i ? "q" + (i % 9) + "-9" : null; })
+      .attr("d", function(d) { return "M" + d.join("L") + "Z"; });
+
+  svg.selectAll("circle")
+      .data(vertices.slice(1))
+    .enter().append("circle")
+      .attr("transform", function(d) { return "translate(" + d + ")"; })
+      .attr("r", 2);
+
+  function update() {
+    vertices[0] = d3.mouse(this);
+    svg.selectAll("path")
+        .data(d3.geom.voronoi(vertices)
+        .map(function(d) { return "M" + d.join("L") + "Z"; }))
+        .filter(function(d) { return this.getAttribute("d") != d; })
+        .attr("d", function(d) { return d; });
+  }
+  </script>
+  <script>
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31964806-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</body>
+</html>

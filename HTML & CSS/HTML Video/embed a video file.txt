@@ -1,0 +1,33 @@
+﻿Here’s how you’ll embed a video file to behave like a GIF
+
+<video autoplay loop muted playsinline src="video.mp4"></video>
+------------------------------------------------------------------------------------------------------------------
+To specify more that once source for a video, you can use the <source> element within the <video> tag like this:
+
+<video autoplay loop muted playsinline>
+    <source src="video.webm" type="video/webm">
+    <source src="video.mp4" type="video/mp4">
+</video>
+
+<video autoplay loop muted playsinline>
+    <source src="video.webm" type="video/webm">
+    <source src="video.mp4" type="video/mp4">
+------------------------------------------------------------------------------------------------------------------
+    Your browser does not support HTML5 video.       
+    <a href="/animated.gif">Click here to view original GIF</a>
+</video>
+
+Or you could just add the GIF file directly in an <img> tag:
+
+<video autoplay loop muted playsinline>
+    <source src="video.webm" type="video/webm">
+    <source src="video.mp4" type="video/mp4">
+    <img src="animated.gif">
+</video>
+------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------

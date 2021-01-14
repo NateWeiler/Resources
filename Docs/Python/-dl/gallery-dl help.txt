@@ -1,0 +1,82 @@
+usage: gallery-dl.exe [OPTION]... URL...
+
+General Options:
+  -h, --help                Print this help message and exit
+  --version                 Print program version and exit
+  -d, --dest DEST           Destination directory
+  -i, --input-file FILE     Download URLs found in FILE ('-' for stdin)
+  --cookies FILE            File to load additional cookies from
+  --proxy URL               Use the specified proxy
+  --clear-cache             Delete all cached login sessions, cookies, etc.
+
+Output Options:
+  -q, --quiet               Activate quiet mode
+  -v, --verbose             Print various debugging information
+  -g, --get-urls            Print URLs instead of downloading
+  -j, --dump-json           Print JSON information
+  -s, --simulate            Simulate data extraction; do not download anything
+  -K, --list-keywords       Print a list of available keywords and example
+                            values for the given URLs
+  --list-modules            Print a list of available extractor modules
+  --list-extractors         Print a list of extractor classes with
+                            description, (sub)category and example URL
+  --write-log FILE          Write logging output to FILE
+  --write-unsupported FILE  Write URLs, which get emitted by other extractors
+                            but cannot be handled, to FILE
+  --write-pages             Write downloaded intermediary pages to files in
+                            the current directory to debug problems
+
+Downloader Options:
+  -r, --limit-rate RATE     Maximum download rate (e.g. 500k or 2.5M)
+  -R, --retries N           Maximum number of retries for failed HTTP requests
+                            or -1 for infinite retries (default: 4)
+  -A, --abort N             Abort extractor run after N consecutive file
+                            downloads have been skipped, e.g. if files with
+                            the same filename already exist
+  --http-timeout SECONDS    Timeout for HTTP connections (default: 30.0)
+  --sleep SECONDS           Number of seconds to sleep before each download
+  --no-part                 Do not use .part files
+  --no-mtime                Do not set file modification times according to
+                            Last-Modified HTTP response headers
+  --no-download             Do not download any files
+  --no-check-certificate    Disable HTTPS certificate validation
+
+Configuration Options:
+  -c, --config FILE         Additional configuration files
+  -o, --option OPT          Additional '<key>=<value>' option values
+  --ignore-config           Do not read the default configuration files
+
+Authentication Options:
+  -u, --username USER       Username to login with
+  -p, --password PASS       Password belonging to the given username
+  --netrc                   Enable .netrc authentication data
+
+Selection Options:
+  --download-archive FILE   Record all downloaded files in the archive file
+                            and skip downloading any file already in it.
+  --range RANGE             Index-range(s) specifying which images to
+                            download. For example '5-10' or '1,3-5,10-'
+  --chapter-range RANGE     Like '--range', but applies to manga-chapters and
+                            other delegated URLs
+  --filter EXPR             Python expression controlling which images to
+                            download. Files for which the expression evaluates
+                            to False are ignored. Available keys are the
+                            filename-specific ones listed by '-K'. Example:
+                            --filter "image_width >= 1000 and rating in ('s',
+                            'q')"
+  --chapter-filter EXPR     Like '--filter', but applies to manga-chapters and
+                            other delegated URLs
+
+Post-processing Options:
+  --zip                     Store downloaded files in a ZIP archive
+  --ugoira-conv             Convert Pixiv Ugoira to WebM (requires FFmpeg)
+  --ugoira-conv-lossless    Convert Pixiv Ugoira to WebM in VP9 lossless mode
+  --write-metadata          Write metadata to separate JSON files
+  --write-tags              Write image tags to separate text files
+  --mtime-from-date         Set file modification times according to 'date'
+                            metadata
+  --exec CMD                Execute CMD for each downloaded file. Example:
+                            --exec 'convert {} {}.png && rm {}'
+  --exec-after CMD          Execute CMD after all files were downloaded
+                            successfully. Example: --exec-after 'cd {} &&
+                            convert * ../doc.pdf'

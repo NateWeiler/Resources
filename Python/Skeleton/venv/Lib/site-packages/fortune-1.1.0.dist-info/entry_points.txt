@@ -1,0 +1,3 @@
+[console_scripts]
+fortune = fortune:main
+

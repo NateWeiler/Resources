@@ -1,0 +1,41 @@
+﻿COMMAND     ACTION
+echo        prints text to screen
+pwd         prints path of current working directory 
+ls          lists all files in a directory 
+cd          change directory 
+rm          removes file 
+mv          moves files from one directory to another (or renames them) 
+cp          copies files
+
+# Check if clip.exe folders are in path
+echo $PATH
+
+# Add them to path
+$ export PATH="$PATH:/c/Windows/System32:/c/Windows\SysWOW64"
+
+# To write to output to clipboard
+$ echo "test" >/dev/clipboard
+
+# To read clipboard
+$ cat </dev/clipboard
+
+# Copy ssh key to clipboard
+$ cat ~/.ssh/id_rsa.pub >/dev/clipboard
+
+# Copy thing.txt to clipboard
+cat thing > /dev/clipboard
+
+# Put contents of clipboard into thing.txt
+cat /dev/clipboard > thing.txt
+
+# To check what PATH is currently set to:
+> echo $PATH
+
+# And to set it, assuming a 64-bit architecture:
+> export PATH="$PATH:/c/Windows/System32:/c/Windows/SysWOW64"
+
+# Copy directory contents to clipboard
+dir | clip
+
+# Copy git branch contents to clipboard
+git branch | clip

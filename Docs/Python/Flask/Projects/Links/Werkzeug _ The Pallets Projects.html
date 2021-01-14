@@ -1,0 +1,195 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="Pallets">
+<meta property="og:image:type" content="image/png">
+<meta property="og:title" content="Werkzeug">
+<meta property="og:url" content="https://palletsprojects.com/p/werkzeug/">
+<meta property="og:image" content="https://palletsprojects.com/og_image.png">
+<meta property="og:image:height" content="400">
+<meta property="og:type" content="website">
+<meta property="og:image:alt" content="logo">
+<meta property="og:image:width" content="400">
+<link rel="stylesheet" href="/static/styles.css?h=8f5826ef">
+<link rel="stylesheet" href="/static/pygments.css">
+<script type="text/javascript" src="/static/app.js?h=bae3ee5f"></script>
+<title>Werkzeug | The Pallets Projects</title>
+<body class="default">
+  <nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+          data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">The Pallets Projects</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            
+              <a href="/p/">Projects</a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/governance/">Governance</a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/people/">People</a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/blog/">Blog</a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/donate"><strong>Donate</strong></a>
+            
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="body-wrapper">
+    
+    <div class="container">
+      
+  
+  <ul class="project-selector">
+    <li><a href="/p/">Overview</a>
+    
+      <li><a href="/p/click/">Click</a>
+    
+      <li><a href="/p/flask/">Flask</a>
+    
+      <li><a href="/p/itsdangerous/">ItsDangerous</a>
+    
+      <li><a href="/p/jinja/">Jinja</a>
+    
+      <li><a href="/p/markupsafe/">MarkupSafe</a>
+    
+      <li class=active><a href="/p/werkzeug/">Werkzeug</a>
+    
+  </ul>
+  
+  <div class="row">
+    <div class="col-sm-9">
+      <h1>Werkzeug</h1>
+    </div>
+    <div class="col-sm-3">
+      <div class="github-button">
+        <a class="github-button"
+          href="https://github.com/pallets/werkzeug"
+          data-size="large"
+          data-show-count="true"
+          aria-label="Star pallets/werkzeug on GitHub"
+        >Star</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-9">
+      <p><em>werkzeug</em> German noun: "tool". Etymology: <em>werk</em> ("work"), <em>zeug</em> ("stuff")</p>
+<p>Werkzeug is a comprehensive <a href="https://wsgi.readthedocs.io/en/latest/">WSGI</a> web application library. It began
+as a simple collection of various utilities for WSGI applications and
+has become one of the most advanced WSGI utility libraries.</p>
+<p><a href="/p/flask">Flask</a> wraps Werkzeug, using it to handle the details of WSGI while
+providing more structure and patterns for defining powerful
+applications.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">werkzeug.wrappers</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">Response</span>
+
+<span class="nd">@Request</span><span class="o">.</span><span class="n">application</span>
+<span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">werkzeug.serving</span> <span class="kn">import</span> <span class="n">run_simple</span>
+    <span class="n">run_simple</span><span class="p">(</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="n">application</span><span class="p">)</span>
+</pre></div>
+<p>Werkzeug includes:</p>
+<ul>
+<li>An interactive debugger that allows inspecting stack traces and
+source code in the browser with an interactive interpreter for any
+frame in the stack.</li>
+<li>A full-featured request object with objects to interact with
+headers, query args, form data, files, and cookies.</li>
+<li>A response object that can wrap other WSGI applications and handle
+streaming data.</li>
+<li>A routing system for matching URLs to endpoints and generating URLs
+for endpoints, with an extensible system for capturing variables
+from URLs.</li>
+<li>HTTP utilities to handle entity tags, cache control, dates, user
+agents, cookies, files, and more.</li>
+<li>A threaded WSGI server for use while developing applications locally.</li>
+<li>A test client for simulating HTTP requests during testing without
+requiring running a server.</li>
+</ul>
+<p>Werkzeug is Unicode aware and doesn't enforce any dependencies. It is up
+to the developer to choose a template engine, database adapter, and even
+how to handle requests. It can be used to build all sorts of end user
+applications such as blogs, wikis, or bulletin boards.</p>
+
+    </div>
+    <div class="col-sm-3">
+      <div class="infobox">
+        <p><span class="fa fa-fw fa-github"></span>
+          <a href="https://github.com/pallets/werkzeug">pallets/werkzeug</a>
+        
+        <p><span class="fa fa-fw fa-list"></span> <a href="https://pypi.python.org/pypi/Werkzeug">Releases on PyPI</a>
+        <p><span class="fa fa-fw fa-cogs"></span> <a href="https://travis-ci.org/pallets/werkzeug">Test status</a>
+        <p><span class="fa fa-fw fa-book"></span> <a href="https://werkzeug.palletsprojects.com/">Documentation</a>
+        <div class="pypi-box" data-pypi="Werkzeug"></div>
+      </div>
+    </div>
+  </div>
+
+
+    </div>
+    
+  </div>
+
+  
+  <div class="bottomsummary">
+    <div class="container">
+    </div>
+  </div>
+  
+
+  
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3 icon-bar">
+          <a href="https://github.com/pallets/" title="Pallets on GitHub"
+            ><i class="fa fa-github"></i></a>
+          <a href="https://twitter.com/PalletsTeam/" title="Pallets on Twitter"
+            ><i class="fa fa-twitter"></i></a>
+          <a href="https://github.com/pallets/website/tree/master/content/projects/werkzeug/contents.lr" title="View source for this page"><i class="fa fa-code"></i></a>
+        </div>
+        <div class="col-sm-9">
+          <a href="/license/">License &amp; Copyright</a> •
+          <a href="/contact/">Contact</a> •
+          Made with <i class="fa fa-fw fa-heart" title="Heart"><span hidden>Heart</span></i>
+          and <a href="https://www.getlektor.com/">Lektor</a> all around the World
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+</body>

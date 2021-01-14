@@ -1,0 +1,62 @@
+	#######
+	# Pip #
+	#######
+	
+$ pip --version
+
+	###############
+	# Pip Install #
+	###############
+
+$ pip install <?????>
+
+$ python -m pip install --upgrade pip
+
+$ pip install --upgrade pip
+
+$ pip install -r requirements.txt --upgrade
+		
+$ pip install <######> --upgrade
+
+	########################
+	# Pip requirements.txt #
+	########################
+	
+    <<---| Install pip packages in requirements.txt |-->>
+$ pip install -r requirements.txt
+
+    <<---|  Add pip packages to requirements.txt |-->>
+$ pip freeze > requirements.txt
+
+    <<---| View requirements.txt contents |-->>
+$ cat requirements.txt
+
+    <<---| Copy requirements.txt contents to clipboard |-->>
+$ pbcopy < requirements.txt
+
+	######################
+	# Update/Upgrade Pip #
+	######################
+
+Copy pip list to clipboard |-->>
+$ pip list | clip
+
+$ pip list | pbcopy
+
+Paste pip list outdated to clipboard |-->>
+$ pip list --outdated | clip
+
+$ pip list --outdated | pbcopy
+
+Paste pip list outdated to file |-->>
+$ pbpaste > pip-outdated.txt
+
+Show pip package |-->>
+$ pip show <?????> <?????>
+
+Update/Upgrade all Pip in Venv |-->>
+$ pip freeze --local | grep -v ‘^\-e’ | cut -d = -f 1 | xargs -n1 pip install -U
+
+    <<---| Update/Upgrade all global pip packages |-->>
+$ pip3 list -o | grep -v -i warning | cut -f1 -d’ ' | tr ” ” “\n” | awk ‘{if(NR>=3)print}’ | cut -d’ ' -f1 | xargs -n1 pip3 install -U
+

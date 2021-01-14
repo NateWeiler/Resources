@@ -1,0 +1,1659 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SnippetPlus>
+  <MySnippets>
+    <!--
+		For shortcut:
+		langName parameter should be used as:
+		ADA, ASM, ASP, AU3, BASH, BATCH, C , CAML, CMAKE, COBOL, CPP, CS , CSS, D , DIFF, FLASH, FORTRAN, GUI4CLI, HASKELL   
+		HTML, INI, INNO, JAVA, JS , KIX, LISP, LUA, MAKEFILE, MATLAB, NFO, NSIS, OBJC, PASCAL, PERL, PHP, POWERSHELL, PROPS, 
+		PS , PYTHON, R , RC , RUBY, SCHEME, SEARCHRESULT, SMALLTALK, SQL, TCL, TEX, TXT, USER, VB , VERILOG, VHDL, XML, YAML
+		so Notepad++ will know from which language to take the snippet.
+
+		For GUI: langName parameter can be any name you wish.
+		-->
+    <Lang langName="GENERAL" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>class</Name>
+        <Desc>Class from general</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Raja</Name>
+        <Desc>Author: Rajesh Kumar</Desc>
+      </Snippet>
+    </Lang>
+    <!-- Lang CSharp -->
+    <Lang langName="CS" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>AdoCreateSqlConn</Name>
+        <Desc>string connectionString = @"Data Source=ServerName;Initial Catalog=Northwind;Persist Security Info=True;User ID=&lt;user name&gt;;Password=&lt;your password&gt;"\nSqlConnection conn = new SqlConnection(connectionString)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Array</Name>
+        <Desc>string[] x = new string[4] {"x", "x2", "x3", "x4"};</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Arrayl</Name>
+        <Desc>ArrayList myAL = new ArrayList();\nmyAL.Add("Hello");\nmyAL.Add("World");\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>class</Name>
+        <Desc>class className\n{\n    private int age;\n    private string name;\n\n    // Default constructor:\n    public className()\n    {\n        name = "N/A";\n    }\n\n    // Constructor:\n    public className(string name, int age)\n    {\n        this.name = name;\n        this.age = age;\n    }\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>classComparable</Name>
+        <Desc>class className : IComparable\n{\n	private string name;\n\n	// Default constructor:\n	public className()\n	{\n		name = "N/A";\n	}\n\n	// Constructor:\n	public className(string name)\n	{\n		this.name = name;\n	}\n	\n	public int CompareTo(object obj)\n	{\n		int i = -1;\n		if(obj is className)\n		{\n			className XX = (className) obj;\n			i = name.CompareTo(XX.name);\n		}\n		return i;\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>classComparer</Name>
+        <Desc>private void listview1_ColumnClick(object sender, System.Windows.Forms.ColumnClickEventArgs e)\n{\n	listview1.ListViewItemSorter = new className(e.Column);\n}\nclass className : IComparer\n{\n	private int col;\n	public className()\n	{\n		col = 0;\n	}\n	public className(int column)\n	{\n		col = column;\n	}\n	public int Compare(object x, object y)\n	{\n		return String.Compare(((ListViewItem)x).SubItems[col].Text, ((ListViewItem)y).SubItems[col].Text);\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>classm</Name>
+        <Desc>class className\n{\n    static void Main(string[] args)\n    {\n        System.Console.WriteLine(args.Length);\n    }\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>conn</Name>
+        <Desc>string strConn = ConfigurationManager.ConnectionStrings["MERADATA"].ConnectionString;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>connOld</Name>
+        <Desc>private static void ReadData(string strConn)\n{\n	string strSelect = "SELECT * FROM TABLE;";\n	using (SqlConnection conn = new SqlConnection(strConn))\n	{\n		SqlCommand cmd = new SqlCommand(strSelect, conn);\n		conn.Open();\n		SqlDataReader reader = cmd.ExecuteReader();\n		try\n		{\n			while (reader.Read())\n			{\n				Console.WriteLine(String.Format("{0}", reader[1]));\n			}\n		}\n		finally\n		{\n			// Always call Close when done reading.\n			reader.Close();\n		}\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>dataView</Name>
+        <Desc>DataView DV = new DataView(DS.Tables(0), rowFilter, sortBy, DataViewRowState.CurrentRows);</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>dowhile</Name>
+        <Desc>do\n{\n	\n}\nwhile (true);\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>else</Name>
+        <Desc>else\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>elseif</Name>
+        <Desc>else if ()\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>enterprise</Name>
+        <Desc>Database db = DatabaseFactory.CreateDatabase();\nDbCommand cmd = db.GetSqlStringCommand("select * from table where id = @id");\n//DbCommand cmd = db.GetStoredProcCommand("SProcName"); \ndb.AddInParameter(cmd, "@id", DbType.Int32, 7);\nDataSet DS = db.ExecuteDataSet(cmd);</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>enum</Name>
+        <Desc>public enum EnumName\n{\n	Item1 = 0,\n	Item2 = 1,\n	Item3 = 2,\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>event</Name>
+        <Desc>using System;\n\nnamespace X\n{\n	class EventsTest\n	{\n		static void Main(string[] args)\n		{\n		ClasA A = new ClasA();\n		A.ev += new ClasA.dgate(func1);\n		A.ev += new ClasA.dgate(func2);\n		A.callEvent();\n		Console.ReadLine();\n		}\n		\n		static void func1(string i)\n		{Console.WriteLine(i);}\n		\n		static void func2(string i)\n		{Console.WriteLine(i);}\n	}\n	\n	class ClasA\n	{\n		public delegate void dgate(string x);\n		public event delegate1 ev;\n		public void callEvent()\n		{ev("Raja");}\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>filer</Name>
+        <Desc>try \n{\n	// Create an instance of StreamReader to read from a file.\n	// The using statement also closes the StreamReader.\n	using (StreamReader sr = new StreamReader("File.txt")) \n	{\n		String line;\n		// Read and display lines from the file until the end of the file is reached.\n		while ((line = sr.ReadLine()) != null) \n		{\n			Console.WriteLine(line);\n		}\n	}\n}\ncatch (Exception ex) \n{\n	Console.WriteLine(ex.Message);\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>filew</Name>
+        <Desc>try\n{\n	// Create an instance of StreamWriter to write text to a file.\n	// The using statement also closes the StreamWriter.\n	using (StreamWriter sw = new StreamWriter("File.txt"))\n	{\n		sw.WriteLine("FORMAT_UPDATE_COUNTERS");\n		foreach (ListViewItem it in listview1.Items)\n		{\n			sw.WriteLine(it.SubItems[0].Text);\n		}\n	}\n}\ncatch (Exception ex)\n{\n	Console.WriteLine(ex.Message);\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>for</Name>
+        <Desc>for(int j = 0; j &lt; 10; j++)\n{\n	statements;\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>foreach</Name>
+        <Desc>foreach(var item in collection)\n{\n	\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>func</Name>
+        <Desc>#region funcName\nprivate double funcName(int j)\n{\n	\n	return 3.87 * j;\n}\n#endregion funcName\n\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>generic</Name>
+        <Desc>class Class1\n{\n	static void Main(string[] args)\n	{\n		//Integer params\n		Int32 a = 10, b = 20;\n		Swap&lt;int32&gt;(ref a, ref b);\n		System.Console.WriteLine("a, b after swap {0} and {1}", a, b);\n\n		//String\n		String a1 = "First", a2 = "Second";\n		Swap&lt;string&gt;(ref a1, ref a2);\n		Console.WriteLine("a1, a2 after swap {0} and {1}", a1, a2);\n		Console.ReadLine();\n	}\n\n	public static void Swap&lt;T&gt;(ref T firstP, ref T secondP)\n	{\n		T temp;\n		temp = firstP;\n		firstP = secondP;\n		secondP = temp;\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>generical</Name>
+        <Desc>//This generic type correspond to ArrayList\nList&lt;string&gt; list = new List&lt;string&gt;();\nlist.Add("Tom");  // This works because List is of type String \nlist.Add(100);    // Invalid argument error at compile time\nString myString = list[0]; //No need to convert to ToString</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericClass</Name>
+        <Desc>class MyStack&lt;T&gt;\n{\n	private T[] items;\n	private int count;\n	public MyStack(Int32 Size)\n	{\n		items = new T[Size];\n		count = -1;\n	}\n	public void Push(T item)\n	{\n		items[++count] = item;\n	}\n	public T Pop()\n	{\n		return (items[count--]);\n	}\n}\nstatic void Main(string[] args)\n{\n	MyStack&lt;string&gt; s =new MyStack&lt;string&gt;(10);\n	s.Push("G");\n	s.Push("P");\n	string x =s.Pop().ToString();\n	MyStack&lt;Int32&gt; y =new MyStack&lt;Int32&gt;(8);\n	y.Push(7);\n	y.Push(4);\n	Console.WriteLine(y.Pop().ToString());\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericCol</Name>
+        <Desc>//This generic type correspond to  CollectionBase\nCollection&lt;string&gt; dinosaurs = new Collection&lt;string&gt;();\n\ndinosaurs.Add("Psitticosaurus");\ndinosaurs.Add("Caudipteryx");\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericFunc</Name>
+        <Desc>public int funcName&lt;T&gt;(ref T firstP, ref T secondP)\n{\n	T temp;\n	temp = firstP;\n	firstP = secondP;\n	secondP = temp;\n	return 0;\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Dictionary</Name>
+        <Desc>Dictionary&lt;string, int&gt; dict = new Dictionary&lt;string, int&gt;();\n\ndict.Add("Key1", 555);\ndict.Add("Key1", 666);\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericsl</Name>
+        <Desc>//This generic type correspond to  SortedList\nSortedList&lt;string, string&gt; SL = new SortedList&lt;string, string&gt;();\n\nSL.Add("txt", "notepad.exe");\nSL.Add("bmp", "paint.exe");\n\n// When you use foreach to enumerate list elements, the elements are retrieved as KeyValuePair objects.\nforeach(KeyValuePair&lt;string, string&gt; kvp in SL)\n{\n	Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>hashtable</Name>
+        <Desc>Hashtable HT = new Hashtable();\n\nHT.Add("Key1", "Value1");\nHT.Add("Key1", "Value2");\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>html</Name>
+        <Desc>&lt;%@ Page language="CS" %&gt;\n&lt;%@ import Namespace="System.Data" %&gt;\n&lt;%@ import Namespace="System.Data.SqlClient" %&gt;\n\n&lt;html&gt;\n	&lt;head runat="server"&gt;\n		&lt;title&gt;Test&lt;/title&gt;\n		&lt;script runat="server"&gt;\n		protected void Page_Load(object sender, System.EventArgs e)\n		{\n			\n		}\n		&lt;/script&gt;\n	&lt;/head&gt;\n	&lt;body&gt;\n	  &lt;form runat="server"&gt;\n			&lt;asp:Label ID="lblResult" runat="server" /&gt;\n    &lt;/form&gt;\n	&lt;/body&gt;\n&lt;/html&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>if</Name>
+        <Desc>if ()\n{\n	\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ifelse</Name>
+        <Desc>if ()\n{\n	\n}\nelse\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>import</Name>
+        <Desc>&lt;%@ import Namespace="System.Data.SqlClient" %&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ital</Name>
+        <Desc>for (int i = 0; i &lt; arraylist.Count; i++)\n{\n	object o = (object) arraylist[i];\n	\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>itar</Name>
+        <Desc>for (int j = 0; j &lt; data.Length; j++)\n{\n	string s = data[j];\n	\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>itdic</Name>
+        <Desc>foreach (DictionaryEntry DE in idictionary)\n{\n	object key = DE.Key;\n	object o = DE.Value;\n	\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Linqd</Name>
+        <Desc>NorthwindDataContext db = new NorthwindDataContext();\n\nvar toyProducts = from p in db.Products\n									where p.ProductName.Contains("Toy")\n									select p;\n\ndb.Products.RemoveAll(toyProducts);\ndb.SubmitChanges();</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Linqg</Name>
+        <Desc>var reorderQuery = from p in db.Products where p.UnitPrice &gt; 20 group p by p.ReorderLevel into reorderGroups select reorderGroups;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Linqi</Name>
+        <Desc>NorthwindDataContext db = new NorthwindDataContext();\n//Create new category and product\nCategory category = new Category();\ncategory.CategoryName = "My Toys";\n\nProduct product1 = new Product();\nproduct.ProductName = "Toy1";\n//Associate Product with Category\ncategory.Products.Add(product1);\n//Add category to database and save changes\ndb.Categories.Add(category);\ndb.SubmitChanges();</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LinqiRelation</Name>
+        <Desc>MERADATADataContext db = new MERADATADataContext();\n\nDVDsCategory dvdCategory = db.DVDsCategories.Single(d =&gt; d.CategoryName == "xxx");\n\nDVD dvd = new DVD();\ndvd.Actors = "x";\ndvd.Comments = "xx";\ndvd.DVDID = 420;\n\ndvdCategory.DVDs.Add(dvd);\n\ndb.SubmitChanges();</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Linqs</Name>
+        <Desc>//Type safe query\nvar query = from t in db.TRANSLATIONs\n            select t;\nOR:\nvar query = from p in db.Products\n	select new\n	{\n		p.ProductID,\n		p.ProductName,\n		TotalUnits = p.Order_Details.Sum(o =&gt; o.Quantity)\n	};\n\n//Dynamic query\nvar query2 = db.Products\n	.Where("productID &gt; 0")\n	.OrderBy("ID")\n	.Select(@"new(ProductID, Order_Details.Sum(Quantity) as TotalUnits, Order_Details.Count as xx)");</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LinqSingle</Name>
+        <Desc>NorthwindDataContext db = new NorthwindDataContext();\n//Get single item. If contains more than one item, then an exception is thrown\nProduct product = db.Products.Single(p =&gt; p.ProductID == 26);\nOR:\nProduct product = db.Products.First(p =&gt; p.ProductID == 26);\nOR:\nProduct product = (from p in db.Products\n                  where p.ProductID == 26\n                  select p).First();</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Linqu</Name>
+        <Desc>NorthwindDataContext db = new NorthwindDataContext();\n\nProduct product = db.Products.Single(p =&gt; p.ProductName == "Toy");\n\nproduct.UnitPrice = 99;\n\ndb.SubmitChanges();</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Linqw</Name>
+        <Desc>var query = from t in db.TRANSLATIONs where t.ID &gt; 20 &amp;&amp; t.ENGLISH.StartsWith("S") select t;\nOR\nList&lt;Person&gt; people = new List&lt;Person&gt; {...}\n\nIEnumerable&lt;Person&gt; results = from p in people where p.LastName.StartsWith("G") orderby p.FirstName select p;\n=\nIEnumerable&lt;Person&gt; results = people.Where(p=&gt;p.LastName.StartsWith("G")).OrderBy(p=&gt;p.FirstName);</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LoadAssembly</Name>
+        <Desc>Assembly asm = Assembly.Load((byte []) reader["COL"]);\n//Assembly asm = Assembly.LoadFile(fileName);\nIFormat f = (IFormat) CreateObject(asm, "FORIS..IFormat");\n\nprivate object CreateObject(Assembly asm, string interfaceName)\n{\ntry\n{\n	Type[] types = asm.GetExportedTypes();\n	foreach(Type type in types)\n	{\n		if(type.GetInterface(interfaceName) != null)\n			return Activator.CreateInstance(type);\n	}\n}\ncatch (Exception e)\n{\n	Console.Write(e.Message);\n	return null;\n}\n	return null;\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>orareader</Name>
+        <Desc>public void GetReader(string queryString, string strConn)\n{\n	using (OracleConnection conn = new OracleConnection(strConn))\n	{\n		OracleCommand cmd = new OracleCommand(queryString, conn);\n		conn.Open();\n		// Implicitly closes the connection because CommandBehavior.CloseConnection is specified.\n		OracleDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);\n		while (reader.Read())\n		{\n			Console.WriteLine(reader.GetValue(0));\n		}\n		reader.Close();\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>orasp</Name>
+        <Desc>OracleCommand cmd = new OracleCommand("SP_Name", conn);\ncmd.CommandType = CommandType.StoredProcedure;\ncmd.Parameters.Add("P1", OracleType.VarChar);\ncmd.Parameters["P1"].Direction =ParameterDirection.Input;\ncmd.Parameters["P1"].Value ="val";\ncmd.Parameters.Add("cur_out", OracleType.Cursor);\ncmd.Parameters["cur_out"].Direction =ParameterDirection.Output;\nOracleDataReader reader =cmd.ExecuteReader();\nint col1 =reader.GetOrdinal("COL1");\ncol1Data =reader.GetValue(col1);\ncol2Data =reader["COL2"];</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>page</Name>
+        <Desc>&lt;%@ Page Language="C#" MasterPageFile="~/MasterPage.master" Title="PageTitle" %&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>PageLoad</Name>
+        <Desc>protected void Page_Load(object sender, System.EventArgs e)\n{\n	if(!IsPostBack)\n	{\n		\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>prop</Name>
+        <Desc>public int MyProperty { get; set; }</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>propr</Name>
+        <Desc>public int MyProperty { get; private set; }</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>propw</Name>
+        <Desc>public int MyProperty { private get; set; }</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>region</Name>
+        <Desc>#region \n\n#endregion </Desc>
+      </Snippet>
+      <Snippet>
+        <Name>register</Name>
+        <Desc>&lt;%@ Register Src="~/WebUserControls/DateTimePicker.ascx" TagPrefix="DateTime" TagName="Picker" %&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>registerajax</Name>
+        <Desc>&lt;%@ Register Assembly="AjaxControlToolkit" TagPrefix="ajaxToolkit" Namespace="AjaxControlToolkit" %&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>rss</Name>
+        <Desc>using System.ServiceModel.Syndication;\n...\nSyndicationFeed feed = SyndicationFeed.Load(new Uri("blogs.thinktecture.com/.../rss.aspx"));\n\nforeach (SyndicationItem item in feed.Items)\n{\n	Console.WriteLine("Blog entry: {0}", item.Title.Text);\n	Console.WriteLine("Summary: {0}", item.Summary.Text); \n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>script</Name>
+        <Desc>&lt;script runat="server"&gt;\n\n&lt;/script&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>sfc</Name>
+        <Desc>TYPE type = object as TYPE;\n\nif (type != null)\n{\n	\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>sqlreader</Name>
+        <Desc>private static void GetReader(string queryString, string strConn)\n{\n	using (SqlConnection conn = new SqlConnection(strConn))\n	{\n		SqlCommand cmd = new SqlCommand(queryString, conn);\n		conn.Open();\n		SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);\n		while (reader.Read())\n		{\n			Console.WriteLine(String.Format("{0}", reader[0]));\n		}\n		reader.Close();\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>sqlsp</Name>
+        <Desc>SqlCommand cmd = new SqlCommand("SP_Name", Conn)\nSQLCmd.CommandType = CommandType.StoredProcedure\n\ncmd.Parameters.Add("P1", SqlDbType.NVarChar, 2)\ncmd.Parameters("P1").Value = "val"; \n\nSQLDataReader reader = cmd.ExecuteReader()\ncolData = reader["COL2"]</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>struct</Name>
+        <Desc>public struct StructName\n{\n	public decimal var1;\n	public string var2;\n	public string var3;\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>switch</Name>
+        <Desc>switch (x)\n{\n	case val: \n		command;\n		break;\n	default:\n		command;\n		break;\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>toar</Name>
+        <Desc>(object[]) arraylist.ToArray(typeof (object));</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>try</Name>
+        <Desc>try\n{\n	\n}\ncatch(Exception ex)\n{\n	\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>usercontrol</Name>
+        <Desc>&lt;%@ Control Language="C#" AutoEventWireup="true" %&gt;\n\n&lt;script runat="server"&gt;\n	protected void btn_Click(ByVal sender As Object, ByVal e As System.EventArgs)\n	{\n	}\n&lt;/script&gt;\n\n&lt;asp:Textbox ID="Textbox1" Text="Text" runat="server" /&gt;\n&lt;asp:Button ID="btn" Text="Some text" OnClick="btn_Click" runat="server" /&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>webservice</Name>
+        <Desc>&lt;%@ WebService language="C#" class="Class1" %&gt;\n\nusing System;\nusing System.Web.Services;\n\nnamespace Rajesh.Madhra\n{\n	[WebService(Namespace = "http://kumar")]\n	[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]\n	// To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. \n	[System.Web.Script.Services.ScriptService]\n	public class Class1 : System.Web.Services.WebService\n	{\n		[WebMethod]\n		public string Hi()\n		{\n			return "Hi";\n		}\n	}\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>while</Name>
+        <Desc>while ()\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xlinqa</Name>
+        <Desc>XElement doc = XElement.Load(fileName);\n\nint id = GetLastID();\ndecimal kharcha = Convert.ToDecimal(txtKharcha.Text);\nDateTime kabh = Convert.ToDateTime(txtKabh.Text);\n\nXElement kharchHua = new XElement("MeraKharcha", new XAttribute("ID", id + 1), new XAttribute("KHARCHA", kharcha),\n		new XElement("KABH", kabh),\n		new XElement("KAHAN", txtKahan.Text),\n		new XElement("NOTES", txtNotes.Text));\n\ndoc.Add(kharchHua);\ndoc.Save(fileName);\nBindData();</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xlinqu</Name>
+        <Desc>XElement doc = XElement.Load(fileName);\n\nint idToEdit = int.Parse(Listview1.DataKeys[e.ItemIndex].Value.ToString());\nXElement elem = (from h in doc.Descendants("X")\n where ID == idToEdit\nselect h).First();\n\nTextBox txtX = Listview1.Items[e.ItemIndex].FindControl("txtNotes") as TextBox;\n...\nXElement elem2 = new XElement("MeraKharcha", new XAttribute("ID", idToEdit), new XAttribute("X1", 0),\n		?,		?,		new XElement("X4", txtNotes.Text));\n\nelem.ReplaceWith(elem2);\ndoc.Save(fileName);</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmladda</Name>
+        <Desc>XmlDocument xmlDoc = new XmlDocument();\nxmlDoc.Load(fileName);\n\nXmlElement parentNode = xmlDoc.CreateElement("tagName");\nxmlDoc.DocumentElement.AppendChild(parentNode); //Adds a node at the end of the document\n\nparentNode.SetAttribute("Tag", "Value");\nxmlDoc.Save(fileName);\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmladdn</Name>
+        <Desc>private static void addTextElement(XmlDocument doc, XmlElement nodeParent, string strTag, string strValue)\n{\n	XmlElement nodeElem = doc.CreateElement(strTag);\n	nodeElem.InnerText = strValue;\n	nodeParent.AppendChild(nodeElem);\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmlenum</Name>
+        <Desc>For Each attribute As XmlAttribute In node.Attributes\n\nNext</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmlfind</Name>
+        <Desc>Dim nodes As XmlNodeList\nnodes = xmlDoc.GetElementsByTagName("ElementName")</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmliter</Name>
+        <Desc>For Each node As XmlNode In xmlDoc.GetElementsByTagName("ElementName")\n\nNext</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmlreadclass</Name>
+        <Desc>Dim reader As New XmlSerializer(GetType(TheClass))\nDim file As New StreamReader("ClassData.xml")\nDim fileData As TheClass\nfileData = CType(reader.Deserialize(file), TheClass)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmlwriteclass</Name>
+        <Desc>Dim writer As New XMLSerializer(GetType(ArrayList))\nDim file As New StreamWriter("SerializedData.xml")\nwriter.Serialize(file, dataToWrite) 'dataToWrite=Class instance\nfile.Close()</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Using</Name>
+        <Desc>using(object o = new object()) {\n    commands;\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>cw</Name>
+        <Desc>Console.WriteLine();</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>forr</Name>
+        <Desc>for(int i = length - 1; i &gt;= 0; i--)\n{\n	statements;\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>indexer</Name>
+        <Desc>public object this[int index]\n	{\n		get { /* return the specified index here */ }\n		set { /* set the specified index to value here */ }\n	}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Singleton</Name>
+        <Desc>public class Singleton\n	{\n		// declare singleton field\n		private static Singleton instance = null;\n		\n		// Protected constructor.\n		protected Singleton() \n		{\n		}\n		\n		// Get instance\n		public static Singleton GetInstance()\n		{\n			if(instance == null) instance = new Singleton();\n		\n			return instance;\n		}\n		\n		// class implementation\n		\n	}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>prop5</Name>
+        <Desc>#region PropertyName\npublic PropertyType PropertyName\n{\n	get \n	{\n		return PropertyTypeObject;\n	}\n	set\n	{\n		textbox1.Text = value;\n	}\n}\n#endregion PropertyName</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>propr5</Name>
+        <Desc>#region PropertyName\npublic PropertyType PropertyName\n{\n	get \n	{\n		return PropertyTypeObject;\n	}\n}\n#endregion PropertyName</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>propw5</Name>
+        <Desc>#region PropertyName\npublic PropertyType PropertyName\n{\n	set\n	{\n		textbox1.Text = value;\n	}\n}\n#endregion PropertyName</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xxxx</Name>
+        <Desc>&lt;xxxxxxxxxxxxxxxxxxxxxxxxx&gt;\nmngffdc</Desc>
+      </Snippet>
+    </Lang>
+    <!-- Lang VB -->
+    <Lang langName="VB" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>adoaddrelation</Name>
+        <Desc>Dim customersOrdersRelation As New DataRelation("CustomersOrders", _\n  ds.Customers.Columns("CustomerID"), _\n  ds.Orders.Columns("CustomerID"))\n\nds.Relations.Add(customersOrdersRelation)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>adocreatesqlconn</Name>
+        <Desc>Dim conn As New SqlConnection()\nconn.ConnectionString = "Data Source=ServerName;Initial Catalog=Northwind;Persist Security Info=True;User ID=&lt;user name&gt;;Password=&lt;your password&gt;"</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>adocreatesqlexpconn</Name>
+        <Desc>Dim conn As New SqlConnection()\nconn.ConnectionString = "Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\northwind.mdf;Integrated Security=True;User Instance=True"</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>adoexecnonquery</Name>
+        <Desc>Dim rowCount As Integer\nDim previousConnectionState As ConnectionState\npreviousConnectionState = conn.State\nTry\n	If conn.State = ConnectionState.Closed Then\n		conn.Open()\n	End If\n	rowCount = cmd.ExecuteNonQuery()\n\nFinally\n	If previousConnectionState = ConnectionState.Closed Then\n		conn.Close()\n	End If\nEnd Try</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>adoexecreader</Name>
+        <Desc>Dim reader As SqlDataReader\nDim previousConnectionState As ConnectionState = conn.State\nTry\nIf conn.State = ConnectionState.Closed Then\n	conn.Open()\nEnd If\nreader = cmd.ExecuteReader()\nUsing reader\n	While reader.Read\n' Process SprocResults datareader here.\n		Console.WriteLine(reader.GetValue(0))\n	End While\nEnd Using\nFinally\n    If previousConnectionState = ConnectionState.Closed Then\n        conn.Close()\n    End If\nEnd Try</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>adoexecscalar</Name>
+        <Desc>Dim result As Object\nDim previousConnectionState As ConnectionState = conn.State\nTry\n	If conn.State = ConnectionState.Closed Then\n		conn.Open()\n	End If\n	result = cmd.ExecuteScalar()\nFinally\n    If previousConnectionState = ConnectionState.Closed Then\n        conn.Close()\n    End If\nEnd Try</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>adonewrow</Name>
+        <Desc>Dim newRow As NorthwindDataSet.CustomersRow = Me.NorthwindDataSet.Customers.NewRow()\nnewRow.CustomerID= "A124"\nnewRow.CompanyName= "Acme"\nMe.NorthwindDataSet.Customers.Rows.Add(newRow)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>adoselectwparams</Name>
+        <Desc>Dim cmd As New SqlCommand\ncmd.CommandType = CommandType.Text\ncmd.CommandText = "SELECT * FROM Customers WHERE ID = @ID"\ncmd.Connection = conn\n' Create a SqlParameter for each parameter in the stored procedure.\nDim idParam As New SqlParameter("@ID", "5")\ncmd.Parameters.Add(idParam)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>adosprocwparams</Name>
+        <Desc>Dim cmd As New SqlCommand()\ncmd.CommandType = CommandType.StoredProcedure\ncmd.CommandText = "CustOrderHist"\ncmd.Connection = conn\n\n' Create a SqlParameter for each parameter in the stored procedure.\nDim customerIDParam As New SqlParameter("@customerID", "ALFKI")\ncmd.Parameters.Add(customerIDParam)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>array</Name>
+        <Desc>Dim x() as String = new String() {"x", "x2", "x3", "x4"}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>arrayl</Name>
+        <Desc>Dim myAL As New ArrayList()\nmyAL.Add("Hello")\nmyAL.Add("World")\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>class</Name>
+        <Desc>Public Class className\n    Private Age As Integer\n    Private Name As string\n\n    Public Sub New()\n      'Default Constructor\n    End Sub\n\n    ' Constructor:\n    Public Sub New(ByVal name As string, ByVal Age As Integer)\n        Me.Name = name;\n        Me.Age = age;\n    End Sub\nEnd Class</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>classm</Name>
+        <Desc>Public Class className		\n	Shared Sub Main(ByVal args() As String)\n		MsgBox("The Main procedure is starting the application.")\n	End Sub\nEnd Class</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>conn</Name>
+        <Desc>Dim strConn As String = ConfigurationManager.ConnectionStrings("MERADATA").ConnectionString\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>connOld</Name>
+        <Desc>Public Sub ReadData(ByVal connectionString As String)\n	Dim queryString As String = "SELECT * FROM TABLE;"\n	Using conn As New SqlConnection(connectionString)\n		Dim command As New SqlCommand(queryString, conn)\n		conn.Open()\n		Dim reader As SqlDataReader = command.ExecuteReader()\n		Try\n			While reader.Read()\n					Console.WriteLine(String.Format("{0}", reader(1)))\n			End While\n		Finally\n			' Always call Close when done reading.\n			reader.Close()\n		End Try\n	End Using\nEnd Sub</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>dataview</Name>
+        <Desc>Dim DV As DataView = New DataView(DS.Tables(0), rowFilter, sortBy, DataViewRowState.CurrentRows)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>dowhile</Name>
+        <Desc>Do While condition\n  statements\nLoop</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>enterprise</Name>
+        <Desc>Dim db As Database = DatabaseFactory.CreateDatabase()\nDim cmd As Common.DbCommand = db.GetSqlStringCommand("select * from table where id = @id")\n'Dim cmd As DbCommand = db.GetStoredProcCommand("SProcName") \ndb.AddInParameter(cmd, "@id", DbType.Int32, 1)\nDim DS As DataSet = db.ExecuteDataSet(cmd)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>enum</Name>
+        <Desc>Public Enum EnumName\n	Item1 = 0\n	Item2 = 1\n	Item3 = 2\nEnd Enum</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>enumstr</Name>
+        <Desc>'Gets the string name of an enumeration value\nDim name As String = System.Enum.GetName(GetType(EnumName), 0)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>filer</Name>
+        <Desc>Try\n	' Create an instance of StreamReader to read from a file.\n	Using sr As StreamReader = New StreamReader("File.txt")\n		Dim line As String\n		' Read and display the lines from the file until the end of the file is reached.\n		Do\n			line = sr.ReadLine()\n			Console.WriteLine(Line)\n		Loop Until line Is Nothing\n		sr.Close()\n	End Using\nCatch Ex As Exception\n	Console.WriteLine(Ex.Message)\nEnd Try</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>filew</Name>
+        <Desc>Try\n	' Create an instance of StreamWriter to write text to a file.\n	Using sw As StreamWriter = New StreamWriter("File.txt")\n		For Each it As ListViewItem In ListView1.Items\n			sw.WriteLine(it.SubItems[0].Text)\n		Next s	End Using\nCatch Ex As Exception\n	Console.WriteLine(Ex.Message)\nEnd Try</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>for</Name>
+        <Desc>Dim i As Integer\nFor i = 0 To 10\n	statements\nNext\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>foreach</Name>
+        <Desc>For Each s As String In thisCollection\n statements\nNext s</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>func</Name>
+        <Desc>#Region funcName\nFunction funcName(ByVal j As Integer) As Double\n	\n	return 3.87 * j\nEnd Function\n#End Region funcName\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>generic</Name>
+        <Desc>Public Class Class1\n	Shared Sub Main()\n		Dim a As Integer = 10, b As Integer = 20\n		Swap(Of Integer)(a, b)\n		Console.WriteLine("a, b after swap {0} and {1}", a, b)\n\n		Dim a1 As String = "First", a2 As String = "Second"\n		Swap(Of String)(a1, a2)\n		Console.WriteLine("a1, a2 after swap {0} and {1}", a1, a2)\n\n		Console.ReadLine()\n	End Sub\n	Public Shared Sub Swap(Of T)(ByRef firstP As T, ByRef secondP As T)\n		Dim temp As T\n		temp = firstP\n		firstP = secondP\n		secondP = temp\n	End Sub\nEnd Class</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>generical</Name>
+        <Desc>'This generic type correspond to ArrayList\nDim lst As New List(Of String)\n\nlst.Add("Raja")\nlst.Add(100)    ' Invalid argument error at compile time\nDim myString As string = lst[0] 'No need to convert to ToString\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericclass</Name>
+        <Desc>Class MyStack(Of T)\n	Private items() As T\n	Private count As Integer\n	Sub New(ByVal Size As Integer)\n		ReDim items(Size)\n		count = -1\n	End Sub\n	Sub Push(ByVal item As T)\n		count += 1\n		items(count) = item\n	End Sub\n	Function Pop() As T\n		Dim ret As T\n		ret = items(count)\n		count -= 1\n		Return (ret)\n	End Function\nEnd Class\nSub Main()\n	Dim s As New MyStack(Of String)(3)\n	s.Push("G")\n	string x =s.Pop().ToString()\n\n	Dim y As New MyStack(Of Integer)(3)\n	y.Push(10)\n	int i =y.Pop()\nEnd Sub</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericcol</Name>
+        <Desc>'This generic type correspond to  CollectionBase\nDim dinosaurs As New Collection(Of String)\n\ndinosaurs.Add("Psitticosaurus")\ndinosaurs.Add("Caudipteryx")\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericfunc</Name>
+        <Desc>Public Function funcName(Of T)(ByRef firstP As T, ByRef secondP As T) As Integer\n	Dim temp As T\n	temp = firstP\n	firstP = secondP\n	secondP = temp\n	Return 0\nEnd Sub</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericht</Name>
+        <Desc>Dim HT As New Dictionary(Of String, Int32)\n\nHT.Add("Key1", 555)\nHT.Add("Key2", 666)\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>genericsl</Name>
+        <Desc>'This generic type correspond to  SortedList\nDim SL As New SortedList(Of String, String)\n\nSL.Add("txt", "notepad.exe")\nSL.Add("bmp", "paint.exe")\n' When you use foreach to enumerate list elements, the elements are retrieved as KeyValuePair objects.\nFor Each kvp As KeyValuePair(Of String, String) In SL\n	Console.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value)\nNext kvp\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>hashtable</Name>
+        <Desc>Dim HT As New Hashtable()\n\nHT.Add("Key1", "Value1")\nHT.Add("Key1", "Value2")\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>html</Name>
+        <Desc>&lt;%@ Page language="VB" %&gt;\n&lt;%@ import Namespace="System.Data" %&gt;\n&lt;%@ import Namespace="System.Data.SqlClient" %&gt;\n\n&lt;html&gt;\n	&lt;head runat="server"&gt;\n		&lt;title&gt;Test&lt;/title&gt;\n		&lt;script runat="server"&gt;\n		Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs)\n\n		End Sub\n		&lt;/script&gt;\n	&lt;/head&gt;\n	&lt;body&gt;\n	  &lt;form runat="server"&gt;\n			&lt;asp:Label ID="lblResult" runat="server" /&gt;\n    &lt;/form&gt;\n	&lt;/body&gt;\n&lt;/html&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>if</Name>
+        <Desc>If condition Then\n  statements\nEnd If</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ifelse</Name>
+        <Desc>If condition Then\n  statements\nElse\n  statements\nEnd If</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ifelseif</Name>
+        <Desc>If condition Then\n  statements\nElseIf condition Then\n  statements\nElse\n  statements\nEnd If</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>import</Name>
+        <Desc>&lt;%@ Import Namespace="System.Data.SqlClient" %&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ital</Name>
+        <Desc>For Each obj In  arraylist\n	Console.Write("   {0}", obj)\nNext obj</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>itar</Name>
+        <Desc>For i = 0 To data.Length - 1\n	string s = x(i)\nNext</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>itdic</Name>
+        <Desc>For Each DE As DictionaryEntry In idictionary\n	Dim key As Object = DE.Key;\n	Dim val As String = DE.Value;\n	\nNext DE\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>linqd</Name>
+        <Desc>Dim db As New NorthwindDataContext\n\nDim toyProducts = From p In db.Products _\n									Where p.Category.CategoryName.Contains("Toy") _\n									Select p\n\ndb.Products.RemoveAll(toyProducts)\ndb.SubmitChanges()</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>linqi</Name>
+        <Desc>Dim db As New NorthwindDataContext\n\n'Create new category and product\nDim category As New Category\ncategory.CategoryName = "My Toys"\n\nDim product1 As New Product\nproduct.ProductName = "Toy1"\n'Associate Product with Category\ncategory.Products.Add(product1)\n'Add category to database and save changes\ndb.Categories.Add(category)\ndb.SubmitChanges()</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>linqu</Name>
+        <Desc>Dim db As New NorthwindDataContext\n\nDim product = (From p In db.Products _\n							 where p.ProductName = "Toy" _\n							 Select p).Single\n\nproduct.UnitPrice = 99;\n\ndb.SubmitChanges();</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>orareader</Name>
+        <Desc>Public Sub GetReader(ByVal queryString As String, ByVal strConn As String)\n	Using conn As New OracleConnection(strConn)\n		Dim cmd As New OracleCommand(queryString, conn)\n		conn.Open()\n		'Implicitly closes the connection because CommandBehavior.CloseConnectionwas specified.\n		Dim reader As OracleDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection)\n		While reader.Read()\n			Console.WriteLine(reader.GetValue(0))\n		End While\n		reader.Close()\n	End Using\nEnd Sub</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>page</Name>
+        <Desc>&lt;%@ Page Language="VB" MasterPageFile="~/MasterPage.master" Title="PageTitle" %&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>pageload</Name>
+        <Desc>Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs)\n	If Not Page.IsPostBack Then\n		statements\n	End If\nEnd Sub</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>prop</Name>
+        <Desc>#Region PropertyName\nDim firstName As String\nProperty PropertyName() As String\n	Get\n		Return firstName\n	End Get\n	Set(ByVal Value As String)\n		firstName = Value\n	End Set\nEnd Property\n#End Region PropertyName</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>propr</Name>
+        <Desc>#Region PropertyName\nDim firstName As String\nPublic ReadOnly Property PropertyName() As String\n	Get\n		Return firstName\n	End Get\nEnd Property\n#End Region PropertyName</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>propw</Name>
+        <Desc>#Region PropertyName\nDim firstName As String\nPublic WriteOnly Property PropertyName() As String\n	Set(ByVal Value As Double)\n		firstName = Value\n	End Set\nEnd Property\n#End Region PropertyName</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>region</Name>
+        <Desc>#Region name\n\n#End Region </Desc>
+      </Snippet>
+      <Snippet>
+        <Name>register</Name>
+        <Desc>&lt;%@ Register Src="~/WebUserControls/DateTimePicker.ascx" TagPrefix="DateTime" TagName="Picker" %&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>registeraja</Name>
+        <Desc>x&lt;%@ Register Assembly="AjaxControlToolkit" TagPrefix="ajaxToolkit" Namespace="AjaxControlToolkit" %&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>script</Name>
+        <Desc>&lt;script runat="server"&gt;\n\n&lt;/script&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>select</Name>
+        <Desc>Dim number As Integer = 8\nSelect Case number\n    Case 1 To 5\n        Debug.WriteLine("Between 1 and 5, inclusive")\n     Case 6, 7, 8\n        Debug.WriteLine("Between 6 and 8, inclusive")\n    Case Else\n        Debug.WriteLine("Not between 1 and 8, inclusive")\nEnd Select</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>sfc</Name>
+        <Desc>TYPE type = object as TYPE;\n\nif (type != null)\n{\n	\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>sqlreader</Name>
+        <Desc>Public Sub GetReader(ByVal queryString As String, ByVal strConn As String)\n	Using conn As New SqlConnection(strConn)\n		Dim cmd As New SqlCommand(queryString, conn)\n		conn.Open()\n		Dim reader As SqlDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection)\n		While reader.Read()\n			Console.WriteLine("{0}", reader(0))\n		End While\n		reader.Close()\n	End Using\nEnd Sub</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>sqlsp</Name>
+        <Desc>SqlCommand cmd = new SqlCommand("SP_Name", Conn)\nSQLCmd.CommandType = CommandType.StoredProcedure\n\ncmd.Parameters.Add("P1", SqlDbType.NVarChar, 2)\ncmd.Parameters("P1").Value = "val"; \n\nSQLDataReader reader = cmd.ExecuteReader()\ncolData = reader["COL2"]</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>struct</Name>
+        <Desc>Public Structure name\n	' Public members, accessible from throughout declaration region.\n	Public firstName As String\n	Public lastName As String\n	' Friend members, accessible from anywhere within the same assembly.\n	Friend employeeNumber As Integer\n	Friend workPhone As Long\n	' Private members, accessible only from within the structure itself.\n	Private homePhone As Long\n	Private salary As Double\nEnd Structure</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>toar</Name>
+        <Desc>(object[]) arraylist.ToArray(typeof (object));</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>try</Name>
+        <Desc>Try\n	statements\nCatch Ex As Exception\n	Throw Ex\nEnd Try</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>usercontrol</Name>
+        <Desc>&lt;%@ Control Language="VB" AutoEventWireup="true" %&gt;\n\n&lt;script runat="server"&gt;\n	Protected Sub btn_Click(ByVal sender As Object, ByVal e As System.EventArgs)\n\n	End Sub\n&lt;/script&gt;\n\n&lt;asp:Textbox ID="Textbox1" Text="Text" runat="server" /&gt;\n&lt;asp:Button ID="btn" Text="Some text" OnClick="btn_Click" runat="server" /&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>webservice</Name>
+        <Desc>&lt;%@ WebService Language="VB" Class="Class1" %&gt;\n\nImports System.Web;Web.Services;Web.Services.Protocols\n\nNamespace NS\n	&lt;WebService(Namespace:="http://tempuri.org/")&gt; _\n	&lt;WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1)&gt; _\n	&lt;Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()&gt; _\n	&lt;Script.Services.ScriptService()&gt; _\n	Public Class Class1\n		Inherits WebService\n\n		&lt;WebMethod()&gt; _\n		Public Function Hi() As String\n			Return "Hi"\n		End Function\n	End Class\nEnd Namespace</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>while</Name>
+        <Desc>While condition\n    [ statements ]\n    [ Exit While ]\n    [ statements ]\nEnd While\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmladda</Name>
+        <Desc>Dim xmlDoc As XmlDocument = New XmlDocument()\nxmlDoc.Load(fileName)\n\nDim parentNode As XmlElement = xmlDoc.CreateElement("tagName")\nxmlDoc.DocumentElement.AppendChild(parentNode) 'Adds a node at the end of the document\n\nparentNode.SetAttribute("Tag", "Value")\nxmlDoc.Save(fileName)\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmladdn</Name>
+        <Desc>Private Shared Sub addTextElement(ByVal doc As XmlDocument, ByVal nodeParent As XmlElement, ByVal strTag As String, ByVal strValue As String)\n	Dim nodeElem As XmlElement = doc.CreateElement(strTag)\n	nodeElem.InnerText = strValue\n	nodeParent.AppendChild(nodeElem)\nEnd Sub</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmlenum</Name>
+        <Desc>For Each attribute As XmlAttribute In node.Attributes\n\nNext</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmlfind</Name>
+        <Desc>Dim nodes As XmlNodeList\nnodes = xmlDoc.GetElementsByTagName("ElementName")</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmliter</Name>
+        <Desc>For Each node As XmlNode In xmlDoc.GetElementsByTagName("ElementName")\n\nNext</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmlreadclass</Name>
+        <Desc>Dim reader As New XmlSerializer(GetType(TheClass))\nDim file As New StreamReader("ClassData.xml")\nDim fileData As TheClass\nfileData = CType(reader.Deserialize(file), TheClass)</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmlwriteclass</Name>
+        <Desc>Dim writer As New XMLSerializer(GetType(ArrayList))\nDim file As New StreamWriter("SerializedData.xml")\nwriter.Serialize(file, dataToWrite) 'dataToWrite=Class instance\nfile.Close()</Desc>
+      </Snippet>
+    </Lang>
+    <!-- Lang JS -->
+    <Lang langName="JS" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>func</Name>
+        <Desc>function funcName(xxx) {\n    var var1 = "";\n    alert(xxx);\n}</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>script</Name>
+        <Desc>&lt;script type="text/javascript" language="javascript"&gt;\n\n&lt;/script&gt;</Desc>
+      </Snippet>
+    </Lang>
+    <!-- Lang C -->
+    <Lang langName="C" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>switch</Name>
+        <Desc>switch ()\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>while</Name>
+        <Desc>while ()\n{\n	\n}\n</Desc>
+      </Snippet>
+    </Lang>
+    <!-- Lang CPP -->
+    <Lang langName="CPP" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>dowhile</Name>
+        <Desc>do\n{\n	\n}\nwhile ();\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>else</Name>
+        <Desc>else\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>elseif</Name>
+        <Desc>else if ()\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>for</Name>
+        <Desc>for (;;)\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>if</Name>
+        <Desc>if ()\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ifelse</Name>
+        <Desc>if ()\n{\n	\n}\nelse\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>main</Name>
+        <Desc>int main(int argc, char* argv[])\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>switch</Name>
+        <Desc>switch ()\n{\n	\n}\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>while</Name>
+        <Desc>while ()\n{\n	\n}\n</Desc>
+      </Snippet>
+    </Lang>
+    <!-- Lang HTML -->
+    <Lang langName="HTML" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>b</Name>
+        <Desc>&lt;b&gt;&lt;/b&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>black</Name>
+        <Desc>#000000</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>blue</Name>
+        <Desc>#0000FF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>body</Name>
+        <Desc>&lt;body&gt;\n	\n&lt;/body&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>button</Name>
+        <Desc>&lt;asp:Button ID="btn" Text="Some text" OnClick="btn_Click" runat="server" /&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>cache</Name>
+        <Desc>&lt;%@ OutputCache VaryByParam="category" Duration="120" %&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>comment</Name>
+        <Desc>&lt;!--  This is a comment --&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>content</Name>
+        <Desc>&lt;asp:Content ID="Content1" ContentPlaceHolderID="Main" Runat="Server"&gt;\n	\n&lt;/asp:Content&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>cyan</Name>
+        <Desc>#00FFFF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>datalist</Name>
+        <Desc>&lt;asp:DataList ID="DataList1" DataSourceID="XmlDataSource1" RepeatColumns="4" CellSpacing="4" GridLines="Horizontal" runat="server"&gt;\n&lt;HeaderTemplate&gt;\n	&lt;b&gt;Mere Login&lt;/b&gt;\n&lt;/HeaderTemplate&gt;\n&lt;ItemTemplate&gt;\n	Site: &lt;asp:HyperLink ID="lblSite" NavigateUrl='&lt;%# XPath("site") %&gt;' Text='&lt;%# XPath("@description") %&gt;' runat="server" /&gt;&lt;br /&gt;\n	Login: &lt;asp:Label ID="lblLogin" runat="server" Text='&lt;%# XPath("login") %&gt;' /&gt;&lt;br /&gt;\n&lt;/ItemTemplate&gt;\n&lt;AlternatingItemTemplate&gt;\n	xxx\n&lt;/AlternatingItemTemplate&gt;\n&lt;/asp:Dat</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>detailsview</Name>
+        <Desc>&lt;asp:DetailsView ID="DetailsView1" runat="server" AutoGenerateRows="False" DataKeyNames="ID"\n		DataSourceID="SqlDataSource1" Height="50px" Width="400px" Caption="Edit Here" \n		AlternatingRowStyle-CssClass="BG1" RowStyle-CssClass="BG2"&gt;\n	&lt;Fields&gt;\n		&lt;asp:BoundField DataField="ID" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="ID" /&gt;\n		&lt;asp:CommandField ShowEditButton="True" ShowInsertButton="True" /&gt;\n	&lt;/Fields&gt;\n&lt;/asp:DetailsView&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>dropdownlist</Name>
+        <Desc>&lt;asp:DropDownList ID="DropDownList1" Width="150" runat="server"&gt;\n	&lt;asp:ListItem Value=""&gt;Any&lt;/asp:ListItem&gt;\n	&lt;asp:ListItem Value="val"&gt;Text&lt;/asp:ListItem&gt;\n&lt;/asp:DropDownList&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>edititemtemplate</Name>
+        <Desc>&lt;EditItemTemplate&gt;\n	&lt;table&gt;\n		&lt;tr&gt;\n			&lt;td&gt;Kharcha:&lt;/td&gt;\n			&lt;td&gt;&lt;asp:TextBox ID="TextBox1" runat="server" Text='&lt;%# bind("KHARCHA") %&gt;' /&gt;&lt;/td&gt;\n		&lt;/tr&gt;\n		&lt;tr&gt;\n			&lt;td align="center" colspan="2"&gt;\n			&lt;asp:linkbutton id="lnkUpdate" CommandName="Update" Text="Update" runat="server"/&gt;\n			&lt;asp:linkbutton ID="btnCancel" CommandName="Cancel" Text="Cancel" runat="server" /&gt;\n			&lt;/td&gt;\n		&lt;/tr&gt;\n	&lt;/table&gt;            \n&lt;/EditItemTemplate&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>form</Name>
+        <Desc>&lt;form name="" action=""&gt;\n	\n&lt;/form&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>formview</Name>
+        <Desc>&lt;asp:FormView ID="FormView1" DataSourceID="Source1" DataKeyNames="ID" runat="server"&gt;\n	itemtemplate\n	insertitemtemplate\n	edititemtemplate\n&lt;/asp:FormView&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>green</Name>
+        <Desc>#00FF00</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>grey</Name>
+        <Desc>#C0C0C0</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>gridview</Name>
+        <Desc>&lt;asp:GridView ID="GridView1" DataSourceID="ObjectDataSource1" DataKeyNames="ID" AutoGenerateColumns="False" EnableViewState="False" runat="server"&gt;\n	&lt;Columns&gt;\n		&lt;asp:CommandField ShowEditButton="True" /&gt;\n		templatefield\n		&lt;asp:BoundField DataField="ID" HeaderText="ID" SortExpression="ID" ReadOnly="True" /&gt;\n	&lt;/Columns&gt;\n&lt;/asp:GridView&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>h1</Name>
+        <Desc>&lt;h1&gt;&lt;/h1&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>h2</Name>
+        <Desc>&lt;h2&gt;&lt;/h2&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>h3</Name>
+        <Desc>&lt;h3&gt;&lt;/h3&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>h4</Name>
+        <Desc>&lt;h4&gt;&lt;/h4&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>h5</Name>
+        <Desc>&lt;h5&gt;&lt;/h5&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>h6</Name>
+        <Desc>&lt;h6&gt;&lt;/h6&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>head</Name>
+        <Desc>&lt;head&gt;\n	\n&lt;/head&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>html</Name>
+        <Desc>&lt;html&gt;\n	&lt;head&gt;\n		&lt;title&gt;&lt;/title&gt;\n		\n	&lt;/head&gt;\n	&lt;body&gt;\n		\n	&lt;/body&gt;\n&lt;/html&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>hyperlink</Name>
+        <Desc>&lt;asp:HyperLink ID="link1" NavigateUrl='&lt;%# XPath("site") %&gt;' Text='&lt;%# XPath("@description") %&gt;' runat="server" /&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>i</Name>
+        <Desc>&lt;i&gt;&lt;/i&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>img</Name>
+        <Desc>&lt;img src="" alt="" /&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>input</Name>
+        <Desc>&lt;input type="" name="" /&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>insertitemtemplate</Name>
+        <Desc>&lt;InsertItemTemplate&gt;\n	&lt;table&gt;\n		&lt;tr&gt;\n			&lt;td&gt;Kharcha:&lt;/td&gt;\n			&lt;td&gt;&lt;asp:TextBox ID="TextBox1" runat="server" Text='&lt;%# bind("KHARCHA") %&gt;' /&gt;&lt;/td&gt;\n		&lt;/tr&gt;\n		&lt;tr&gt;\n			&lt;td align=center colspan="2"&gt;\n			&lt;asp:Button ID=lnkAddNew CommandName="Insert" Text="Insert" runat=server /&gt;\n			&lt;asp:Button ID=btnCancel CommandName="Cancel" Text="Cancel" runat=server /&gt;\n			&lt;/td&gt;\n		&lt;/tr&gt;\n	&lt;/table&gt;            \n&lt;/InsertItemTemplate&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>itemtemplate</Name>
+        <Desc>&lt;ItemTemplate&gt;\n&lt;table&gt;\n&lt;tr&gt;\n&lt;td&gt;ID:&lt;/td&gt;&lt;td&gt;&lt;asp:Label ID="lbl" runat="server" Text='&lt;%# Eval("ID") %&gt;' /&gt;&lt;/td&gt;\n&lt;/tr&gt;\n&lt;tr&gt;\n&lt;td&gt;KA:&lt;/td&gt;&lt;td&gt;&lt;asp:Label ID="lbl" runat="server" Text='&lt;%# Bind("KA") %&gt;' /&gt;&lt;/td&gt;\n&lt;/tr&gt;\n&lt;tr&gt;\n&lt;td colspan="2"&gt;\n&lt;asp:LinkButton ID="lnk" CommandName="Edit" Text="Edit" runat="server" /&gt;\n&lt;asp:LinkButton ID="lnk" CommandName="Delete" Text="Delete" runat="server" /&gt;\n&lt;asp:LinkButton ID="lnk" CommandName="New" Text="New" runat="server" /&gt;\n&lt;/td&gt;\n&lt;/tr&gt;\n&lt;/table&gt;\n&lt;/ItemTemplate&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>label</Name>
+        <Desc>&lt;asp:Label ID="Label1" runat="server"&gt;&lt;/asp:Label&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>li</Name>
+        <Desc>&lt;li&gt;&lt;/li&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>link</Name>
+        <Desc>&lt;a href=""&gt;&lt;/a&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>linkbutton</Name>
+        <Desc>&lt;asp:LinkButton id="lnkShow" OnClientClick="return false;" runat="server"&gt;LinkText&lt;/asp:LinkButton&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>mangenta</Name>
+        <Desc>#FF00FF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>objectdatasource</Name>
+        <Desc>&lt;asp:ObjectDataSource ID="ObjectDataSource1" TypeName="KharchaBLL" SelectMethod="GetData"\n	UpdateMethod="UpdateMethod" DeleteMethod="DeleteMethod" runat="server"&gt;\n	&lt;SelectParameters&gt;\n		&lt;asp:ControlParameter ControlID="txtRowFilter" DefaultValue="" Name="rowFilter" PropertyName="Text" /&gt;\n	&lt;/SelectParameters&gt;\n	&lt;UpdateParameters&gt;\n		&lt;asp:Parameter Name="ID" Type="Int32" /&gt;\n	&lt;/UpdateParameters&gt;\n	&lt;DeleteParameters&gt;\n		&lt;asp:Parameter Name="ID" Type="Int32" /&gt;\n	&lt;/DeleteParameters&gt;\n&lt;/asp:ObjectDataSource&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ol</Name>
+        <Desc>&lt;ol&gt;\n	&lt;li&gt;&lt;/li&gt;\n	\n&lt;/ol&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>p</Name>
+        <Desc>&lt;p&gt;&lt;/p&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>panel</Name>
+        <Desc>&lt;asp:Panel ID="Panel1" runat="server"&gt;\n	\n&lt;/asp:Panel&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>pre</Name>
+        <Desc>&lt;pre&gt;&lt;/pre&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>red</Name>
+        <Desc>#FF0000</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>repeater</Name>
+        <Desc>&lt;asp:Repeater id=Repeater1 runat="server"&gt;\n	&lt;HeaderTemplate&gt;\n		&lt;table border=1&gt;\n		&lt;tr&gt;\n		&lt;td&gt;&lt;b&gt;Company&lt;/b&gt;&lt;/td&gt;\n		&lt;td&gt;&lt;b&gt;Symbol&lt;/b&gt;&lt;/td&gt;\n		&lt;/tr&gt;\n	&lt;/HeaderTemplate&gt;\n	&lt;ItemTemplate&gt;\n		&lt;tr&gt;\n		&lt;td&gt; &lt;%# DataBinder.Eval(Container.DataItem, "Name") %&gt; &lt;/td&gt;\n		&lt;td&gt; &lt;%# DataBinder.Eval(Container.DataItem, "Ticker") %&gt; &lt;/td&gt;\n		&lt;/tr&gt;\n	&lt;/ItemTemplate&gt;\n	&lt;FooterTemplate&gt;\n		&lt;/table&gt;\n	&lt;/FooterTemplate&gt;\n&lt;/asp:Repeater&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>script</Name>
+        <Desc>&lt;script type="text/javascript" language="javascript"&gt;\n	\n&lt;/script&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>scriptmanager</Name>
+        <Desc>&lt;asp:ScriptManager id="ScriptManager"  EnablePartialRendering="true" runat="Server"&gt;&lt;/asp:ScriptManager&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>span</Name>
+        <Desc>&lt;span&gt;&lt;/span&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>sqldatasource</Name>
+        <Desc>&lt;asp:SqlDataSource id="SqlDataSource1" selectcommand="Select * from table1" connectionstring="&lt;%\ ConnectionStrings:MERADATA%&gt;" runat="server"/&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>table</Name>
+        <Desc>&lt;table&gt;\n	&lt;tr&gt;\n		&lt;td&gt;&lt;/td&gt;\n		\n	&lt;/tr&gt;\n	\n&lt;/table&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>td</Name>
+        <Desc>&lt;td&gt;&lt;/td&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>templatefield</Name>
+        <Desc>&lt;asp:TemplateField HeaderText="Description" SortExpression="URL"&gt;\n	&lt;EditItemTemplate&gt;\n		&lt;asp:TextBox ID="TextBox1" runat="server" Text='&lt;%# Bind("URL") %&gt;'&gt;&lt;/asp:TextBox&gt;\n	&lt;/EditItemTemplate&gt;\n	&lt;ItemTemplate&gt;\n		&lt;asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='&lt;%# Eval("URL") %&gt;' Text='&lt;%# Eval("Description") %&gt;' ToolTip='&lt;%# Eval("URL") %&gt;'&gt;&lt;/asp:HyperLink&gt;\n	&lt;/ItemTemplate&gt;\n&lt;/asp:TemplateField&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>textbo</Name>
+        <Desc>x&lt;asp:Textbox ID="Textbox1" Text="Text" runat="server" /&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>title</Name>
+        <Desc>&lt;title&gt;&lt;/title&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>tr</Name>
+        <Desc>&lt;tr&gt;\n	\n&lt;/tr&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ul</Name>
+        <Desc>&lt;ul&gt;\n	&lt;li&gt;&lt;/li&gt;\n	\n&lt;/ul&gt;\n</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>updatepanel</Name>
+        <Desc>&lt;asp:UpdatePanel ID="UP1" runat="server"&gt;\n	&lt;contenttemplate&gt;\n		&lt;asp:GridView ID="GridView1" runat="server" /&gt;\n	&lt;/contenttemplate&gt;\n&lt;/asp:UpdatePanel&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>white</Name>
+        <Desc>#FFFFFF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>xmldatasource</Name>
+        <Desc>&lt;asp:XmlDataSource ID="XmlDataSource1" DataFile="F:\Personal\MereLogins.xml" XPath="//MeraLogin[contains(site,'micro')]" runat="server"&gt;&lt;/asp:XmlDataSource&gt;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>yellow</Name>
+        <Desc>#FFFF00</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>AliceBlue</Name>
+        <Desc>#F0F8FF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>AntiqueWhite</Name>
+        <Desc>#FAEBD7</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Aqua</Name>
+        <Desc>#00FFFF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Aquamarine</Name>
+        <Desc>#7FFFD4</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Azure</Name>
+        <Desc>#F0FFFF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Beige</Name>
+        <Desc>#F5F5DC</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Bisque</Name>
+        <Desc>#FFE4C4</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>BlanchedAlmond</Name>
+        <Desc>#FFEBCD</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>BlueViolet</Name>
+        <Desc>#8A2BE2</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Brown</Name>
+        <Desc>#A52A2A</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>BurlyWood</Name>
+        <Desc>#DEB887</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>CadetBlue</Name>
+        <Desc>#5F9EA0</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Chartreuse</Name>
+        <Desc>#7FFF00</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Chocolate</Name>
+        <Desc>#D2691E</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Coral</Name>
+        <Desc>#FF7F50</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>CornflowerBlue</Name>
+        <Desc>#6495ED</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Cornsilk</Name>
+        <Desc>#FFF8DC</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Crimson</Name>
+        <Desc>#DC143C</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkBlue</Name>
+        <Desc>#00008B</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkCyan</Name>
+        <Desc>#008B8B</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkGoldenRod</Name>
+        <Desc>#B8860B</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkGrey</Name>
+        <Desc>#A9A9A9</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkGreen</Name>
+        <Desc>#006400</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkKhaki</Name>
+        <Desc>#BDB76B</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkMagenta</Name>
+        <Desc>#8B008B</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkOliveGreen</Name>
+        <Desc>#556B2F</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Darkorange</Name>
+        <Desc>#FF8C00</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkOrchid</Name>
+        <Desc>#9932CC</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkRed</Name>
+        <Desc>#8B0000</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkSalmon</Name>
+        <Desc>#E9967A</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkSeaGreen</Name>
+        <Desc>#8FBC8F</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkSlateBlue</Name>
+        <Desc>#483D8B</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkSlateGray</Name>
+        <Desc>#2F4F4F</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkSlateGrey</Name>
+        <Desc>#2F4F4F</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkTurquoise</Name>
+        <Desc>#00CED1</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DarkViolet</Name>
+        <Desc>#9400D3</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DeepPink</Name>
+        <Desc>#FF1493</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DeepSkyBlue</Name>
+        <Desc>#00BFFF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DimGray</Name>
+        <Desc>#696969</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DimGrey</Name>
+        <Desc>#696969</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>DodgerBlue</Name>
+        <Desc>#1E90FF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>FireBrick</Name>
+        <Desc>#B22222</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>FloralWhite</Name>
+        <Desc>#FFFAF0</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>ForestGreen</Name>
+        <Desc>#228B22</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Fuchsia</Name>
+        <Desc>#FF00FF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Gainsboro</Name>
+        <Desc>#DCDCDC</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>GhostWhite</Name>
+        <Desc>#F8F8FF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Gold</Name>
+        <Desc>#FFD700</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>GoldenRod</Name>
+        <Desc>#DAA520</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Gray</Name>
+        <Desc>#808080</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>GreenYellow</Name>
+        <Desc>#ADFF2F</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>HoneyDew</Name>
+        <Desc>#F0FFF0</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>HotPink</Name>
+        <Desc>#FF69B4</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>IndianRed</Name>
+        <Desc>#CD5C5C</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Indigo</Name>
+        <Desc>#4B0082</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Ivory</Name>
+        <Desc>#FFFFF0</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Khaki</Name>
+        <Desc>#F0E68C</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Lavender</Name>
+        <Desc>#E6E6FA</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LavenderBlush</Name>
+        <Desc>#FFF0F5</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LawnGreen</Name>
+        <Desc>#7CFC00</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LemonChiffon</Name>
+        <Desc>#FFFACD</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightBlue</Name>
+        <Desc>#ADD8E6</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightCoral</Name>
+        <Desc>#F08080</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightCyan</Name>
+        <Desc>#E0FFFF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightGoldenRodYellow</Name>
+        <Desc>#FAFAD2</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightGray</Name>
+        <Desc>#D3D3D3</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightGrey</Name>
+        <Desc>#D3D3D3</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightGreen</Name>
+        <Desc>#90EE90</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightPink</Name>
+        <Desc>#FFB6C1</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightSalmon</Name>
+        <Desc>#FFA07A</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightSeaGreen</Name>
+        <Desc>#20B2AA</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightSkyBlue</Name>
+        <Desc>#87CEFA</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightSlateGray</Name>
+        <Desc>#778899</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightSlateGrey</Name>
+        <Desc>#778899</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightSteelBlue</Name>
+        <Desc>#B0C4DE</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LightYellow</Name>
+        <Desc>#FFFFE0</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Lime</Name>
+        <Desc>#00FF00</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>LimeGreen</Name>
+        <Desc>#32CD32</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Linen</Name>
+        <Desc>#FAF0E6</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Magenta</Name>
+        <Desc>#FF00FF</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Maroon</Name>
+        <Desc>#800000</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumAquaMarine</Name>
+        <Desc>#66CDAA</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumBlue</Name>
+        <Desc>#0000CD</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumOrchid</Name>
+        <Desc>#BA55D3</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumPurple</Name>
+        <Desc>#9370D8</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumSeaGreen</Name>
+        <Desc>#3CB371</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumSlateBlue</Name>
+        <Desc>#7B68EE</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumSpringGreen</Name>
+        <Desc>#00FA9A</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumTurquoise</Name>
+        <Desc>#48D1CC</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MediumVioletRed</Name>
+        <Desc>#C71585</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MidnightBlue</Name>
+        <Desc>#191970</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MintCream</Name>
+        <Desc>#F5FFFA</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>MistyRose</Name>
+        <Desc>#FFE4E1</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Moccasin</Name>
+        <Desc>#FFE4B5</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>NavajoWhite</Name>
+        <Desc>#FFDEAD</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Navy</Name>
+        <Desc>#000080</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>OldLace</Name>
+        <Desc>#FDF5E6</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Olive</Name>
+        <Desc>#808000</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>OliveDrab</Name>
+        <Desc>#6B8E23</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Orange</Name>
+        <Desc>#FFA500</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>OrangeRed</Name>
+        <Desc>#FF4500</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Orchid</Name>
+        <Desc>#DA70D6</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>PaleGoldenRod</Name>
+        <Desc>#EEE8AA</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>PaleGreen</Name>
+        <Desc>#98FB98</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>PaleTurquoise</Name>
+        <Desc>#AFEEEE</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>PaleVioletRed</Name>
+        <Desc>#D87093</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>PapayaWhip</Name>
+        <Desc>#FFEFD5</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>PeachPuff</Name>
+        <Desc>#FFDAB9</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Peru</Name>
+        <Desc>#CD853F</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Pink</Name>
+        <Desc>#FFC0CB</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Plum</Name>
+        <Desc>#DDA0DD</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>PowderBlue</Name>
+        <Desc>#B0E0E6</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Purple</Name>
+        <Desc>#800080</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>RosyBrown</Name>
+        <Desc>#BC8F8F</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>RoyalBlue</Name>
+        <Desc>#4169E1</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SaddleBrown</Name>
+        <Desc>#8B4513</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Salmon</Name>
+        <Desc>#FA8072</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SandyBrown</Name>
+        <Desc>#F4A460</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SeaGreen</Name>
+        <Desc>#2E8B57</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SeaShell</Name>
+        <Desc>#FFF5EE</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Sienna</Name>
+        <Desc>#A0522D</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Silver</Name>
+        <Desc>#C0C0C0</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SkyBlue</Name>
+        <Desc>#87CEEB</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SlateBlue</Name>
+        <Desc>#6A5ACD</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SlateGray</Name>
+        <Desc>#708090</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SlateGrey</Name>
+        <Desc>#708090</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Snow</Name>
+        <Desc>#FFFAFA</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SpringGreen</Name>
+        <Desc>#00FF7F</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>SteelBlue</Name>
+        <Desc>#4682B4</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Tan</Name>
+        <Desc>#D2B48C</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Teal</Name>
+        <Desc>#008080</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Thistle</Name>
+        <Desc>#D8BFD8</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Tomato</Name>
+        <Desc>#FF6347</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Turquoise</Name>
+        <Desc>#40E0D0</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Violet</Name>
+        <Desc>#EE82EE</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Wheat</Name>
+        <Desc>#F5DEB3</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>WhiteSmoke</Name>
+        <Desc>#F5F5F5</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>YellowGreen</Name>
+        <Desc>#9ACD32</Desc>
+      </Snippet>
+    </Lang>
+    <!-- Lang XML -->
+    <Lang langName="XML" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>xml</Name>
+        <Desc>&lt;?xml version="1.0" standalone="yes"?&gt;\n\n&lt;root&gt;\n\n&lt;/root&gt;</Desc>
+      </Snippet>
+    </Lang>
+    <Lang langName="CSS" ignoreCase="true" enabled="true">
+      <Snippet>
+        <Name>RoundCorner</Name>
+        <Desc>round= -moz-border-radius: 12px; /* FF1+ */ \n\i -webkit-border-radius: 12px; /* Saf3-4 */\n\i  border-radius: 12px; /* Opera 10.5, IE 9, Saf5, Chrome */</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>BoxShadow</Name>
+        <Desc>shadow=-moz-box-shadow: 0px 0px 4px #ffffff; /* FF3.5+ */\n\i  -webkit-box-shadow: 0px 0px 4px #ffffff; /* Saf3.0+, Chrome */\n\i  box-shadow: 0px 0px 4px #ffffff; /* Opera 10.5, IE 9 */</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Gradient</Name>
+        <Desc>grad= background-color: #444444;\n\i   background-image: -moz-linear-gradient(top, #444444, #999999); /* FF3.6 */\n\i   background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #444444),color-stop(1, #999999)); /* Saf4+, Chrome */\n\i  filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#444444', EndColorStr='#999999'); /* IE6,IE7 */\n\i  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#444444', EndColorStr='#999999')"; /* IE8 */</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>rgba</Name>
+        <Desc>rgba= background-color: #B4B490;\n\i   background-color: rgba(180, 180, 144, 0.6);  /* FF3+, Saf3+, Opera 10.10+, Chrome, IE9 */\n\i  filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#99B4B490',EndColorStr='#99B4B490'); /* IE6,IE7 */\n\i  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#99B4B490',EndColorStr='#99B4B490')"; /* IE8 */</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Rotate</Name>
+        <Desc>rotate= -moz-transform: rotate(7.5deg);  /* FF3.5+ */\n\i -o-transform: rotate(7.5deg);  /* Opera 10.5 */\n\i -webkit-transform: rotate(7.5deg);  /* Saf3.1+, Chrome */\n\i -ms-transform: rotate(7.5deg);  /* IE9 */\n\i transform: rotate(7.5deg);  \n\i filter:  progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', /* IE6,IE7 */ \n\i M11=0.9914448613738104, M12=-0.13052619222005157,M21=0.13052619222005157, M22=0.9914448613738104); \n\i -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.9914448613738104, M12=-0.13052619222005157, M21=0.13052619222005157, M22=0.9914448613738104,sizingMethod='auto expand')"; \n\i /* IE8 */\n\i  zoom: 1;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>Transition</Name>
+        <Desc>trans= -moz-transition: all 0.3s ease-out;  /* FF3.7+ */\n\i -o-transition: all 0.3s ease-out;  /* Opera 10.5 */\n\i -webkit-transition: all 0.3s ease-out;  /* Saf3.2+, Chrome */\n\i transition: all 0.3s ease-out;</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>TextShadow</Name>
+        <Desc>txtshadow= text-shadow: 1px 1px 3px #888; /* FF3.5+, Opera 9+, Saf1+, Chrome */</Desc>
+      </Snippet>
+      <Snippet>
+        <Name>FontFace</Name>
+        <Desc>font=@font-face {\n\i  font-family: 'WebFont';\n\i src: url('myfont.eot');  /* IE6-8 */\n\i src: local('?'),\n\i  url('myfont.woff') format('woff'),  /* FF3.6, IE9 */\n\i url('myfont.ttf') format('truetype');  /* Saf3+,Chrome,FF3.5,Opera10+ */\n\i }</Desc>
+      </Snippet>
+    </Lang>
+  </MySnippets>
+  <!-- SurroundWith Starts Here -->
+  <SurroundsWith>
+    <Lang langName="GENERAL" enabled="true">
+      <Snippet surroundWith="div" indent="">
+        <Start>&lt;div&gt;</Start>
+        <End>&lt;/div&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="table" indent="  ">
+        <Start>&lt;table&gt;\n</Start>
+        <End>\n&lt;/table&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="li" indent="">
+        <Start>&lt;li&gt;</Start>
+        <End>&lt;/li&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="label" indent="">
+        <Start>&lt;label id="label1" runat="server"&gt;</Start>
+        <End>&lt;/label&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="td" indent="">
+        <Start>&lt;td&gt;</Start>
+        <End>&lt;/td&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="th" indent="">
+        <Start>&lt;th&gt;</Start>
+        <End>&lt;/th&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="tr" indent="">
+        <Start>&lt;tr&gt;</Start>
+        <End>&lt;/tr&gt;</End>
+      </Snippet>
+    </Lang>
+    <Lang langName="CS" enabled="true">
+      <Snippet surroundWith="IF" indent="  ">
+        <Start>if()\n{\n</Start>
+        <End>\n}</End>
+      </Snippet>
+      <Snippet surroundWith="Region" indent="">
+        <Start>#region\n</Start>
+        <End>\n#endregion</End>
+      </Snippet>
+      <Snippet surroundWith="TryCatch" indent="  ">
+        <Start>try\n{\n</Start>
+        <End>\n}\ncatch(Exception ex)\n{\n  throw;\n}</End>
+      </Snippet>
+      <Snippet surroundWith="foreach" indent="  ">
+        <Start>foreach (var item in collection)\n{\n</Start>
+        <End>\n}</End>
+      </Snippet>
+      <Snippet surroundWith="Enum" indent="  ">
+        <Start>enum EnumName\n{\n</Start>
+        <End>\n}</End>
+      </Snippet>
+      <Snippet surroundWith="for" indent="  ">
+        <Start>for (int i = 0; i &lt; length; i++)\n{\n</Start>
+        <End>\n}</End>
+      </Snippet>
+      <Snippet surroundWith="xxx" indent="  ">
+        <Start>&lt;xxx&gt;</Start>
+        <End>&lt;/xxx&gt;</End>
+      </Snippet>
+    </Lang>
+    <Lang langName="VB" enabled="true">
+      <Snippet surroundWith="IF" indent=" ">
+        <Start>If()\n</Start>
+        <End>\nEnd If</End>
+      </Snippet>
+      <Snippet surroundWith="Region" indent="">
+        <Start>#Region\n</Start>
+        <End>\n#End Region</End>
+      </Snippet>
+      <Snippet surroundWith="TryCatch" indent=" ">
+        <Start>Try\n</Start>
+        <End>\nCatch(Exception ex)\n  throw\nEnd Try</End>
+      </Snippet>
+    </Lang>
+    <Lang langName="HTML" enabled="true">
+      <Snippet surroundWith="H1" indent="">
+        <Start>&lt;H1&gt;</Start>
+        <End>&lt;/H1&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="H2" indent="">
+        <Start>&lt;H2&gt;</Start>
+        <End>&lt;/H2&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="H3" indent="">
+        <Start>&lt;H3&gt;</Start>
+        <End>&lt;/H3&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="H4" indent="">
+        <Start>&lt;H4&gt;</Start>
+        <End>&lt;/H4&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="H5" indent="">
+        <Start>&lt;H5&gt;</Start>
+        <End>&lt;/H5&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="H6" indent="">
+        <Start>&lt;H6&gt;</Start>
+        <End>&lt;/H6&gt;</End>
+      </Snippet>
+      <Snippet surroundWith="b" indent="">
+        <Start>&lt;b&gt;</Start>
+        <End>&lt;/b&gt;</End>
+      </Snippet>
+    </Lang>
+  </SurroundsWith>
+  <!-- SnippetPlus Options Starts Here -->
+  <SnippetPlusOptions>
+    <Option UseSurroundWithOnLoadForEditor="False" UseSurroundWithOnLoadForDockable="True" MaxItemsInAutoComplete="7" />
+  </SnippetPlusOptions>
+</SnippetPlus>

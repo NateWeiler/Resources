@@ -1,0 +1,318 @@
+#!g:\code\editor\python\stackless37\python.exe
+# -*- coding: utf-8 -*-
+
+import os
+from sh import ErrorReturnCode
+from argparse import ArgumentParser, RawTextHelpFormatter
+
+try:
+    from sh import git
+except ModuleNotFoundError:
+    print("[!] Error: git not installed!")
+    print("Please install git to use this script!")
+    raise SystemExit(1)
+
+try:
+    from sh import hub
+    HUB_INSTALLED = True
+except ModuleNotFoundError:
+    print("[-] Warning: hub not installed")
+    print("-b --browse args will not work without hub")
+    print("hub: a git wrapper to extend git's functionality")
+    HUB_INSTALLED = False    
+
+def parse_args():
+    parser = ArgumentParser(formatter_class=RawTextHelpFormatter)
+    parser.description = "This tool will incrementally add & commit changes to a repository, the args are used as triggers for various settings"
+    parser.add_argument('-a', '--all', default=False, action='store_true', help='make all avaliable commits for all catagories')
+    parser.add_argument('-b', '--browse', action='store_true', default=False, help='Opens repo with preferred webbrowser')
+    parser.add_argument('-d', '--debug', action='store_true', default=False, help='Displays debug information to make editing src easier')
+    parser.add_argument('-i', '--include', default=[], choices=options + short_opts, help="include actions for provided catagories\nAll Avaliable Catagories below", nargs='*')
+    parser.add_argument('-m', '--message', default='', help='Custom message to apply to all commits')
+    parser.add_argument('-p', '--push', default=False, action='store_true', help='pushes changes to remote repo')
+    parser.add_argument('-q', '--quiet', default=False, action='store_true', help='Quiet mode, Disables output')
+    parser.add_argument('-s', '--status', default=False, action='store_true', help="Displays git status and exits")
+    parser.add_argument('-v', '--verbose', default=False, action='store_true', help='display verbose information')
+    parser.add_argument('--interactive', default=False, action='store_true', help='force confirmation prompts')
+    parser.add_argument('--passive', default=False, action='store_true', help='Enables passive error handling, displays errors after execution is complete')
+    parser.add_argument('files', default=[], nargs='*')
+    parser.epilog = epilog_string()
+    args = parser.parse_args()
+    if args.all is True:
+        args.include = options
+    return args
+
+def validate_opts():
+    def __get_index(arg):
+        if arg in options:
+            return options.index(arg)
+        elif arg in short_opts:
+            return short_opts.index(arg)
+    valid_opts = []
+    output(debug_msg="Entered valid_opts()")
+    for arg in args.include:
+        output(debug_msg="arg: {}".format(arg))
+        index = __get_index(arg)
+        if index is not None:
+            option, short_opt = match_short_opts_and_options(index)
+            valid_opts += [option, short_opt]
+    output(debug_msg="Leaving valid_opts()")
+    return list(set(valid_opts))
+
+def is_valid_opt(option):
+    if option in valid_opts:
+        return True
+    return False
+
+def is_valid_file(filename):
+    if args.files != [] or filename in args.files:
+        return True # None == accept all filenames
+    return False
+
+def output(string=None, debug_msg=None):
+    if args.quiet is True:
+        return
+    if args.debug is True and debug_msg is not None:
+        print(debug_msg)
+    if string is not None:
+        print(string)
+
+def fix_string(s):
+    color_codes = ['\x1b[31m', '\x1b[m', '\x1b[32m']
+    remove_strings = [' ', '\t'] + color_codes
+    for rm_str in remove_strings:
+        s = s.replace(rm_str, '')
+    return s
+
+def match_short_opts_and_options(index):
+    return options[index], short_opts[index]
+
+def epilog_string():
+    s = "Catagories: \n"
+    for n, option in enumerate(options):
+        short_opt = short_opts[n]
+        s = "{}   -{}, --{}\n".format(s, short_opt, option)
+    s = "{}\n".format(s)
+    return s
+
+def parse():
+
+    def file_exists(filename):
+        return os.path.isfile(filename) or os.path.isdir(filename)
+
+    def has_option(line):
+        x = False
+        for option in options:
+            if option in line:
+                x = True
+        return x
+
+    def strip(status):
+        for n, line in enumerate(status):
+            if line is None or line == '':
+                del(status[n])
+        return status
+
+    def trim_non_files_and_parse_to_dict(status):
+        my_dict = {}
+        for n, line in enumerate(status):
+            try:
+                _ = line.split(':')
+                filename = _[1]
+                option = _[0]
+            except IndexError:
+                filename = line
+                option = 'untracked'
+            if file_exists(filename) is True or option == 'deleted':
+                my_dict[filename] = option
+        return my_dict
+    
+    output(debug_msg="Entered parse()")
+    status = git('status').stdout.decode('utf-8')
+    status = fix_string(status).splitlines()
+    status = strip(status)
+    status = trim_non_files_and_parse_to_dict(status)
+    output(debug_msg="Leaving parse()")
+    return status
+
+def prompt(filename):
+    if args.interactive is False:
+        return True
+    prompt = input('Proceed processing {}? [y/n]\n>_ '.format(filename)).lower()
+    if 'y' not in prompt:
+        return False
+    return True
+
+def display_info(status):
+    def build_array(status):
+        return [i for i in list(status.keys())]
+    output(debug_msg="Entered display_info(status)")
+    if args.verbose is True:
+        import pprint
+        output('Verbose Info:')
+        pprint.pprint(status, indent=4)
+        output('=' * 80)
+    filename_max_len = max_length(build_array(status))
+    options_max_len = max_length(options)
+    flag_max_len = max_length(flags)
+    for filename, option in status.items():
+        if is_valid_opt(option) is True:
+            flag = flags[options.index(option)]
+            s = build_pretty_string(flag, flag_max_len, filename, filename_max_len, option, options_max_len)
+            output(s)
+    output(debug_msg="Leaving display_info(status)")
+
+def build_pretty_string(flag, flag_max_len, filename, filename_max_len, option, options_max_len):
+    flag_str = pretty_string(flag, flag_max_len)
+    filename_str = pretty_string(filename, filename_max_len)
+    options_str = pretty_string(option, options_max_len)
+    built_str = '{}{}'.format(flag_str, filename_str)
+    built_str = pretty_string(built_str, flag_max_len + filename_max_len + options_max_len)
+    built_str = '{}{}'.format(built_str, options_str)
+    return built_str
+
+def pretty_string(s, max_len, min_spaces=4):
+    while len(s) < max_len:
+        s = '{} '.format(s)
+    while s[-4:] != ' ' * min_spaces:
+        s = '{} '.format(s)
+    return s
+
+def max_length(list_of_lists):
+    '''
+    :param list of lists:
+    figures out the max_length for each list
+    :param arg: **args, a list of lists, fetches the max length
+    '''
+    def __check(array, longest_length):
+        if type(array) == str:
+            return len(array)
+        for i in array:
+            if i > longest_len:
+                return len(i)
+        return
+    longest_len = 0
+    for sublist in list_of_lists: # enter list_of_lists[arg]
+        x = __check(sublist, longest_len)
+        if x is not None:
+            if x > longest_len:
+                longest_len = x
+    return longest_len
+
+def output_passive_errors(passive_errors=None):
+    if passive_errors is None or list(set(passive_errors))[0] is None:
+        return
+    passive_errors = list(set(passive_errors))
+    output("The following Error(s) were silenced by choosing the --passive flag at runtime")
+    for n, e in enumerate(passive_errors):
+        output('{}: {}'.format(n, e))
+
+def run(status, mode='bulk'):
+    # modes: bulk | file
+    output(debug_msg="Entered run(status, mode={})".format(mode))
+    if mode == 'bulk' and status is not None:
+        for filename, option in status.items():
+            if is_valid_opt(option) is True:
+                index = options.index(option)
+                commit(filename, index, mode='bulk')
+    elif mode == 'file':
+        for filename, option in status.items():
+            if filename in args.files:
+                output(debug_msg="[*] {} found in args.files".format(filename))
+                index = options.index(option)
+                commit(filename, index, mode='file')
+    output(debug_msg="Leaving run(status, mode={})".format(mode))
+
+def is_ignored_file(filename):
+    try:
+        with open("{}/{}".format(get_repo_path(), '.gitignore')) as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        return False
+    for line in lines:
+        if filename in line:
+            return True
+    return False
+
+def commit(filename, index, mode='bulk'):
+    def make_commit(filename, flag):
+        output(debug_msg="Entered make_commit(filename={}, flag={})".format(filename, flag))
+        if args.passive is True:
+            try:
+                git.add(filename)
+                git.commit("-m {} {} {}".format(flag, filename, args.message))
+                output("Committed: {}".format(filename))
+            except Exception as err:
+                passive_errors.append("{}|{}".format(filename, err))
+        else:
+            git.add(filename)
+            git.commit("-m {} {} {}".format(flag, filename, args.message))
+            output("Committed: {}".format(filename))
+        output(debug_msg="Leaving make_commit(filename, flag)")
+    output(debug_msg="Entered commit(filename={}, index={}, mode={})".format(filename, index, mode))
+    option = options[index]
+    flag = flags[index]
+    if is_valid_opt(option) is True and is_ignored_file(filename) is False and mode == 'bulk':
+        if prompt(filename) is True:
+            make_commit(filename, flag)
+    elif mode == 'file' and is_ignored_file(filename) is False:
+        if prompt(filename) is True:
+            make_commit(filename, flag)
+    output(debug_msg="Leaving commit(filename, index, mode)")
+
+def push():
+    #TODO: Output URL to repo
+    if args.push is True:
+        try:
+            git('push')
+        except ErrorReturnCode as e:
+            if 'git push --set-upstream origin master' in e.stderr.decode('utf-8'):
+                git('push', '--set-upstream', 'origin', 'master')
+        output("Pushed to repo")
+
+def browse():
+    # TODO: Do all the work that $(hub browse) does here
+    if args.browse is True and HUB_INSTALLED is True:
+        repo_name = get_repo_name()
+        hub("browse", "{}".format(repo_name))
+
+def git_status():
+    if args.status is True:
+        output(git('status'))
+        raise SystemExit(0)
+
+def get_repo_name():
+    repo_path = get_repo_path()
+    return repo_path.split('/')[-1]
+
+def get_repo_path():
+    return git("rev-parse", "--show-toplevel").stdout.decode('utf-8').strip()
+
+def set_defaults():
+    global options, flags, args, short_opts, valid_opts, path, passive_errors
+    options, flags = ['modified', 'deleted', 'untracked'], ['[!]', '[-]', '[+]']
+    short_opts = ['m', 'd', 'u']
+    valid_opts = []
+    passive_errors = []
+    args = parse_args()
+    path = os.getcwd()
+    valid_opts = validate_opts()
+ 
+def Main():
+    set_defaults()
+    status = parse()
+    #if args.include != [] or args.files != []:
+    display_info(status)
+    if len(args.include) >= 1:
+        run(status, mode='bulk')
+    if len(args.files) >= 1:
+        run(status, mode='file')
+    push()
+    browse()
+    git_status()
+    output_passive_errors()
+
+
+if __name__ == '__main__':
+    Main()
+

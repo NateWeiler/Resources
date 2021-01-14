@@ -1,0 +1,211 @@
+body {
+  background-color: green;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
+#timer {
+  display: block;
+  text-align: center;
+  height: 200px;
+  background: #777;
+  border-radius: 25px;
+  padding: 5px;
+  width: 200px;
+  position: absolute;
+  top: 100px;
+}
+
+#timer div {
+  text-align: center;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+#timer span {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.text {
+  padding: 5px;
+  font-size: 16px;
+}
+
+#game {
+  position: relative;
+  width: 700px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+#background {
+  height: 700px;
+  width: 700px;
+}
+
+#frogger {
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 50px;
+  left: 300px;
+  transform: rotate(180deg);
+}
+
+.largeTruck {
+  position: absolute;
+  top: 400px;
+  height: 45px;
+  width: 100px;
+  transform: rotate(180deg);
+  left: 0px;
+}
+
+.slowCar {
+  position: absolute;
+  top: 600px;
+  width: 49px;
+  transform: rotate(180deg);
+  left: 0px;
+}
+
+.slowCar2 {
+  position: absolute;
+  top: 550px;
+  width: 50px;
+  transform: rotate(0deg);
+  left: 0px;
+}
+
+.copCar {
+  position: absolute;
+  top: 450px;
+  width: 50px;
+  transform: rotate(0deg);
+  left: 0px;
+}
+
+.fireTruck {
+  position: absolute;
+  top: 500px;
+  width: 75px;
+  transform: rotate(180deg);
+  left: 0px;
+}
+
+.smallLog {
+  position: absolute;
+  top: 240px;
+  width: 150px;
+  height: 50px;
+  transform: rotate(180deg);
+  left: 0px;
+}
+
+.mediumLog {
+  position: absolute;
+  top: 190px;
+  width: 225px;
+  height: 50px;
+  transform: rotate(180deg);
+  left: 0px;
+}
+
+.longLog {
+  position: absolute;
+  top: 90px;
+  width: 300px;
+  height: 50px;
+  transform: rotate(180deg);
+  left: 0px;
+}
+
+.threeturtles {
+  position: absolute;
+  top: 140px;
+  width: 225px;
+  height: 50px;
+  transform: rotate(0deg);
+  left: 0px;
+}
+
+.twoturtles {
+  position: absolute;
+  top: 290px;
+  width: 150px;
+  height: 50px;
+  transform: rotate(180deg);
+  left: 0px;
+}
+
+#finalFrog1 {
+  position: absolute;
+  top: 45px;
+  transform: rotate(180deg);
+  left: 25px;
+}
+
+#finalFrog2 {
+  position: absolute;
+  top: 45px;
+  transform: rotate(180deg);
+  left: 175px;
+}
+
+#finalFrog3 {
+  position: absolute;
+  top: 45px;
+  transform: rotate(180deg);
+  left: 325px;
+}
+
+#finalFrog4 {
+  position: absolute;
+  top: 45px;
+  transform: rotate(180deg);
+  left: 475px;
+}
+
+#finalFrog5 {
+  position: absolute;
+  top: 45px;
+  transform: rotate(180deg);
+  left: 625px;
+}
+
+#reset {
+  position: absolute;
+  top: 300px;
+  width: 200px;
+  left: 260px;
+  height: 150px;
+}
+
+#gameOver {
+  position: absolute;
+  top: 190px;
+  width: 200px;
+  left: 260px;
+  height: 150px;
+}
+
+#continue {
+  position: absolute;
+  top: 348px;
+  width: 200px;
+  left: 260px;
+  height: 150px;
+}
+
+#start {
+  position: absolute;
+  top: 550px;
+  left: 300px;
+  width: 100px;
+  height: 40px;
+}

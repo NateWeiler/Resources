@@ -1,0 +1,734 @@
+#!g:\code\editor\python\stackless37\python.exe
+"""
+deb:pkgname
+
+Sadly, git parses the above as ssh pseudo-urls.
+Workaround:
+deb::deb:pkgname deb::pkgname
+"""
+
+import argparse
+import chardet # pypi
+import collections
+import contextlib
+import debian.deb822 # pypi:python-debian
+import email.utils
+import io
+import isodate # pypi
+import json
+import os
+import re
+import requests # pypi
+import subprocess
+import sys
+import tempfile
+import time
+import types
+import urllib.parse
+
+
+SNAPSHOTS_BASE = 'http://snapshot.debian.org/'
+# Don't write to ~/.local/share/keyrings,
+# it's where gnome-keyrings stores secrets.
+KEYRINGS_PATH = (
+    os.path.expanduser('~/.local/share/public-keyrings'),
+    os.path.expanduser('~/.local/share/keyrings'), '/usr/share/keyrings')
+
+# very relaxed, we'll be dealing with historical data
+VERSION_LINE_RE = re.compile(r'^[a-z0-9][a-z0-9+.-]*\s+\(([^ ]+)\)')
+AUTHOR_LINE_RE = re.compile(r'^ --\s*([^<>]*<[^<>]+>)  (.*)$')
+IDENT_RE = re.compile(r'^([^<>]*?)\s*<([^<>]+)>$')
+SIG_KID_RE = re.compile(r'^[0-9A-F]{16}$')
+
+# I've no idea
+CHUNK_SIZE = 65536
+
+# Yay VT100
+LINE_START = '\r'
+CLEAR_END_OF_LINE = '\x1b[K'
+
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, types.SimpleNamespace):
+            return vars(o)
+        return super().default(o)
+
+def json_dump(val):
+    return json.dumps(val, cls=JSONEncoder)
+
+def silent_call(cmd):
+    try:
+        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as exn:
+        bail('Command {} failed with output {}'.format(cmd, exn.output))
+
+def ignore(msg):
+    pass
+
+def printerr(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+warn = printerr
+debug = ignore
+
+def bail(msg):
+    printerr(msg)
+    sys.exit(1)
+
+if sys.stderr.isatty():
+    def progress(msg):
+        printerr(CLEAR_END_OF_LINE + msg, end=LINE_START)
+else:
+    progress = ignore
+
+
+class BrokenChangelog(Exception):
+    pass
+
+
+class Keyrings(collections.OrderedDict):
+    def __init__(self):
+        super().__init__()
+        self.missing = False
+        for sname, fname in self._init_list:
+            for sp in KEYRINGS_PATH:
+                kr_path = os.path.join(sp, fname)
+                if os.path.exists(kr_path):
+                    self[sname] = kr_path
+                    break
+            else:
+                self.missing = True
+
+    def warn_missing(self):
+        warn('Some keyrings are missing, please run `git deb get-keyrings`')
+
+    _init_list = (
+        ('debian', 'debian-keyring.gpg'),
+        ('debian-maintainers', 'debian-maintainers.gpg'),
+        ('debian-emeritus', 'emeritus-keyring.gpg'),
+        ('debian-emeritus-pgp', 'emeritus-keyring.pgp'),
+        ('debian-removed', 'removed-keys.gpg'),
+        ('debian-removed-pgp', 'removed-keys.pgp'),
+    )
+
+
+if False:
+    apt_pkg.init_config()
+    def apt_proxy_for(hostname):
+        sbs = urllib.parse.urlsplit(hostname)
+        sbd = sbs._asdict()
+
+        # priority order than matches man:apt.conf
+        proxy_url = apt_pkg.config.get(
+            'Acquire::{scheme}::Proxy::{netloc}'.format(**sbd))
+        if not proxy_url:
+            proxy_url = apt_pkg.config.get(
+                'Acquire::{scheme}::Proxy'.format(**sbd))
+        if proxy_url == 'DIRECT':
+            proxy_url = None
+        elif not proxy_url:
+            envvar = sbs.scheme + '_proxy'
+            proxy_url = os.environ.get(envvar)
+        # May set the key to None, to hopefully prevent requests
+        # from parsing the environment
+        return {sbs.scheme: proxy_url}
+
+
+class CacheControl:
+    def __init__(self, path):
+        self.path = path
+
+
+class CacheForever(CacheControl):
+    def load_condition(self, cf):
+        return True
+
+
+class MaxAge(CacheControl):
+    def __init__(self, path, max_age):
+        super().__init__(path)
+        self.max_age = max_age
+
+    def load_condition(self, cf):
+        return time.time() < os.fstat(cf.fileno()).st_mtime + self.max_age
+
+
+def http_caching(sess, cache_dir):
+    try:
+        import cachecontrol # pypi:CacheControl
+        class DiskCache(cachecontrol.cache.BaseCache):
+            def __path_of_key(self, key):
+                return cache_dir + urllib.parse.quote(key, safe='')
+            def get(self, key):
+                try:
+                    return open(self.__path_of_key(key), 'rb').read()
+                except FileNotFoundError:
+                    pass
+            def set(self, key, value):
+                debug('cache {} {}'.format(key, value))
+                open(self.__path_of_key(key), 'wb').write(value)
+            def delete(self, key):
+                os.unlink(self.__path_of_key(key))
+        caching = cachecontrol.CacheControlAdapter(cache=DiskCache())
+    except ImportError:
+        pass
+    else:
+        debug('Setting up caching')
+        sess.mount('http://', caching)
+        sess.mount('https://', caching)
+
+
+class MissingSource(Exception):
+    pass
+
+
+def upload_precedence(fi):
+    return fi.first_seen, fi.name, fi.archive_name, fi.path
+
+
+class Snapshots:
+    def __init__(self):
+        # s.d.o versions are cached for 600s
+        # s.d.o/file/sha1 is good for 10 days
+        self.debsnap_dir = os.path.expanduser('~/.cache/debsnap/')
+        os.makedirs(self.debsnap_dir, exist_ok=True)
+
+        self.http = sess = requests.Session()
+        # May not work out of the box
+        #sess.proxies = apt_proxy_for(SNAPSHOTS_BASE)
+        #sess.proxies = dict(http='http://localhost:8123')  # Polipo
+        sess.timeout = 15.
+        sess.trust_env = False
+
+        # Requests doesn't have good disk caching options right now
+        #http_caching(sess, self.cache_dir)
+
+    def _api_request(self, url, *, cache_control, **kwargs):
+        try:
+            cf = open(cache_control.path)
+        except FileNotFoundError:
+            pass
+        else:
+            if cache_control.load_condition(cf):
+                #debug('cache hit ' + cache_control.path)
+                return json.loads(cf.read(),
+                    object_hook=lambda args: types.SimpleNamespace(**args))
+            cf.close()
+        resp = self.http.get(SNAPSHOTS_BASE + url, **kwargs)
+        if resp.status_code >= 400:
+            warn('HTTP error {} on {}'.format(resp.status_code, url))
+            resp.raise_for_status()
+        with open(cache_control.path, 'w') as cf:
+            cf.write(resp.text)
+
+        return resp.json(
+            object_hook=lambda args: types.SimpleNamespace(**args))
+
+    def _get_file(self, fhash, finfo, extra_names):
+        # ignoring archive_name and path
+        name = finfo.name
+        size = finfo.size
+        path = self.debsnap_dir + name
+        #debug(name, size, finfo, extra_names)
+        try:
+            st = os.stat(path)
+        except FileNotFoundError:
+            pass
+        else:
+            # Check for partial downloads, anything else will
+            # be caught by dscverify
+            if st.st_size == size:
+                #debug('skipping {}'.format(name))
+                return path
+            os.unlink(path)
+        resp = self.http.get(SNAPSHOTS_BASE + 'file/' + fhash, stream=True)
+        resp.raise_for_status()
+        ts = finfo.first_seen_ts
+        try:
+            fd, tn = tempfile.mkstemp(
+                dir=self.debsnap_dir, prefix='git-deb-', suffix='.download')
+            for chunk in resp.iter_content(CHUNK_SIZE):
+                os.write(fd, chunk)
+            os.utime(fd, times=(ts, ts))
+            os.rename(tn, path)
+            for ename in extra_names:
+                os.link(path, self.debsnap_dir + ename)
+        except:
+            os.unlink(tn)
+            raise
+        finally:
+            os.close(fd)
+        return path
+
+    def get_versions(self):
+        # new to old, with version sort
+        # may not match dates in case of backports and mistakes
+        vinfo = self._api_request('mr/package/{}/'.format(pkgname_quoted),
+            cache_control=MaxAge(
+                self.debsnap_dir + pkgname_quoted + '_versions.json', 600))
+        return [el.version for el in vinfo.result]
+
+    def grab_srcfiles(self, ver):
+        try:
+            # Polipo doesn't understand no-args max-stale, so set it to 100 days
+            srcinfo = self._api_request(
+                'mr/package/{}/{}/srcfiles?fileinfo=1'.format(pkgname_quoted, ver),
+                headers={'max-stale': '8640000'},
+                cache_control=CacheForever(
+                    self.debsnap_dir + pkgname_quoted
+                    + '_' + ver + '.srcfiles.json'))
+        except requests.HTTPError as err:
+            if err.response.status_code == 404:
+                # http://snapshot.debian.org/package/curl/6.0-1.1.1/
+                # http://snapshot.debian.org/package/curl/7.23.1-3+ppc64/
+                raise MissingSource(ver)
+            raise
+
+        # sha1
+        #hashes = [el.hash for el in srcinfo.result]
+        dsc_finfos = set()
+        for fhash, finfos in vars(srcinfo.fileinfo).items():
+            assert finfos
+            if len(finfos) > 1:
+                # some appear in multiple archives
+                assert len(set((fi.size) for fi in finfos)) == 1, finfos
+            # lex sort is fine here
+            finfo = min(finfos, key=upload_precedence)
+            first_seen_dt = isodate.parse_datetime(finfo.first_seen)
+            finfo.first_seen_ts = first_seen_dt.timestamp()
+            # Some orig.tar.gz have multiple names :(
+            extra_names = set(fi.name for fi in finfos if fi.name != finfo.name)
+            # this api only accepts sha1, though dscs keep other hashes
+            local_path = self._get_file(fhash, finfo, extra_names)
+            if finfo.name.endswith('.dsc'):
+                finfo.local_path = local_path
+                # Curl has multiple dscs for the same upload.  Horrors.
+                dsc_finfos.add(finfo)
+        if not dsc_finfos:
+            warn('No signature file for {}'.format(ver))
+            # http://snapshot.debian.org/package/sudo/1.3.1pl4-1/
+            raise MissingSource(ver)
+        if len(dsc_finfos) > 1:
+            warn('Multiple dscs for version {} {}'.format(
+                ver, [fi.local_path for fi in dsc_finfos]))
+        for finfo in dsc_finfos:
+            dsc_path = finfo.local_path
+            for kr_name, kr_path in keyrings.items():
+                gi = debian.deb822.GpgInfo.from_file(
+                    dsc_path, keyrings=[kr_path])
+                if not gi.valid():
+                    continue
+                finfo.gi = gi
+                finfo.kr_name = kr_name
+                break
+            else:
+                # On wget_1.5.3-3.1.dsc
+                # ERRSIG 7D7C0636C76F38D2 20 2 01 1039606003 4
+                # indicating problems with an ElGamal signature
+                # gnupg 1.2.5-3 can verify it, 1.4.0-3 can't:
+                # 2002-12-11 1039606003 0 3 0 20 2 01 576E100B518D2F1636B028053CB892502FA3BC2D
+                # On sudo_1.6.2p2-2.2.dsc
+                # ERRSIG 7D7C0636C76F38D2 20 3 01 1019775429 4
+                # Those keys are compromised:
+                # http://lists.gnupg.org/pipermail/gnupg-announce/2003q4/000160.html
+
+                # Or missing keys
+                # On grub_0.97-16.1~bpo.1.dsc
+                # ERRSIG 6908386EC98FE2A1 17 2 01 1160038149 9
+                if 'NO_PUBKEY' in gi and keyrings.missing:
+                    keyrings.warn_missing()
+                bail('No valid signature on {} {}'.format(dsc_path, gi))
+        return min(dsc_finfos, key=upload_precedence)
+
+
+def cmd_capabilities(args):
+    print('*import')
+    print('*option')
+    print('*refspec refs/heads/*:refs/debian/{}/*'.format(remote_quoted))
+    print()
+
+depth = None
+def cmd_option(args):
+    global depth
+    if args.name == 'depth':
+        depth = int(args.value)
+        if depth <= 0:
+            # transport.c doesn't really check,
+            # depth=0 might mean infinity in git internals
+            msg = 'Depth must be > 0'
+            print('error ' + msg)
+            # Even though the protocol has error reporting,
+            # git ignores errors if we don't exit
+            bail(msg)
+        else:
+            print('ok')
+    elif args.name == 'verbosity':
+        verbosity = int(args.value)
+        if verbosity < 1:
+            warn = ignore
+        elif verbosity > 1:
+            debug = printerr
+        print('ok')
+    else:
+        print('unsupported')
+
+def cmd_list(args):
+    # TODO check for unchanged
+    remote_ref = 'refs/heads/{}'.format(pkgname_quoted)
+    print('? ' + remote_ref)
+    print('@{} HEAD'.format(remote_ref))
+    print()
+
+def parse_changelog(cl, skip_versions):
+    top_entry = True
+    within = False
+    versions = []
+    for line in cl:
+        line = line.rstrip()
+        if not line:
+            continue
+        if not within:
+            if line in ('Local variables:', 'Old Changelog:'):
+                break
+            match = VERSION_LINE_RE.match(line)
+            if not match:
+                warn('Giving up on changelog {!r}'.format(line))
+                break
+            ver1, = match.groups()
+            versions.append(ver1)
+            if not top_entry and ver1 in skip_versions:
+                break
+            within = True
+        else:
+            match = AUTHOR_LINE_RE.match(line)
+            if not match:
+                continue
+            if top_entry:
+                author, date = match.groups()
+                date = email.utils.parsedate_to_datetime(date)
+            top_entry = False
+            within = False
+    if top_entry:
+        # There was no valid changelog stanza
+        raise BrokenChangelog
+    return (author, date), versions
+
+def open_chardet(fname):
+    fi = open(fname, 'rb')
+    tw = io.TextIOWrapper(fi, 'utf8')
+    try:
+        tw.read(65536)
+    except UnicodeDecodeError:
+        tw.detach()
+        del tw
+        fi.seek(0)
+    else:
+        tw.seek(0)
+        return tw
+    # Now we only know it's not utf8
+    guess = chardet.detect(fi.read(65536))
+    if guess['confidence'] < .5:
+        warn('Low-confidence guess on non-utf8 file {}'.format(fname))
+    encoding = guess['encoding']
+    fi.seek(0)
+    return io.TextIOWrapper(fi, encoding)
+
+def tagname(ver):
+    # escape : and ~. Other problem characters aren't valid for debian
+    #return 'refs/tags/' + urllib.parse.quote(ver, safe='+')
+    return 'refs/tags/' + ver.replace(':', '%').replace('~', '_')
+
+def resolve_ref(ver):
+    try:
+        return subprocess.check_output(['git', 'show-ref', '-s', '--', tagname(ver)])
+    except subprocess.CalledProcessError:
+        pass
+
+def gpg_ts(ts):
+    if 'T' in ts:
+        return isodate.parse_datetime(ts).timestamp()
+    else:
+        return int(ts)
+
+
+done_refs = set()
+def cmd_import(args):
+    remote_ref = 'refs/heads/{}'.format(pkgname_quoted)
+    assert args.refname in {remote_ref, 'HEAD'}, (args.refname, remote_ref)
+    if remote_ref in done_refs:
+        return
+    import_ref = 'refs/debian/{}/{}'.format(remote_quoted, pkgname_quoted)
+    versions = snaps.get_versions()
+    assert not any('/' in ver for ver in versions)
+    for ver in skip:
+        versions.remove(ver)
+    #debug(versions)
+    version_set = set(versions)
+    if depth:
+        versions_depth = versions[:depth]
+    else:
+        versions_depth = versions
+    versions_depth_set = set(versions_depth)
+    authorships = {}
+    predecessors = {}
+    resolved = {}
+    successors = collections.defaultdict(list)
+    skip_versions = set()
+    ghosts = set()
+    is_root = True
+    todo = set()
+    os.mkdir(tdir + '/x')
+    for ver in reversed(versions_depth):
+        chash = resolve_ref(ver)
+        if chash is not None:
+            resolved[ver] = chash
+            is_root = False
+            continue
+        progress('Downloading {}'.format(ver))
+        try:
+            dsc_finfo = snaps.grab_srcfiles(ver)
+        except MissingSource:
+            warn('Version {} has no source package'.format(ver))
+            version_set.remove(ver)
+            continue
+        xdir = tdir + '/x/' + ver
+        # Will fail on bad checksums, but not bad signatures
+        # Signatures were checked in grab_srcfiles
+        silent_call(
+            'dpkg-source -x --'.split()
+            + [dsc_finfo.local_path, xdir])
+        try:
+            with open_chardet(xdir + '/debian/changelog') as cl:
+                authorship, cl_vers = parse_changelog(cl, skip_versions)
+        except BrokenChangelog:
+            warn("Couldn't parse changelog for {}"
+                 .format(dsc_finfo.local_path))
+            continue
+        except UnicodeDecodeError:
+            # XXX On puppet-3.2.4/debian/changelog, charade and chardet
+            # both fail in their own ways, finding 8859-2 and Big5
+            # respectively
+            # This error will likely break newer uploads as well; bail
+            bail("Couldn't parse changelog encoding for {}"
+                 .format(dsc_finfo.local_path))
+        assert cl_vers[0] == ver, (cl_vers[0], ver)
+        skip_versions.add(ver)
+        ver_ghosts = set()
+        for ver1 in cl_vers[1:]:
+            if ver1 in version_set:
+                predecessors[ver] = ver1
+                successors[ver1].append(ver)
+                if depth and ver1 not in versions_depth_set:
+                    todo.add(ver)
+                elif ver1 in resolved:
+                    todo.add(ver)
+                break
+            elif ver1 not in ghosts and ver1 not in skip:
+                ver_ghosts.add(ver1)
+        else:
+            todo.add(ver)
+            if not is_root:
+                warn('Version {} has no predecessor'.format(ver))
+        if ver_ghosts:
+            warn('Found ghost versions {}'.format(' '.join(ver_ghosts)))
+            ghosts.update(ver_ghosts)
+        authorships[ver] = authorship
+        is_root = False
+    if not todo:
+        debug('Already up to date')
+        done_refs.add(remote_ref)
+        return
+    done = set()
+    while todo:
+        ver = todo.pop()
+        if ver in done:
+            bail('Changelog loop detected at {} {}, giving up'
+                 .format(ver, predecessors[ver]))
+        progress('Importing {}'.format(ver))
+        todo.update(successors[ver])
+        dsc_finfo = snaps.grab_srcfiles(ver)
+        xdir = tdir + '/x/' + ver
+        os.environ['GIT_WORK_TREE'] = xdir
+        os.environ['GIT_INDEX_FILE'] = xdir + '.index'
+        try:
+            silent_call('git add -A'.split())
+        except subprocess.CalledProcessError:
+            bail('Error adding from {}'.format(dsc_finfo.local_path))
+        tree_hash = subprocess.check_output(
+            'git write-tree'.split()).decode().rstrip()
+
+        # See /usr/share/doc/gnupg/DETAILS.gz
+        for sigtype in 'GOODSIG REVKEYSIG EXPKEYSIG'.split():
+            try:
+                kid, uid, *extra = dsc_finfo.gi[sigtype]
+                if not IDENT_RE.match(uid):
+                    if '@' in uid:
+                        uid = '<{}>'.format(uid)
+                    elif kid in email_fallbacks:
+                        uid += ' <{}>'.format(email_fallbacks[kid])
+                    else:
+                        bail('Bad uid {} on {}'
+                             .format(uid, json_dump(dsc_finfo)))
+                break
+            except KeyError:
+                pass
+        else:
+            bail('Not a good signature {}'.format(dsc_finfo.gi))
+        (fprint, sig_date, sig_ts, exp_ts, sigver, reserved, pkalg,
+         hashalg, sigclass, fprint1, *extra) = dsc_finfo.gi['VALIDSIG']
+        #sigid, date1, ts1, *extra = gi['SIG_ID']
+
+        print('commit ' + import_ref)
+        print('mark :1')
+        if ver in authorships:
+            author, date = authorships[ver]
+            print(
+                'author {} {} +0000'.format(author, int(date.timestamp())))
+            print('committer {} {} +0000'.format(uid, gpg_ts(sig_ts)))
+        else:
+            print(
+                'committer <malformed-changelog> {} +0000'
+                .format(int(dsc_finfo.first_seen_ts)))
+        msg = 'Import {}'.format(ver)
+        if (dsc_finfo.kr_name, sigtype) != ('debian', 'GOODSIG'):
+            msg += ' ({}/{} {})'.format(dsc_finfo.kr_name, kid, sigtype)
+        print('data {}'.format(len(msg.encode())))
+        print(msg)
+        if ver in predecessors:
+            pred = predecessors[ver]
+            if not depth or pred in versions_depth_set:
+                print('from ' + tagname(predecessors[ver]))
+        print('deleteall')
+        print('M 040000 {} '.format(tree_hash))
+        print()
+        print('reset ' + tagname(ver))
+        print('from :1')
+        done.add(ver)
+    print('reset ' + import_ref)
+    print('from ' + tagname(versions[0]))
+    done_refs.add(remote_ref)
+
+
+email_fallbacks = {}
+skip = set()
+def parse_url_debsnap(url):
+    global email_fallbacks, skip
+    # use snapshot.debian.org
+    distribution = 'debian'
+    if not url.query:
+        return
+
+    # grub?skip=0.97-16.1~bpo.1
+    # sudo?skip=1.6.2p2-2.2
+    # git clone deb::gnupg?skip=1.4.6-1~bpo.1,1.4.6-2.1 gnupg
+    urlparams = urllib.parse.parse_qs(
+        url.query.replace('+', '%2B'),
+        strict_parsing=True, errors='strict')
+
+    assert {'skip', 'trust', 'email'}.issuperset(urlparams.keys()), urlparams
+    if 'skip' in urlparams:
+        skip = set(sum((el.split(',') for el in urlparams['skip']), []))
+    if 'trust' in urlparams:
+        os.mkdir(tdir + '/k')
+        for kid in set(sum((el.split(',') for el in urlparams['trust']), [])):
+            with open(os.path.join(tdir, 'k', kid + '.gpg'), 'w') as krf:
+                subprocess.check_call(['gpg', '--export', '--', kid], stdout=krf)
+            keyrings['local:' + kid] = krf.name
+    if 'email' in urlparams:
+        for emap in set(sum((el.split(',') for el in urlparams['email']), [])):
+            kid, eml = IDENT_RE.match(emap).groups()
+            assert SIG_KID_RE.match(kid), kid
+            # Check the key exists?
+            email_fallbacks[kid] = eml
+
+def parse_url_launchpad(url):
+    # use launchpad
+    # the launchpad dataset is usable enough once you know the right api,
+    # but already exposed as bzr branches
+    # not sure how these deal with the orig/debian/patches distinction
+    # it's less granular for debian, probably because sync is done by cronjob
+    if url.query:
+        urlparams = urllib.parse.parse_qs(
+            url.query, strict_parsing=True, errors='strict')
+        assert urlparams.keys() in {'distribution', 'archive'}, urlparams
+    else:
+        urlparams = {}
+
+    distribution = urlparams.get('distribution', 'ubuntu')
+    archive = urlparams.get('archive', 'primary')
+    assert distribution in {'debian', 'ubuntu'}, distribution
+    assert archive in {'primary', 'partner'}, archive
+
+
+def protocol_main():
+    parser1 = argparse.ArgumentParser()
+    commands = parser1.add_subparsers(dest='command', metavar='command')
+    sp_capabilities = commands.add_parser('capabilities')
+    sp_capabilities.set_defaults(action=cmd_capabilities)
+    sp_option = commands.add_parser('option')
+    sp_option.set_defaults(action=cmd_option)
+    sp_option.add_argument('name')
+    sp_option.add_argument('value')
+    sp_list = commands.add_parser('list')
+    sp_list.set_defaults(action=cmd_list)
+    sp_import = commands.add_parser('import')
+    sp_import.set_defaults(action=cmd_import)
+    sp_import.add_argument('refname')
+
+    import_batch = False
+
+    for line in sys.stdin:
+        assert line[-1] == '\n'
+        line1 = line[:-1]
+        if not line1:
+            if import_batch:
+                import_batch = False
+                print('done', flush=True)
+                continue
+            else:
+                break
+        debug(line1)
+        args = parser1.parse_args(line1.split())
+        if args.command == 'import':
+            if not import_batch:
+                print('feature done')
+                import_batch = True
+        else:
+            assert not import_batch
+        args.action(args)
+        sys.stdout.flush()
+
+def main():
+    global pkgname_quoted, remote_quoted, keyrings, snaps
+    parser0 = argparse.ArgumentParser()
+    parser0.add_argument('remote')
+    parser0.add_argument('url')
+    args0 = parser0.parse_args()
+    remote_quoted = urllib.parse.quote(args0.remote, safe='')
+    url = urllib.parse.urlsplit(args0.url, scheme='deb')
+    assert url.scheme == 'deb'
+    assert not url.netloc
+    assert not url.fragment
+
+    keyrings = Keyrings()
+    parse_url_debsnap(url)
+
+    # Run after ?trust= has been parsed
+    if not keyrings:
+        bail('No keyrings are available, please run `git deb get-keyrings`')
+    elif keyrings.missing:
+        keyrings.warn_missing()
+
+    pkgname = urllib.parse.unquote(url.path, errors='strict')
+    pkgname_quoted = urllib.parse.quote(pkgname, safe='')
+    assert pkgname == pkgname_quoted, (pkgname, pkgname_quoted)
+
+    snaps = Snapshots()
+    protocol_main()
+
+with contextlib.ExitStack() as estack:
+    tdir = estack.enter_context(
+        tempfile.TemporaryDirectory(prefix='git-deb-', suffix='.tmp'))
+    main()
+

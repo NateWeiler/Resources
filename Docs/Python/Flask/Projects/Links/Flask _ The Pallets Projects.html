@@ -1,0 +1,178 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:site_name" content="Pallets">
+<meta property="og:image:type" content="image/png">
+<meta property="og:title" content="Flask">
+<meta property="og:url" content="https://palletsprojects.com/p/flask/">
+<meta property="og:image" content="https://palletsprojects.com/og_image.png">
+<meta property="og:image:height" content="400">
+<meta property="og:type" content="website">
+<meta property="og:image:alt" content="logo">
+<meta property="og:image:width" content="400">
+<link rel="stylesheet" href="/static/styles.css?h=8f5826ef">
+<link rel="stylesheet" href="/static/pygments.css">
+<script type="text/javascript" src="/static/app.js?h=bae3ee5f"></script>
+<title>Flask | The Pallets Projects</title>
+<body class="default">
+  <nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+          data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">The Pallets Projects</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active">
+            
+              <a href="/p/">Projects</a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/governance/">Governance</a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/people/">People</a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/blog/">Blog</a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/donate"><strong>Donate</strong></a>
+            
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="body-wrapper">
+    
+    <div class="container">
+      
+  
+  <ul class="project-selector">
+    <li><a href="/p/">Overview</a>
+    
+      <li><a href="/p/click/">Click</a>
+    
+      <li class=active><a href="/p/flask/">Flask</a>
+    
+      <li><a href="/p/itsdangerous/">ItsDangerous</a>
+    
+      <li><a href="/p/jinja/">Jinja</a>
+    
+      <li><a href="/p/markupsafe/">MarkupSafe</a>
+    
+      <li><a href="/p/werkzeug/">Werkzeug</a>
+    
+  </ul>
+  
+  <div class="row">
+    <div class="col-sm-9">
+      <h1>Flask</h1>
+    </div>
+    <div class="col-sm-3">
+      <div class="github-button">
+        <a class="github-button"
+          href="https://github.com/pallets/flask"
+          data-size="large"
+          data-show-count="true"
+          aria-label="Star pallets/flask on GitHub"
+        >Star</a>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-9">
+      <p>Flask is a lightweight <a href="https://wsgi.readthedocs.io/">WSGI</a> web application framework. It is designed
+to make getting started quick and easy, with the ability to scale up to
+complex applications. It began as a simple wrapper around <a href="/p/werkzeug">Werkzeug</a>
+and <a href="/p/jinja">Jinja</a> and has become one of the most popular Python web
+application frameworks.</p>
+<p>Flask offers suggestions, but doesn't enforce any dependencies or
+project layout. It is up to the developer to choose the tools and
+libraries they want to use. There are many extensions provided by the
+community that make adding new functionality easy.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">escape</span><span class="p">,</span> <span class="n">request</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;World&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Hello, {escape(name)}!&#39;</span>
+</pre></div>
+<div class="highlight"><pre><span></span>$ env FLASK_APP=hello.py flask run
+ * Serving Flask app &quot;hello&quot;
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+</pre></div>
+
+    </div>
+    <div class="col-sm-3">
+      <div class="infobox">
+        <p><span class="fa fa-fw fa-github"></span>
+          <a href="https://github.com/pallets/flask">pallets/flask</a>
+        
+        <p><span class="fa fa-fw fa-list"></span> <a href="https://pypi.python.org/pypi/Flask">Releases on PyPI</a>
+        <p><span class="fa fa-fw fa-cogs"></span> <a href="https://travis-ci.org/pallets/flask">Test status</a>
+        <p><span class="fa fa-fw fa-book"></span> <a href="https://flask.palletsprojects.com/">Documentation</a>
+        <div class="pypi-box" data-pypi="Flask"></div>
+      </div>
+    </div>
+  </div>
+
+
+    </div>
+    
+  </div>
+
+  
+  <div class="bottomsummary">
+    <div class="container">
+    </div>
+  </div>
+  
+
+  
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3 icon-bar">
+          <a href="https://github.com/pallets/" title="Pallets on GitHub"
+            ><i class="fa fa-github"></i></a>
+          <a href="https://twitter.com/PalletsTeam/" title="Pallets on Twitter"
+            ><i class="fa fa-twitter"></i></a>
+          <a href="https://github.com/pallets/website/tree/master/content/projects/flask/contents.lr" title="View source for this page"><i class="fa fa-code"></i></a>
+        </div>
+        <div class="col-sm-9">
+          <a href="/license/">License &amp; Copyright</a> •
+          <a href="/contact/">Contact</a> •
+          Made with <i class="fa fa-fw fa-heart" title="Heart"><span hidden>Heart</span></i>
+          and <a href="https://www.getlektor.com/">Lektor</a> all around the World
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+</body>

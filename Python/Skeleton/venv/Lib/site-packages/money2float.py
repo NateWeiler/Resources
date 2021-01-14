@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[4]:
+
+
+from decimal import *
+import re
+
+
+# In[1]:
+
+
+def money(text, places=2):
+    text = f"{text}"
+    if type(text) == str:
+        try:
+            text = text.replace(",", "")
+        except:
+            pass
+        try:
+            text = text.replace("$", "")
+        except:
+            pass
+        try:
+            response = float(round(Decimal(text), places))
+        except:
+            text = re.sub("[^\d\.]", "", text)
+            try:
+                response = float(round(Decimal(text), places))
+            except:
+                response = None
+    else:
+        repsonse = None
+    return response
+
+
+# In[ ]:

@@ -1,0 +1,26 @@
+extends ../base
+
+block header
+  h1= title
+
+block content
+  form(method='post')
+    label(for='title') Title
+    input(
+      type='text',
+      id='title',
+      name='title',
+      value=form ? form.title : '',
+    )
+
+    label(for='body') Body
+    textarea(
+      id='body',
+      name='body'
+    )= form ? form.body : ''
+
+    input(
+      type='submit',
+      value='Save'
+    )
+

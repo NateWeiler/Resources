@@ -1,0 +1,635 @@
+##################### pip download #####################
+
+        ## Usage ##
+pip download [options] <requirement specifier> [package-index-options] ...
+pip download [options] -r <requirements file> [package-index-options] ...
+pip download [options] <vcs project url> ...
+pip download [options] <local project path> ...
+pip download [options] <archive url/path> ...
+
+        ## Options ##
+-c, --constraint <file>
+Constrain versions using the given constraints file. This option can be used multiple times.
+
+-r, --requirement <file>
+Install from the given requirements file. This option can be used multiple times.
+
+-b, --build <dir>
+Directory to unpack packages into and build in. Note that an initial build still takes place in a temporary directory. The location of temporary directories can be controlled by setting the TMPDIR environment variable (TEMP on Windows) appropriately. When passed, build directories are not cleaned in case of failures.
+
+--no-deps
+Don’t install package dependencies.
+
+--global-option <options>
+Extra global options to be supplied to the setup.py call before the install command.
+
+--no-binary <format_control>
+Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all binary packages, :none: to empty the set, or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
+
+--only-binary <format_control>
+Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all source packages, :none: to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+
+--prefer-binary
+Prefer older binary packages over newer source packages.
+
+--src <dir>
+Directory to check out editable projects into. The default in a virtualenv is “<venv path>/src”. The default for global installs is “<current dir>/src”.
+
+--pre
+Include pre-release and development versions. By default, pip only finds stable versions.
+
+--no-clean
+Don’t clean up build directories.
+
+--require-hashes
+Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a --hash option.
+
+--progress-bar <progress_bar>
+Specify type of progress to be displayed [off|on|ascii|pretty|emoji] (default: on)
+
+--no-build-isolation
+Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
+
+--use-pep517
+Use PEP 517 for building source distributions (use --no-use-pep517 to force legacy behaviour).
+
+-d, --dest <dir>
+Download packages into <dir>.
+
+--platform <platform>
+Only use wheels compatible with <platform>. Defaults to the platform of the running system.
+
+--python-version <python_version>
+The Python interpreter version to use for wheel and “Requires-Python” compatibility checks. Defaults to a version derived from the running interpreter. The version can be specified using up to three dot-separated integers (e.g. “3” for 3.0.0, “3.7” for 3.7.0, or “3.7.3”). A major-minor version can also be given as a string without dots (e.g. “37” for 3.7.0).
+
+--implementation <implementation>
+Only use wheels compatible with Python implementation <implementation>, e.g. ‘pp’, ‘jy’, ‘cp’, or ‘ip’. If not specified, then the current interpreter implementation is used. Use ‘py’ to force implementation-agnostic wheels.
+
+--abi <abi>
+Only use wheels compatible with Python abi <abi>, e.g. ‘pypy_41’. If not specified, then the current interpreter abi tag is used. Generally you will need to specify --implementation, --platform, and --python-version when using this option.
+
+
+-i, --index-url <url>
+Base URL of the Python Package Index (default https://pypi.org/simple). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+
+--extra-index-url <url>
+Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as --index-url.
+
+--no-index
+Ignore package index (only looking at --find-links URLs instead).
+
+-f, --find-links <url>
+If a url or path to an html file, then parse for links to archives. If a local path or file:// url that’s a directory, then look for archives in the directory listing.
+
+        ## Examples ##
+Download a package and all of its dependencies
+
+$ pip download SomePackage
+$ pip download -d . SomePackage  # equivalent to above
+$ pip download --no-index --find-links=/tmp/wheelhouse -d /tmp/otherwheelhouse SomePackage
+Download a package and all of its dependencies with OSX specific interpreter constraints.
+This forces OSX 10.10 or lower compatibility. Since OSX deps are forward compatible, this will also match macosx-10_9_x86_64, macosx-10_8_x86_64, macosx-10_8_intel, etc. It will also match deps with platform any. Also force the interpreter version to 27 (or more generic, i.e. 2) and implementation to cp (or more generic, i.e. py).
+
+$ pip download \
+    --only-binary=:all: \
+    --platform macosx-10_10_x86_64 \
+    --python-version 27 \
+    --implementation cp \
+    SomePackage
+Download a package and its dependencies with linux specific constraints.
+Force the interpreter to be any minor version of py3k, and only accept cp34m or none as the abi.
+
+$ pip download \
+    --only-binary=:all: \
+    --platform linux_x86_64 \
+    --python-version 3 \
+    --implementation cp \
+    --abi cp34m \
+    SomePackage
+Force platform, implementation, and abi agnostic deps.
+
+$ pip download \
+    --only-binary=:all: \
+    --platform any \
+    --python-version 3 \
+    --implementation py \
+    --abi none \
+    SomePackage
+Even when overconstrained, this will still correctly fetch the pip universal wheel.
+
+$ pip download \
+    --only-binary=:all: \
+    --platform linux_x86_64 \
+    --python-version 33 \
+    --implementation cp \
+    --abi cp34m \
+    pip>=8
+$ ls pip-8.1.1-py2.py3-none-any.whl
+pip-8.1.1-py2.py3-none-any.whl
+
+        ## Description ##
+Download packages from:
+
+PyPI (and other indexes) using requirement specifiers.
+
+VCS project urls.
+
+Local project directories.
+
+Local or remote source archives.
+
+pip also supports downloading from “requirements files”, which provide an easy way to specify a whole environment to be downloaded.
+
+        ## Overview ##
+pip download does the same resolution and downloading as pip install, but instead of installing the dependencies, it collects the downloaded distributions into the directory provided (defaulting to the current directory). This directory can later be passed as the value to pip install --find-links to facilitate offline or locked down package installation.
+
+pip download with the --platform, --python-version, --implementation, and --abi options provides the ability to fetch dependencies for an interpreter and system other than the ones that pip is running on. --only-binary=:all: or --no-deps is required when using any of these options. It is important to note that these options all default to the current system/interpreter, and not to the most restrictive constraints (e.g. platform any, abi none, etc). To avoid fetching dependencies that happen to match the constraint of the current interpreter (but not your target one), it is recommended to specify all of these options if you are specifying one of them. Generic dependencies (e.g. universal wheels, or dependencies with no platform, abi, or implementation constraints) will still match an over- constrained download requirement.
+
+##################### pip uninstall #####################
+
+        ## Usage ##
+pip uninstall [options] <package> ...
+pip uninstall [options] -r <requirements file> ...
+Description
+Uninstall packages.
+
+pip is able to uninstall most installed packages. Known exceptions are:
+
+Pure distutils packages installed with python setup.py install, which leave behind no metadata to determine what files were installed.
+
+Script wrappers installed by python setup.py develop.
+
+        ## Options ##
+-r, --requirement <file>
+Uninstall all the packages listed in the given requirements file. This option can be used multiple times.
+
+-y, --yes
+Don’t ask for confirmation of uninstall deletions.
+
+        ## Examples ##
+Uninstall a package.
+
+$ pip uninstall simplejson
+Uninstalling simplejson:
+  /home/me/env/lib/python2.7/site-packages/simplejson
+  /home/me/env/lib/python2.7/site-packages/simplejson-2.2.1-py2.7.egg-info
+Proceed (y/n)? y
+  Successfully uninstalled simplejson
+
+##################### pip freeze #####################
+
+        ## Usage
+pip freeze [options]
+Description
+Output installed packages in requirements format.
+
+packages are listed in a case-insensitive sorted order.
+
+        ## Options ##
+-r, --requirement <file>
+Use the order in the given requirements file and its comments when generating output. This option can be used multiple times.
+
+-f, --find-links <url>
+URL for finding packages, which will be added to the output.
+
+-l, --local
+If in a virtualenv that has global access, do not output globally-installed packages.
+
+--user
+Only output packages installed in user-site.
+
+--path <path>
+Restrict to the specified installation path for listing packages (can be used multiple times).
+
+--all
+Do not skip these packages in the output: pip, distribute, setuptools, wheel
+
+--exclude-editable
+Exclude editable package from output.
+
+        ## Examples ##
+Generate output suitable for a requirements file.
+
+$ pip freeze
+docutils==0.11
+Jinja2==2.7.2
+MarkupSafe==0.19
+Pygments==1.6
+Sphinx==1.2.2
+Generate a requirements file and then install from it in another environment.
+
+$ env1/bin/pip freeze > requirements.txt
+$ env2/bin/pip install -r requirements.txt
+
+##################### pip list #####################
+
+        ## Usage ##
+pip list [options]
+Description
+List installed packages, including editables.
+
+Packages are listed in a case-insensitive sorted order.
+
+        ## Options ##
+-o, --outdated
+List outdated packages
+
+-u, --uptodate
+List uptodate packages
+
+-e, --editable
+List editable projects.
+
+-l, --local
+If in a virtualenv that has global access, do not list globally-installed packages.
+
+--user
+Only output packages installed in user-site.
+
+--path <path>
+Restrict to the specified installation path for listing packages (can be used multiple times).
+
+--pre
+Include pre-release and development versions. By default, pip only finds stable versions.
+
+--format <list_format>
+Select the output format among: columns (default), freeze, or json
+
+--not-required
+List packages that are not dependencies of installed packages.
+
+--exclude-editable
+Exclude editable package from output.
+
+--include-editable
+Include editable package from output.
+
+
+-i, --index-url <url>
+Base URL of the Python Package Index (default https://pypi.org/simple). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+
+--extra-index-url <url>
+Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as --index-url.
+
+--no-index
+Ignore package index (only looking at --find-links URLs instead).
+
+-f, --find-links <url>
+If a url or path to an html file, then parse for links to archives. If a local path or file:// url that’s a directory, then look for archives in the directory listing.
+
+        ## Examples ##
+List installed packages.
+
+$ pip list
+docutils (0.10)
+Jinja2 (2.7.2)
+MarkupSafe (0.18)
+Pygments (1.6)
+Sphinx (1.2.1)
+List outdated packages (excluding editables), and the latest version available.
+
+$ pip list --outdated
+docutils (Current: 0.10 Latest: 0.11)
+Sphinx (Current: 1.2.1 Latest: 1.2.2)
+List installed packages with column formatting.
+
+$ pip list --format columns
+Package Version
+------- -------
+docopt  0.6.2
+idlex   1.13
+jedi    0.9.0
+List outdated packages with column formatting.
+
+$ pip list -o --format columns
+Package    Version Latest Type
+---------- ------- ------ -----
+retry      0.8.1   0.9.1  wheel
+setuptools 20.6.7  21.0.0 wheel
+List packages that are not dependencies of other packages. Can be combined with other options.
+
+$ pip list --outdated --not-required
+docutils (Current: 0.10 Latest: 0.11)
+Use legacy formatting
+
+$ pip list --format=legacy
+colorama (0.3.7)
+docopt (0.6.2)
+idlex (1.13)
+jedi (0.9.0)
+Use json formatting
+
+$ pip list --format=json
+[{'name': 'colorama', 'version': '0.3.7'}, {'name': 'docopt', 'version': '0.6.2'}, ...
+Use freeze formatting
+
+$ pip list --format=freeze
+colorama==0.3.7
+docopt==0.6.2
+idlex==1.13
+jedi==0.9.0
+
+##################### pip show #####################
+
+        ## Usage ##
+pip show [options] <package> ...
+Description
+Show information about one or more installed packages.
+
+The output is in RFC-compliant mail header format.
+
+        ## Options ##
+-f, --files
+Show the full list of installed files for each package.
+
+        ## Examples ##
+Show information about a package:
+
+$ pip show sphinx
+Name: Sphinx
+Version: 1.4.5
+Summary: Python documentation generator
+Home-page: http://sphinx-doc.org/
+Author: Georg Brandl
+Author-email: georg@python.org
+License: BSD
+Location: /my/env/lib/python2.7/site-packages
+Requires: docutils, snowballstemmer, alabaster, Pygments, imagesize, Jinja2, babel, six
+Show all information about a package
+
+$ pip show --verbose sphinx
+Name: Sphinx
+Version: 1.4.5
+Summary: Python documentation generator
+Home-page: http://sphinx-doc.org/
+Author: Georg Brandl
+Author-email: georg@python.org
+License: BSD
+Location: /my/env/lib/python2.7/site-packages
+Requires: docutils, snowballstemmer, alabaster, Pygments, imagesize, Jinja2, babel, six
+Metadata-Version: 2.0
+Installer:
+Classifiers:
+  Development Status :: 5 - Production/Stable
+  Environment :: Console
+  Environment :: Web Environment
+  Intended Audience :: Developers
+  Intended Audience :: Education
+  License :: OSI Approved :: BSD License
+  Operating System :: OS Independent
+  Programming Language :: Python
+  Programming Language :: Python :: 2
+  Programming Language :: Python :: 3
+  Framework :: Sphinx
+  Framework :: Sphinx :: Extension
+  Framework :: Sphinx :: Theme
+  Topic :: Documentation
+  Topic :: Documentation :: Sphinx
+  Topic :: Text Processing
+  Topic :: Utilities
+Entry-points:
+  [console_scripts]
+  sphinx-apidoc = sphinx.apidoc:main
+  sphinx-autogen = sphinx.ext.autosummary.generate:main
+  sphinx-build = sphinx:main
+  sphinx-quickstart = sphinx.quickstart:main
+  [distutils.commands]
+  build_sphinx = sphinx.setup_command:BuildDoc
+
+##################### pip search #####################
+
+        ## Usage ##
+pip search [options] <query>
+Description
+Search for PyPI packages whose name or summary contains <query>.
+
+        ## Options ##
+-i, --index <url>
+Base URL of Python Package Index (default https://pypi.org/pypi)
+
+        ## Examples ##
+Search for “peppercorn”
+
+$ pip search peppercorn
+pepperedform    - Helpers for using peppercorn with formprocess.
+peppercorn      - A library for converting a token stream into [...]
+
+##################### pip check #####################
+
+        ## Usage ##
+
+        ## Examples ##
+If all dependencies are compatible:
+
+$ pip check
+No broken requirements found.
+$ echo $?
+0
+If a package is missing:
+
+$ pip check
+pyramid 1.5.2 requires WebOb, which is not installed.
+$ echo $?
+1
+If a package has the wrong version:
+
+$ pip check
+pyramid 1.5.2 has requirement WebOb>=1.3.1, but you have WebOb 0.8.
+$ echo $?
+1
+
+##################### pip config #####################
+
+        ## Usage ##
+pip config [<file-option>] list
+pip config [<file-option>] [--editor <editor-path>] edit
+
+pip config [<file-option>] get name
+pip config [<file-option>] set name value
+pip config [<file-option>] unset name
+Description
+Manage local and global configuration.
+
+Subcommands:
+
+list: List the active configuration (or from the file specified) edit: Edit the configuration file in an editor get: Get the value associated with name set: Set the name=value unset: Unset the value associated with name
+
+If none of --user, --global and --site are passed, a virtual environment configuration file is used if one is active and the file exists. Otherwise, all modifications happen on the to the user file by default.
+
+        ## Options ##
+--editor <editor>
+Editor to use to edit the file. Uses VISUAL or EDITOR environment variables if not provided.
+
+--global
+Use the system-wide configuration file only
+
+--user
+Use the user configuration file only
+
+--site
+Use the current environment configuration file only
+
+##################### pip wheel #####################
+
+        ## Usage ##
+pip wheel [options] <requirement specifier> ...
+pip wheel [options] -r <requirements file> ...
+pip wheel [options] [-e] <vcs project url> ...
+pip wheel [options] [-e] <local project path> ...
+pip wheel [options] <archive url/path> ...
+Description
+Build Wheel archives for your requirements and dependencies.
+
+Wheel is a built-package format, and offers the advantage of not recompiling your software during every install. For more details, see the wheel docs: https://wheel.readthedocs.io/en/latest/
+
+Requirements: setuptools>=0.8, and wheel.
+
+’pip wheel’ uses the bdist_wheel setuptools extension from the wheel package to build individual wheels.
+
+Build System Interface
+In order for pip to build a wheel, setup.py must implement the bdist_wheel command with the following syntax:
+
+python setup.py bdist_wheel -d TARGET
+This command must create a wheel compatible with the invoking Python interpreter, and save that wheel in the directory TARGET.
+
+No other build system commands are invoked by the pip wheel command.
+
+Customising the build
+It is possible using --global-option to include additional build commands with their arguments in the setup.py command. This is currently the only way to influence the building of C extensions from the command line. For example:
+
+pip wheel --global-option bdist_ext --global-option -DFOO wheel
+will result in a build command of
+
+setup.py bdist_ext -DFOO bdist_wheel -d TARGET
+which passes a preprocessor symbol to the extension build.
+
+Such usage is considered highly build-system specific and more an accident of the current implementation than a supported interface.
+
+        ## Options ##
+-w, --wheel-dir <dir>
+Build wheels into <dir>, where the default is the current working directory.
+
+--no-binary <format_control>
+Do not use binary packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all binary packages, :none: to empty the set, or one or more package names with commas between them (no colons). Note that some packages are tricky to compile and may fail to install when this option is used on them.
+
+--only-binary <format_control>
+Do not use source packages. Can be supplied multiple times, and each time adds to the existing value. Accepts either :all: to disable all source packages, :none: to empty the set, or one or more package names with commas between them. Packages without binary distributions will fail to install when this option is used on them.
+
+--prefer-binary
+Prefer older binary packages over newer source packages.
+
+--build-option <options>
+Extra arguments to be supplied to ‘setup.py bdist_wheel’.
+
+--no-build-isolation
+Disable isolation when building a modern source distribution. Build dependencies specified by PEP 518 must be already installed if this option is used.
+
+--use-pep517
+Use PEP 517 for building source distributions (use --no-use-pep517 to force legacy behaviour).
+
+-c, --constraint <file>
+Constrain versions using the given constraints file. This option can be used multiple times.
+
+-e, --editable <path/url>
+Install a project in editable mode (i.e. setuptools “develop mode”) from a local project path or a VCS url.
+
+-r, --requirement <file>
+Install from the given requirements file. This option can be used multiple times.
+
+--src <dir>
+Directory to check out editable projects into. The default in a virtualenv is “<venv path>/src”. The default for global installs is “<current dir>/src”.
+
+--ignore-requires-python
+Ignore the Requires-Python information.
+
+--no-deps
+Don’t install package dependencies.
+
+-b, --build <dir>
+Directory to unpack packages into and build in. Note that an initial build still takes place in a temporary directory. The location of temporary directories can be controlled by setting the TMPDIR environment variable (TEMP on Windows) appropriately. When passed, build directories are not cleaned in case of failures.
+
+--progress-bar <progress_bar>
+Specify type of progress to be displayed [off|on|ascii|pretty|emoji] (default: on)
+
+--global-option <options>
+Extra global options to be supplied to the setup.py call before the ‘bdist_wheel’ command.
+
+--pre
+Include pre-release and development versions. By default, pip only finds stable versions.
+
+--no-clean
+Don’t clean up build directories.
+
+--require-hashes
+Require a hash to check each requirement against, for repeatable installs. This option is implied when any package in a requirements file has a --hash option.
+
+
+-i, --index-url <url>
+Base URL of the Python Package Index (default https://pypi.org/simple). This should point to a repository compliant with PEP 503 (the simple repository API) or a local directory laid out in the same format.
+
+--extra-index-url <url>
+Extra URLs of package indexes to use in addition to --index-url. Should follow the same rules as --index-url.
+
+--no-index
+Ignore package index (only looking at --find-links URLs instead).
+
+-f, --find-links <url>
+If a url or path to an html file, then parse for links to archives. If a local path or file:// url that’s a directory, then look for archives in the directory listing.
+
+        ## Examples ##
+Build wheels for a requirement (and all its dependencies), and then install
+
+$ pip wheel --wheel-dir=/tmp/wheelhouse SomePackage
+$ pip install --no-index --find-links=/tmp/wheelhouse SomePackage
+Build a wheel for a package from source
+
+$ pip wheel --no-binary SomePackage SomePackage
+
+##################### pip hash #####################
+
+        ## Usage ##
+pip hash [options] <file> ...
+Description
+Compute a hash of a local package archive.
+
+These can be used with --hash in a requirements file to do repeatable installs.
+
+Overview
+pip hash is a convenient way to get a hash digest for use with Hash-Checking Mode, especially for packages with multiple archives. The error message from pip install --require-hashes ... will give you one hash, but, if there are multiple archives (like source and binary ones), you will need to manually download and compute a hash for the others. Otherwise, a spurious hash mismatch could occur when pip install is passed a different set of options, like --no-binary.
+
+        ## Options ##
+-a, --algorithm <algorithm>
+The hash algorithm to use: one of sha256, sha384, sha512
+
+        ## Examples ##
+Compute the hash of a downloaded archive:
+
+$ pip download SomePackage
+    Collecting SomePackage
+      Downloading SomePackage-2.2.tar.gz
+      Saved ./pip_downloads/SomePackage-2.2.tar.gz
+    Successfully downloaded SomePackage
+$ pip hash ./pip_downloads/SomePackage-2.2.tar.gz
+    ./pip_downloads/SomePackage-2.2.tar.gz:
+    --hash=sha256:93e62e05c7ad3da1a233def6731e8285156701e3419a5fe279017c429ec67ce0
+
+##################### pip debug #####################
+
+        ## Usage ##
+pip debug <options>
+Warning This command is only meant for debugging. Its options and outputs are provisional and may change without notice.
+Description
+Display debug information.
+
+        ## Options ##
+--platform <platform>
+Only use wheels compatible with <platform>. Defaults to the platform of the running system.
+
+--python-version <python_version>
+The Python interpreter version to use for wheel and “Requires-Python” compatibility checks. Defaults to a version derived from the running interpreter. The version can be specified using up to three dot-separated integers (e.g. “3” for 3.0.0, “3.7” for 3.7.0, or “3.7.3”). A major-minor version can also be given as a string without dots (e.g. “37” for 3.7.0).
+
+--implementation <implementation>
+Only use wheels compatible with Python implementation <implementation>, e.g. ‘pp’, ‘jy’, ‘cp’, or ‘ip’. If not specified, then the current interpreter implementation is used. Use ‘py’ to force implementation-agnostic wheels.
+
+--abi <abi>
+Only use wheels compatible with Python abi <abi>, e.g. ‘pypy_41’. If not specified, then the current interpreter abi tag is used. Generally you will need to specify --implementation, --platform, and --python-version when using this option.

@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Installation &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Quickstart" href="../quickstart/" />
+    <link rel="prev" title="Foreword for Experienced Programmers" href="../advanced_foreword/" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/installation/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/installation/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "installation"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../quickstart/" title="Quickstart"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../advanced_foreword/" title="Foreword for Experienced Programmers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../">Flask Documentation (1.1.x)</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="python-version">
+<h2>Python Version<a class="headerlink" href="#python-version" title="Permalink to this headline">¶</a></h2>
+<p>We recommend using the latest version of Python 3. Flask supports Python 3.5
+and newer, Python 2.7, and PyPy.</p>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>These distributions will be installed automatically when installing Flask.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://palletsprojects.com/p/werkzeug/">Werkzeug</a> implements WSGI, the standard Python interface between
+applications and servers.</p></li>
+<li><p><a class="reference external" href="https://palletsprojects.com/p/jinja/">Jinja</a> is a template language that renders the pages your application
+serves.</p></li>
+<li><p><a class="reference external" href="https://palletsprojects.com/p/markupsafe/">MarkupSafe</a> comes with Jinja. It escapes untrusted input when rendering
+templates to avoid injection attacks.</p></li>
+<li><p><a class="reference external" href="https://palletsprojects.com/p/itsdangerous/">ItsDangerous</a> securely signs data to ensure its integrity. This is used
+to protect Flask’s session cookie.</p></li>
+<li><p><a class="reference external" href="https://palletsprojects.com/p/click/">Click</a> is a framework for writing command line applications. It provides
+the <code class="docutils literal notranslate"><span class="pre">flask</span></code> command and allows adding custom management commands.</p></li>
+</ul>
+<div class="section" id="optional-dependencies">
+<h3>Optional dependencies<a class="headerlink" href="#optional-dependencies" title="Permalink to this headline">¶</a></h3>
+<p>These distributions will not be installed automatically. Flask will detect and
+use them if you install them.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pythonhosted.org/blinker/">Blinker</a> provides support for <a class="reference internal" href="../signals/#signals"><span class="std std-ref">Signals</span></a>.</p></li>
+<li><p><a class="reference external" href="https://simplejson.readthedocs.io/">SimpleJSON</a> is a fast JSON implementation that is compatible with
+Python’s <code class="docutils literal notranslate"><span class="pre">json</span></code> module. It is preferred for JSON operations if it is
+installed.</p></li>
+<li><p><a class="reference external" href="https://github.com/theskumar/python-dotenv#readme">python-dotenv</a> enables support for <a class="reference internal" href="../cli/#dotenv"><span class="std std-ref">Environment Variables From dotenv</span></a> when running <code class="docutils literal notranslate"><span class="pre">flask</span></code>
+commands.</p></li>
+<li><p><a class="reference external" href="https://pythonhosted.org/watchdog/">Watchdog</a> provides a faster, more efficient reloader for the development
+server.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="virtual-environments">
+<h2>Virtual environments<a class="headerlink" href="#virtual-environments" title="Permalink to this headline">¶</a></h2>
+<p>Use a virtual environment to manage the dependencies for your project, both in
+development and in production.</p>
+<p>What problem does a virtual environment solve? The more Python projects you
+have, the more likely it is that you need to work with different versions of
+Python libraries, or even Python itself. Newer versions of libraries for one
+project can break compatibility in another project.</p>
+<p>Virtual environments are independent groups of Python libraries, one for each
+project. Packages installed for one project will not affect other projects or
+the operating system’s packages.</p>
+<p>Python 3 comes bundled with the <a class="reference external" href="https://docs.python.org/3/library/venv.html#module-venv" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">venv</span></code></a> module to create virtual
+environments. If you’re using a modern version of Python, you can continue on
+to the next section.</p>
+<p>If you’re using Python 2, see <a class="reference internal" href="#install-install-virtualenv"><span class="std std-ref">Install virtualenv</span></a> first.</p>
+<div class="section" id="create-an-environment">
+<span id="install-create-env"></span><h3>Create an environment<a class="headerlink" href="#create-an-environment" title="Permalink to this headline">¶</a></h3>
+<p>Create a project folder and a <code class="file docutils literal notranslate"><span class="pre">venv</span></code> folder within:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ mkdir myproject
+$ <span class="nb">cd</span> myproject
+$ python3 -m venv venv
+</pre></div>
+</div>
+<p>On Windows:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>$ py -3 -m venv venv
+</pre></div>
+</div>
+<p>If you needed to install virtualenv because you are using Python 2, use
+the following command instead:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ python2 -m virtualenv venv
+</pre></div>
+</div>
+<p>On Windows:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> \Python27\Scripts\virtualenv.exe venv
+</pre></div>
+</div>
+</div>
+<div class="section" id="activate-the-environment">
+<span id="install-activate-env"></span><h3>Activate the environment<a class="headerlink" href="#activate-the-environment" title="Permalink to this headline">¶</a></h3>
+<p>Before you work on your project, activate the corresponding environment:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ . venv/bin/activate
+</pre></div>
+</div>
+<p>On Windows:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> venv\Scripts\activate
+</pre></div>
+</div>
+<p>Your shell prompt will change to show the name of the activated environment.</p>
+</div>
+</div>
+<div class="section" id="install-flask">
+<h2>Install Flask<a class="headerlink" href="#install-flask" title="Permalink to this headline">¶</a></h2>
+<p>Within the activated environment, use the following command to install Flask:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ pip install Flask
+</pre></div>
+</div>
+<p>Flask is now installed. Check out the <a class="reference internal" href="../quickstart/"><span class="doc">Quickstart</span></a> or go to the
+<a class="reference internal" href="../"><span class="doc">Documentation Overview</span></a>.</p>
+<div class="section" id="living-on-the-edge">
+<h3>Living on the edge<a class="headerlink" href="#living-on-the-edge" title="Permalink to this headline">¶</a></h3>
+<p>If you want to work with the latest Flask code before it’s released, install or
+update the code from the master branch:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ pip install -U https://github.com/pallets/flask/archive/master.tar.gz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="install-virtualenv">
+<span id="install-install-virtualenv"></span><h2>Install virtualenv<a class="headerlink" href="#install-virtualenv" title="Permalink to this headline">¶</a></h2>
+<p>If you are using Python 2, the venv module is not available. Instead,
+install <a class="reference external" href="https://virtualenv.pypa.io/">virtualenv</a>.</p>
+<p>On Linux, virtualenv is provided by your package manager:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Debian, Ubuntu</span>
+$ sudo apt-get install python-virtualenv
+
+<span class="c1"># CentOS, Fedora</span>
+$ sudo yum install python-virtualenv
+
+<span class="c1"># Arch</span>
+$ sudo pacman -S python-virtualenv
+</pre></div>
+</div>
+<p>If you are on Mac OS X or Windows, download <a class="reference external" href="https://bootstrap.pypa.io/get-pip.py">get-pip.py</a>, then:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ sudo python2 Downloads/get-pip.py
+$ sudo python2 -m pip install virtualenv
+</pre></div>
+</div>
+<p>On Windows, as an administrator:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">&gt;</span> \Python27\python.exe Downloads\get-pip.py
+<span class="p">&gt;</span> \Python27\python.exe -m pip install virtualenv
+</pre></div>
+</div>
+<p>Now you can return above and <a class="reference internal" href="#install-create-env"><span class="std std-ref">Create an environment</span></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../">
+              <img class="logo" src="../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#python-version">Python Version</a></li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li><a class="reference internal" href="#optional-dependencies">Optional dependencies</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#virtual-environments">Virtual environments</a><ul>
+<li><a class="reference internal" href="#create-an-environment">Create an environment</a></li>
+<li><a class="reference internal" href="#activate-the-environment">Activate the environment</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#install-flask">Install Flask</a><ul>
+<li><a class="reference internal" href="#living-on-the-edge">Living on the edge</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#install-virtualenv">Install virtualenv</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../">Overview</a>
+    <ul>
+          <li>Previous: <a href="../advanced_foreword/" title="previous chapter">Foreword for Experienced Programmers</a>
+          <li>Next: <a href="../quickstart/" title="next chapter">Quickstart</a>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

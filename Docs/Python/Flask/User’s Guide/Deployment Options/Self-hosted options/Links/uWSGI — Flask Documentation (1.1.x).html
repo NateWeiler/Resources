@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>uWSGI &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="mod_wsgi (Apache)" href="../mod_wsgi/" />
+    <link rel="prev" title="Standalone WSGI Containers" href="../wsgi-standalone/" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/deploying/uwsgi/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/deploying/uwsgi/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "deploying/uwsgi"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../mod_wsgi/" title="mod_wsgi (Apache)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../wsgi-standalone/" title="Standalone WSGI Containers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../">Flask Documentation (1.1.x)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Deployment Options</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="uwsgi">
+<span id="deploying-uwsgi"></span><h1>uWSGI<a class="headerlink" href="#uwsgi" title="Permalink to this headline">¶</a></h1>
+<p>uWSGI is a deployment option on servers like <a class="reference external" href="https://nginx.org/">nginx</a>, <a class="reference external" href="https://www.lighttpd.net/">lighttpd</a>, and
+<a class="reference external" href="http://cherokee-project.com/">cherokee</a>; see <a class="reference internal" href="../fastcgi/"><span class="doc">FastCGI</span></a> and <a class="reference internal" href="../wsgi-standalone/"><span class="doc">Standalone WSGI Containers</span></a> for other options.
+To use your WSGI application with uWSGI protocol you will need a uWSGI server
+first. uWSGI is both a protocol and an application server; the application
+server can serve uWSGI, FastCGI, and HTTP protocols.</p>
+<p>The most popular uWSGI server is <a class="reference external" href="https://uwsgi-docs.readthedocs.io/en/latest/">uwsgi</a>, which we will use for this
+guide. Make sure to have it installed to follow along.</p>
+<div class="admonition-watch-out admonition">
+<p class="admonition-title">Watch Out</p>
+<p>Please make sure in advance that any <code class="docutils literal notranslate"><span class="pre">app.run()</span></code> calls you might
+have in your application file are inside an <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span>
+<span class="pre">'__main__':</span></code> block or moved to a separate file.  Just make sure it’s
+not called because this will always start a local WSGI server which
+we do not want if we deploy that application to uWSGI.</p>
+</div>
+<div class="section" id="starting-your-app-with-uwsgi">
+<h2>Starting your app with uwsgi<a class="headerlink" href="#starting-your-app-with-uwsgi" title="Permalink to this headline">¶</a></h2>
+<p><cite>uwsgi</cite> is designed to operate on WSGI callables found in python modules.</p>
+<p>Given a flask application in myapp.py, use the following command:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ uwsgi -s /tmp/yourapplication.sock --manage-script-name --mount /yourapplication=myapp:app
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">--manage-script-name</span></code> will move the handling of <code class="docutils literal notranslate"><span class="pre">SCRIPT_NAME</span></code>
+to uwsgi, since it is smarter about that.
+It is used together with the <code class="docutils literal notranslate"><span class="pre">--mount</span></code> directive which will make
+requests to <code class="docutils literal notranslate"><span class="pre">/yourapplication</span></code> be directed to <code class="docutils literal notranslate"><span class="pre">myapp:app</span></code>.
+If your application is accessible at root level, you can use a
+single <code class="docutils literal notranslate"><span class="pre">/</span></code> instead of <code class="docutils literal notranslate"><span class="pre">/yourapplication</span></code>. <code class="docutils literal notranslate"><span class="pre">myapp</span></code> refers to the name of
+the file of your flask application (without extension) or the module which
+provides <code class="docutils literal notranslate"><span class="pre">app</span></code>. <code class="docutils literal notranslate"><span class="pre">app</span></code> is the callable inside of your application (usually
+the line reads <code class="docutils literal notranslate"><span class="pre">app</span> <span class="pre">=</span> <span class="pre">Flask(__name__)</span></code>.</p>
+<p>If you want to deploy your flask application inside of a virtual environment,
+you need to also add <code class="docutils literal notranslate"><span class="pre">--virtualenv</span> <span class="pre">/path/to/virtual/environment</span></code>. You might
+also need to add <code class="docutils literal notranslate"><span class="pre">--plugin</span> <span class="pre">python</span></code> or <code class="docutils literal notranslate"><span class="pre">--plugin</span> <span class="pre">python3</span></code> depending on which
+python version you use for your project.</p>
+</div>
+<div class="section" id="configuring-nginx">
+<h2>Configuring nginx<a class="headerlink" href="#configuring-nginx" title="Permalink to this headline">¶</a></h2>
+<p>A basic flask nginx configuration looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>location = /yourapplication { rewrite ^ /yourapplication/; }
+location /yourapplication { try_files $uri @yourapplication; }
+location @yourapplication {
+  include uwsgi_params;
+  uwsgi_pass unix:/tmp/yourapplication.sock;
+}
+</pre></div>
+</div>
+<p>This configuration binds the application to <code class="docutils literal notranslate"><span class="pre">/yourapplication</span></code>.  If you want
+to have it in the URL root its a bit simpler:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>location / { try_files $uri @yourapplication; }
+location @yourapplication {
+    include uwsgi_params;
+    uwsgi_pass unix:/tmp/yourapplication.sock;
+}
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../">
+              <img class="logo" src="../../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">uWSGI</a><ul>
+<li><a class="reference internal" href="#starting-your-app-with-uwsgi">Starting your app with uwsgi</a></li>
+<li><a class="reference internal" href="#configuring-nginx">Configuring nginx</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../">Overview</a>
+    <ul>
+      <li><a href="../">Deployment Options</a>
+        <ul>
+          <li>Previous: <a href="../wsgi-standalone/" title="previous chapter">Standalone WSGI Containers</a>
+          <li>Next: <a href="../mod_wsgi/" title="next chapter">mod_wsgi (Apache)</a></ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

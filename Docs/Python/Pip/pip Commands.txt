@@ -1,0 +1,136 @@
+	#######
+	# Pip #
+	#######
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+pip --version
+
+	#######################
+	# Install Pip package #
+	#######################
+	<<---| Mac |--->>
+$ pip3 install <?????>
+
+	<<---| Git Bash |--->>
+$ pip install <?????>
+
+	#######################
+	# Upgrade Pip package #
+	#######################
+	<<---| Mac |--->>
+$ pip3 install <?????> --upgrade
+
+	<<---| Git Bash |--->>
+$ python -m pip install <?????> --upgrade
+
+	#####################################
+	# Upgrade requirements.txt packages #
+	#####################################
+	<<---| Mac |--->>
+$ pip3 install -r requirements.txt --upgrade
+
+	<<---| Git Bash |--->>
+$ pip install -r requirements.txt --upgrade
+
+##### Upgrade Pip #####
+$ pip3 install -U pip
+
+	<<---| Git Bash |--->>
+$ pip install -U pip
+
+	##############################
+	# Copy pip list to clipboard #
+	##############################
+	<<---| Mac |--->>
+$ pip3 list | pbcopy
+
+	<<---| Git Bash |--->>
+$ pip list | clip
+
+##### Paste pip list outdated to clipboard #####
+	<<---| Mac |--->>
+$ pip3 list --outdated | pbcopy
+
+	<<---| Git Bash |--->>
+$ pip list --outdated | clip
+
+##### Paste pip list outdated to file #####
+	<<---| Mac |--->>
+$ pbpaste > pip-outdated.txt
+
+	<<---| Git Bash |--->>
+$ clip > pip-outdated.txt
+
+##### Show pip package #####
+	<<---| Mac |--->>
+$ pip3 show <?????> <?????>
+
+	<<---| Git Bash |--->>
+$ pip show <?????> <?????>
+
+	##################################
+	# Update/Upgrade all Pip in Venv #
+	##################################
+	<<---| Mac |--->>
+$ pip3 freeze --local | grep -v ‘^\-e’ | cut -d = -f 1 | xargs -n1 pip install -U
+
+	<<---| Git Bash |--->>
+$ pip freeze --local | grep -v ‘^\-e’ | cut -d = -f 1 | xargs -n1 pip install -U
+
+	##########################################
+	# Update/Upgrade all global pip packages #
+	##########################################
+	<<---| Mac |--->>
+$ pip3 list -o | grep -v -i warning | cut -f1 -d’ ' | tr ” ” “\n” | awk ‘{if(NR>=3)print}’ | cut -d’ ' -f1 | xargs -n1 pip3 install -U
+
+	<<---| Git Bash |--->>
+$ pip list -o | grep -v -i warning | cut -f1 -d’ ' | tr ” ” “\n” | awk ‘{if(NR>=3)print}’ | cut -d’ ' -f1 | xargs -n1 pip3 install -U
+
+	############################################
+	# Install pip packages in requirements.txt #
+	############################################
+	<<---| Mac |--->>
+$ pip3 install -r requirements.txt
+
+	<<---| Git Bash |--->>
+$ pip install -r requirements.txt
+
+	########################################
+	# Add pip packages to requirements.txt #
+	########################################
+	<<---| Mac |--->>
+$ pip3 freeze > requirements.txt
+
+	<<---| Git Bash |--->>
+$ pip freeze > requirements.txt
+
+	##################################
+	# View requirements.txt contents #
+	##################################
+$ cat requirements.txt
+
+	###############################################
+	# Copy requirements.txt contents to clipboard #
+	###############################################
+	<<---| Mac |--->>
+$ pbcopy < requirements.txt
+
+	<<---| Git Bash |--->>
+$ clip < requirements.txt
+
+	########################################
+	# Uninstall system Python pip packages #
+	########################################
+	<<---| Mac |--->>
+$ pip3 uninstall -r requirements.txt
+
+	<<---| Git Bash |--->>
+$ pip uninstall -r requirements.txt
+
+	## Or to remove all at once ##
+
+	<<---| Mac |--->>
+$ pip3 uninstall -r requirements.txt -y
+
+	<<---| Git Bash |--->>
+$ pip uninstall -r requirements.txt -y

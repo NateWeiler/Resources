@@ -1,0 +1,99 @@
+add_package()
+
+py_library(
+  NAME
+    indexer
+  SRCS
+    __init__.py
+    debug.py
+    utils.py
+    indexer.py
+    kythe.py
+    output.py
+  DEPS
+    .callgraph
+    .node_utils
+    pytype.analyze
+    pytype.errors
+    pytype.io
+    pytype.libvm
+    pytype.tools.tools
+    pytype.tools.traces.traces
+)
+
+py_library(
+  NAME
+    node_utils
+  SRCS
+    node_utils.py
+)
+
+py_library(
+  NAME
+    parse_args
+  SRCS
+    parse_args.py
+  DEPS
+    .indexer
+    pytype.config
+    pytype.utils
+    pytype.tools.tools
+)
+
+py_library(
+  NAME
+    callgraph
+  SRCS
+    callgraph.py
+  DEPS
+    .node_utils
+    pytype.pytd_lib
+)
+
+py_test(
+  NAME
+    parse_args_test
+  SRCS
+    parse_args_test.py
+  DEPS
+    .parse_args
+    pytype.utils
+)
+
+py_test(
+  NAME
+    indexer_test
+  SRCS
+    indexer_test.py
+  DEPS
+    .indexer
+    pytype.config
+    pytype.utils
+    pytype.tests.test_base
+)
+
+py_test(
+  NAME
+    callgraph_test
+  SRCS
+    callgraph_test.py
+  DEPS
+    .callgraph
+    .indexer
+    pytype.utils
+    pytype.tests.test_base
+)
+
+toplevel_py_binary(
+  NAME
+    xref
+  SRCS
+    main.py
+  MAIN
+    main.py
+  DEPS
+    .indexer
+    .parse_args
+    pytype.utils
+    pytype.pytd.parse.node
+)

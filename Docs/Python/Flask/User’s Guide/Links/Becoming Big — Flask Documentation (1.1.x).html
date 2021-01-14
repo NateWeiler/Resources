@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Becoming Big &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="API" href="../api/" />
+    <link rel="prev" title="CGI" href="../deploying/cgi/" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/becomingbig/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/becomingbig/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "becomingbig"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../api/" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../deploying/cgi/" title="CGI"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../">Flask Documentation (1.1.x)</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="becoming-big">
+<span id="becomingbig"></span><h1>Becoming Big<a class="headerlink" href="#becoming-big" title="Permalink to this headline">¶</a></h1>
+<p>Here are your options when growing your codebase or scaling your application.</p>
+<div class="section" id="read-the-source">
+<h2>Read the Source.<a class="headerlink" href="#read-the-source" title="Permalink to this headline">¶</a></h2>
+<p>Flask started in part to demonstrate how to build your own framework on top of
+existing well-used tools Werkzeug (WSGI) and Jinja (templating), and as it
+developed, it became useful to a wide audience.  As you grow your codebase,
+don’t just use Flask – understand it.  Read the source.  Flask’s code is
+written to be read; its documentation is published so you can use its internal
+APIs.  Flask sticks to documented APIs in upstream libraries, and documents its
+internal utilities so that you can find the hook points needed for your
+project.</p>
+</div>
+<div class="section" id="hook-extend">
+<h2>Hook. Extend.<a class="headerlink" href="#hook-extend" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api/#api"><span class="std std-ref">API</span></a> docs are full of available overrides, hook points, and
+<a class="reference internal" href="../signals/#signals"><span class="std std-ref">Signals</span></a>. You can provide custom classes for things like the
+request and response objects. Dig deeper on the APIs you use, and look
+for the customizations which are available out of the box in a Flask
+release. Look for ways in which your project can be refactored into a
+collection of utilities and Flask extensions. Explore the many
+<a class="reference internal" href="../extensions/"><span class="doc">Extensions</span></a> in the community, and look for patterns to build your
+own extensions if you do not find the tools you need.</p>
+</div>
+<div class="section" id="subclass">
+<h2>Subclass.<a class="headerlink" href="#subclass" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../api/#flask.Flask" title="flask.Flask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flask</span></code></a> class has many methods designed for subclassing. You
+can quickly add or customize behavior by subclassing <a class="reference internal" href="../api/#flask.Flask" title="flask.Flask"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flask</span></code></a> (see
+the linked method docs) and using that subclass wherever you instantiate an
+application class. This works well with <a class="reference internal" href="../patterns/appfactories/#app-factories"><span class="std std-ref">Application Factories</span></a>.
+See <a class="reference internal" href="../patterns/subclassing/"><span class="doc">Subclassing Flask</span></a> for an example.</p>
+</div>
+<div class="section" id="wrap-with-middleware">
+<h2>Wrap with middleware.<a class="headerlink" href="#wrap-with-middleware" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../patterns/appdispatch/#app-dispatch"><span class="std std-ref">Application Dispatching</span></a> chapter shows in detail how to apply middleware. You
+can introduce WSGI middleware to wrap your Flask instances and introduce fixes
+and changes at the layer between your Flask application and your HTTP
+server. Werkzeug includes several <a class="reference external" href="https://werkzeug.palletsprojects.com/middleware/">middlewares</a>.</p>
+</div>
+<div class="section" id="fork">
+<h2>Fork.<a class="headerlink" href="#fork" title="Permalink to this headline">¶</a></h2>
+<p>If none of the above options work, fork Flask.  The majority of code of Flask
+is within Werkzeug and Jinja2.  These libraries do the majority of the work.
+Flask is just the paste that glues those together.  For every project there is
+the point where the underlying framework gets in the way (due to assumptions
+the original developers had).  This is natural because if this would not be the
+case, the framework would be a very complex system to begin with which causes a
+steep learning curve and a lot of user frustration.</p>
+<p>This is not unique to Flask.  Many people use patched and modified
+versions of their framework to counter shortcomings.  This idea is also
+reflected in the license of Flask.  You don’t have to contribute any
+changes back if you decide to modify the framework.</p>
+<p>The downside of forking is of course that Flask extensions will most
+likely break because the new framework has a different import name.
+Furthermore integrating upstream changes can be a complex process,
+depending on the number of changes.  Because of that, forking should be
+the very last resort.</p>
+</div>
+<div class="section" id="scale-like-a-pro">
+<h2>Scale like a pro.<a class="headerlink" href="#scale-like-a-pro" title="Permalink to this headline">¶</a></h2>
+<p>For many web applications the complexity of the code is less an issue than
+the scaling for the number of users or data entries expected.  Flask by
+itself is only limited in terms of scaling by your application code, the
+data store you want to use and the Python implementation and webserver you
+are running on.</p>
+<p>Scaling well means for example that if you double the amount of servers
+you get about twice the performance.  Scaling bad means that if you add a
+new server the application won’t perform any better or would not even
+support a second server.</p>
+<p>There is only one limiting factor regarding scaling in Flask which are
+the context local proxies.  They depend on context which in Flask is
+defined as being either a thread, process or greenlet.  If your server
+uses some kind of concurrency that is not based on threads or greenlets,
+Flask will no longer be able to support these global proxies.  However the
+majority of servers are using either threads, greenlets or separate
+processes to achieve concurrency which are all methods well supported by
+the underlying Werkzeug library.</p>
+</div>
+<div class="section" id="discuss-with-the-community">
+<h2>Discuss with the community.<a class="headerlink" href="#discuss-with-the-community" title="Permalink to this headline">¶</a></h2>
+<p>The Flask developers keep the framework accessible to users with codebases big
+and small. If you find an obstacle in your way, caused by Flask, don’t hesitate
+to contact the developers on the mailing list or Discord server.  The best way for
+the Flask and Flask extension developers to improve the tools for larger
+applications is getting feedback from users.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../">
+              <img class="logo" src="../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Becoming Big</a><ul>
+<li><a class="reference internal" href="#read-the-source">Read the Source.</a></li>
+<li><a class="reference internal" href="#hook-extend">Hook. Extend.</a></li>
+<li><a class="reference internal" href="#subclass">Subclass.</a></li>
+<li><a class="reference internal" href="#wrap-with-middleware">Wrap with middleware.</a></li>
+<li><a class="reference internal" href="#fork">Fork.</a></li>
+<li><a class="reference internal" href="#scale-like-a-pro">Scale like a pro.</a></li>
+<li><a class="reference internal" href="#discuss-with-the-community">Discuss with the community.</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../">Overview</a>
+    <ul>
+          <li>Previous: <a href="../deploying/cgi/" title="previous chapter">CGI</a>
+          <li>Next: <a href="../api/" title="next chapter">API</a>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,186 @@
+/* SHURU: Common */
+html {height: 100%;}
+
+body
+{
+    margin: 0;
+    padding: 0px;
+    background-color: #000000;
+    height: 100%;
+    color: #C0C0C0;
+}
+
+div
+{
+    border: medium solid #C0C0C0;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    -moz-border-radius: 10px;
+}
+
+h3
+{
+    background-color: #333333;
+    color: #C0C0C0;
+}
+h3 span
+{
+    border-bottom: 4px solid maroon;
+    border-bottom-color: #000000;
+}
+
+/* KHATAM: Common */
+
+/* SHURU: Main Structure */
+#SmallHeader {
+float:right;
+width: auto;
+text-align:center;
+margin-top:0;
+margin-right:5%;
+color:maroon;
+  background-color: #CCCCCC;
+  border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  padding: 0px 10px 0px 10px
+}
+
+#pageWrapper
+{
+    margin-top: 15px;
+    background-color: #000000;
+    width: 90%;
+    min-width: 700px; /* height: 100%; */ /*float: left;*/
+    clear: both;
+}
+
+#Header {
+    margin-top: 0px;
+    /*height: 100px;*/
+  /* background-color: #666666; */
+  /*font-size: 32px;*/
+  margin: 2px
+}
+#Sidebar {
+    width: 20%;
+    /* height: 100%; */
+  /*background-color: #99CC99;*/
+  float: left;
+  /*padding-top: 10px;*/
+  margin: 10px 2px 2px
+}
+#MainContent {
+    width: 78%;
+  /*height: 100%;*/
+  /*background-color: #33CCCC;*/
+  float: right;
+  margin-top: 4px;
+  margin: 10px 2px 2px
+}
+#Footer {
+  border-top: 2px solid black;
+  /*background-color: #CC6666;*/
+  color: #C0C0C0;
+  clear: both;
+  text-align:right;
+}
+/* KHATAM: Main Structure */
+
+#menu
+{
+    /*width: 100%;*/ /*border-right: 1px solid #000;*/ /*padding: 0 0 1em 0;*/ /*margin-bottom: 1em;*/
+    margin: 2px;
+    background-color: #333300;
+    color: #99FFCC; /*height: 100%;*/
+}
+
+#menu ul {
+list-style: none;
+margin: 0;
+padding: 0;
+border: none;
+}
+
+#menu li
+{
+    border-bottom: 2px solid #660066;
+    border-bottom-color: #CCCCCC;
+}
+
+#menu li a
+{
+    display: block;
+    padding: 5px 5px 5px 0.5em;
+    border-left: 10px solid #663300;
+    border-right: 10px solid #993300;
+    background-color: #000000;
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    border-right-color: #666666;
+    border-left-color: #333333;
+}
+
+html>body #menu li a {
+width: auto;
+}
+
+#menu li a:hover {
+border-left: 10px solid #1c64d1;
+border-right: 10px solid #5ba3e0;
+background-color: #2586d7;
+color: #fff;
+}
+
+.basicInfo
+{
+    /*margin-top: 10px;*/ /*margin-left: 5%;*/ /*width: 98%;*/
+    background-color: #666666;
+    color: #000000;
+    margin: 5px;
+}
+.otherInfo
+{
+    margin: 5px; /*margin-left: 5%;*/ /*width: 90%;*/
+    background-color: #666666;
+    color: black;
+}
+
+.fromVer12
+{
+    border-style: solid;
+    border-width: 2px;
+    padding: 10px; /*width: 90%;*/ /*margin-left: 5%;*/
+    background-color: #FFFFFF;
+    color:#000000;
+    font-size: 0.8em;
+    margin: 3px;
+}
+.fromVer11 {
+  border-style: solid;
+  border-width: 2px;
+  padding: 10px;
+  /*width: 90%;*/
+  /*margin-left: 5%;*/
+  background-color: #FFFFFF;
+    color:#000000;
+  font-size: 0.8em;
+  margin: 3px
+}
+divx div div:hover {
+  background-color: #336699;
+}
+td {
+  border: 1px solid black;
+  padding: 5px;
+  background-color: #ffffff;
+}
+.buttonClass {
+  margin: 0 12px 0 0;
+  background: #111111 none repeat scroll 0;
+  color: #ffffff;
+  cursor: pointer;
+  float: right;
+  width: 100px;
+}

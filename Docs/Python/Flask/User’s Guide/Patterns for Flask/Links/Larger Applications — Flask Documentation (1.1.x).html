@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Larger Applications &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Application Factories" href="../appfactories/" />
+    <link rel="prev" title="Patterns for Flask" href="../" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/patterns/packages/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/patterns/packages/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "patterns/packages"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../appfactories/" title="Application Factories"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../" title="Patterns for Flask"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../">Flask Documentation (1.1.x)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Patterns for Flask</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="larger-applications">
+<span id="id1"></span><h1>Larger Applications<a class="headerlink" href="#larger-applications" title="Permalink to this headline">¶</a></h1>
+<p>Imagine a simple flask application structure that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">yourapplication</span>
+    <span class="n">yourapplication</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">/</span><span class="n">static</span>
+        <span class="n">style</span><span class="o">.</span><span class="n">css</span>
+    <span class="o">/</span><span class="n">templates</span>
+        <span class="n">layout</span><span class="o">.</span><span class="n">html</span>
+        <span class="n">index</span><span class="o">.</span><span class="n">html</span>
+        <span class="n">login</span><span class="o">.</span><span class="n">html</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>While this is fine for small applications, for larger applications
+it’s a good idea to use a package instead of a module.
+The <a class="reference internal" href="../../tutorial/#tutorial"><span class="std std-ref">tutorial</span></a> is structured to use the package pattern,
+see the <a class="reference external" href="https://github.com/pallets/flask/tree/master/examples/tutorial">example code</a>.</p>
+<div class="section" id="simple-packages">
+<h2>Simple Packages<a class="headerlink" href="#simple-packages" title="Permalink to this headline">¶</a></h2>
+<p>To convert that into a larger one, just create a new folder
+<code class="file docutils literal notranslate"><span class="pre">yourapplication</span></code> inside the existing one and move everything below it.
+Then rename <code class="file docutils literal notranslate"><span class="pre">yourapplication.py</span></code> to <code class="file docutils literal notranslate"><span class="pre">__init__.py</span></code>.  (Make sure to delete
+all <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> files first, otherwise things would most likely break)</p>
+<p>You should then end up with something like that:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">yourapplication</span>
+    <span class="o">/</span><span class="n">yourapplication</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="o">/</span><span class="n">static</span>
+            <span class="n">style</span><span class="o">.</span><span class="n">css</span>
+        <span class="o">/</span><span class="n">templates</span>
+            <span class="n">layout</span><span class="o">.</span><span class="n">html</span>
+            <span class="n">index</span><span class="o">.</span><span class="n">html</span>
+            <span class="n">login</span><span class="o">.</span><span class="n">html</span>
+            <span class="o">...</span>
+</pre></div>
+</div>
+<p>But how do you run your application now?  The naive <code class="docutils literal notranslate"><span class="pre">python</span>
+<span class="pre">yourapplication/__init__.py</span></code> will not work.  Let’s just say that Python
+does not want modules in packages to be the startup file.  But that is not
+a big problem, just add a new file called <code class="file docutils literal notranslate"><span class="pre">setup.py</span></code> next to the inner
+<code class="file docutils literal notranslate"><span class="pre">yourapplication</span></code> folder with the following contents:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools</span> <span class="k">import</span> <span class="n">setup</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;yourapplication&#39;</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;yourapplication&#39;</span><span class="p">],</span>
+    <span class="n">include_package_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;flask&#39;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>In order to run the application you need to export an environment variable
+that tells Flask where to find the application instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ export FLASK_APP=yourapplication
+</pre></div>
+</div>
+<p>If you are outside of the project directory make sure to provide the exact
+path to your application directory. Similarly you can turn on the
+development features like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ export FLASK_ENV=development
+</pre></div>
+</div>
+<p>In order to install and run the application you need to issue the following
+commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install -e .
+$ flask run
+</pre></div>
+</div>
+<p>What did we gain from this?  Now we can restructure the application a bit
+into multiple modules.  The only thing you have to remember is the
+following quick checklist:</p>
+<ol class="arabic simple">
+<li><p>the <cite>Flask</cite> application object creation has to be in the
+<code class="file docutils literal notranslate"><span class="pre">__init__.py</span></code> file.  That way each module can import it safely and the
+<cite>__name__</cite> variable will resolve to the correct package.</p></li>
+<li><p>all the view functions (the ones with a <a class="reference internal" href="../../api/#flask.Flask.route" title="flask.Flask.route"><code class="xref py py-meth docutils literal notranslate"><span class="pre">route()</span></code></a>
+decorator on top) have to be imported in the <code class="file docutils literal notranslate"><span class="pre">__init__.py</span></code> file.
+Not the object itself, but the module it is in. Import the view module
+<strong>after the application object is created</strong>.</p></li>
+</ol>
+<p>Here’s an example <code class="file docutils literal notranslate"><span class="pre">__init__.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Flask</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">yourapplication.views</span>
+</pre></div>
+</div>
+<p>And this is what <code class="file docutils literal notranslate"><span class="pre">views.py</span></code> would look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="k">import</span> <span class="n">app</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s1">&#39;Hello World!&#39;</span>
+</pre></div>
+</div>
+<p>You should then end up with something like that:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">yourapplication</span>
+    <span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">/</span><span class="n">yourapplication</span>
+        <span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">views</span><span class="o">.</span><span class="n">py</span>
+        <span class="o">/</span><span class="n">static</span>
+            <span class="n">style</span><span class="o">.</span><span class="n">css</span>
+        <span class="o">/</span><span class="n">templates</span>
+            <span class="n">layout</span><span class="o">.</span><span class="n">html</span>
+            <span class="n">index</span><span class="o">.</span><span class="n">html</span>
+            <span class="n">login</span><span class="o">.</span><span class="n">html</span>
+            <span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition-circular-imports admonition">
+<p class="admonition-title">Circular Imports</p>
+<p>Every Python programmer hates them, and yet we just added some:
+circular imports (That’s when two modules depend on each other.  In this
+case <code class="file docutils literal notranslate"><span class="pre">views.py</span></code> depends on <code class="file docutils literal notranslate"><span class="pre">__init__.py</span></code>).  Be advised that this is a
+bad idea in general but here it is actually fine.  The reason for this is
+that we are not actually using the views in <code class="file docutils literal notranslate"><span class="pre">__init__.py</span></code> and just
+ensuring the module is imported and we are doing that at the bottom of
+the file.</p>
+<p>There are still some problems with that approach but if you want to use
+decorators there is no way around that.  Check out the
+<a class="reference internal" href="../../becomingbig/#becomingbig"><span class="std std-ref">Becoming Big</span></a> section for some inspiration how to deal with that.</p>
+</div>
+</div>
+<div class="section" id="working-with-blueprints">
+<span id="working-with-modules"></span><h2>Working with Blueprints<a class="headerlink" href="#working-with-blueprints" title="Permalink to this headline">¶</a></h2>
+<p>If you have larger applications it’s recommended to divide them into
+smaller groups where each group is implemented with the help of a
+blueprint.  For a gentle introduction into this topic refer to the
+<a class="reference internal" href="../../blueprints/#blueprints"><span class="std std-ref">Modular Applications with Blueprints</span></a> chapter of the documentation.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../">
+              <img class="logo" src="../../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Larger Applications</a><ul>
+<li><a class="reference internal" href="#simple-packages">Simple Packages</a></li>
+<li><a class="reference internal" href="#working-with-blueprints">Working with Blueprints</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../">Overview</a>
+    <ul>
+      <li><a href="../">Patterns for Flask</a>
+        <ul>
+          <li>Previous: <a href="../" title="previous chapter">Patterns for Flask</a>
+          <li>Next: <a href="../appfactories/" title="next chapter">Application Factories</a></ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

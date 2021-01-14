@@ -1,0 +1,16 @@
+colorama
+aiohttp>=3.5.0
+tqdm>=4.31.0
+
+[:python_version < "3.7"]
+dataclasses
+
+[tests]
+colorama
+aiohttp>=3.5.0
+tqdm>=4.31.0
+tox
+flake8
+
+[tests:python_version < "3.7"]
+dataclasses

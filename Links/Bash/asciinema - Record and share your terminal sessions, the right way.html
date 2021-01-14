@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>asciinema - Record and share your terminal sessions, the right way</title>
+    <link rel="stylesheet" href="/css/app2-ca44d9fac61b6a815b4925ecb7c00216.css?vsn=d">
+    <link rel="shortcut icon" href="/images/favicon-2d62dafa447cf018340b7121007568e3.png?vsn=d">
+  </head>
+
+  <body class="l-app c-home a-show">
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img src="/images/logo-red-949d10005bb389d1ae900a13b5ac53d7.svg?vsn=d">
+      </a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/explore">Watch</span></a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/docs/getting-started">Record</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/docs/how-it-works">Docs</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="http://blog.asciinema.org">Blog</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav navbar-right session-info">
+            <li class="nav-item">
+              <a class="nav-link" href="/login/new" id="log-in">Log in / Sign up</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+    
+
+
+    <main role="main" class="">
+<section class="cinema">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <h1>Record and share your terminal sessions, the&nbsp;right&nbsp;way. </h1>
+
+        <h2>
+          Forget screen recording apps and blurry video.
+          Enjoy a lightweight, purely text-based approach to terminal recording.
+        </h2>
+
+        <p>&nbsp; </p>
+        <p><button class="btn btn-info" data-content="<p>Install asciinema with:</p>
+
+<pre><code>brew install asciinema
+</code></pre>
+
+<p>See other <a href='/docs/installation'>installation options</a>.</p>
+                          <p>Start recording with:</p><pre>asciinema rec</pre>" data-toggle="popover" type="button" data-original-title="" title="">Start Recording</button>
+        </p>
+
+        <p>Supports Linux, macOS and *BSD </p>
+      </div>
+
+      <div class="col-md-7">
+        <div class="player-wrapper">
+            <asciinema-player author="asciinema" author-img-url="//gravatar.com/avatar/2894aeb3ac329a5c9dfd0b17069653b4?s=128&amp;d=retro" author-url="https://asciinema.org/~asciinema" cols="81" id="player" poster="data:application/json;base64,W1tbIj4gIyBTZWUgaG93IGVhc3kgaXQgaXMgdG8gcmVjb3JkIGEgdGVybWluYWwgc2Vzc2lvbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICIse31dXSxbWyI+ICMgRmlyc3QgaW5zdGFsbCB0aGUgYXNjaWluZW1hIHJlY29yZGVyICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiLHt9XV0sW1siPiBicmV3IGluc3RhbGwgYXNjaWluZW1hICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIix7fV1dLFtbIj09PiIseyJmZyI6NH1dLFsiICIse31dLFsiRG93bmxvYWRpbmcgaHR0cHM6Ly9ob21lYnJldy5iaW50cmF5LmNvbS9ib3R0bGVzL2FzY2lpbmVtYS0xLjQuMC5zaWVycmEuYm90dGwiLHsiYm9sZCI6dHJ1ZX1dXSxbWyJlLnRhci5neiIseyJib2xkIjp0cnVlfV0sWyIgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIix7fV1dLFtbIiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyAxMDAuMCUgICIse31dXSxbWyI9PT4iLHsiZmciOjR9XSxbIiAiLHt9XSxbIlBvdXJpbmcgYXNjaWluZW1hLTEuNC4wLnNpZXJyYS5ib3R0bGUudGFyLmd6Iix7ImJvbGQiOnRydWV9XSxbIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICIse31dXSxbWyJcdUQ4M0NcdURGN0EgIC91c3IvbG9jYWwvQ2VsbGFyL2FzY2lpbmVtYS8xLjQuMDogMzAgZmlsZXMsIDgyLjJLQiAgICAgICAgICAgICAgICAgICAgICAgICAgICIse31dXSxbWyI+ICMgTm93IHN0YXJ0IHJlY29yZGluZyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiLHt9XV0sW1siPiBhc2NpaW5lbWEgcmVjICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIix7fV1dLFtbIn4gQXNjaWljYXN0IHJlY29yZGluZyBzdGFydGVkLiIseyJmZyI6Mn1dLFsiICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIix7fV1dLFtbIn4gSGl0IEN0cmwtRCBvciB0eXBlIFwiZXhpdFwiIHRvIGZpbmlzaC4iLHsiZmciOjJ9XSxbIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiLHt9XV0sW1siYmFzaC0zLjIkICMgSSBhbSBpbiBhIG5ldyBzaGVsbCBpbnN0YW5jZSB3aGljaCBpcyBiZWluZyByZWNvcmRlZCBub3cgICAgICAgICAgICAgIix7fV1dLFtbImJhc2gtMy4yJCBzaGExc3VtIC9ldGMvZiogfCB0YWlsIC1uIDEwIHwgbG9sY2F0IC1GIDAuMyAgICAgICAgICAgICAgICAgICAgICAgICAgICIse31dXSxbWyJkYTMiLHsiZmciOjE4NH1dLFsiOWEzIix7ImZnIjoyMTR9XSxbImVlNWUiLHsiZmciOjIwOH1dLFsiNmI0YiIseyJmZyI6MjAzfV0sWyIwZDMiLHsiZmciOjE5OH1dLFsiMjU1Iix7ImZnIjoxOTl9XSxbImJmZWYiLHsiZmciOjE2NH1dLFsiOTU2Iix7ImZnIjoxMjl9XSxbIjAxODkiLHsiZmciOjkzfV0sWyIwYWZkIix7ImZnIjo2M31dLFsiODA3Iix7ImZnIjozM31dLFsiMDkgIix7ImZnIjozOX1dLFsiIC9ldCIseyJmZyI6NDR9XSxbImMvZiIseyJmZyI6NDl9XSxbImluZCIseyJmZyI6NDh9XSxbIi4iLHsiZmciOjg0fV0sWyJjb2QiLHsiZmciOjgzfV0sWyJlIix7ImZnIjoxMTl9XSxbInMiLHsiZmciOjExOH1dLFsiICAgICAgICAgICAgICAgICAgICAgICAgIix7fV1dLFtbIjg4ZCIseyJmZyI6MjE0fV0sWyJkM2VhIix7ImZnIjoyMDh9XSxbIjdmZmMiLHsiZmciOjIwM31dLFsiYmI5Iix7ImZnIjoxOTh9XSxbIjEwZiIseyJmZyI6MTk5fV0sWyJiZDFkIix7ImZnIjoxNjR9XSxbIjkyMSIseyJmZyI6MTI5fV0sWyI4MTE4Iix7ImZnIjo5M31dLFsiMTdkOSIseyJmZyI6NjN9XSxbIjM1MyIseyJmZyI6MzN9XSxbIjEwYiIseyJmZyI6Mzl9XSxbIjM0ICAiLHsiZmciOjQ0fV0sWyIvZXQiLHsiZmciOjQ5fV0sWyJjL2YiLHsiZmciOjQ4fV0sWyJzIix7ImZnIjo4NH1dLFsidGFiIix7ImZnIjo4M31dLFsiLiIseyJmZyI6MTE5fV0sWyJoZCIseyJmZyI6MTE4fV0sWyIgICAgICAgICAgICAgICAgICAgICAgICAgICIse31dXSxbWyI0NDJhIix7ImZnIjoyMDh9XSxbIjViYzQiLHsiZmciOjIwM31dLFsiMTc0Iix7ImZnIjoxOTh9XSxbImE4ZiIseyJmZyI6MTk5fV0sWyI0ZDZlIix7ImZnIjoxNjR9XSxbImY4ZCIseyJmZyI6MTI5fV0sWyI1YWU1Iix7ImZnIjo5M31dLFsiZGE5MiIseyJmZyI6NjN9XSxbIjUxZSIseyJmZyI6MzN9XSxbImJiNiIseyJmZyI6Mzl9XSxbImFiNDUiLHsiZmciOjQ0fV0sWyI1ICAiLHsiZmciOjQ5fV0sWyIvZXQiLHsiZmciOjQ4fV0sWyJjIix7ImZnIjo4NH1dLFsiL2Z0Iix7ImZnIjo4M31dLFsicCIseyJmZyI6MTE5fV0sWyJkLmMiLHsiZmciOjExOH1dLFsib25mIix7ImZnIjoxNTR9XSxbIiAgICAgICAgICAgICAgICAgICAgICAgICAiLHt9XV0sW1siNCIseyJmZyI6MjA4fV0sWyI0MmE1Iix7ImZnIjoyMDN9XSxbImJjNCIseyJmZyI6MTk4fV0sWyIxNzQiLHsiZmciOjE5OX1dLFsiYThmNCIseyJmZyI6MTY0fV0sWyJkNmUiLHsiZmciOjEyOX1dLFsiZjhkNSIseyJmZyI6OTN9XSxbImFlNWQiLHsiZmciOjYzfV0sWyJhOTIiLHsiZmciOjMzfV0sWyI1MWUiLHsiZmciOjM5fV0sWyJiYjZhIix7ImZnIjo0NH1dLFsiYjQ1Iix7ImZnIjo0OX1dLFsiNSAgIix7ImZnIjo0OH1dLFsiLyIseyJmZyI6ODR9XSxbImV0YyIseyJmZyI6ODN9XSxbIi8iLHsiZmciOjExOX1dLFsiZnRwIix7ImZnIjoxMTh9XSxbImQuYyIseyJmZyI6MTU0fV0sWyJvbmYuIix7ImZnIjoxODR9XSxbImRlZiIseyJmZyI6MjE0fV0sWyJhdWwiLHsiZmciOjIwOH1dLFsidCIseyJmZyI6MjA5fV0sWyIgICAgICAgICAgICAgICAgICIse31dXSxbWyJkMyIseyJmZyI6MjAzfV0sWyJlNWYiLHsiZmciOjE5OH1dLFsiYjBjIix7ImZnIjoxOTl9XSxbIjU4MjYiLHsiZmciOjE2NH1dLFsiNDVlIix7ImZnIjoxMjl9XSxbIjYwZjgiLHsiZmciOjkzfV0sWyJhMTM4Iix7ImZnIjo2M31dLFsiMDJiIix7ImZnIjozM31dLFsiZTBjIix7ImZnIjozOX1dLFsiOTA5YSIseyJmZyI6NDR9XSxbIjNmOSIseyJmZyI6NDl9XSxbImU0ZCIseyJmZyI6NDh9XSxbIjciLHsiZmciOjg0fV0sWyIgIC8iLHsiZmciOjgzfV0sWyJlIix7ImZnIjoxMTl9XSxbInRjLyIseyJmZyI6MTE4fV0sWyJmdHAiLHsiZmciOjE1NH1dLFsidXNlciIseyJmZyI6MTg0fV0sWyJzIix7ImZnIjoyMTR9XSxbIiAgICAgICAgICAgICAgICAgICAgICAgICAgIix7fV1dLFtbImJhc2gtMy4yJCAjIFRvIGZpbmlzaCByZWNvcmRpbmcganVzdCBleGl0IHRoZSBzaGVsbCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICIse31dXV0=" rows="20" speed="2" src="https://s3-eu-west-1.amazonaws.com/asciinema-bb-eu/uploads/asciicast/file/113463/asciicast.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAJBUMR4677QX6BM7Q%2F20200228%2Feu-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20200228T032350Z&amp;X-Amz-Expires=3600&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=2ead50ad3cf1777c80afbf30f894fad57781eba875e265552ddfb6679265f754" theme="asciinema" title="Welcome to asciinema!" preload></asciinema-player>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="even">
+  <div class="container">
+    <div class="row about">
+      <div class="col-md-12">
+        <h3>asciinema <em><abbr title="from English ASCII + from Ancient Greek κίνημα (kínēma, “movement”)">[as-kee-nuh-muh] </abbr></em>is a free and open source solution for recording
+          terminal sessions and sharing them on the web. Read about <a href="/docs/how-it-works">how it works</a>. </h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="odd">
+  <div class="container">
+    <div class="row features">
+      <div class="col-md-4">
+        <h1>Simple recording</h1>
+
+        <p>Record right where you work - in a terminal.
+          To start just run <code>asciinema rec</code>, to finish hit <kbd>Ctrl-D</kbd> or type <code>exit</code>. </p>
+
+        <p><a href="/docs/getting-started">Get started »</a></p>
+      </div>
+
+      <div class="col-md-4">
+        <h1>Copy &amp; paste</h1>
+
+        <p>Any time you see a command you'd like to try in your own terminal just
+    pause the player and copy-paste the content you want.
+          It's just a text after all! </p>
+      </div>
+
+      <div class="col-md-4">
+        <h1>Embedding</h1>
+
+        <p>Easily embed an asciicast player in your blog post, project documentation page or in your conference talk slides. </p>
+
+        <p><a href="/docs/embedding">See the embedding docs »</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="even">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Example sessions recorded with asciinema</h1>
+
+        <div class="asciicast-list">
+            <div class="row">
+                <div class="col-md-4">
+<div class="asciicast-card">
+  <a href="/a/237459" class="thumbnail-link">
+    <div class="play-button">
+      <span class="arrow">
+        <svg version="1.1" viewBox="0 0 12 12">
+          <path d="M1,0 L11,6 L1,12 Z" />
+        </svg>
+      </span>
+    </div>
+
+<div class="thumbnail asciinema-theme-asciinema">
+  <pre class="asciinema-terminal font-small"><span class="line"><span class="" style="">│ </span><span class="bright fg-240" style="">     .--.    </span><span class="" style=""> </span><span class="fg-154" style="">64</span><span class="" style=""> °F          │ </span><span class="bright fg-240" style="">     .--.    </span><span class="" style=""> </span><span class="fg-190" style="">69</span><span class="" style=""> °F          │ </span><span class="fg-226" style="">     .-.     </span><span class="" style=""> </span><span class="fg-226" style="">75</span></span><span class="line"><span class="" style="">│ </span><span class="fg-226" style="">     .-.     </span><span class="" style=""> </span><span class="fg-190" style="">68</span><span class="" style=""> °F          │                                                </span></span><span class="line"><span class="" style="">│ </span><span class="bright fg-240" style="">  .-(    ).  </span><span class="" style=""> </span><span class="bright" style="">←</span><span class="" style=""> </span><span class="fg-118" style="">3</span><span class="" style="">-</span><span class="fg-154" style="">4</span><span class="" style=""> mph      │ </span><span class="bright fg-240" style="">  .-(    ).  </span><span class="" style=""> </span><span class="bright" style="">←</span><span class="" style=""> </span><span class="fg-82" style="">1</span><span class="" style="">-</span><span class="fg-118" style="">2</span><span class="" style=""> mph      │ </span><span class="fg-226" style="">  ― (   ) ―  </span><span class="" style=""> </span><span class="bright" style="">↘</span><span class="" style=""> </span></span><span class="line"><span class="" style="">│ </span><span class="fg-226" style="">  ― (   ) ―  </span><span class="" style=""> </span><span class="bright" style="">↘</span><span class="" style=""> </span><span class="fg-190" style="">6</span><span class="" style="">-</span><span class="fg-220" style="">11</span><span class="" style=""> mph     │                                                </span></span><span class="line"><span class="" style="">│ </span><span class="bright fg-240" style=""> (___.__)__) </span><span class="" style=""> 12 mi          │ </span><span class="bright fg-240" style=""> (___.__)__) </span><span class="" style=""> 12 mi          │ </span><span class="fg-226" style="">     `-’     </span><span class="" style=""> 12</span></span><span class="line"><span class="" style="">│ </span><span class="fg-226" style="">     `-’     </span><span class="" style=""> 12 mi          │                                                </span></span><span class="line"><span class="" style="">│               0.0 in | 0%    │               0.0 in | 0%    │ </span><span class="fg-226" style="">    /   \    </span><span class="" style=""> 0.</span></span><span class="line"><span class="" style="">│ </span><span class="fg-226" style="">    /   \    </span><span class="" style=""> 0.0 in | 0%    │                                                </span></span><span class="line"><span class="" style="">└──────────────────────────────┴──────────────────────────────┴─────────────────</span></span><span class="line"><span class="" style="">┴──────────────────────────────┘                                                </span></span><span class="line"><span class="" style="">                                                                                </span></span><span class="line"><span class="" style="">Follow </span><span class="bg-6 fg-0" style="">@igor_chubin</span><span class="" style=""> for wttr.in updates                                         </span></span><span class="line"><span class="" style="">                                                                                </span></span><span class="line"><span class="bright fg-8" style="">~</span><span class="bright" style=""> </span><span class="" style="">                                                                              </span></span><span class="line"><span class="bright fg-10" style="">➜ </span><span class="bg-7 fg-0 " style=""> </span><span class="" style="">                                                                             </span></span></pre>
+</div>
+<!-- The above <pre> has to be in one line, without extra spacing around for loops
+     in order to render terminal properly. -->  </a>
+
+  <div class="info">
+    <h3>
+<a href="/a/237459">asciicast:237459</a>
+
+        <span class="special-label" title="This is a *featured* asciicast - it's listed on the homepage too.">featured</span>
+
+
+      <span class="duration">00:24</span>
+    </h3>
+
+    <span class="author-avatar">
+<a href="/~joelhans" title="joelhans">        <img class="avatar" src="//gravatar.com/avatar/bd9a4e3a4874b97c216383e2c2572b21?s=128&amp;d=retro">
+</a>    </span>
+
+    <small>by <a href="/~joelhans">joelhans</a> </small>
+  </div>
+</div>
+                </div>
+                <div class="col-md-4">
+<div class="asciicast-card">
+  <a href="/a/239367" class="thumbnail-link">
+    <div class="play-button">
+      <span class="arrow">
+        <svg version="1.1" viewBox="0 0 12 12">
+          <path d="M1,0 L11,6 L1,12 Z" />
+        </svg>
+      </span>
+    </div>
+
+<div class="thumbnail asciinema-theme-asciinema">
+  <pre class="asciinema-terminal font-small"><span class="line"><span class="fg-4" style="">     .:o;;dkd,.ll..,cc::,..,&#39;.;:,.                </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">     co..lKKKkokl.&#39;:lloo;&#39;&#39;ol..;dl.               </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">   .,c;.,xKKKKKKo.&#39;:llll;.&#39;oOxl,.cl,.             </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">   cNo..lKKKKKKKo&#39;&#39;;llll;;okKKKl..oNc             </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">   cNo..lKKKKKKKko;&#39;:c:,&#39;lKKKKKo&#39;.oNc             </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">   cNo..lKKKKKKKKKl.....&#39;dKKKKKxc,l0:             </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">   .c:&#39;.lKKKKKKKKKk;....lKKKKKKo&#39;.oNc             </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">     ,:.&#39;oxOKKKKKKKOxxxxOKKKKKKxc,;ol:.           </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">     ;c..&#39;&#39;:oookKKKKKKKKKKKKKKKKKk:.&#39;clc.         </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">   ,xl&#39;.,oxo;&#39;&#39;;oxOKKKKKKKKKKKKKKKOxxl:::;,.      </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">  .dOc..lKKKkoooookKKKKKKKKKKKKKKKKKKKxl,;ol.     </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">  cx,&#39;;okKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKl..;lc.   </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">  co..:dddddddddddddddddddddddddddddddddl::&#39;,::.  </span><span class="" style="">                              </span></span><span class="line"><span class="fg-4" style="">  co...........................................   </span><span class="" style="">                              </span></span><span class="line"><span class="bg-7 fg-0 " style=""> </span><span class="" style="">                                                                               </span></span></pre>
+</div>
+<!-- The above <pre> has to be in one line, without extra spacing around for loops
+     in order to render terminal properly. -->  </a>
+
+  <div class="info">
+    <h3>
+<a href="/a/239367">Party Parrot!!</a>
+
+        <span class="special-label" title="This is a *featured* asciicast - it's listed on the homepage too.">featured</span>
+
+
+      <span class="duration">00:14</span>
+    </h3>
+
+    <span class="author-avatar">
+<a href="/~sickill" title="sickill">        <img class="avatar" src="//gravatar.com/avatar/2807e23da22a140cf573ea75b37d11f6?s=128&amp;d=retro">
+</a>    </span>
+
+    <small>by <a href="/~sickill">sickill</a> </small>
+  </div>
+</div>
+                </div>
+                <div class="col-md-4">
+<div class="asciicast-card">
+  <a href="/a/236096" class="thumbnail-link">
+    <div class="play-button">
+      <span class="arrow">
+        <svg version="1.1" viewBox="0 0 12 12">
+          <path d="M1,0 L11,6 L1,12 Z" />
+        </svg>
+      </span>
+    </div>
+
+<div class="thumbnail asciinema-theme-asciinema">
+  <pre class="asciinema-terminal font-small"><span class="line"><span class="fg-199" style="">     </span><span class="fg-163" style="">  </span><span class="fg-164" style="">          </span><span class="fg-128" style="">  </span><span class="fg-129" style=""> ▒▒▒▒▒▒▒▒</span><span class="fg-93" style="">▒▒░▄▄▄  ▒</span><span class="fg-99" style="">▒</span><span class="fg-63" style="">▒▒▒▒▒▒▒▒▒▒▒</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒░▄▄▄  </span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒▒▒▒▒</span></span><span class="line"><span class="fg-199" style="">  </span><span class="fg-163" style="">  </span><span class="fg-164" style="">          </span><span class="fg-128" style="">  </span><span class="fg-129" style="">   ▒▒▒▒▒▒</span><span class="fg-93" style="">▒▒▒▒▒ ▀█▀</span><span class="fg-99" style=""> </span><span class="fg-63" style="">  ▒▒▒▒▒▒▒▒▒</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒░▐██</span><span class="fg-38" style="">▀ </span><span class="fg-44" style="">  ▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒</span></span><span class="line"><span class="fg-163" style=""> </span><span class="fg-164" style="">          </span><span class="fg-128" style="">  </span><span class="fg-129" style="">     ▒▒▒▒</span><span class="fg-93" style="">▒▒▒▒▒▒▒▒ </span><span class="fg-99" style=""> </span><span class="fg-63" style="">     ▒▒▒▒▒▒</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒░</span><span class="fg-38" style="">  </span><span class="fg-44" style="">     ▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒</span></span><span class="line"><span class="fg-164" style="">        </span><span class="fg-128" style="">  </span><span class="fg-129" style="">       ▐▒</span><span class="fg-93" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-99" style="">▒</span><span class="fg-63" style="">▒▒▄   ▄▒▒▒▒</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▄   ▄▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒▒▒</span></span><span class="line"><span class="fg-164" style="">     </span><span class="fg-128" style="">  </span><span class="fg-129" style="">         </span><span class="fg-93" style=""> ▒▒▒▒▒▒▒▒</span><span class="fg-99" style="">▒</span><span class="fg-63" style="">▒▒▒▒▒▒▒▒▒▒▒</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▀▀</span><span class="fg-39" style="">▀▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-48" style="">▒</span></span><span class="line"><span class="fg-164" style="">  </span><span class="fg-128" style="">  </span><span class="fg-129" style="">         </span><span class="fg-93" style="">   ▐▒▒▒▒▒</span><span class="fg-99" style="">▒</span><span class="fg-63" style="">▒▒▒▒▒▒▒▒▒▒▒</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▄▄  ▄▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-48" style="">▒▒▒▒</span></span><span class="line"><span class="fg-128" style=""> </span><span class="fg-129" style="">         </span><span class="fg-93" style="">      ▒▒░</span><span class="fg-99" style="">░</span><span class="fg-63" style="">░░░░░░▐▒▒▒▒</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒▒░░░</span><span class="fg-48" style="">░░░░░░▒</span></span><span class="line"><span class="fg-129" style="">       </span><span class="fg-93" style="">        ▐</span><span class="fg-99" style="">▒</span><span class="fg-63" style="">░░░░░░░░░░░</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒▒▒░░</span><span class="fg-48" style="">░░░░░░░░░</span><span class="fg-84" style="">░</span></span><span class="line"><span class="fg-129" style="">    </span><span class="fg-93" style="">         </span><span class="fg-99" style=""> </span><span class="fg-63" style=""> ▒▒░░░░░░░░</span><span class="fg-69" style="">░</span><span class="fg-33" style="">░░▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▀░</span><span class="fg-44" style="">░░░▄░░░▀▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-48" style="">▒░░░░░░░░</span><span class="fg-84" style="">░</span><span class="fg-83" style="">░░░</span></span><span class="line"><span class="fg-129" style=""> </span><span class="fg-93" style="">         </span><span class="fg-99" style=""> </span><span class="fg-63" style="">    ▐▒▒░░░░</span><span class="fg-69" style="">░</span><span class="fg-33" style="">░░▄░▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style=""> ▒▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style=""> ▒▒▒▒▒▒▒▒▒</span><span class="fg-48" style="">▒▒▒▒▒░░░░</span><span class="fg-84" style="">░</span><span class="fg-83" style="">░░░░░░</span></span><span class="line"><span class="fg-93" style="">       </span><span class="fg-99" style=""> </span><span class="fg-63" style="">        ▒▒▒</span><span class="fg-69" style="">▒</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒ ▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒░▐▒▒▒▒▒</span><span class="fg-48" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-84" style="">▒</span><span class="fg-83" style="">▒░░░░░▒▒▒</span></span><span class="line"><span class="fg-93" style="">    </span><span class="fg-99" style=""> </span><span class="fg-63" style="">           </span><span class="fg-69" style="">▐</span><span class="fg-33" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒ ▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒░▐▒▒</span><span class="fg-48" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-84" style="">▒</span><span class="fg-83" style="">▒▒▒▒▒▒▒▒▒▒▒</span><span class="fg-119" style="">▒</span></span><span class="line"><span class="fg-93" style=""> </span><span class="fg-99" style=""> </span><span class="fg-63" style="">           </span><span class="fg-69" style=""> </span><span class="fg-33" style="">   ▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▄░▀▒▒▒▒▀░▄</span><span class="fg-48" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-84" style="">▒</span><span class="fg-83" style="">▒▒▒▒▒▒▒▒▒▒▒</span><span class="fg-119" style="">▒</span><span class="fg-118" style="">▒▒▒</span></span><span class="line"><span class="fg-63" style="">          </span><span class="fg-69" style=""> </span><span class="fg-33" style="">       ▐▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-48" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-84" style="">▒</span><span class="fg-83" style="">▒▒▒▒▒▒▒▒▒▒▒</span><span class="fg-119" style="">▒</span><span class="fg-118" style="">▒▒▒▒▒▒</span></span><span class="line"><span class="fg-93" style="">    </span><span class="fg-99" style=""> </span><span class="fg-63" style="">           </span><span class="fg-69" style=""> </span><span class="fg-33" style="">  ▐▒▒▒▒▒▒</span><span class="fg-39" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-38" style="">▒▒</span><span class="fg-44" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-43" style="">▒</span><span class="fg-49" style="">▒▒▒▒▒▒▒▒▒▒</span><span class="fg-48" style="">▒▒▒▒▒▒▒▒▒</span><span class="fg-84" style="">▒</span><span class="fg-83" style="">▒▒▒▒▒▒▒▒▒▒▒</span><span class="fg-119" style="">▒</span></span></pre>
+</div>
+<!-- The above <pre> has to be in one line, without extra spacing around for loops
+     in order to render terminal properly. -->  </a>
+
+  <div class="info">
+    <h3>
+<a href="/a/236096">surpirsed Pikachu</a>
+
+        <span class="special-label" title="This is a *featured* asciicast - it's listed on the homepage too.">featured</span>
+
+
+      <span class="duration">00:04</span>
+    </h3>
+
+    <span class="author-avatar">
+<a href="/~hikiko4ern" title="hikiko4ern">        <img class="avatar" src="//gravatar.com/avatar/8d9f074b969d7d911021c91f1e88811b?s=128&amp;d=retro">
+</a>    </span>
+
+    <small>by <a href="/~hikiko4ern">hikiko4ern</a> </small>
+  </div>
+</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+<div class="asciicast-card">
+  <a href="/a/234381" class="thumbnail-link">
+    <div class="play-button">
+      <span class="arrow">
+        <svg version="1.1" viewBox="0 0 12 12">
+          <path d="M1,0 L11,6 L1,12 Z" />
+        </svg>
+      </span>
+    </div>
+
+<div class="thumbnail asciinema-theme-asciinema">
+  <pre class="asciinema-terminal font-small"><span class="line"><span class="" style="">                     (   )                                                      </span></span><span class="line"><span class="" style="">                 (@@@@)                                                         </span></span><span class="line"><span class="" style="">              (    )                                                            </span></span><span class="line"><span class="" style="">                                                                                </span></span><span class="line"><span class="" style="">            (@@@)                                                               </span></span><span class="line"><span class="" style="">         ====        ________                ___________                        </span></span><span class="line"><span class="" style="">     _D _|  |_______/        \__I_I_____===__|_________|                        </span></span><span class="line"><span class="" style="">      |(_)---  |   H\________/ |   |        =|___ ___|      _________________   </span></span><span class="line"><span class="" style="">      /     |  |   H  |  |     |   |         ||_| |_||     _|                \__</span></span><span class="line"><span class="" style="">     |      |  |   H  |__--------------------| [___] |   =|                     </span></span><span class="line"><span class="" style="">     | ________|___H__/__|_____/[][]~\_______|       |   -|                     </span></span><span class="line"><span class="" style="">     |/ |   |-----------I_____I [][] []  D   |=======|____|_____________________</span></span><span class="line"><span class="" style="">   __/ =| o |=-O=====O=====O=====O \ ____Y___________|__|_______________________</span></span><span class="line"><span class="" style="">    |/-=|___|=    ||    ||    ||    |_____/~\___/          |_D__D__D_|  |_D__D__</span></span><span class="line"><span class="" style="">     \_/      \__/  \__/  \__/  \__/      \_/               \_/   \_/    \_/   \</span></span></pre>
+</div>
+<!-- The above <pre> has to be in one line, without extra spacing around for loops
+     in order to render terminal properly. -->  </a>
+
+  <div class="info">
+    <h3>
+<a href="/a/234381">sl-小火车</a>
+
+        <span class="special-label" title="This is a *featured* asciicast - it's listed on the homepage too.">featured</span>
+
+
+      <span class="duration">00:11</span>
+    </h3>
+
+    <span class="author-avatar">
+<a href="/~redlotus" title="redlotus">        <img class="avatar" src="//gravatar.com/avatar/82370e88be9fbd60eb58eaed30419f01?s=128&amp;d=retro">
+</a>    </span>
+
+    <small>by <a href="/~redlotus">redlotus</a> </small>
+  </div>
+</div>
+                </div>
+                <div class="col-md-4">
+<div class="asciicast-card">
+  <a href="/a/170671" class="thumbnail-link">
+    <div class="play-button">
+      <span class="arrow">
+        <svg version="1.1" viewBox="0 0 12 12">
+          <path d="M1,0 L11,6 L1,12 Z" />
+        </svg>
+      </span>
+    </div>
+
+<div class="thumbnail asciinema-theme-monokai">
+  <pre class="asciinema-terminal font-small"><span class="line"><span class="fg-4" style="">  Daily report for </span><span class="bright fg-12" style="">March 19th, 2018</span><span class="" style="">        </span></span><span class="line"><span class="" style="">                                           </span></span><span class="line"><span class="" style="">  </span><span class="bg-3 fg-0 " style=""> </span><span class="" style=""> </span><span class="fg-3" style="">StackOverflow  </span><span class="bright" style="">50</span><span class="" style=""> reputation earned    </span></span><span class="line"><span class="" style="">  </span><span class="bg-6 fg-0 " style=""> </span><span class="" style=""> </span><span class="fg-6" style="">WakaTime       </span><span class="bright" style="">no time</span><span class="" style=""> spent coding    </span></span><span class="line"><span class="" style="">  </span><span class="bg-10 fg-0 " style=""> </span><span class="" style=""> </span><span class="fg-10" style="">GitHub         </span><span class="bright" style="">4</span><span class="" style=""> contributions made    </span></span><span class="line"><span class="" style="">                                           </span></span><span class="line"><span class="bg-6 fg-15" style="">⋊&gt;</span><span class="" style=""> </span><span class="fg-3" style="">~</span><span class="" style=""> </span><span class="bright" style="">devstats</span><span class="" style=""> </span><span class="fg-6" style="">-i</span><span class="" style="">                   </span><span class="" style="color:rgb(85,85,85)">07:29:11</span></span><span class="line"><span class="" style="">                                           </span></span><span class="line"><span class="fg-4" style="">  Daily report for </span><span class="bright fg-12" style="">March 19th, 2018</span><span class="" style="">        </span></span><span class="line"><span class="" style="">                                           </span></span><span class="line"><span class="" style="">  </span><span class="bg-3 fg-0 " style=""> </span><span class="" style=""> </span><span class="fg-3" style="">StackOverflow  </span><span class="bright" style="">50</span><span class="" style=""> reputation earned    </span></span><span class="line"><span class="" style="">  </span><span class="bg-6 fg-0 " style=""> </span><span class="" style=""> </span><span class="fg-6" style="">WakaTime       </span><span class="bright" style="">no time</span><span class="" style=""> spent coding    </span></span><span class="line"><span class="" style="">  </span><span class="bg-8 fg-0 " style=""> </span><span class="" style=""> </span><span class="fg-8" style="">GitHub         </span><span class="" style="">Loading ...             </span></span><span class="line"><span class="" style="">                                           </span></span><span class="line"><span class="" style="">  </span><span class="fg-4" style="">[</span><span class="bright fg-12" style="">←</span><span class="fg-4" style=""> Previous day] </span><span class="fg-8" style="">[</span><span class="bright fg-8" style="">→</span><span class="fg-8" style=""> Next day]</span><span class="fg-4" style=""> [</span><span class="bright fg-12" style="">Q</span><span class="fg-4" style=""> Quit]</span><span class="" style="">   </span></span></pre>
+</div>
+<!-- The above <pre> has to be in one line, without extra spacing around for loops
+     in order to render terminal properly. -->  </a>
+
+  <div class="info">
+    <h3>
+<a href="/a/170671">DevStats async loading, interactive mode and caching</a>
+
+        <span class="special-label" title="This is a *featured* asciicast - it's listed on the homepage too.">featured</span>
+
+
+      <span class="duration">00:30</span>
+    </h3>
+
+    <span class="author-avatar">
+<a href="/~shroudedcode" title="shroudedcode">        <img class="avatar" src="//gravatar.com/avatar/bb8113023931ba3b0e0f32b5c5f372ea?s=128&amp;d=retro">
+</a>    </span>
+
+    <small>by <a href="/~shroudedcode">shroudedcode</a> </small>
+  </div>
+</div>
+                </div>
+                <div class="col-md-4">
+<div class="asciicast-card">
+  <a href="/a/174524" class="thumbnail-link">
+    <div class="play-button">
+      <span class="arrow">
+        <svg version="1.1" viewBox="0 0 12 12">
+          <path d="M1,0 L11,6 L1,12 Z" />
+        </svg>
+      </span>
+    </div>
+
+<div class="thumbnail asciinema-theme-asciinema">
+  <pre class="asciinema-terminal font-small"><span class="line"><span class="" style="background-color:rgb(18,17,17)">   </span><span class="" style="background-color:rgb(255,128,77)">               </span><span class="" style="background-color:rgb(18,18,17)">                   </span><span class="" style="background-color:rgb(78,52,78)"> </span><span class="" style="background-color:rgb(82,57,82)"> </span><span class="" style="background-color:rgb(84,58,84)">  </span><span class="" style="background-color:rgb(83,58,83)"> </span><span class="" style="background-color:rgb(82,56,82)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(82,56,82)"> </span><span class="" style="background-color:rgb(85,59,85)"> </span><span class="" style="background-color:rgb(85,60,85)"> </span><span class="" style="background-color:rgb(85,59,85)"> </span><span class="" style="background-color:rgb(83,58,83)"> </span><span class="" style="background-color:rgb(81,56,81)"> </span><span class="" style="background-color:rgb(79,53,79)"> </span><span class="" style="background-color:rgb(76,51,76)"> </span><span class="" style="background-color:rgb(74,48,74)"> </span><span class="" style="background-color:rgb(18,17,17)">           </span><span class="" style="background-color:rgb(17,17,17)">            </span><span class="" style="background-color:rgb(128,230,255)">  </span></span><span class="line"><span class="" style="background-color:rgb(21,21,20)">     </span><span class="" style="background-color:rgb(255,128,77)">           </span><span class="" style="background-color:rgb(21,21,21)">                      </span><span class="" style="background-color:rgb(102,51,102)">      </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(21,21,20)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(81,55,81)">  </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(21,21,20)">         </span><span class="" style="background-color:rgb(21,20,20)">        </span><span class="" style="background-color:rgb(20,20,20)">         </span></span><span class="line"><span class="" style="background-color:rgb(24,24,23)">    </span><span class="" style="background-color:rgb(25,24,23)">    </span><span class="" style="background-color:rgb(25,24,24)">                      </span><span class="" style="background-color:rgb(51,26,51)">    </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)">    </span><span class="" style="background-color:rgb(102,51,102)">    </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(25,24,24)">  </span><span class="" style="background-color:rgb(102,51,102)">      </span><span class="" style="background-color:rgb(24,24,23)">    </span><span class="" style="background-color:rgb(51,26,51)">     </span><span class="" style="background-color:rgb(24,24,23)">      </span><span class="" style="background-color:rgb(24,23,23)">      </span><span class="" style="background-color:rgb(23,23,23)">      </span></span><span class="line"><span class="" style="background-color:rgb(28,27,26)">      </span><span class="" style="background-color:rgb(28,27,27)">                       </span><span class="" style="background-color:rgb(51,26,51)">  </span><span class="" style="background-color:rgb(255,153,128)"> </span><span class="" style="background-color:rgb(51,26,51)">    </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(255,153,128)"> </span><span class="" style="background-color:rgb(51,26,51)">    </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)">         </span><span class="" style="background-color:rgb(102,51,102)"> </span><span class="" style="background-color:rgb(51,26,51)">        </span><span class="" style="background-color:rgb(27,27,26)">        </span><span class="" style="background-color:rgb(27,26,26)">    </span><span class="" style="background-color:rgb(26,26,26)">    </span></span><span class="line"><span class="" style="background-color:rgb(31,30,29)">      </span><span class="" style="background-color:rgb(31,30,30)">        </span><span class="" style="background-color:rgb(31,31,30)">         </span><span class="" style="background-color:rgb(32,31,30)">      </span><span class="" style="background-color:rgb(78,52,78)"> </span><span class="" style="background-color:rgb(83,57,83)"> </span><span class="" style="background-color:rgb(85,60,85)"> </span><span class="" style="background-color:rgb(86,60,86)"> </span><span class="" style="background-color:rgb(85,59,85)"> </span><span class="" style="background-color:rgb(83,57,83)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(84,59,84)"> </span><span class="" style="background-color:rgb(90,65,90)"> </span><span class="" style="background-color:rgb(91,66,91)"> </span><span class="" style="background-color:rgb(85,60,85)"> </span><span class="" style="background-color:rgb(80,54,80)"> </span><span class="" style="background-color:rgb(76,51,76)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)">      </span><span class="" style="background-color:rgb(102,51,102)">   </span><span class="" style="background-color:rgb(255,153,128)"> </span><span class="" style="background-color:rgb(51,26,51)">        </span><span class="" style="background-color:rgb(67,42,67)"> </span><span class="" style="background-color:rgb(30,30,30)"> </span><span class="" style="background-color:rgb(30,30,29)">          </span><span class="" style="background-color:rgb(30,29,29)">  </span><span class="" style="background-color:rgb(29,29,29)">  </span></span><span class="line"><span class="" style="background-color:rgb(34,33,32)">    </span><span class="" style="background-color:rgb(35,33,32)">   </span><span class="" style="background-color:rgb(35,33,33)"> </span><span class="" style="background-color:rgb(35,34,33)">                      </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(81,55,81)">  </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(77,52,77)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(81,56,81)">  </span><span class="" style="background-color:rgb(81,55,81)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(82,56,82)">   </span><span class="" style="background-color:rgb(81,56,81)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(102,51,102)">   </span><span class="" style="background-color:rgb(82,56,82)"> </span><span class="" style="background-color:rgb(83,58,83)">   </span><span class="" style="background-color:rgb(82,57,82)"> </span><span class="" style="background-color:rgb(81,55,81)"> </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(78,52,78)"> </span><span class="" style="background-color:rgb(76,50,76)"> </span><span class="" style="background-color:rgb(34,34,33)">   </span><span class="" style="background-color:rgb(34,33,33)">  </span><span class="" style="background-color:rgb(33,33,33)">    </span><span class="" style="background-color:rgb(33,33,32)">       </span></span><span class="line"><span class="" style="background-color:rgb(38,36,35)">     </span><span class="" style="background-color:rgb(38,37,35)">   </span><span class="" style="background-color:rgb(38,37,36)">         </span><span class="" style="background-color:rgb(39,37,36)">        </span><span class="" style="background-color:rgb(39,38,36)">   </span><span class="" style="background-color:rgb(39,38,37)">   </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(102,51,102)">    </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(39,38,37)">   </span><span class="" style="background-color:rgb(102,51,102)">    </span><span class="" style="background-color:rgb(39,38,37)">  </span><span class="" style="background-color:rgb(38,38,37)"> </span><span class="" style="background-color:rgb(102,51,102)">      </span><span class="" style="background-color:rgb(38,38,37)">  </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(80,55,80)">  </span><span class="" style="background-color:rgb(80,54,80)"> </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(79,53,79)"> </span><span class="" style="background-color:rgb(78,52,78)"> </span><span class="" style="background-color:rgb(37,37,37)">     </span><span class="" style="background-color:rgb(37,37,36)">       </span><span class="" style="background-color:rgb(36,37,36)">  </span><span class="" style="background-color:rgb(36,36,36)">   </span></span><span class="line"><span class="" style="background-color:rgb(41,39,38)">   </span><span class="" style="background-color:rgb(42,40,38)">     </span><span class="" style="background-color:rgb(42,40,39)">        </span><span class="" style="background-color:rgb(42,41,39)">      </span><span class="" style="background-color:rgb(43,41,40)">       </span><span class="" style="background-color:rgb(70,45,70)"> </span><span class="" style="background-color:rgb(51,26,51)">  </span><span class="" style="background-color:rgb(255,153,128)"> </span><span class="" style="background-color:rgb(51,26,51)">  </span><span class="" style="background-color:rgb(102,51,102)">    </span><span class="" style="background-color:rgb(51,26,51)">    </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(102,51,102)">       </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(42,42,41)">  </span><span class="" style="background-color:rgb(102,51,102)">      </span><span class="" style="background-color:rgb(41,42,41)">  </span><span class="" style="background-color:rgb(41,41,41)">    </span><span class="" style="background-color:rgb(41,41,40)">    </span><span class="" style="background-color:rgb(40,41,40)">     </span><span class="" style="background-color:rgb(40,40,40)">   </span></span><span class="line"><span class="" style="background-color:rgb(45,42,41)"> </span><span class="" style="background-color:rgb(45,43,41)">     </span><span class="" style="background-color:rgb(46,43,41)">  </span><span class="" style="background-color:rgb(46,43,42)">   </span><span class="" style="background-color:rgb(46,44,42)">       </span><span class="" style="background-color:rgb(46,44,43)">  </span><span class="" style="background-color:rgb(47,44,43)">  </span><span class="" style="background-color:rgb(47,45,43)">       </span><span class="" style="background-color:rgb(78,53,78)"> </span><span class="" style="background-color:rgb(83,57,83)"> </span><span class="" style="background-color:rgb(74,48,74)"> </span><span class="" style="background-color:rgb(51,26,51)">   </span><span class="" style="background-color:rgb(52,26,52)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)">      </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(255,153,128)"> </span><span class="" style="background-color:rgb(51,26,51)">    </span><span class="" style="background-color:rgb(102,51,102)">   </span><span class="" style="background-color:rgb(51,26,51)">         </span><span class="" style="background-color:rgb(45,46,45)">       </span><span class="" style="background-color:rgb(44,45,45)">    </span><span class="" style="background-color:rgb(44,45,44)">    </span><span class="" style="background-color:rgb(43,45,44)"> </span></span><span class="line"><span class="" style="background-color:rgb(49,46,44)">     </span><span class="" style="background-color:rgb(50,46,44)">  </span><span class="" style="background-color:rgb(50,47,44)"> </span><span class="" style="background-color:rgb(50,47,45)">       </span><span class="" style="background-color:rgb(51,47,45)"> </span><span class="" style="background-color:rgb(51,48,46)">        </span><span class="" style="background-color:rgb(51,49,47)">      </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(81,55,81)">   </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(80,54,80)"> </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(102,51,102)"> </span><span class="" style="background-color:rgb(81,55,81)"> </span><span class="" style="background-color:rgb(82,56,82)">   </span><span class="" style="background-color:rgb(81,55,81)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(102,51,102)">  </span><span class="" style="background-color:rgb(82,56,82)"> </span><span class="" style="background-color:rgb(84,59,84)"> </span><span class="" style="background-color:rgb(86,60,86)">  </span><span class="" style="background-color:rgb(84,58,84)"> </span><span class="" style="background-color:rgb(81,56,81)"> </span><span class="" style="background-color:rgb(102,51,102)">   </span><span class="" style="background-color:rgb(52,26,52)"> </span><span class="" style="background-color:rgb(51,26,51)">       </span><span class="" style="background-color:rgb(68,42,68)"> </span><span class="" style="background-color:rgb(50,51,50)">  </span><span class="" style="background-color:rgb(49,51,50)">    </span><span class="" style="background-color:rgb(38,45,49)"> </span><span class="" style="background-color:rgb(38,45,48)">  </span><span class="" style="background-color:rgb(20,32,37)"> </span><span class="" style="background-color:rgb(20,31,37)">  </span><span class="" style="background-color:rgb(37,45,48)">  </span><span class="" style="background-color:rgb(37,44,48)">  </span></span><span class="line"><span class="" style="background-color:rgb(53,49,46)">  </span><span class="" style="background-color:rgb(54,49,47)">   </span><span class="" style="background-color:rgb(54,50,47)">   </span><span class="" style="background-color:rgb(54,50,48)"> </span><span class="" style="background-color:rgb(55,50,48)">  </span><span class="" style="background-color:rgb(55,51,48)">    </span><span class="" style="background-color:rgb(55,51,49)">   </span><span class="" style="background-color:rgb(55,52,49)"> </span><span class="" style="background-color:rgb(56,52,49)">   </span><span class="" style="background-color:rgb(56,52,50)">   </span><span class="" style="background-color:rgb(56,53,50)">   </span><span class="" style="background-color:rgb(56,53,51)">    </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(80,54,80)"> </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(56,54,52)">   </span><span class="" style="background-color:rgb(80,54,80)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(80,54,80)">   </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(56,55,53)"> </span><span class="" style="background-color:rgb(80,54,80)"> </span><span class="" style="background-color:rgb(80,55,80)">    </span><span class="" style="background-color:rgb(80,54,80)"> </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(102,51,102)"> </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(81,55,81)"> </span><span class="" style="background-color:rgb(81,56,81)"> </span><span class="" style="background-color:rgb(81,55,81)">  </span><span class="" style="background-color:rgb(80,55,80)"> </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(79,53,79)"> </span><span class="" style="background-color:rgb(78,52,78)"> </span><span class="" style="background-color:rgb(41,50,54)">  </span><span class="" style="background-color:rgb(24,37,44)">  </span><span class="" style="background-color:rgb(24,38,44)">            </span></span><span class="line"><span class="" style="background-color:rgb(58,52,49)">  </span><span class="" style="background-color:rgb(58,53,49)"> </span><span class="" style="background-color:rgb(58,53,50)"> </span><span class="" style="background-color:rgb(59,53,50)">    </span><span class="" style="background-color:rgb(59,54,50)"> </span><span class="" style="background-color:rgb(59,54,51)"> </span><span class="" style="background-color:rgb(60,54,51)">    </span><span class="" style="background-color:rgb(60,55,51)"> </span><span class="" style="background-color:rgb(60,55,52)">   </span><span class="" style="background-color:rgb(61,55,52)">  </span><span class="" style="background-color:rgb(61,56,53)">      </span><span class="" style="background-color:rgb(61,57,54)">     </span><span class="" style="background-color:rgb(61,57,55)"> </span><span class="" style="background-color:rgb(61,58,55)">    </span><span class="" style="background-color:rgb(61,58,56)">   </span><span class="" style="background-color:rgb(61,59,56)">  </span><span class="" style="background-color:rgb(61,59,57)">     </span><span class="" style="background-color:rgb(61,60,58)">  </span><span class="" style="background-color:rgb(60,60,58)"> </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(79,53,79)"> </span><span class="" style="background-color:rgb(51,26,51)"> </span><span class="" style="background-color:rgb(60,60,59)"> </span><span class="" style="background-color:rgb(44,52,57)"> </span><span class="" style="background-color:rgb(44,53,57)"> </span><span class="" style="background-color:rgb(44,53,58)"> </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(80,54,80)">   </span><span class="" style="background-color:rgb(79,54,79)"> </span><span class="" style="background-color:rgb(79,53,79)"> </span><span class="" style="background-color:rgb(28,43,50)">   </span><span class="" style="background-color:rgb(28,43,51)"> </span><span class="" style="background-color:rgb(28,44,51)">   </span><span class="" style="background-color:rgb(28,44,52)">  </span><span class="" style="background-color:rgb(29,45,52)">     </span><span class="" style="background-color:rgb(28,45,52)">    </span></span><span class="line"><span class="" style="background-color:rgb(63,55,52)"> </span><span class="" style="background-color:rgb(63,56,52)">    </span><span class="" style="background-color:rgb(64,56,53)"> </span><span class="" style="background-color:rgb(64,57,53)">   </span><span class="" style="background-color:rgb(65,57,53)"> </span><span class="" style="background-color:rgb(65,58,54)">     </span><span class="" style="background-color:rgb(66,59,55)">     </span><span class="" style="background-color:rgb(66,59,56)"> </span><span class="" style="background-color:rgb(66,60,56)">    </span><span class="" style="background-color:rgb(66,60,57)">  </span><span class="" style="background-color:rgb(66,61,57)">   </span><span class="" style="background-color:rgb(66,61,58)"> </span><span class="" style="background-color:rgb(58,50,45)"> </span><span class="" style="background-color:rgb(58,51,46)">  </span><span class="" style="background-color:rgb(58,51,47)"> </span><span class="" style="background-color:rgb(58,52,47)">  </span><span class="" style="background-color:rgb(58,52,48)">  </span><span class="" style="background-color:rgb(58,53,49)"> </span><span class="" style="background-color:rgb(57,53,49)">  </span><span class="" style="background-color:rgb(57,54,50)">  </span><span class="" style="background-color:rgb(57,54,51)"> </span><span class="" style="background-color:rgb(57,55,51)"> </span><span class="" style="background-color:rgb(57,55,52)"> </span><span class="" style="background-color:rgb(28,41,49)">  </span><span class="" style="background-color:rgb(28,42,50)"> </span><span class="" style="background-color:rgb(29,42,50)"> </span><span class="" style="background-color:rgb(29,43,51)">  </span><span class="" style="background-color:rgb(29,44,52)">  </span><span class="" style="background-color:rgb(30,45,53)">  </span><span class="" style="background-color:rgb(30,46,54)">  </span><span class="" style="background-color:rgb(31,47,55)">  </span><span class="" style="background-color:rgb(31,48,56)">  </span><span class="" style="background-color:rgb(31,48,57)"> </span><span class="" style="background-color:rgb(32,49,57)">  </span><span class="" style="background-color:rgb(32,50,58)">  </span><span class="" style="background-color:rgb(32,50,59)"> </span><span class="" style="background-color:rgb(32,51,59)">   </span><span class="" style="background-color:rgb(33,51,60)"> </span><span class="" style="background-color:rgb(33,52,60)">   </span><span class="" style="background-color:rgb(47,60,66)">    </span></span><span class="line"><span class="" style="background-color:rgb(67,59,54)"> </span><span class="" style="background-color:rgb(68,59,54)"> </span><span class="" style="background-color:rgb(68,59,55)">  </span><span class="" style="background-color:rgb(69,60,55)">   </span><span class="" style="background-color:rgb(69,60,56)"> </span><span class="" style="background-color:rgb(70,61,56)">   </span><span class="" style="background-color:rgb(70,61,57)">  </span><span class="" style="background-color:rgb(71,62,57)">   </span><span class="" style="background-color:rgb(71,62,58)">  </span><span class="" style="background-color:rgb(71,63,58)">   </span><span class="" style="background-color:rgb(71,63,59)">   </span><span class="" style="background-color:rgb(71,64,59)">  </span><span class="" style="background-color:rgb(71,64,60)"> </span><span class="" style="background-color:rgb(64,54,47)"> </span><span class="" style="background-color:rgb(64,54,48)">   </span><span class="" style="background-color:rgb(64,55,49)">  </span><span class="" style="background-color:rgb(64,55,50)">  </span><span class="" style="background-color:rgb(64,56,50)"> </span><span class="" style="background-color:rgb(63,56,51)">  </span><span class="" style="background-color:rgb(63,57,52)"> </span><span class="" style="background-color:rgb(28,39,48)"> </span><span class="" style="background-color:rgb(28,40,48)"> </span><span class="" style="background-color:rgb(29,40,49)"> </span><span class="" style="background-color:rgb(29,41,49)"> </span><span class="" style="background-color:rgb(29,41,50)"> </span><span class="" style="background-color:rgb(29,42,50)"> </span><span class="" style="background-color:rgb(29,42,51)"> </span><span class="" style="background-color:rgb(30,43,51)"> </span><span class="" style="background-color:rgb(30,43,52)"> </span><span class="" style="background-color:rgb(30,44,52)"> </span><span class="" style="background-color:rgb(30,44,53)"> </span><span class="" style="background-color:rgb(31,45,53)"> </span><span class="" style="background-color:rgb(31,46,54)"> </span><span class="" style="background-color:rgb(31,46,55)"> </span><span class="" style="background-color:rgb(31,47,55)"> </span><span class="" style="background-color:rgb(32,47,56)"> </span><span class="" style="background-color:rgb(32,48,56)"> </span><span class="" style="background-color:rgb(32,48,57)"> </span><span class="" style="background-color:rgb(32,49,58)"> </span><span class="" style="background-color:rgb(33,50,58)"> </span><span class="" style="background-color:rgb(33,50,59)"> </span><span class="" style="background-color:rgb(33,51,59)"> </span><span class="" style="background-color:rgb(33,51,60)"> </span><span class="" style="background-color:rgb(34,52,61)">  </span><span class="" style="background-color:rgb(34,53,62)">  </span><span class="" style="background-color:rgb(35,54,63)">  </span><span class="" style="background-color:rgb(35,55,64)">  </span><span class="" style="background-color:rgb(35,56,65)">  </span><span class="" style="background-color:rgb(36,56,65)"> </span><span class="" style="background-color:rgb(36,57,66)">      </span><span class="" style="background-color:rgb(36,58,66)"> </span></span><span class="line"><span class="" style="background-color:rgb(67,49,43)"> </span><span class="" style="background-color:rgb(68,49,43)">  </span><span class="" style="background-color:rgb(68,49,44)">  </span><span class="" style="background-color:rgb(69,49,44)">     </span><span class="" style="background-color:rgb(70,49,44)"> </span><span class="" style="background-color:rgb(70,50,44)">      </span><span class="" style="background-color:rgb(76,65,60)"> </span><span class="" style="background-color:rgb(76,66,60)">  </span><span class="" style="background-color:rgb(76,66,61)">     </span><span class="" style="background-color:rgb(76,67,62)">  </span><span class="" style="background-color:rgb(75,67,62)">   </span><span class="" style="background-color:rgb(75,67,63)">   </span><span class="" style="background-color:rgb(74,67,63)"> </span><span class="" style="background-color:rgb(74,68,63)"> </span><span class="" style="background-color:rgb(74,68,64)">   </span><span class="" style="background-color:rgb(73,68,64)">  </span><span class="" style="background-color:rgb(48,56,62)">   </span><span class="" style="background-color:rgb(48,57,62)"> </span><span class="" style="background-color:rgb(48,57,63)"> </span><span class="" style="background-color:rgb(31,44,52)"> </span><span class="" style="background-color:rgb(31,44,53)"> </span><span class="" style="background-color:rgb(31,45,53)"> </span><span class="" style="background-color:rgb(31,45,54)"> </span><span class="" style="background-color:rgb(31,46,55)"> </span><span class="" style="background-color:rgb(32,46,55)"> </span><span class="" style="background-color:rgb(32,47,56)">  </span><span class="" style="background-color:rgb(32,48,57)"> </span><span class="" style="background-color:rgb(33,49,58)">  </span><span class="" style="background-color:rgb(33,50,59)">  </span><span class="" style="background-color:rgb(34,51,60)"> </span><span class="" style="background-color:rgb(34,52,61)">  </span><span class="" style="background-color:rgb(35,53,62)">  </span><span class="" style="background-color:rgb(35,54,63)"> </span><span class="" style="background-color:rgb(35,54,64)"> </span><span class="" style="background-color:rgb(36,55,64)"> </span><span class="" style="background-color:rgb(36,56,65)">  </span><span class="" style="background-color:rgb(36,57,66)">  </span><span class="" style="background-color:rgb(37,58,67)">  </span><span class="" style="background-color:rgb(37,58,68)"> </span><span class="" style="background-color:rgb(37,59,68)">  </span><span class="" style="background-color:rgb(37,59,69)"> </span><span class="" style="background-color:rgb(37,60,69)"> </span><span class="" style="background-color:rgb(38,60,69)"> </span><span class="" style="background-color:rgb(52,67,73)">  </span></span></pre>
+</div>
+<!-- The above <pre> has to be in one line, without extra spacing around for loops
+     in order to render terminal properly. -->  </a>
+
+  <div class="info">
+    <h3>
+<a href="/a/174524">Terminal ray tracing</a>
+
+        <span class="special-label" title="This is a *featured* asciicast - it's listed on the homepage too.">featured</span>
+
+
+      <span class="duration">00:11</span>
+    </h3>
+
+    <span class="author-avatar">
+<a href="/~kosmaks" title="kosmaks">        <img class="avatar" src="//gravatar.com/avatar/c927497dce92917c849493df41fa5936?s=128&amp;d=retro">
+</a>    </span>
+
+    <small>by <a href="/~kosmaks">kosmaks</a> </small>
+  </div>
+</div>
+                </div>
+            </div>
+        </div>
+
+        <p><a class="btn btn-info" href="/explore">Explore more</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+    </main>
+
+<!-- app2 layout's footer -->
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <ul class="links">
+          <li><a href="/contributing">Contributing</a></li>
+          <li><a href="/tos">Terms of Service</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-4 col-xs-12 text-center">
+        <span>
+          Sponsored by
+          <br/>
+          <a class="brightbox-logo" href="http://brightbox.com/" rel="nofollow">
+            <img src="/images/brightbox-78fa1dc42e5065bdbcc77f48e38b6dd3.png?vsn=d" />
+          </a>
+        </span>
+      </div>
+
+      <div class="col-md-4 col-xs-12">
+        <ul class="links float-right">
+          <li>
+            <b>forum:</b> <a href="https://discourse.asciinema.org">discourse.asciinema.org</a>
+          </li>
+          <li>
+            <b>irc:</b> <a href="https://kiwiirc.com/nextclient/irc.freenode.net/#asciinema">#asciinema on freenode</a>
+          </li>
+          <li>
+              <b>matrix:</b> <a href="https://matrix.to/#/#asciinema:matrix.org">#asciinema:matrix.org</a>
+          </li>
+
+          <li>
+            <b>twitter:</b> <a href="https://twitter.com/asciinema" title="Follow @asciinema on Twitter">@asciinema</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    <script src="/js/asciinema-player-e90dd959bf7df7e1608c08ac419fca67.js?vsn=d"></script>
+    <script src="/js/app2-2a2a6b3256ef0e8c3f758fddff759d6a.js?vsn=d"></script>
+  </body>
+</html>

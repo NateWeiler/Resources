@@ -1,0 +1,29 @@
+How to git rename recursively all *.md into *.txt Assumption: filename has no empty spaces.
+
+Step 1: fixed file git-rn.bat
+@echo off
+set _srcfile=%1
+set _tgtfile=%_srcfile:.md=.txt%
+git mv %_srcfile% %_tgtfile%
+Save it at the same place/directory where git-rn-all.bat
+
+Step 2: generate file git-rn-all.bat by using a command
+cd 'G:\Code\GitHub' dir /a /s /b *.md > git-rn-all.bat
+
+Step 3: Modify git-rn-all.bat for our needs.
+Edit git-rn-all.bat and text-replace-all the common base path to add a call to the git-rn.bat.
+Any text editor can easily do that.
+
+example:
+
+C:\projectxt\some-git-project\src\client\app\app.module.md
+
+becomes
+
+call git-rn.bat C:\projectxt\some-git-project\src\client\app\app.module.md
+
+Step 4: execute git-rn-all.bat
+you will see quite a big output
+
+Step 5: remove batch files
+remove git-rn-all.bat and git-rn.bat you probably don't need them any longer.

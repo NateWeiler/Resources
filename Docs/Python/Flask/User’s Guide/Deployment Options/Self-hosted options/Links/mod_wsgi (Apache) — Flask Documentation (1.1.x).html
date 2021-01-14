@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>mod_wsgi (Apache) &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="FastCGI" href="../fastcgi/" />
+    <link rel="prev" title="uWSGI" href="../uwsgi/" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/deploying/mod_wsgi/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/deploying/mod_wsgi/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "deploying/mod_wsgi"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../fastcgi/" title="FastCGI"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../uwsgi/" title="uWSGI"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../">Flask Documentation (1.1.x)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Deployment Options</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mod-wsgi-apache">
+<span id="mod-wsgi-deployment"></span><h1>mod_wsgi (Apache)<a class="headerlink" href="#mod-wsgi-apache" title="Permalink to this headline">¶</a></h1>
+<p>If you are using the <a class="reference external" href="https://httpd.apache.org/">Apache</a> webserver, consider using <a class="reference external" href="https://github.com/GrahamDumpleton/mod_wsgi">mod_wsgi</a>.</p>
+<div class="admonition-watch-out admonition">
+<p class="admonition-title">Watch Out</p>
+<p>Please make sure in advance that any <code class="docutils literal notranslate"><span class="pre">app.run()</span></code> calls you might
+have in your application file are inside an <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span>
+<span class="pre">'__main__':</span></code> block or moved to a separate file.  Just make sure it’s
+not called because this will always start a local WSGI server which
+we do not want if we deploy that application to mod_wsgi.</p>
+</div>
+<div class="section" id="installing-mod-wsgi">
+<h2>Installing <cite>mod_wsgi</cite><a class="headerlink" href="#installing-mod-wsgi" title="Permalink to this headline">¶</a></h2>
+<p>If you don’t have <cite>mod_wsgi</cite> installed yet you have to either install it
+using a package manager or compile it yourself.  The mod_wsgi
+<a class="reference external" href="https://modwsgi.readthedocs.io/en/develop/installation.html">installation instructions</a> cover source installations on UNIX systems.</p>
+<p>If you are using Ubuntu/Debian you can apt-get it and activate it as
+follows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ apt-get install libapache2-mod-wsgi
+</pre></div>
+</div>
+<p>If you are using a yum based distribution (Fedora, OpenSUSE, etc..) you
+can install it as follows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ yum install mod_wsgi
+</pre></div>
+</div>
+<p>On FreeBSD install <cite>mod_wsgi</cite> by compiling the <cite>www/mod_wsgi</cite> port or by
+using pkg_add:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ pkg install ap22-mod_wsgi2
+</pre></div>
+</div>
+<p>If you are using pkgsrc you can install <cite>mod_wsgi</cite> by compiling the
+<cite>www/ap2-wsgi</cite> package.</p>
+<p>If you encounter segfaulting child processes after the first apache
+reload you can safely ignore them.  Just restart the server.</p>
+</div>
+<div class="section" id="creating-a-wsgi-file">
+<h2>Creating a <cite>.wsgi</cite> file<a class="headerlink" href="#creating-a-wsgi-file" title="Permalink to this headline">¶</a></h2>
+<p>To run your application you need a <code class="file docutils literal notranslate"><span class="pre">yourapplication.wsgi</span></code> file.
+This file contains the code <cite>mod_wsgi</cite> is executing on startup
+to get the application object.  The object called <cite>application</cite>
+in that file is then used as application.</p>
+<p>For most applications the following file should be sufficient:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="k">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">application</span>
+</pre></div>
+</div>
+<p>If a factory function is used in a <code class="file docutils literal notranslate"><span class="pre">__init__.py</span></code> file, then the function should be imported:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">yourapplication</span> <span class="k">import</span> <span class="n">create_app</span>
+<span class="n">application</span> <span class="o">=</span> <span class="n">create_app</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you don’t have a factory function for application creation but a singleton
+instance you can directly import that one as <cite>application</cite>.</p>
+<p>Store that file somewhere that you will find it again (e.g.:
+<code class="file docutils literal notranslate"><span class="pre">/var/www/yourapplication</span></code>) and make sure that <cite>yourapplication</cite> and all
+the libraries that are in use are on the python load path.  If you don’t
+want to install it system wide consider using a <a class="reference external" href="https://pypi.org/project/virtualenv/">virtual python</a>
+instance.  Keep in mind that you will have to actually install your
+application into the virtualenv as well.  Alternatively there is the
+option to just patch the path in the <code class="docutils literal notranslate"><span class="pre">.wsgi</span></code> file before the import:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;/path/to/the/application&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuring-apache">
+<h2>Configuring Apache<a class="headerlink" href="#configuring-apache" title="Permalink to this headline">¶</a></h2>
+<p>The last thing you have to do is to create an Apache configuration file
+for your application.  In this example we are telling <cite>mod_wsgi</cite> to
+execute the application under a different user for security reasons:</p>
+<div class="highlight-apache notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;VirtualHost</span> <span class="s">*</span><span class="nt">&gt;</span>
+    <span class="nb">ServerName</span> example.com
+
+    <span class="nb">WSGIDaemonProcess</span> yourapplication <span class="k">user</span>=user1 <span class="k">group</span>=group1 threads=5
+    <span class="nb">WSGIScriptAlias</span> / <span class="sx">/var/www/yourapplication/yourapplication.wsgi</span>
+
+    <span class="nt">&lt;Directory</span> <span class="s">/var/www/yourapplication</span><span class="nt">&gt;</span>
+        <span class="nb">WSGIProcessGroup</span> yourapplication
+        <span class="nb">WSGIApplicationGroup</span> %{GLOBAL}
+        <span class="nb">Order</span> deny,allow
+        <span class="nb">Allow</span> from <span class="k">all</span>
+    <span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</pre></div>
+</div>
+<p>Note: WSGIDaemonProcess isn’t implemented in Windows and Apache will
+refuse to run with the above configuration. On a Windows system, eliminate those lines:</p>
+<div class="highlight-apache notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;VirtualHost</span> <span class="s">*</span><span class="nt">&gt;</span>
+    <span class="nb">ServerName</span> example.com
+    <span class="nb">WSGIScriptAlias</span> / C:\yourdir\yourapp.wsgi
+    <span class="nt">&lt;Directory</span> <span class="s">C:\yourdir</span><span class="nt">&gt;</span>
+        <span class="nb">Order</span> deny,allow
+        <span class="nb">Allow</span> from <span class="k">all</span>
+    <span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</pre></div>
+</div>
+<p>Note: There have been some changes in access control configuration
+for <a class="reference external" href="https://httpd.apache.org/docs/trunk/upgrading.html">Apache 2.4</a>.</p>
+<p>Most notably, the syntax for directory permissions has changed from httpd 2.2</p>
+<div class="highlight-apache notranslate"><div class="highlight"><pre><span></span><span class="nb">Order</span> allow,deny
+<span class="nb">Allow</span> from <span class="k">all</span>
+</pre></div>
+</div>
+<p>to httpd 2.4 syntax</p>
+<div class="highlight-apache notranslate"><div class="highlight"><pre><span></span><span class="nb">Require</span> <span class="k">all</span> granted
+</pre></div>
+</div>
+<p>For more information consult the <a class="reference external" href="https://modwsgi.readthedocs.io/en/develop/index.html">mod_wsgi documentation</a>.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<p>If your application does not run, follow this guide to troubleshoot:</p>
+<dl>
+<dt><strong>Problem:</strong> application does not run, errorlog shows SystemExit ignored</dt><dd><p>You have an <code class="docutils literal notranslate"><span class="pre">app.run()</span></code> call in your application file that is not
+guarded by an <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code> condition.  Either
+remove that <a class="reference internal" href="../../api/#flask.Flask.run" title="flask.Flask.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> call from the file and move it
+into a separate <code class="file docutils literal notranslate"><span class="pre">run.py</span></code> file or put it into such an if block.</p>
+</dd>
+<dt><strong>Problem:</strong> application gives permission errors</dt><dd><p>Probably caused by your application running as the wrong user.  Make
+sure the folders the application needs access to have the proper
+privileges set and the application runs as the correct user
+(<code class="docutils literal notranslate"><span class="pre">user</span></code> and <code class="docutils literal notranslate"><span class="pre">group</span></code> parameter to the <cite>WSGIDaemonProcess</cite>
+directive)</p>
+</dd>
+<dt><strong>Problem:</strong> application dies with an error on print</dt><dd><p>Keep in mind that mod_wsgi disallows doing anything with
+<a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stdout" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stdout</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a>.  You can disable this
+protection from the config by setting the <cite>WSGIRestrictStdout</cite> to
+<code class="docutils literal notranslate"><span class="pre">off</span></code>:</p>
+<div class="highlight-apache notranslate"><div class="highlight"><pre><span></span><span class="nb">WSGIRestrictStdout</span> <span class="k">Off</span>
+</pre></div>
+</div>
+<p>Alternatively you can also replace the standard out in the .wsgi file
+with a different stream:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+</pre></div>
+</div>
+</dd>
+<dt><strong>Problem:</strong> accessing resources gives IO errors</dt><dd><p>Your application probably is a single .py file you symlinked into
+the site-packages folder.  Please be aware that this does not work,
+instead you either have to put the folder into the pythonpath the
+file is stored in, or convert your application into a package.</p>
+<p>The reason for this is that for non-installed packages, the module
+filename is used to locate the resources and for symlinks the wrong
+filename is picked up.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="support-for-automatic-reloading">
+<h2>Support for Automatic Reloading<a class="headerlink" href="#support-for-automatic-reloading" title="Permalink to this headline">¶</a></h2>
+<p>To help deployment tools you can activate support for automatic
+reloading.  Whenever something changes the <code class="docutils literal notranslate"><span class="pre">.wsgi</span></code> file, <cite>mod_wsgi</cite> will
+reload all the daemon processes for us.</p>
+<p>For that, just add the following directive to your <cite>Directory</cite> section:</p>
+<div class="highlight-apache notranslate"><div class="highlight"><pre><span></span><span class="nb">WSGIScriptReloading</span> <span class="k">On</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="working-with-virtual-environments">
+<h2>Working with Virtual Environments<a class="headerlink" href="#working-with-virtual-environments" title="Permalink to this headline">¶</a></h2>
+<p>Virtual environments have the advantage that they never install the
+required dependencies system wide so you have a better control over what
+is used where.  If you want to use a virtual environment with mod_wsgi
+you have to modify your <code class="docutils literal notranslate"><span class="pre">.wsgi</span></code> file slightly.</p>
+<p>Add the following lines to the top of your <code class="docutils literal notranslate"><span class="pre">.wsgi</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">activate_this</span> <span class="o">=</span> <span class="s1">&#39;/path/to/env/bin/activate_this.py&#39;</span>
+<span class="n">execfile</span><span class="p">(</span><span class="n">activate_this</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="vm">__file__</span><span class="o">=</span><span class="n">activate_this</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>For Python 3 add the following lines to the top of your <code class="docutils literal notranslate"><span class="pre">.wsgi</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">activate_this</span> <span class="o">=</span> <span class="s1">&#39;/path/to/env/bin/activate_this.py&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">activate_this</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_</span><span class="p">:</span>
+    <span class="n">exec</span><span class="p">(</span><span class="n">file_</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="nb">dict</span><span class="p">(</span><span class="vm">__file__</span><span class="o">=</span><span class="n">activate_this</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This sets up the load paths according to the settings of the virtual
+environment.  Keep in mind that the path has to be absolute.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../">
+              <img class="logo" src="../../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">mod_wsgi (Apache)</a><ul>
+<li><a class="reference internal" href="#installing-mod-wsgi">Installing <cite>mod_wsgi</cite></a></li>
+<li><a class="reference internal" href="#creating-a-wsgi-file">Creating a <cite>.wsgi</cite> file</a></li>
+<li><a class="reference internal" href="#configuring-apache">Configuring Apache</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li><a class="reference internal" href="#support-for-automatic-reloading">Support for Automatic Reloading</a></li>
+<li><a class="reference internal" href="#working-with-virtual-environments">Working with Virtual Environments</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../">Overview</a>
+    <ul>
+      <li><a href="../">Deployment Options</a>
+        <ul>
+          <li>Previous: <a href="../uwsgi/" title="previous chapter">uWSGI</a>
+          <li>Next: <a href="../fastcgi/" title="next chapter">FastCGI</a></ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

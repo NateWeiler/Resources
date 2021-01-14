@@ -1,0 +1,8 @@
+#######################
+# Curl Complete Repos #
+#######################
+# User Repo #
+curl "https://api.github.com/users/##GHUSER##/repos?per_page=1000" | grep -o 'git@[^"]*' | xargs -L1 git clone
+
+# Org Repo #
+curl "https://api.github.com/orgs/##GHORG##/repos?per_page=1000" | grep -o 'git@[^"]*' | xargs -L1 git clone

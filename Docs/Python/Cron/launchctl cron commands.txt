@@ -1,0 +1,7 @@
+launchctl load /Users/air/Library/LaunchAgents/gitcron.crontab.plist
+
+launchctl unload /Users/air/Library/LaunchAgents/gitcron.crontab.plist
+
+
+sudo launchctl list | grep 'gitcron'
+

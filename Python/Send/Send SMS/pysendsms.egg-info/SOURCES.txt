@@ -1,0 +1,13 @@
+MANIFEST.in
+README.md
+setup.py
+pysendsms/__init__.py
+pysendsms/__main__.py
+pysendsms/carriers.json
+pysendsms/contact.py
+pysendsms/data.py
+pysendsms/sms.py
+pysendsms.egg-info/PKG-INFO
+pysendsms.egg-info/SOURCES.txt
+pysendsms.egg-info/dependency_links.txt
+pysendsms.egg-info/top_level.txt

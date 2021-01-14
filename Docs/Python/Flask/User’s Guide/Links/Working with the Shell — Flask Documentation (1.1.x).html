@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Working with the Shell &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Patterns for Flask" href="../patterns/" />
+    <link rel="prev" title="Development Server" href="../server/" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/shell/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/shell/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "shell"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../patterns/" title="Patterns for Flask"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../server/" title="Development Server"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../">Flask Documentation (1.1.x)</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="working-with-the-shell">
+<span id="shell"></span><h1>Working with the Shell<a class="headerlink" href="#working-with-the-shell" title="Permalink to this headline">¶</a></h1>
+<details class="changelog">
+<summary>Changelog</summary><div class="versionadded">
+<p><span class="versionmodified added">New in version 0.3.</span></p>
+</div>
+</details><p>One of the reasons everybody loves Python is the interactive shell.  It
+basically allows you to execute Python commands in real time and
+immediately get results back.  Flask itself does not come with an
+interactive shell, because it does not require any specific setup upfront,
+just import your application and start playing around.</p>
+<p>There are however some handy helpers to make playing around in the shell a
+more pleasant experience.  The main issue with interactive console
+sessions is that you’re not triggering a request like a browser does which
+means that <a class="reference internal" href="../api/#flask.g" title="flask.g"><code class="xref py py-data docutils literal notranslate"><span class="pre">g</span></code></a>, <a class="reference internal" href="../api/#flask.request" title="flask.request"><code class="xref py py-data docutils literal notranslate"><span class="pre">request</span></code></a> and others are not
+available.  But the code you want to test might depend on them, so what
+can you do?</p>
+<p>This is where some helper functions come in handy.  Keep in mind however
+that these functions are not only there for interactive shell usage, but
+also for unit testing and other situations that require a faked request
+context.</p>
+<p>Generally it’s recommended that you read the <a class="reference internal" href="../reqcontext/#request-context"><span class="std std-ref">The Request Context</span></a>
+chapter of the documentation first.</p>
+<div class="section" id="command-line-interface">
+<h2>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h2>
+<p>Starting with Flask 0.11 the recommended way to work with the shell is the
+<code class="docutils literal notranslate"><span class="pre">flask</span> <span class="pre">shell</span></code> command which does a lot of this automatically for you.
+For instance the shell is automatically initialized with a loaded
+application context.</p>
+<p>For more information see <a class="reference internal" href="../cli/#cli"><span class="std std-ref">Command Line Interface</span></a>.</p>
+</div>
+<div class="section" id="creating-a-request-context">
+<h2>Creating a Request Context<a class="headerlink" href="#creating-a-request-context" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to create a proper request context from the shell is by
+using the <a class="reference internal" href="../api/#flask.Flask.test_request_context" title="flask.Flask.test_request_context"><code class="xref py py-attr docutils literal notranslate"><span class="pre">test_request_context</span></code></a> method which creates
+us a <a class="reference internal" href="../api/#flask.ctx.RequestContext" title="flask.ctx.RequestContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">RequestContext</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Normally you would use the <code class="docutils literal notranslate"><span class="pre">with</span></code> statement to make this request object
+active, but in the shell it’s easier to use the
+<a class="reference internal" href="../api/#flask.ctx.RequestContext.push" title="flask.ctx.RequestContext.push"><code class="xref py py-meth docutils literal notranslate"><span class="pre">push()</span></code></a> and
+<a class="reference internal" href="../api/#flask.ctx.RequestContext.pop" title="flask.ctx.RequestContext.pop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pop()</span></code></a> methods by hand:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>From that point onwards you can work with the request object until you
+call <cite>pop</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="firing-before-after-request">
+<h2>Firing Before/After Request<a class="headerlink" href="#firing-before-after-request" title="Permalink to this headline">¶</a></h2>
+<p>By just creating a request context, you still don’t have run the code that
+is normally run before a request.  This might result in your database
+being unavailable if you are connecting to the database in a
+before-request callback or the current user not being stored on the
+<a class="reference internal" href="../api/#flask.g" title="flask.g"><code class="xref py py-data docutils literal notranslate"><span class="pre">g</span></code></a> object etc.</p>
+<p>This however can easily be done yourself.  Just call
+<a class="reference internal" href="../api/#flask.Flask.preprocess_request" title="flask.Flask.preprocess_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preprocess_request()</span></code></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">preprocess_request</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Keep in mind that the <a class="reference internal" href="../api/#flask.Flask.preprocess_request" title="flask.Flask.preprocess_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preprocess_request()</span></code></a> function
+might return a response object, in that case just ignore it.</p>
+<p>To shutdown a request, you need to trick a bit before the after request
+functions (triggered by <a class="reference internal" href="../api/#flask.Flask.process_response" title="flask.Flask.process_response"><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_response()</span></code></a>) operate on
+a response object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">app</span><span class="o">.</span><span class="n">process_response</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">response_class</span><span class="p">())</span>
+<span class="go">&lt;Response 0 bytes [200 OK]&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ctx</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The functions registered as <a class="reference internal" href="../api/#flask.Flask.teardown_request" title="flask.Flask.teardown_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">teardown_request()</span></code></a> are
+automatically called when the context is popped.  So this is the perfect
+place to automatically tear down resources that were needed by the request
+context (such as database connections).</p>
+</div>
+<div class="section" id="further-improving-the-shell-experience">
+<h2>Further Improving the Shell Experience<a class="headerlink" href="#further-improving-the-shell-experience" title="Permalink to this headline">¶</a></h2>
+<p>If you like the idea of experimenting in a shell, create yourself a module
+with stuff you want to star import into your interactive session.  There
+you could also define some more helper methods for common things such as
+initializing the database, dropping tables etc.</p>
+<p>Just put them into a module (like <cite>shelltools</cite>) and import from there:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">shelltools</span> <span class="k">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../">
+              <img class="logo" src="../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Working with the Shell</a><ul>
+<li><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
+<li><a class="reference internal" href="#creating-a-request-context">Creating a Request Context</a></li>
+<li><a class="reference internal" href="#firing-before-after-request">Firing Before/After Request</a></li>
+<li><a class="reference internal" href="#further-improving-the-shell-experience">Further Improving the Shell Experience</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../">Overview</a>
+    <ul>
+          <li>Previous: <a href="../server/" title="previous chapter">Development Server</a>
+          <li>Next: <a href="../patterns/" title="next chapter">Patterns for Flask</a>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

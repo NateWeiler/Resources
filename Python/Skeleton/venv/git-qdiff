@@ -1,0 +1,8 @@
+#!g:\code\editor\python\stackless37\python.exe
+# -*- coding: utf-8 -*-
+
+import sys
+import git_qdiff
+
+sys.exit(git_qdiff.main())
+

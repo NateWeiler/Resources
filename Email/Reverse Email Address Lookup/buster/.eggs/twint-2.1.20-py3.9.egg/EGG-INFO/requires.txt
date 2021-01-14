@@ -1,0 +1,12 @@
+aiodns
+aiohttp
+aiohttp-socks
+beautifulsoup4
+cchardet
+elasticsearch
+fake-useragent
+geopy
+googletransx
+pandas
+pysocks
+schedule

@@ -1,0 +1,71 @@
+add_package()
+
+toplevel_py_binary(
+  NAME
+    run
+  SRCS
+    run.py
+  MAIN
+    run.py
+  DEPS
+    .traces_internal
+    pytype.config
+)
+
+py_library(
+  NAME
+    traces
+  DEPS
+    .source
+    .traces_internal
+    pytype.ast.visitor
+)
+
+py_library(
+  NAME
+    traces_internal
+  SRCS
+    traces.py
+  DEPS
+    .source
+    pytype.analyze
+    pytype.config
+    pytype.errors
+    pytype.load_pytd
+    pytype.ast.visitor
+    pytype.pytd.pytd_defs
+    pytype.pytd.pytd_for_parser
+    pytype.pytd.pytd_utils
+)
+
+py_test(
+  NAME
+    traces_test
+  SRCS
+    traces_test.py
+  DEPS
+    .traces_internal
+    pytype.config
+    pytype.utils
+    pytype.pytd.pytd_defs
+    pytype.pytd.pytd_utils
+    pytype.tests.test_base
+)
+
+py_library(
+  NAME
+    source
+  SRCS
+    source.py
+  DEPS
+    pytype.utils
+)
+
+py_test(
+  NAME
+    source_test
+  SRCS
+    source_test.py
+  DEPS
+    .source
+)

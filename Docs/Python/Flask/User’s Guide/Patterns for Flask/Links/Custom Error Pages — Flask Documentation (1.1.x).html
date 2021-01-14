@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Error Pages &#8212; Flask Documentation (1.1.x)</title>
+    <link rel="stylesheet" href="../../_static/flask.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://assets.readthedocs.org/static/css/badge_only.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-doc-embed.js"></script>
+    <link rel="shortcut icon" href="../../_static/flask-icon.png"/>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="Lazily Loading Views" href="../lazyloading/" />
+    <link rel="prev" title="AJAX with jQuery" href="../jquery/" />
+    <link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/patterns/errorpages/">
+  <script>DOCUMENTATION_OPTIONS.URL_ROOT = '../../';</script>
+   
+  
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="https://flask.palletsprojects.com/en/1.1.x/patterns/errorpages/" />
+
+<link rel="stylesheet" href="https://assets.readthedocs.org/static/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "patterns/errorpages"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="https://assets.readthedocs.org/static/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../lazyloading/" title="Lazily Loading Views"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../jquery/" title="AJAX with jQuery"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../">Flask Documentation (1.1.x)</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Patterns for Flask</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="custom-error-pages">
+<span id="errorpages"></span><h1>Custom Error Pages<a class="headerlink" href="#custom-error-pages" title="Permalink to this headline">¶</a></h1>
+<p>Flask comes with a handy <a class="reference internal" href="../../api/#flask.abort" title="flask.abort"><code class="xref py py-func docutils literal notranslate"><span class="pre">abort()</span></code></a> function that aborts a
+request with an HTTP error code early.  It will also provide a plain black
+and white error page for you with a basic description, but nothing fancy.</p>
+<p>Depending on the error code it is less or more likely for the user to
+actually see such an error.</p>
+<div class="section" id="common-error-codes">
+<h2>Common Error Codes<a class="headerlink" href="#common-error-codes" title="Permalink to this headline">¶</a></h2>
+<p>The following error codes are some that are often displayed to the user,
+even if the application behaves correctly:</p>
+<dl class="simple">
+<dt><em>404 Not Found</em></dt><dd><p>The good old “chap, you made a mistake typing that URL” message.  So
+common that even novices to the internet know that 404 means: damn,
+the thing I was looking for is not there.  It’s a very good idea to
+make sure there is actually something useful on a 404 page, at least a
+link back to the index.</p>
+</dd>
+<dt><em>403 Forbidden</em></dt><dd><p>If you have some kind of access control on your website, you will have
+to send a 403 code for disallowed resources.  So make sure the user
+is not lost when they try to access a forbidden resource.</p>
+</dd>
+<dt><em>410 Gone</em></dt><dd><p>Did you know that there the “404 Not Found” has a brother named “410
+Gone”?  Few people actually implement that, but the idea is that
+resources that previously existed and got deleted answer with 410
+instead of 404.  If you are not deleting documents permanently from
+the database but just mark them as deleted, do the user a favour and
+use the 410 code instead and display a message that what they were
+looking for was deleted for all eternity.</p>
+</dd>
+<dt><em>500 Internal Server Error</em></dt><dd><p>Usually happens on programming errors or if the server is overloaded.
+A terribly good idea is to have a nice page there, because your
+application <em>will</em> fail sooner or later (see also:
+<a class="reference internal" href="../../errorhandling/#application-errors"><span class="std std-ref">Application Errors</span></a>).</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="error-handlers">
+<h2>Error Handlers<a class="headerlink" href="#error-handlers" title="Permalink to this headline">¶</a></h2>
+<p>An error handler is a function that returns a response when a type of error is
+raised, similar to how a view is a function that returns a response when a
+request URL is matched. It is passed the instance of the error being handled,
+which is most likely a <a class="reference external" href="https://werkzeug.palletsprojects.com/en/1.0.x/exceptions/#werkzeug.exceptions.HTTPException" title="(in Werkzeug v1.0.x)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">HTTPException</span></code></a>. An error
+handler for “500 Internal Server Error” will be passed uncaught exceptions in
+addition to explicit 500 errors.</p>
+<p>An error handler is registered with the <a class="reference internal" href="../../api/#flask.Flask.errorhandler" title="flask.Flask.errorhandler"><code class="xref py py-meth docutils literal notranslate"><span class="pre">errorhandler()</span></code></a>
+decorator or the <a class="reference internal" href="../../api/#flask.Flask.register_error_handler" title="flask.Flask.register_error_handler"><code class="xref py py-meth docutils literal notranslate"><span class="pre">register_error_handler()</span></code></a> method. A handler
+can be registered for a status code, like 404, or for an exception class.</p>
+<p>The status code of the response will not be set to the handler’s code. Make
+sure to provide the appropriate HTTP status code when returning a response from
+a handler.</p>
+<p>A handler for “500 Internal Server Error” will not be used when running in
+debug mode. Instead, the interactive debugger will be shown.</p>
+<p>Here is an example implementation for a “404 Page Not Found” exception:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">render_template</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">errorhandler</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">page_not_found</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="c1"># note that we set the 404 status explicitly</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;404.html&#39;</span><span class="p">),</span> <span class="mi">404</span>
+</pre></div>
+</div>
+<p>When using the <a class="reference internal" href="../appfactories/#app-factories"><span class="std std-ref">application factory pattern</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span>
+
+<span class="k">def</span> <span class="nf">page_not_found</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+  <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;404.html&#39;</span><span class="p">),</span> <span class="mi">404</span>
+
+<span class="k">def</span> <span class="nf">create_app</span><span class="p">(</span><span class="n">config_filename</span><span class="p">):</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">register_error_handler</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="n">page_not_found</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">app</span>
+</pre></div>
+</div>
+<p>An example template might be this:</p>
+<div class="highlight-html+jinja notranslate"><div class="highlight"><pre><span></span><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;layout.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>Page Not Found<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+  <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Page Not Found<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>What you were looking for is just not there.
+  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url_for</span><span class="o">(</span><span class="s1">&#39;index&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="p">&gt;</span>go somewhere nice<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="returning-api-errors-as-json">
+<h2>Returning API errors as JSON<a class="headerlink" href="#returning-api-errors-as-json" title="Permalink to this headline">¶</a></h2>
+<p>When using Flask for web APIs, you can use the same techniques as above
+to return JSON responses to API errors.  <a class="reference internal" href="../../api/#flask.abort" title="flask.abort"><code class="xref py py-func docutils literal notranslate"><span class="pre">abort()</span></code></a> is called
+with a <code class="docutils literal notranslate"><span class="pre">description</span></code> parameter. The <code class="xref py py-meth docutils literal notranslate"><span class="pre">errorhandler()</span></code> will
+use that as the JSON error message, and set the status code to 404.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">abort</span><span class="p">,</span> <span class="n">jsonify</span>
+
+<span class="nd">@app.errorhandler</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">resource_not_found</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">error</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="mi">404</span>
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s2">&quot;/cheese&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_one_cheese</span><span class="p">():</span>
+    <span class="n">resource</span> <span class="o">=</span> <span class="n">get_resource</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">resource</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">abort</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Resource not found&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">jsonify</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+  <span id="sidebar-top"></span>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  
+    
+            <p class="logo"><a href="../../">
+              <img class="logo" src="../../_static/flask-icon.png" alt="Logo"/>
+            </a></p>
+  
+
+  <h3>Contents</h3>
+  <ul>
+<li><a class="reference internal" href="#">Custom Error Pages</a><ul>
+<li><a class="reference internal" href="#common-error-codes">Common Error Codes</a></li>
+<li><a class="reference internal" href="#error-handlers">Error Handlers</a></li>
+<li><a class="reference internal" href="#returning-api-errors-as-json">Returning API errors as JSON</a></li>
+</ul>
+</li>
+</ul>
+<h3>Navigation</h3>
+<ul>
+  <li><a href="../../">Overview</a>
+    <ul>
+      <li><a href="../">Patterns for Flask</a>
+        <ul>
+          <li>Previous: <a href="../jquery/" title="previous chapter">AJAX with jQuery</a>
+          <li>Next: <a href="../lazyloading/" title="next chapter">Lazily Loading Views</a></ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010 Pallets.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+    <script>
+      if (typeof READTHEDOCS_DATA !== 'undefined') {
+        if (!READTHEDOCS_DATA.features) {
+          READTHEDOCS_DATA.features = {};
+        }
+        READTHEDOCS_DATA.features.docsearch_disabled = true;
+      }
+    </script>
+  <script type="text/javascript" src="../../_static/version_warning_offset.js"></script>
+
+  </body>
+</html>

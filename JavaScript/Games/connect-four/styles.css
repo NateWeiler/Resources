@@ -1,0 +1,72 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color: #005792;
+  font-family: 'Catamaran', sans-serif;
+  font-size: 20px;
+}
+
+h1 {
+  font-size: 1.7rem;
+  margin: 2rem 0 0;
+  text-align: center;
+  text-shadow: -2px 2px #00569450;
+}
+
+section {
+  margin: 0 0 2rem;
+  text-align: center;
+  text-shadow: -1px 1px #00569450;
+  text-transform: capitalize;
+}
+
+table {
+  background: gold;
+  border: 0.4vw solid #daa52050;
+  border-spacing: 1vw;
+  box-shadow: 0 0 0 0.4vw #daa520;
+  margin: 1rem auto;
+  padding: 0.5vw;
+}
+
+td {
+  background: white;
+  border: 0.4vw solid goldenrod;
+  border-radius: 50%;
+  box-shadow: -0.4vw 0.4vw #daa52050;
+  cursor: pointer;
+  padding: 2.25vw;
+  position: relative;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+td:after {
+  content: '';
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+td[data-player="black"] {
+  background: #444444;
+  border-color: #00000080;
+  box-shadow: inset -6px 6px #00000050, -0.4vw 0.4vw #daa52050;
+}
+
+td[data-player="red"] {
+  background: #a20e0e;
+  border-color: #5a090480;
+  box-shadow: inset -6px 6px #5a090450, -0.4vw 0.4vw #daa52050;
+}
+
+td.highlight:after {
+  box-shadow: inset 0 0 60px gold;
+  opacity: 1;
+}

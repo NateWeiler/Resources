@@ -1,0 +1,11 @@
+#			shebangs
+
+#	Perl
+#	====
+#!/usr/bin/env perl
+
+#	Python
+#	======
+
+#	Bash
+#	====

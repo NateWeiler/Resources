@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="azure-header-static hasSidebar hasPageActions hasBreadcrumb conceptual has-default-focus theme-light" lang="en-us" dir="ltr" data-css-variable-support="true" data-authenticated="false" data-auth-status-determined="false" data-target="docs" x-ms-format-detection="none">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta property="og:title" content="Configure Linux Python apps - Azure App Service" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://docs.microsoft.com/en-us/azure/app-service/containers/how-to-configure-python" />
+			<meta property="og:description" content="Learn how to configure a pre-built Python container for your app. This article shows the most common configuration tasks." />
+		<meta property="og:image" content="https://docs.microsoft.com/en-us/media/logos/logo-ms-social.png" />
+		<meta property="og:image:alt" content="Microsoft Logo" />
+
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@docsmsft" />
+
+		<meta name="author" content="cephalin" />
+<meta name="ms.author" content="cephalin" />
+<meta name="manager" content="gwallace" />
+<meta name="breadcrumb_path" content="/azure/bread/toc.json" />
+<meta name="recommendations" content="true" />
+<meta name="learn_banner_products" content="azure" />
+<meta name="ms.service" content="app-service" />
+<meta name="ms.custom" content="seodec18" />
+<meta name="description" content="Learn how to configure a pre-built Python container for your app. This article shows the most common configuration tasks." />
+<meta name="ms.topic" content="quickstart" />
+<meta name="ms.date" content="03/28/2019" />
+<meta name="ms.reviewer" content="astay; kraigb" />
+<meta name="search.ms_sitename" content="Docs" />
+<meta name="search.ms_docsetname" content="azure-documents" />
+<meta name="version" content="0" />
+<meta name="locale" content="en-us" />
+<meta name="site_name" content="Docs" />
+<meta name="search.ms_product" content="Azure" />
+<meta name="depot_name" content="Azure.azure-documents" />
+<meta name="updated_at" content="2020-01-13 02:47 PM" />
+<meta name="gitcommit" content="https://github.com/MicrosoftDocs/azure-docs-pr/blob/85695ebba1f77f7bb3a69b16bfa98d561b149070/articles/app-service/containers/how-to-configure-python.md" />
+<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/azure-docs-pr/blob/live/articles/app-service/containers/how-to-configure-python.md" />
+<meta name="document_id" content="4348313e-7280-dc7e-4943-14c4675bbe5a" />
+<meta name="document_version_independent_id" content="970e6640-8042-5f88-5ecf-84d58d09b8fd" />
+<meta name="page_type" content="conceptual" />
+<meta name="interactive_type" content="azurecli" />
+<meta name="toc_rel" content="toc.json" />
+<meta name="pdf_url_template" content="https://docs.microsoft.com/pdfstore/en-us/Azure.azure-documents/{branchName}{pdfName}" />
+<meta name="word_count" content="1418" />
+
+	<meta name="scope" content="Azure, App Service" />
+<link href="https://docs.microsoft.com/en-us/azure/app-service/containers/how-to-configure-python" rel="canonical">
+	<title>Configure Linux Python apps - Azure App Service | Microsoft Docs</title>
+
+		<link rel="stylesheet" href="/_themes/docs.theme/master/en-us/_themes/styles/f61444e.site-ltr.css ">
+
+	<link rel="stylesheet" href="/_themes/docs.theme/master/en-us/_themes/styles/2488a4dd.conceptual.css ">
+
+
+	<script>
+	var msDocs = {
+		data: {
+			timeOrigin: Date.now(),
+			azureHeaderLocale: 'en-us',
+			contentLocale: 'en-us',
+			contentDir: 'ltr',
+			userLocale: 'en-us',
+			userDir: 'ltr',
+			pageTemplate: 'Conceptual',
+			brand: 'azure',
+			context: {
+
+			},
+			hasComments: true,
+			showFeedbackReport: false,
+			binaryRatingUpdate : false,
+			enableTutorialFeedback: false,
+			feedbackSystem: 'GitHub',
+			feedbackGitHubRepo: 'MicrosoftDocs/azure-docs',
+			feedbackProductUrl: 'https://feedback.azure.com/forums/169385-web-apps',
+			contentGitUrl: 'https://github.com/Microsoft/azure-docs/blob/master/articles/app-service/containers/how-to-configure-python.md',
+				learnBannerDetails: {
+					learnBannerProducts: 'azure'
+				},
+			extendBreadcrumb: false,
+		},
+		functions:{}
+	};
+	if (!('Promise' in window && 'resolve' in window.Promise && 'reject' in window.Promise && 'all' in window.Promise && 'race' in window.Promise)) {
+		document.write('<script src="https://static.docs.com/ui/third-party/bluebird/3.5.0/bluebird.min.js" integrity="sha384-aD4BDeDGeLXLpPK4yKeqtZQa9dv4a/7mQ+4L5vwshIYH1Mc2BrXvHd32iHzYCQy5" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof fetch !== 'function') {
+		document.write('<script src="https://static.docs.com/ui/third-party/fetch/3.0.0/fetch.umd.min.js" integrity="sha384-EQIXrC5K2+7X8nGgLkB995I0/6jfAvvyG1ieZ+WYGxgJHFMD/alsG9fSDWvzb5Y1" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof HTMLTemplateElement === 'undefined') {
+		document.write('<script src="https://static.docs.com/ui/third-party/template/1.4.0/template.min.js" integrity="sha384-1zKzI6ldTVHMU7n0W2HpE/lhHI+UG4D9IIaxbj3kT2UhCWicdTuJkTtnKuu0CQzN" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof URL !== 'function') {
+		document.write('<script src="https://static.docs.com/ui/third-party/url/0.5.7/url.min.js" integrity="sha384-vn7xBMtpSTfzaTRWxj0kVq0UcsbBrTOgZ/M1ISHqe1V358elYva+lfiEC+T8jLPc" crossorigin="anonymous"><\/script>');
+	}
+	</script>
+
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+		<script src="/_themes/docs.theme/master/en-us/_themes/scripts/9f071252.index-docs.js"></script>
+
+</head>
+
+<body lang="en-us" dir="ltr">
+<div class="header-holder has-default-focus">
+	<a href="#main" class="skip-to-main-link visually-hidden-until-focused is-fixed has-inner-focus focus-visible has-top-zero has-left-zero has-right-zero has-padding-medium has-text-centered has-body-background-medium" tabindex="1">Skip to main content</a>
+		<div id="azure-cookie-notification-holder">
+		</div>
+		<div id="headerAreaHolder" data-bi-name="header" lang="en-us" dir="ltr">
+			<div class="azure-header-placeholder"></div>
+		</div>
+		<div class="content-header uhf-container has-padding has-default-focus" data-bi-name="content-header">
+			<nav class="has-padding-none-mobile has-flex-grow" data-bi-name="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList" role="navigation" aria-label="Breadcrumb">
+				<ul id="page-breadcrumbs" class="breadcrumbs">
+				</ul>
+			</nav>
+		<div class="content-header-controls">
+			<button type="button" class="contents-button button" data-bi-name="contents-expand" aria-haspopup="true">
+				<span class="icon"><span class="docon docon-menu" aria-hidden="true"></span></span>
+				<span>Contents</span>
+			</button>
+		</div>
+		<div class="content-header-controls exit-focus">
+			<button type="button" class="ap-collapse-behavior ap-expanded button" data-bi-name="ap-collapse" aria-controls="action-panel">
+				<span class="icon"><span class="docon docon-exit-mode" aria-hidden="true"></span></span>
+				<span>Exit focus mode</span>
+			</button>
+		</div>
+		<div class="is-size-7 is-flex-touch has-flex-justify-content-space-between-touch has-flex-grow has-padding-none has-padding-none-mobile">
+			<ul class="action-list has-flex-justify-content-start has-flex-justify-content-end-tablet is-flex is-flex-row has-flex-wrap has-flex-grow is-unstyled">
+				<li>
+					<button type="button" class="bookmark button is-text has-inner-focus is-small is-icon-only-touch" data-list-type="bookmarks" data-bi-name="bookmark" title="Bookmark this page">
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-single-bookmark"></span>
+						</span>
+						<span class="bookmark-status is-visually-hidden-touch is-hidden-portrait">Bookmark</span>
+					</button>
+				</li>
+						<li>
+							<a href="#feedback" class="button is-text has-inner-focus is-small is-icon-only-touch" data-bi-name="comments" title="Send feedback about this page">
+								<span class="icon">
+									<span class="docon docon-comment-lines" aria-hidden="true"></span>
+								</span>
+								<span class="is-visually-hidden-touch is-hidden-portrait">Feedback</span>
+							</a>
+						</li>
+							<li id="contenteditbtn">
+									<a href="https://github.com/Microsoft/azure-docs/blob/master/articles/app-service/containers/how-to-configure-python.md" class="button is-text has-inner-focus is-icon-only-touch is-small" title="Edit This Document" data-bi-name="edit" data-original_content_git_url="https://github.com/MicrosoftDocs/azure-docs-pr/blob/live/articles/app-service/containers/how-to-configure-python.md" data-original_content_git_url_template="" data-pr_repo="" data-pr_branch="">
+									<span class="icon">
+										<span class="docon docon-edit-outline" aria-hidden="true"></span>
+									</span>
+									<span class="is-visually-hidden-touch is-hidden-portrait">Edit</span>
+								</a>
+							</li>
+				<li>
+<div class="sharing dropdown has-caret">
+	<button class="dropdown-trigger button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small is-icon-only-touch" aria-controls="sharing-menu" aria-expanded="false" title="Share This Document" data-bi-name="share">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-sharing"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Share</span>
+	</button>
+	<div class="dropdown-menu has-padding-small" id="sharing-menu">
+		<ul data-bi-name="share-links">
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-twitter" data-bi-name="twitter">
+					<span class="icon">
+						<span class="docon docon-brand-twitter has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Twitter</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-linkedin" data-bi-name="linkedin">
+					<span class="icon">
+						<span class="docon docon-brand-linkedin has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>LinkedIn</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-facebook" data-bi-name="facebook">
+					<span class="icon">
+						<span class="docon docon-brand-facebook has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Facebook</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-email" data-bi-name="email">
+					<span class="icon">
+						<span class="docon docon-mail-message-fill has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Email</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>				</li>
+				<li>
+<div class="dropdown has-caret">
+	<button class="dropdown-trigger button is-text is-small is-icon-only-touch has-inner-focus"
+		aria-controls="theme-menu" aria-expanded="false" title="Theme" data-bi-name="theme">
+		<span class="icon">
+			<span class="docon docon-sun" aria-hidden="true"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Theme</span>
+	</button>
+	<div class="dropdown-menu" id="theme-menu" role="menu">
+		<ul class="theme-selector has-padding-small">
+			<li class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start"
+					data-theme-to="light">
+					<span class="theme-light has-margin-right-small">
+						<span
+							class="theme-selector-icon css-variable-support has-border is-inline-block has-body-background"
+							aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background" />
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+Light					</span>
+				</button>
+			</li>
+			<li class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start"
+					data-theme-to="dark">
+					<span class="theme-dark has-margin-right-small">
+						<span
+							class="has-border theme-selector-icon css-variable-support is-inline-block has-body-background"
+							aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background" />
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+Dark					</span>
+				</button>
+			</li>
+			<li class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start"
+					data-theme-to="high-contrast">
+					<span class="theme-high-contrast has-margin-right-small">
+						<span
+							class="has-border theme-selector-icon css-variable-support is-inline-block has-body-background"
+							aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background" />
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+							</svg>
+						</span>
+					</span>
+					<span role="menuitem">
+High contrast					</span>
+				</button>
+			</li>
+		</ul>
+	</div>
+</div>				</li>
+				<li>
+					<a class="docs-sign-in auth-status-determined not-authenticated button is-text has-inner-focus has-text-primary is-small" href="#">Sign in</a>
+					<div class="dropdown has-caret auth-status-determined authenticated">
+						<button class="dropdown-trigger button is-text has-inner-focus is-small is-icon-only-touch has-inner-focus" aria-label="Your Account" aria-controls="user-menu" aria-expanded="false">
+							<span class="icon" aria-hidden="true">
+								<span class="image">
+									<img class="has-body-background-medium is-rounded" data-profile-property="avatarThumbnailUrl">
+								</span>
+							</span>
+							<span class="is-inline-truncated has-margin-left-small" data-profile-property="userName"></span>
+						</button>
+						<div class="dropdown-menu box" id="user-menu" role="menu">
+							<div class="media is-user-dir">
+								<div class="media-left">
+									<span class="image is-64x64" aria-hidden="true">
+										<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+									</span>
+								</div>
+								<div class="media-content">
+									<p class="title">
+										<span class="is-inline-truncated has-max-width-200" data-profile-property="userName"></span>
+									</p>
+									<p class="subtitle has-margin-bottom-none">
+										<span class="is-inline-truncated has-max-width-200" data-profile-property="upn"></span>
+									</p>
+									<ul class="is-unstyled has-margin-none has-margin-top-small">
+										<li><a href="/profile" data-profile-property="profileUrl">Profile</a></li>
+										<li><a href="/profile" data-profile-property="bookmarksUrl">Bookmarks</a></li>
+										<li><a href="/profile" data-profile-property="collectionsUrl">Collections</a></li>
+										<li><a class="docs-sign-out" href="#">Sign out</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<button type="button" class="contents-button button is-small is-text is-hidden-tablet has-inner-focus is-hidden-tablet" aria-label="Contents" data-bi-name="contents-expand-">
+				<span class="icon">
+					<span class="docon docon-editor-list-bullet" aria-hidden="true"></span>
+				</span>
+				<span>Contents</span>
+			</button>
+		</div>
+	</div>
+
+	<div id="banner-holder" class="has-default-focus has-overflow-hidden">
+			<section id="learn-banner" data-bi-name="learn-banner" data-dismissable="disappearing" class="uhf-container has-padding has-padding-top-small has-padding-bottom-small has-background-docs alert is-banner is-hidden has-text-docs-invert">
+				<div class="level">
+					<div class="level-left has-margin-right-medium-mobile">
+						<div class="level-item has-flex-justify-content-start-mobile">
+							<span class="learn-banner-heading is-size-3 is-title has-margin-none">
+Learn at your own pace							</span>
+						</div>
+						<div class="level-item has-flex-justify-content-start-mobile">
+							<a id="learn-banner-anchor" data-bi-name="CTA" href="https://docs.microsoft.com/en-us/learn/browse/" class="button is-transparent has-inverted-border is-small">
+								<span>
+See training modules								</span>
+								<span class="icon" aria-hidden="true">
+									<span class="docon docon-chevron-right-light"></span>
+								</span>
+							</a>
+						</div>
+					</div>
+					<div class="level-right has-margin-small-mobile">
+						<button type="button" data-dismiss data-bi-name="close" class="is-inverted has-inverted-focus has-inner-focus delete is-large is-absolute-mobile has-top-zero-mobile has-right-zero-mobile has-margin-extra-small-mobile">
+							<span class="visually-hidden">Dismiss alert</span>
+						</button>
+					</div>
+				</div>
+			</section>
+	</div>
+
+	<div id="disclaimer-holder" class="has-overflow-hidden has-default-focus"></div>
+	</div>
+
+	<div class="mainContainer  uhf-container has-top-padding  has-default-focus" data-bi-name="body">
+
+		<div class="columns has-large-gaps is-gapless-mobile ">
+
+			<div id="left-container" class="left-container is-hidden-mobile column is-one-third-tablet is-one-quarter-desktop">
+				<nav id="affixed-left-container" class="is-fixed is-flex is-flex-column" role="navigation" aria-label="Primary"></nav>
+			</div>
+
+			<section class="primary-holder column is-two-thirds-tablet is-three-quarters-desktop">
+				<div class="columns is-gapless-mobile has-large-gaps ">
+
+
+				<div id="main-column" class="column  is-full is-four-fifths-desktop ">
+
+					<main id="main" role="main" class="content " data-bi-name="content" lang="en-us" dir="ltr">
+
+
+
+						<h1 id="configure-a-linux-python-app-for-azure-app-service" sourcefile="articles/app-service/containers/how-to-configure-python.md" sourcestartlinenumber="11">Configure a Linux Python app for Azure App Service</h1>
+
+						<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+							<li class="displayDate loading">
+								<time role="presentation" datetime="2019-03-28T00:00:00.000Z" data-article-date-source="ms.date">03/28/2019</time>
+							</li>
+								<li class="readingTime">7 minutes to read</li>
+							<li class="contributors-holder">
+								<a class="has-inner-focus" href="https://github.com/Microsoft/azure-docs/blob/master/articles/app-service/containers/how-to-configure-python.md" title="5 Contributors" aria-label="5 Contributors">
+									<ul class="contributors" data-bi-name="contributors" aria-hidden="true">
+												<li><img src="https://docs.microsoft.com/_themes/docs.theme/master/en-us/_themes/images/contributor.svg" data-src="https://github.com/cephalin.png?size=32" role="presentation"/></li>
+												<li><img src="https://docs.microsoft.com/_themes/docs.theme/master/en-us/_themes/images/contributor.svg" data-src="https://github.com/msangapu-msft.png?size=32" role="presentation"/></li>
+												<li><img src="https://docs.microsoft.com/_themes/docs.theme/master/en-us/_themes/images/contributor.svg" data-src="https://github.com/v-kents.png?size=32" role="presentation"/></li>
+												<li><img src="https://docs.microsoft.com/_themes/docs.theme/master/en-us/_themes/images/contributor.svg" data-src="https://github.com/JiayueHu.png?size=32" role="presentation"/></li>
+												<li><img src="https://docs.microsoft.com/_themes/docs.theme/master/en-us/_themes/images/contributor.svg" data-src="https://github.com/kraigb.png?size=32" role="presentation"/></li>
+									</ul>
+								</a>
+							</li>
+
+						</ul>
+
+						<nav id="center-doc-outline" class="doc-outline is-hidden-desktop" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+							<h3>In this article</h3>
+						</nav>
+
+
+						<!-- <content> -->
+							
+<p>This article describes how <a href="app-service-linux-intro" data-linktype="relative-path">Azure App Service</a> runs Python apps, and how you can customize the behavior of App Service when needed. Python apps must be deployed with all the required <a href="https://pypi.org/project/pip/" data-linktype="external">pip</a> modules.</p>
+<p>The App Service deployment engine automatically activates a virtual environment and runs <code>pip install -r requirements.txt</code> for you when you deploy a <a href="../deploy-local-git?toc=%2fazure%2fapp-service%2fcontainers%2ftoc.json" data-linktype="relative-path">Git repository</a>, or a <a href="../deploy-zip?toc=%2fazure%2fapp-service%2fcontainers%2ftoc.json" data-linktype="relative-path">Zip package</a> with build processes switched on.</p>
+<p>This guide provides key concepts and instructions for Python developers who use a built-in Linux container in App Service. If you've never used Azure App Service, you should follow the <a href="quickstart-python" data-linktype="relative-path">Python quickstart</a> and <a href="tutorial-python-postgresql-app" data-linktype="relative-path">Python with PostgreSQL tutorial</a> first.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>Linux is currently the recommended option for running Python apps in App Service. For information on the Windows option, see <a href="https://docs.microsoft.com/visualstudio/python/managing-python-on-azure-app-service" data-linktype="external">Python on the Windows flavor of App Service</a>.</p>
+</div>
+<h2 id="show-python-version">Show Python version</h2>
+<p>To show the current Python version, run the following command in the <a href="https://shell.azure.com" data-linktype="external">Cloud Shell</a>:</p>
+<pre><code class="lang-azurecli" data-interactive="azurecli">az webapp config show --resource-group &lt;resource-group-name&gt; --name &lt;app-name&gt; --query linuxFxVersion
+</code></pre>
+<p>To show all supported Python versions, run the following command in the <a href="https://shell.azure.com" data-linktype="external">Cloud Shell</a>:</p>
+<pre><code class="lang-azurecli" data-interactive="azurecli">az webapp list-runtimes --linux | grep PYTHON
+</code></pre>
+<p>You can run an unsupported version of Python by building your own container image instead. For more information, see <a href="tutorial-custom-docker-image" data-linktype="relative-path">use a custom Docker image</a>.</p>
+<h2 id="set-python-version">Set Python version</h2>
+<p>Run the following command in the <a href="https://shell.azure.com" data-linktype="external">Cloud Shell</a> to set the Python version to 3.7:</p>
+<pre><code class="lang-azurecli" data-interactive="azurecli">az webapp config set --resource-group &lt;resource-group-name&gt; --name &lt;app-name&gt; --linux-fx-version &quot;PYTHON|3.7&quot;
+</code></pre>
+<h2 id="container-characteristics">Container characteristics</h2>
+<p>Python apps deployed to App Service on Linux run within a Docker container that's defined in the <a href="https://github.com/Azure-App-Service/python" data-linktype="external">App Service Python GitHub repository</a>. You can find the image configurations inside the version-specific directories.</p>
+<p>This container has the following characteristics:</p>
+<ul>
+<li><p>Apps are run using the <a href="https://gunicorn.org/" data-linktype="external">Gunicorn WSGI HTTP Server</a>, using the additional arguments <code>--bind=0.0.0.0 --timeout 600</code>.</p>
+</li>
+<li><p>By default, the base image includes the Flask web framework, but the container supports other frameworks that are WSGI-compliant and compatible with Python 3.7, such as Django.</p>
+</li>
+<li><p>To install additional packages, such as Django, create a <a href="https://pip.pypa.io/en/stable/user_guide/#requirements-files" data-linktype="external"><em>requirements.txt</em></a> file in the root of your project using <code>pip freeze &gt; requirements.txt</code>. Then, publish your project to App Service using Git deployment, which automatically runs <code>pip install -r requirements.txt</code> in the container to install your app's dependencies.</p>
+</li>
+</ul>
+<h2 id="container-startup-process">Container startup process</h2>
+<p>During startup, the App Service on Linux container runs the following steps:</p>
+<ol>
+<li>Use a <a href="#customize-startup-command" data-linktype="self-bookmark">custom startup command</a>, if provided.</li>
+<li>Check for the existence of a <a href="#django-app" data-linktype="self-bookmark">Django app</a>, and launch Gunicorn for it if detected.</li>
+<li>Check for the existence of a <a href="#flask-app" data-linktype="self-bookmark">Flask app</a>, and launch Gunicorn for it if detected.</li>
+<li>If no other app is found, start a default app that's built into the container.</li>
+</ol>
+<p>The following sections provide additional details for each option.</p>
+<h3 id="django-app">Django app</h3>
+<p>For Django apps, App Service looks for a file named <code>wsgi.py</code> within your app code, and then runs Gunicorn using the following command:</p>
+<pre><code class="lang-bash"># &lt;module&gt; is the path to the folder that contains wsgi.py
+gunicorn --bind=0.0.0.0 --timeout 600 &lt;module&gt;.wsgi
+</code></pre>
+<p>If you want more specific control over the startup command, use a <a href="#customize-startup-command" data-linktype="self-bookmark">custom startup command</a> and replace <code>&lt;module&gt;</code> with the name of the module that contains <em>wsgi.py</em>.</p>
+<h3 id="flask-app">Flask app</h3>
+<p>For Flask, App Service looks for a file named <em>application.py</em> or <em>app.py</em> and starts Gunicorn as follows:</p>
+<pre><code class="lang-bash"># If application.py
+gunicorn --bind=0.0.0.0 --timeout 600 application:app
+# If app.py
+gunicorn --bind=0.0.0.0 --timeout 600 app:app
+</code></pre>
+<p>If your main app module is contained in a different file, use a different name for the app object, or you want to provide additional arguments to Gunicorn, use a <a href="#customize-startup-command" data-linktype="self-bookmark">custom startup command</a>.</p>
+<h3 id="default-behavior">Default behavior</h3>
+<p>If the App Service doesn't find a custom command, a Django app, or a Flask app, then it runs a default read-only app, located in the <em>opt/defaultsite</em> folder. The default app appears as follows:</p>
+<p><img src="media/how-to-configure-python/default-python-app.png" alt="Default App Service on Linux web page" data-linktype="relative-path"></p>
+<h2 id="customize-startup-command">Customize startup command</h2>
+<p>You can control the container's startup behavior by providing a custom Gunicorn startup command. To do this, running the following command in the <a href="https://shell.azure.com" data-linktype="external">Cloud Shell</a>:</p>
+<pre><code class="lang-azurecli" data-interactive="azurecli">az webapp config set --resource-group &lt;resource-group-name&gt; --name &lt;app-name&gt; --startup-file &quot;&lt;custom-command&gt;&quot;
+</code></pre>
+<p>For example, if you have a Flask app whose main module is <em>hello.py</em> and the Flask app object in that file is named <code>myapp</code>, then <em>&lt;custom-command&gt;</em> is as follows:</p>
+<pre><code class="lang-bash">gunicorn --bind=0.0.0.0 --timeout 600 hello:myapp
+</code></pre>
+<p>If your main module is in a subfolder, such as <code>website</code>, specify that folder with the <code>--chdir</code> argument:</p>
+<pre><code class="lang-bash">gunicorn --bind=0.0.0.0 --timeout 600 --chdir website hello:myapp
+</code></pre>
+<p>You can also add any additional arguments for Gunicorn to <em>&lt;custom-command&gt;</em>, such as <code>--workers=4</code>. For more information, see <a href="https://docs.gunicorn.org/en/stable/run.html" data-linktype="external">Running Gunicorn</a> (docs.gunicorn.org).</p>
+<p>To use a non-Gunicorn server, such as <a href="https://aiohttp.readthedocs.io/en/stable/web_quickstart.html" data-linktype="external">aiohttp</a>, you can replace <em>&lt;custom-command&gt;</em> with something like this:</p>
+<pre><code class="lang-bash">python3.7 -m aiohttp.web -H localhost -P 8080 package.module:init_func
+</code></pre>
+<div class="NOTE">
+<p>Note</p>
+<p>App Service ignores any errors that occur when processing a custom command file, then continues its startup process by looking for Django and Flask apps. If you don't see the behavior you expect, check that your startup file is deployed to App Service and that it doesn't contain any errors.</p>
+</div>
+<h2 id="access-environment-variables">Access environment variables</h2>
+<p>In App Service, you can <a href="../configure-common?toc=%2fazure%2fapp-service%2fcontainers%2ftoc.json#configure-app-settings" data-linktype="relative-path">set app settings</a> outside of your app code. Then you can access them using the standard <a href="https://docs.python.org/3/library/os.html#os.environ" data-linktype="external">os.environ</a> pattern. For example, to access an app setting called <code>WEBSITE_SITE_NAME</code>, use the following code:</p>
+<pre><code class="lang-python">os.environ['WEBSITE_SITE_NAME']
+</code></pre>
+<h2 id="detect-https-session">Detect HTTPS session</h2>
+<p>In App Service, <a href="https://wikipedia.org/wiki/TLS_termination_proxy" data-linktype="external">SSL termination</a> happens at the network load balancers, so all HTTPS requests reach your app as unencrypted HTTP requests. If your app logic needs to check if the user requests are encrypted or not, inspect the <code>X-Forwarded-Proto</code> header.</p>
+<pre><code class="lang-python">if 'X-Forwarded-Proto' in request.headers and request.headers['X-Forwarded-Proto'] == 'https':
+# Do something when HTTPS is used
+</code></pre>
+<p>Popular web frameworks let you access the <code>X-Forwarded-*</code> information in your standard app pattern. In <a href="https://codeigniter.com/" data-linktype="external">CodeIgniter</a>, the <a href="https://github.com/bcit-ci/CodeIgniter/blob/master/system/core/Common.php#L338-L365" data-linktype="external">is_https()</a> checks the value of <code>X_FORWARDED_PROTO</code> by default.</p>
+<h2 id="access-diagnostic-logs">Access diagnostic logs</h2>
+<p>You can access the console logs generated from inside the container. First, turn on container logging by running the following command in the Cloud Shell:</p>
+<pre><code class="lang-azurecli" data-interactive="azurecli">az webapp log config --name &lt;app-name&gt; --resource-group myResourceGroup --docker-container-logging filesystem
+</code></pre>
+<p>Once container logging is turned on, run the following command to see the log stream:</p>
+<pre><code class="lang-azurecli" data-interactive="azurecli">az webapp log tail --name &lt;app-name&gt; --resource-group myResourceGroup
+</code></pre>
+<p>If you don't see console logs immediately, check again in 30 seconds.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>You can also inspect the log files from the browser at <code>https://&lt;app-name&gt;.scm.azurewebsites.net/api/logs/docker</code>.</p>
+</div>
+<p>To stop log streaming at any time, type <code>Ctrl</code>+<code>C</code>.</p>
+<h2 id="open-ssh-session-in-browser">Open SSH session in browser</h2>
+<p>To make open a direct SSH session with your container, your app should be running.</p>
+<p>Paste the following URL into your browser and replace &lt;app-name&gt; with your app name:</p>
+<pre><code>https://&lt;app-name&gt;.scm.azurewebsites.net/webssh/host
+</code></pre>
+<p>If you're not yet authenticated, you're required to authenticate with your Azure subscription to connect. Once authenticated, you see an in-browser shell, where you can run commands inside your container.</p>
+<p><img src="../../includes/media/app-service-web-ssh-connect-no-h/app-service-linux-ssh-connection.png" alt="SSH connection" data-linktype="relative-path"></p>
+
+<div class="NOTE">
+<p>Note</p>
+<p>Any changes you make outside the <em>/home</em> directory are stored in the container itself and don't persist beyond an app restart.</p>
+</div>
+<p>To open a remote SSH session from your local machine, see <a href="app-service-linux-ssh-support#open-ssh-session-from-remote-shell" data-linktype="relative-path">Open SSH session from remote shell</a>.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<ul>
+<li><strong>You see the default app after deploying your own app code.</strong> The default app appears because you either haven't deployed your app code to App Service, or App Service failed to find your app code and ran the default app instead.</li>
+<li>Restart the App Service, wait 15-20 seconds, and check the app again.</li>
+<li>Be sure you're using App Service for Linux rather than a Windows-based instance. From the Azure CLI, run the command <code>az webapp show --resource-group &lt;resource_group_name&gt; --name &lt;app_service_name&gt; --query kind</code>, replacing <code>&lt;resource_group_name&gt;</code> and <code>&lt;app_service_name&gt;</code> accordingly. You should see <code>app,linux</code> as output; otherwise, recreate the App Service and choose Linux.</li>
+<li>Use SSH or the Kudu console to connect directly to the App Service and verify that your files exist under <em>site/wwwroot</em>. If your files don't exist, review your deployment process and redeploy the app.</li>
+<li>If your files exist, then App Service wasn't able to identify your specific startup file. Check that your app is structured as App Service expects for <a href="#django-app" data-linktype="self-bookmark">Django</a> or <a href="#flask-app" data-linktype="self-bookmark">Flask</a>, or use a <a href="#customize-startup-command" data-linktype="self-bookmark">custom startup command</a>.</li>
+<li><strong>You see the message &quot;Service Unavailable&quot; in the browser.</strong> The browser has timed out waiting for a response from App Service, which indicates that App Service started the Gunicorn server, but the arguments that specify the app code are incorrect.</li>
+<li>Refresh the browser, especially if you're using the lowest pricing tiers in your App Service Plan. The app may take longer to start up when using free tiers, for example, and becomes responsive after you refresh the browser.</li>
+<li>Check that your app is structured as App Service expects for <a href="#django-app" data-linktype="self-bookmark">Django</a> or <a href="#flask-app" data-linktype="self-bookmark">Flask</a>, or use a <a href="#customize-startup-command" data-linktype="self-bookmark">custom startup command</a>.</li>
+<li><a href="#access-diagnostic-logs" data-linktype="self-bookmark">Access the log stream</a>.</li>
+</ul>
+<h2 id="next-steps">Next steps</h2>
+<div class="nextstepaction">
+<p><a href="tutorial-python-postgresql-app" data-linktype="relative-path">Tutorial: Python app with PostgreSQL</a></p>
+</div>
+<div class="nextstepaction">
+<p><a href="tutorial-custom-docker-image" data-linktype="relative-path">Tutorial: Deploy from private container repository</a></p>
+</div>
+<div class="nextstepaction">
+<p><a href="app-service-linux-faq" data-linktype="relative-path">App Service Linux FAQ</a></p>
+</div>
+
+						<!-- </content> -->
+
+						</main>
+
+						<!-- recommended content page section -->
+
+							<nav data-bi-name="recommendation-bottom" hidden id="recommended-content-center" class="is-hidden-desktop" aria-labelledby="recommended-content-center-title">
+								<h3 id="recommended-content-center-title" class="is-size-2 has-margin-top-large has-margin-bottom-small">Related Articles</h3>
+							</nav>
+
+						<!-- end recommended content page section -->
+
+						<!-- rating mobile section -->
+								<div class="is-hidden-desktop has-border-top has-margin-top-large has-padding-top-small">
+									
+<div data-bi-name="rating" class="feedback-verbatim has-border-bottom has-padding-bottom-small has-margin-bottom-small">
+	<div class="binary-rating">
+		<div class="binary-rating-buttons">
+			<h3 class="has-text-weight-semibold has-margin-top-none has-margin-bottom-small">Is this page helpful?</h3>
+			<div>
+				<button class="thumb-rating like has-inner-focus has-padding-left-extra-small has-padding-right-extra-small" title="Yes" data-bi-name="rating-yes" data-bi-sat="1">
+					<span class="icon docon docon-like" aria-hidden="true"></span><span>Yes</span>
+				</button>
+				<button class="thumb-rating dislike has-inner-focus has-padding-none has-padding-right-extra-small" title="No" data-bi-name="rating-no" data-bi-sat="0" aria-expanded="false" aria-haspopup="true" aria-controls="rating-feedback">
+					<span class="icon docon docon-dislike" aria-hidden="true"></span><span>No</span>
+				</button>
+			</div>
+		</div>
+		<form class="feedback-verbatim-form is-hidden">
+			<div class="verbatim-textarea box is-relative has-box-shadow-none has-border has-margin-top-small has-padding-extra-small is-size-8">
+				<label for="rating-textarea-mobile" class="visually-hidden">Any additional feedback?</label>
+				<textarea id="rating-textarea-mobile" rows="4" maxlength="999" placeholder="Any additional feedback?" required class="textarea has-border-none has-box-shadow-none has-inner-focus"></textarea>
+			</div>
+			<div class="buttons is-right has-margin-top-medium has-margin-right-extra-small">
+				<button class="skip-rating button is-text is-link is-small" type="button">Skip</button>
+				<button disabled class="submit-rating button is-primary is-small" type="submit" data-bi-name="rating-verbatim">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div class="thankyou-rating is-hidden">
+		<p>Thank you.</p>
+	</div>
+</div>								</div>
+						<!-- end rating mobile section -->
+
+						<!-- feedback section -->
+
+
+
+<section class="feedback-section" data-bi-name="feedback-section">
+
+	<h2 id="feedback">Feedback</h2>
+
+	<div class="alert choose-feedback-type">
+		<p id="send-feedback-about" aria-hidden="true">Send feedback about</p>
+
+		<div class="choose-feedback-buttons">
+			<a class="button feedback-type-product has-margin-bottom-small" aria-label="Send feedback about this product" href="https://feedback.azure.com/forums/169385-web-apps" data-bi-name="product-feedback">
+				<span>This product</span>
+				<span class="icon docon docon-navigate-external" aria-hidden="true"></span>
+			</a>
+
+			<div class="field has-addons is-inline-flex has-margin-bottom-small">
+				<div class="control has-margin-top-none has-margin-bottom-none">
+					<button class="button feedback-sign-in-button has-text-wrap" aria-label="Send feedback about this page" data-bi-name="feedback-sign-in">
+						<span class="icon docon docon-brand-github" aria-hidden="true"></span>
+						<span>This page</span>
+					</button>
+				</div>
+				<div class="control dropdown has-caret has-margin-top-none has-margin-bottom-none">
+					<button class="button dropdown-trigger is-full-height" aria-describedby="send-feedback-about" aria-expanded="false" aria-controls="fbm0" aria-label="Additional feedback options" data-bi-name="documentation-feedback-menu">
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-chevron-down-light expanded-indicator"></span>
+						</span>
+					</button>
+					<div id="fbm0" class="dropdown-menu documentation-feedback-menu">
+						You may also leave feedback directly on <a data-bi-name="create-issue-on-github">GitHub <span class="docon docon-navigate-external" aria-hidden="true"></span></a>.					</div>
+				</div>
+			</div>
+
+			<div class="field has-addons is-inline-flex has-margin-bottom-small" hidden>
+				<div class="control has-margin-top-none has-margin-bottom-none">
+					<button class="button feedback-form-toggle" aria-describedby="send-feedback-about" aria-expanded="false" aria-controls="feedback-form"
+						data-bi-name="documentation-feedback">
+This page					</button>
+				</div>
+				<div class="control dropdown has-caret has-margin-top-none has-margin-bottom-none">
+					<button class="button dropdown-trigger" aria-describedby="send-feedback-about" aria-expanded="false" aria-controls="fbm1" aria-label="Additional feedback options" data-bi-name="documentation-feedback-menu">
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-chevron-down-light expanded-indicator"></span>
+						</span>
+					</button>
+					<div id="fbm1" class="dropdown-menu documentation-feedback-menu">
+						You may also leave feedback directly on <a data-bi-name="create-issue-on-github">GitHub <span class="docon docon-navigate-external" aria-hidden="true"></span></a>.					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form class="feedback-form" id="feedback-form" accept-charset="UTF-8" autocomplete="off" action="javascript:" hidden>
+		<h3 class="feedback-form-heading current-user">
+			<img class="avatar" alt="Avatar" width="36" height="36" aria-hidden="true">
+			<span class="username" aria-hidden="true"></span>
+			<span class="visually-hidden">Send feedback about this page</span>
+		</h3>
+
+		<label>
+			<span class="visually-hidden">Title</span>
+			<input class="input is-radiusless has-margin-bottom-small" name="title" type="text" placeholder="Title" required pattern=".*[^\s]+.*">
+		</label>
+		<label>
+			<span class="visually-hidden">Leave a comment</span>
+			<textarea name="body" placeholder="Leave a comment" class="textarea is-radiusless" required></textarea>
+		</label>
+
+		<div class="action-container">
+			<button class="button is-primary" type="submit" name="submit">Submit feedback</button>
+		</div>
+	</form>
+
+	<div class="feedback-status alert is-loading">
+		<p>Loading feedback...</p>
+	</div>
+
+	<div class="feedback-tab-group tabGroup" data-tab-group-independent hidden>
+		<ul role="tablist">
+			<li role="presentation">
+				<a href="#tabpanel-issues-open" role="tab" aria-controls="tabpanel-issues-open" data-tab="issues-open"></a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel-issues-closed" role="tab" aria-controls="tabpanel-issues-closed" data-tab="issues-closed"></a>
+			</li>
+		</ul>
+		<section id="tabpanel-issues-open" role="tabpanel" data-tab="issues-open">
+			<div class="no-issues-placeholder">There are no open issues</div>
+			<ul class="github-issues-list" aria-label="Open Issues"></ul>
+		</section>
+		<section id="tabpanel-issues-closed" role="tabpanel" data-tab="issues-closed">
+			<div class="no-issues-placeholder">There are no closed issues</div>
+			<ul class="github-issues-list" aria-label="Closed Issues"></ul>
+		</section>
+	</div>
+	<div class="action-container">
+		<a class="view-on-github" href="https://github.com/MicrosoftDocs/azure-docs/issues" data-bi-name="view-on-github"
+		 hidden>
+			<span class="docon docon-brand-github" aria-hidden="true"></span>
+			<span>View on GitHub</span>
+			<span class="docon docon-navigate-external" aria-hidden="true"></span>
+		</a>
+	</div>
+</section>
+
+						<!-- end feedback section -->
+
+						<!-- feedback report section -->
+						<!-- end feedback report section -->
+
+						<div class="footerContainer is-visible-interactive has-default-focus ">
+<footer id="footer-interactive" data-bi-name="footer" class="footer-layout">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="#" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small" aria-hidden="true"></span><span class="local-selector-link-text has-inner-focus"></span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>
+						</div>
+					</div>
+
+					<div class="is-size-7 right-container column is-one-quarter is-one-fifth-desktop is-hidden-mobile is-hidden-tablet-only" data-bi-name="pageactions" role="complementary" aria-label="Page Actions">
+						<div id="affixed-right-container" class="doc-outline is-fixed is-vertically-scrollable">
+								
+<div data-bi-name="rating" class="feedback-verbatim has-border-bottom has-padding-bottom-small has-margin-bottom-small">
+	<div class="binary-rating">
+		<div class="binary-rating-buttons">
+			<h3 class="has-text-weight-semibold has-margin-top-none has-margin-bottom-small">Is this page helpful?</h3>
+			<div>
+				<button class="thumb-rating like has-inner-focus has-padding-left-extra-small has-padding-right-extra-small" title="Yes" data-bi-name="rating-yes" data-bi-sat="1">
+					<span class="icon docon docon-like" aria-hidden="true"></span><span>Yes</span>
+				</button>
+				<button class="thumb-rating dislike has-inner-focus has-padding-none has-padding-right-extra-small" title="No" data-bi-name="rating-no" data-bi-sat="0" aria-expanded="false" aria-haspopup="true" aria-controls="rating-feedback">
+					<span class="icon docon docon-dislike" aria-hidden="true"></span><span>No</span>
+				</button>
+			</div>
+		</div>
+		<form class="feedback-verbatim-form is-hidden">
+			<div class="verbatim-textarea box is-relative has-box-shadow-none has-border has-margin-top-small has-padding-extra-small is-size-8">
+				<label for="rating-textarea-desktop" class="visually-hidden">Any additional feedback?</label>
+				<textarea id="rating-textarea-desktop" rows="4" maxlength="999" placeholder="Any additional feedback?" required class="textarea has-border-none has-box-shadow-none has-inner-focus"></textarea>
+			</div>
+			<div class="buttons is-right has-margin-top-medium has-margin-right-extra-small">
+				<button class="skip-rating button is-text is-link is-small" type="button">Skip</button>
+				<button disabled class="submit-rating button is-primary is-small" type="submit" data-bi-name="rating-verbatim">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div class="thankyou-rating is-hidden">
+		<p>Thank you.</p>
+	</div>
+</div>								<nav data-bi-name="recommendation-sidebar" hidden id="recommended-content-nav" role="navigation" aria-labelledby="recommended-content-nav-title">
+									<h3 id="recommended-content-nav-title">Related Articles</h3>
+								</nav>
+							<nav id="side-doc-outline" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+								<h3>In this article</h3>
+							</nav>
+						</div>
+					</div>
+
+					<!--end of div.columns -->
+				</div>
+
+			<!--end of .primary-holder -->
+			</section>
+
+			<aside id="interactive-container" class="interactive-container is-visible-interactive column has-body-background-dark ">
+			</aside>
+		</div>
+
+		<!--end of .mainContainer -->
+	</div>
+
+	<div id="openFeedbackContainer" class="openfeedback-container"></div>
+
+	<div class="footerContainer has-default-focus is-hidden-interactive ">
+<footer id="footer" data-bi-name="footer" class="footer-layout uhf-container has-padding" role="contentinfo">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="#" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small" aria-hidden="true"></span><span class="local-selector-link-text"></span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>
+	</div>
+
+	<div id="action-panel" role="region" aria-label="Action Panel" class="action-panel has-default-focus" tabindex="-1"></div>
+</body>
+</html>

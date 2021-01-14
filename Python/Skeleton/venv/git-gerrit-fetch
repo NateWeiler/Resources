@@ -1,0 +1,4 @@
+#!g:\code\editor\python\stackless37\python.exe
+import sys
+from git_gerrit.cli import git_gerrit_fetch
+sys.exit(git_gerrit_fetch())
