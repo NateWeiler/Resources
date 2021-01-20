@@ -70,7 +70,7 @@ $ cat > file.txt
 $ clip | file.txt
 
 	<<---| Write to Clipboard |--->>
-$ echo "test" >/dev/clipboard
+$ echo "test" > /dev/clipboard
 
 	<<---| View in Terminal |--->>
 $ cat ~/.ssh/id_rsa.pub

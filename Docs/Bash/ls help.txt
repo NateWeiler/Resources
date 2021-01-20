@@ -92,7 +92,6 @@ Mandatory arguments to long options are mandatory for short options too.
   -X                         sort alphabetically by entry extension
   -Z, --context              print any security context of each file
   -1                         list one file per line.  Avoid '\n' with -q or -b
-      --append-exe           append .exe if cygwin magic was needed
       --help     display this help and exit
       --version  output version information and exit
 
@@ -117,6 +116,6 @@ Exit status:
  2  if serious trouble (e.g., cannot access command-line argument).
 
 GNU coreutils online help: <https://www.gnu.org/software/coreutils/>
+Report any translation bugs to <https://translationproject.org/team/>
 Full documentation <https://www.gnu.org/software/coreutils/ls>
 or available locally via: info '(coreutils) ls invocation'
-alias ls='ls -AlFph --color=auto'
