@@ -1,34 +1,35 @@
+![Donate](img/BTC-1N4qcqVb6Smak6SpSP5nH62zRdkEM8JtUu-orange.svg)
+[![Donate](img/paypal.svg)](https://www.paypal.com/paypalme/NateWeiler)
+
 # [NateWeiler](https://nateweiler.github.io/)
 
-![NateWeiler Logo](NW.png)
+![NateWeiler Logo](img/NW.png)
 
-# This is my personal ![GitHub](GitHub-Logo.png) repository.
-
----
-
-#### I am a ***Computer Software Engineering Technology*** student with a minor
- in ***Small Business Management***.
+### I was a ***Computer Software Engineering Technology*** student with a minor in ***Small Business Management***.
  
-#### I own & operate [What's Happening Lancaster](https://m.facebook.com/WhatsHappeningLancaster/) that is a local advertising business for my area.
+---
 
-![![What's Happening Lancaster Logo](WHL.png)]
+# [Weiler Web Services](https://github.com/WeilerWebServices) is a ***Web and Software Development Team***.
+
+![Weiler Web Services Logo](img/WWS.png)
 
 ---
 
-#### I recently started [Weiler Web Services](https://github.com/WeilerWebServices). It's the start of a ***Web and Software Developement Team*** I will be building from the ground up.
+## I own & operate [What's Happening Lancaster](https://m.facebook.com/WhatsHappeningLancaster/). It is a local advertising business for the whole county in my area.
 
-![Weiler Web Services Logo](WWS.png)
+![![What's Happening Lancaster Logo](img/WHL.png)]
 
 ---
 
-# Like to help me with a Donation
+# Like to help me with a Donation ![](img/$.png)
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/paypalme/NateWeiler)
+[![PayPal](img/PayPal_Donate.png)](https://www.paypal.com/paypalme/NateWeiler)
 
-[![PayPal](PayPal_Donate.png)](https://www.paypal.com/paypalme/NateWeiler)
+# Scan QVC to Donate in ![Bitcoin](img/Bitcoin%20Orange%20Gold.png)
 
-Scan QVC or Copy address to Donate in **Bitcoin** to
+![Donate in Bitcoin to](img/Donate-To.png)
 
-![Donate in Bitcoin to](Donate-To.png)
+# Copy address to Donate in ![Bitcoin](img/Bitcoin%20Orange%20Gold.png)
+# ```1N4qcqVb6Smak6SpSP5nH62zRdkEM8JtUu```
 
-```1N4qcqVb6Smak6SpSP5nH62zRdkEM8JtUu```
+---
