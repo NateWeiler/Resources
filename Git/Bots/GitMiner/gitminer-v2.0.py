@@ -1,15 +1,11 @@
-#!python3
 # -*- coding: utf-8 -*-
-
-# GitMiner
-
 import os
 import json
 import codecs
 import requests
 import argparse
 from config import banner as bn
-from config import headers
+from config import headers 
 from config.banner import colors
 from core.loadModule import loadModule
 from core.Parser import Parser

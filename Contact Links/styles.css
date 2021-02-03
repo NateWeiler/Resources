@@ -1,0 +1,206 @@
+/* Making page border box */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+
+/* Page height and text setting */
+
+html,
+body {
+    height: 100%;
+    text-align: center;
+}
+
+
+/* Responsive images */
+
+.responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* Header sticky to be scrollable with page */
+
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    padding: 20px 0;
+    background-color: lightblue;
+    z-index: 1;
+}
+
+
+/* Header anchor styling */
+
+header a {
+    font-size: 20px;
+    color: black;
+    width: auto;
+    padding: 25px 10px;
+    text-decoration: none;
+}
+
+
+/* Header anchor hover color */
+
+header a: hover {
+    background-color: yellow;
+}
+
+
+/* Same styling for home, about, contact */
+
+#home,
+#about,
+#contact {
+    margin: 0;
+    padding: 100px 0 100px 0;
+    width: 100%;
+}
+
+
+/* Home background image */
+
+#home {
+    background: url("Images/blue-matrix.gif");
+}
+
+
+/* Name at top of home styling */
+
+.name {
+    height: 100px;
+    color: white;
+    text-shadow: 8px 10px 9px red;
+    font-size: 40px;
+    font-family: 'Shrikhand', cursive;
+}
+
+
+/* Animation on all h1 */
+
+.name,
+.about,
+.contact {
+    animation: in 5s ease-out forwards infinite;
+    animation-delay: 10s;
+    -webkit-animation: in 5s ease-out forwards infinite;
+}
+
+
+/* Animation keyframes for all h1 */
+
+@keyframes in {
+    0% {
+        letter-spacing: -17px;
+        opacity: 1;
+    }
+    30% {
+        letter-spacing: 4px;
+        opacity: 1;
+    }
+    100% {
+        letter-spacing: 4px;
+        opacity: 1;
+    }
+}
+
+@keyframes in {
+    0% {
+        letter-spacing: -17px;
+        opacity: 1;
+    }
+    30% {
+        letter-spacing: 4px;
+        opacity: 1;
+    }
+    100% {
+        letter-spacing: 4px;
+        opacity: 1;
+    }
+}
+
+@keyframes in {
+    0% {
+        letter-spacing: -17px;
+        opacity: 1;
+    }
+    30% {
+        letter-spacing: 4px;
+        opacity: 1;
+    }
+    100% {
+        letter-spacing: 4px;
+        opacity: 1;
+    }
+}
+
+
+/* My motto in home styling */
+
+.motto {
+    color: white;
+    text-shadow: 8px 10px 9px red;
+    font-family: 'Notable', sans-serif;
+    font-size: 35px;
+    padding: 100px;
+}
+
+
+/* About background image */
+
+#about {
+    background: url("Images/number-code.gif");
+}
+
+
+/* About styling */
+
+#about {
+    color: #ffcc91;
+    background-color: white;
+    text-shadow: 6px 10px 8px black;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-size: 40px;
+}
+
+
+/* Contact styling */
+
+#contact {
+    background-color: aqua;
+    color: white;
+    text-shadow: 8px 10px 9px blue;
+    font-family: 'Notable', sans-serif;
+    font-size: 40px;
+}
+
+
+/* My Business styling */
+
+#my-business {
+    font-family: 'Times New Roman', Times, serif;
+    background: #333;
+    font-size: 36px;
+    color: white;
+}
+
+
+/* Footer styling */
+
+footer {
+    text-align: center;
+    position: sticky;
+    margin: 0;
+    bottom: 0px;
+    color: rgb(17, 22, 41);
+    background-color: lightblue;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 26px;
+    height: auto;
+}

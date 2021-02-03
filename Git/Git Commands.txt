@@ -14,7 +14,7 @@ git add -Af; git commit -am "Add"; git push -u origin master
 git add -A; git commit -m "Add"; git push -u --force origin master
 
 	<<---| Add All Files by Force --->>
-git add -Af; git commit -am "Add"; git push -u --force origin master
+git add -Af; git commit -am 'Add'; git push -u --force origin master
 
        ###################
        # Update Git Repo #

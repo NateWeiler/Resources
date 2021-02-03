@@ -3,8 +3,10 @@
 ![Screenshot](https://3.bp.blogspot.com/-UvpR_QDDAT0/VtiIc8OKrrI/AAAAAAAAboM/69BNKrvdUsU/s1600/gitminer-628x360.png)
 
 ```
+ + Autor: UnK
  + Blog: https://unkl4b.github.io
  + Github: https://github.com/danilovazb
+ + Twitter: https://twitter.com/danilo_vaz_
 ```
 ## WARNING
 ```
@@ -53,6 +55,7 @@ $ docker run -it gitminer -h
 ### HELP
 ```
 
+                                 UnkL4b
   __                   Automatic search for Github
 ((OO))   ▄████  ██▓▄▄▄█████▓ ███▄ ▄███▓ ██▓ ███▄    █ ▓█████  ██▀███  
  \__/   ██▒ ▀█▒▓██▒▓  ██▒ ▓▒▓██▒▀█▀ ██▒▓██▒ ██ ▀█   █ ▓█   ▀ ▓██ ▒ ██▒      OO
