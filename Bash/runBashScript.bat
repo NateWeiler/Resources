@@ -1,1 +1,0 @@
-cmd /c ""C:\Program Files (x86)\Git\bin\bash.exe" --login -i -- H:\Daily_Reports\yesterdayTogglReport.sh"

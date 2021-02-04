@@ -1,0 +1,50 @@
+# Set up remotes
+**setup local repo**
+```git
+mkdir myrepository
+cd myrepository
+git init
+```
+
+**add  bitbucket remote as "origin"**
+```git
+git remote add origin ssh://git@bitbucket.org/aleemb/myrepository.git
+```
+**add github remote as "sync"**
+```git
+git remote add sync https://github.com/aleemb/laravel.git
+```
+**verify remotes**
+```git
+git remote -v
+**should show fetch/push for "origin" and "sync" remotes**
+```
+
+# Set up Branches
+**first pull from github using the "sync" remote**
+```git
+git pull sync
+```
+
+**setup local "github" branch to track "sync" remote's "master" branch**
+```git
+git branch --track github sync/master
+```
+
+**switch to the new branch**
+```git
+git checkout github
+```
+
+**create new master branched out of github branch**
+```git
+git checkout -b master
+```
+
+**push local "master" branch to "origin" remote (bitbucket)**
+```git
+git push -u origin master
+```
+
+https://stackoverflow.com/questions/8137997/forking-from-github-to-bitbucket
+
