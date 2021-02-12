@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 echo "Find Files Using Name and Ignoring Case"
 

@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 echo "Find all the Sticky Bit set files whose permission are 551"
 

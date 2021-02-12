@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 echo "Find all the SGID bit files whose permissions set to 644"
 

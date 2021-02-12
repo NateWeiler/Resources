@@ -1,4 +1,4 @@
-﻿import os
+import os
 import time
 from tkinter import Button, Frame, messagebox, Menu, Tk, X
 import webbrowser

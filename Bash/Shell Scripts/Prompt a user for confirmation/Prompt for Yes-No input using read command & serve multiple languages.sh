@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 echo "Prompt for Yes/No input using read command & serve multiple languages"
 

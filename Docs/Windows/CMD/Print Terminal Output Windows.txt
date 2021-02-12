@@ -1,4 +1,4 @@
-﻿COMMAND     ACTION
+COMMAND     ACTION
 echo        prints text to screen
 pwd         prints path of current working directory 
 ls          lists all files in a directory 

@@ -1,4 +1,4 @@
-﻿PowerCLI C:\> Connect-VIserver
+PowerCLI C:\> Connect-VIserver
 PowerCLI C:\> Get-VM
 
 

@@ -1,4 +1,4 @@
-﻿Here’s how you’ll embed a video file to behave like a GIF
+Here’s how you’ll embed a video file to behave like a GIF
 
 <video autoplay loop muted playsinline src="video.mp4"></video>
 ------------------------------------------------------------------------------------------------------------------

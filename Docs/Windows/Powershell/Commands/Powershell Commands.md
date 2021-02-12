@@ -1,4 +1,4 @@
-﻿##### Execute or run any file as a script file #####
+##### Execute or run any file as a script file #####
 Invoke-FileAsScript -Path C:\Temp\Text.txt
 
 ##### Remove Item #####

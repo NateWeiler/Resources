@@ -1,4 +1,4 @@
-﻿It is impossible to imagine modern web development without the use of Chrome DevTools. Thanks to a clean UI and continuous improvements to meet real-world needs, the tool has  become the go-to live development environment that surpasses many contemporary IDEs in both functionality and performance.
+It is impossible to imagine modern web development without the use of Chrome DevTools. Thanks to a clean UI and continuous improvements to meet real-world needs, the tool has  become the go-to live development environment that surpasses many contemporary IDEs in both functionality and performance.
 
 But how productive are you with the DevTools in your daily development workflow? I’d like to share some of my favorite shortcuts that will help you master the tool.
 

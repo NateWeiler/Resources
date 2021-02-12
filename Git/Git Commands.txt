@@ -1,0 +1,760 @@
+       ##############
+       # Git Commit #
+       ##############
+
+git add -A; git commit -m "Add"; git push -u origin master
+
+	<<---| Add All Files --->>
+git add -Af; git commit -am "Add"; git push -u origin master
+
+       ####################
+       # Force Git Commit #
+       ####################
+
+git add -A; git commit -m "Add"; git push -u --force origin master
+
+	<<---| Add All Files by Force --->>
+git add -Af; git commit -am 'Add'; git push -u --force origin master
+
+       ###################
+       # Update Git Repo #
+       ###################
+
+git fetch
+
+git pull
+
+       ###########
+       # Git log #
+       ###########
+
+git log --pretty -n 2 --stat
+
+git log --pretty=oneline -n 2 --stat
+
+git log --graph --oneline --decorate --all
+
+       ##############
+       # Git Branch #
+       ##############
+
+git checkout
+
+git checkout master
+
+git log --pretty -n 2 --stat
+
+git log --pretty=oneline  -n 2 --stat
+
+       ######################
+       # Git Bash Clipboard #
+       ######################
+
+       <<---| Copy output to Clipboard |--->>
+$ git branch | clip
+
+$ ls -a | clip
+
+	<<---| Copy from a file |--->>
+$ cat .gitignore | clip
+
+$ cat ~/.ssh/id_rsa.pub | clip
+
+$ clip < .gitignore
+
+$ clip < ~/.ssh/id_rsa.pub
+
+	<<---| To paste into a file |--->>
+$ cat > file.txt
+
+$ clip | file.txt
+
+	<<---| Write to Clipboard |--->>
+$ echo "test" > /dev/clipboard
+
+	<<---| View in Terminal |--->>
+$ cat ~/.ssh/id_rsa.pub
+
+$ cat clip
+
+$ cat </dev/clipboard
+
+       #################
+       # Mac Clipboard #
+       #################
+
+       <<---| Copy output to Clipboard |--->>
+$ git branch | pbcopy
+
+$ ls -a | pbcopy
+
+	<<---| Copy from a file |--->>
+$ cat .gitignore | pbcopy
+
+$ cat ~/.ssh/id_rsa.pub | pbcopy
+
+$ pbcopy < .gitignore
+
+$ pbcopy < ~/.ssh/id_rsa.pub
+
+	<<---| Paste into a file |--->>
+$ pbpaste > .gitignore
+
+$ pbpaste > files.txt
+
+	<<---| View in Terminal |--->>
+$ cat ~/.ssh/id_rsa.pub
+
+$ cat </dev/clipboard
+
+       ############################
+       # Clipboard Alias Function #
+       ############################
+       
+$ function cpy {
+while read data; do     # reads data piped in to cpy
+    echo "$data" | cat > /dev/clipboard
+done
+tr -d '\n' < /dev/clipboard > /dev/clipboard
+}
+
+       ################################
+       # Batch rename file extensions #
+       ################################
+
+for i in *.rst; do mv -- "$i" "${i%.rst}.txt"; done
+
+$ find . -name '* — pgAdmin 4 4.19 documentation.pdf' -exec sh -c 'mv "$0" "${0% — pgAdmin 4 4.19 documentation.pdf}.pdf"' {} \;
+
+       ##########################
+       # Open at Current Folder #
+       ##########################
+
+open .		<<---| Mac  |-->>
+
+explorer . 	<<---| Windows  |-->>
+
+function open {
+while read data; do
+    echo "$data" | cat > /dev/clipboard
+done
+tr -d '\n' < /dev/clipboard > /dev/clipboard
+}
+
+       #################################
+       # Git Add/Push Multiple Remotes #
+       #################################
+
+git remote add origin <#add GitHub url#>
+git remote add gh <#add GitHub url#>
+git remote add bb <#add BitBucket url#>
+git remote add gl <#add GitLab url#>
+git remote add sh <#add sourcehut url#>
+
+nano .git/config
+
+[remote "origin"]
+  url = https://github.com/NateWeiler/CSET.git
+  url = https://github.com/WeilerWebServices/CSET.git
+  url = https://nateweiler@bitbucket.org/njweiler/cset.git
+  url = https://Weiler_Web_Services@bitbucket.org/Weiler_Web_Services/cset.git
+
+       #######################
+       # Curl Complete Repos #
+       #######################
+
+	<<---| User Repo |--->>
+curl "https://api.github.com/users/##GHUSER##/repos?per_page=1000" | grep -o 'git@[^"]*' | xargs -L1 git clone
+
+	<<---| Org Repo |--->>
+curl "https://api.github.com/orgs/##GHORG##/repos?per_page=1000" | grep -o 'git@[^"]*' | xargs -L1 git clone
+  
+       ###############################################
+       # Clear ALL Commit History of Git Repository  #
+       ###############################################
+
+	<<---| COPY REPO URL |--->>
+$ cat .git/config; rm -rf .git
+$ git init; git add -Af; git commit -am "Initial commit"
+$ git remote add origin <#add github url#>
+$ git push -u --force origin master; git status -u
+
+       ############################
+       # Git LFS install New Repo #
+       ############################
+
+$ 
+$ git remote add origin <#add github url#>
+$ git lfs install
+git lfs track '.gitignore'
+git lfs track '.gitattributes'
+git lfs track '*.csv'
+git lfs track '*.wma'
+git lfs track '*.mp3'
+git lfs track '*.avi'
+git lfs track '*.txt'
+git lfs track '*.pdf'
+git lfs track '*.pkg'
+git lfs track '*.exe'
+git lfs track '*.rar'
+git lfs track '*.zip'
+git lfs track '*.dmg'
+git lfs track '*.mp4'
+git lfs track '*.tar*'
+git lfs track '*.msi'
+git lfs track '*.iso'
+git lfs track '*.webm'
+git lfs track '*.pptx'
+git lfs track '*.docx'
+git lfs track '*.epub'
+git lfs track '*.mobi'
+git lfs track '*.cs'
+git lfs track '*.war'
+
+git lfs update --force
+
+n .git/config
+__________________________
+
+[commit]
+	gpgsign = false
+__________________________
+
+	<<--- Git LFS Update LFS in Repo --->>
+git add .gitattributes; git add -Af; git lfs update --force; git commit -am "Git LFS Update LFS in Repo"; git push -u --force origin master
+
+       ####################
+       # Install Git-Flow #
+       ####################
+
+	<<---| Installing git-flow manually Mac |--->>
+git clone --recursive git://github.com/nvie/gitflow.git; make install prefix=$HOME
+
+	<<---| Installing git-flow Windows |--->>
+cd gitflow; cp c:\bin\GnuWin32\bin\getopt.exe c:\bin\git\bin\getopt.exe; cp c:\bin\GnuWin32\bin\libintl3.dll c:\bin\git\bin\libintl3.dll; cp c:\bin\GnuWin32\bin\libiconv2.dll c:\bin\git\bin\libiconv2.dll; contrib\msysgit-install.cmd c:\bin\git
+
+       ###############
+       # Git Aliases #
+       ###############
+alias faa="git add -Af; git commit -am 'Add'; git push --force"
+alias gurl="git remote show origin"
+alias mygit="git --git-dir=.gitRepo1 $*"
+alias g="git clone -v --progress"
+alias gs="git status -u"
+alias gd="git diff"
+alias gdc="git diff --cached"
+alias gpl="git pull"
+alias gulr="git pull --rebase"
+alias gpu="git push"
+alias gc="git commit -am"
+alias gc!="git commit -v --amend"
+alias gca!="git commit -a --amend"
+alias gco="git checkout"
+alias gcm="git checkout master"
+alias gr="git remote"
+alias grv="git remote -v"
+alias grmv="git remote rename"
+alias grrm="git remote remove"
+alias grset="git remote set-url"
+alias grup="git remote update"
+alias grbi="git rebase -i"
+alias grbc="git rebase --continue"
+alias grba="git rebase --abort"
+alias gb="git branch"
+alias gba="git branch -a"
+alias gcount="git shortlog -sn"
+alias gcl="git config --list"
+alias gcp="git cherry-pick"
+alias gl="git log --pretty -n 2 --stat"
+alias gl1="git log --prettyoneline -n 2 --stat"
+alias gl2="git log --graph --oneline --decorate --all"
+alias ga="git add .; git add -A"
+alias gm="git merge"
+alias grh="git reset HEAD"
+alias grhh="git reset HEAD --hard"
+alias gclean="git reset --hard; git clean -dfx"
+alias gwc="git whatchanged -p --abbrev-commit --prettymedium"
+alias gf="git fetch"
+alias gfe="git ls-files | grep"
+alias gpoat="git push origin --all; git push origin --tags"
+alias gmt="git mergetool --no-prompt"
+alias gg="git gui citool"
+alias gga="git gui citool --amend"
+alias gk="gitk --all --branches"
+alias gsts="git stash show --text"
+alias gsta="git stash"
+alias gstp="git stash pop"
+alias gstd="git stash drop"
+alias grt='git rev-parse --show-toplevel || echo "."'
+alias git-svn-dcommit-push="git svn dcommit; git push github master:svntrunk"
+alias gsr="git svn rebase"
+alias gsd="git svn dcommit"
+alias gwip='git add -A; git ls-files --deleted -z | xargs -r0 git rm; git commit -m "--wip--"'
+alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-"; git reset HEAD/c/Users/natew1'
+alias gignore="git update-index --assume-unchanged"
+alias gunignore="git update-index --no-assume-unchanged"
+alias gignored='git ls-files -v | grep "^[[:lower:]]"'
+alias ggpull="git pull origin $(current_branch)"
+alias ggpur="git pull --rebase origin $(current_branch)"
+alias ggpush="git push origin $(current_branch)"
+alias ggpnp="git pull origin $(current_branch); git push origin $(current_branch)"
+alias cmesg="git diff --name-only"
+alias gstore="git config credential.helper store"
+alias gl="git log --pretty -n 2 --stat --decorate --all"
+alias la="git config -l | grep alias | cut -c 7-"
+alias a="add"
+alias ca="commit -a --verbose"
+alias ga="git add -A; git add ."
+alias gac="git add -A; git commit -m"
+alias gau="git add --update"
+alias gbd="git branch --delete "
+alias gc="git commit -m"
+alias gcf="git commit --fixup"
+alias gcob="git checkout -b"
+alias gcom="git checkout master"
+alias gcos="git checkout staging"
+alias gcod="git checkout dev"
+alias gd="git diff -- . ':!*.min.js' ':!*.min.css' ':!*.min-rtl.css'"
+alias gda="git diff HEAD"
+alias gi="git init"
+alias glg="git log --graph --oneline --decorate --all"
+alias gld="git log --prettyformat:"%h %ad %s""
+alias gm="git merge --no-ff"
+alias gma="git merge --abort"
+alias gmc="git merge --continue"
+alias gpu="git pull origin"
+alias gpr="git pull --rebase"
+alias gpp="git push origin"
+alias gr="git rebase"
+alias gss="git status --short"
+alias gst="git stash"
+alias gsta="git stash apply"
+alias gstl="git stash list"
+alias gsts="git stash save"
+alias c="commit --verbose"
+alias gco="git checkout"
+alias diff="diff --color=auto --show-control-chars"
+
+       ##############
+       # .gitignore #
+       ##############
+.
+*
+*/
+*~
+..
+._*
+*.d
+*.o
+var
+dist
+bld/
+lib/
+*.so
+.tmp
+csx/
+.git
+core
+_obj
+_i.c
+out/
+.tox
+*.mo
+env/
+.env
+var/
+env*
+eggs
+obj/
+/tmp
+app/
+$tf/
+.vs/
+*_i.h
+*.pfx
+*_p.c
+*.plg
+*.out
+*.pot
+*.pgd
+*.pgc
+.idea
+*.obj
+*.pyc
+*.opt
+*.sln
+*.pch
+*.pdb
+*.tli
+*.sbr
+*.rsp
+*.tmp
+*.sdf
+*.tlh
+*.scc
+*.tlb
+build
+*.vsp
+*.swp
+*_i.c
+*.tgz
+_test
+*.rej
+*.ncb
+/.git
+*.pyo
+/site
+/bin/
+eggs/
+*.cer
+.nox/
+venv/
+.tox/
+.venv
+*.aps
+*.cab
+env/*
+logs/
+dist/
+ipch/
+parts
+*.egg
+*.mdf
+*.suo
+sdist
+*.iws
+*.ldf
+*.ilk
+*.lnk
+*.log
+*.iml
+*.bak
+*.eml
+/cmd/
+.Trash
+/pkg//
+*.vspx
+.cache
+sdist/
+*.user
+venv/*
+.*.swp
+/_site
+bin64/
+.pyre/
+*.pidb
+build/
+cache/
+.eggs/
+*.mm.*
+*.lock
+_cgo_*
+.idea/
+lib64/
+*.orig
+parts/
+.nfs.*
+*.meta
+[Bb]in
+.cache/
+[Oo]bj/
+assets/
+.vscode
+.Python
+[Bb]in/
+.builds
+.github
+.scrapy
+/vendor
+*.cache
+.apdisk
+*.dbmdl
+wheels/
+*.VC.db
+*.nupkg
+my-app*
+target/
+*.cover
+*,cover
+*.psess
+/.github
+publish/
+.vscode/
+*.opendb
+.idea/**
+/.bundle
+/vendor/
+*.cgo*.c
+htmlcov/
+MANIFEST
+.Trashes
+JSON.map
+*.vssscc
+env.bak/
+*.svclog
+*.vspscc
+.AppleDB
+Backup*/
+*.pubxml
+*.py[co]
+*.opensdf
+Thumbs.db
+.flaskenv
+*.cgo*.go
+dlldata.c
+*.sage.py
+/test.out
+/src/*.*/
+.coverage
+*.gpState
+.DS_Store
+.JustCode
+*.py[cod]
+instance/
+[Dd]ebug/
+venv.bak/
+*$py.class
+/build.out
+ClientBin/
+xcuserdata
+.DS_Store?
+.fseventsd
+_Chutzpah*
+*.tmp_proj
+_NCrunch_*
+downloads/
+artifacts/
+_TeamCity*
+*.dotCover
+*.rdl.data
+*.manifest
+dmypy.json
+[Dd]ebug*/
+*.egg-info
+*.DS_Store
+i18n/*.json
+order_*.pdf
+ehthumbs.db
+[Ee]xpress/
+[Rr]elease/
+[Dd]ebugPS/
+Desktop.ini
+staticfiles
+.LSOverride
+*.cachefile
+.sass-cache
+.coverage.*
+*.egg-info/
+.spyproject
+*.VC.opendb
+.dmypy.json
+*.userprefs
+*.[56789ao]
+*.stackdump
+*.a[56789o]
+/.changelog
+*.[Cc]achee
+.mypy_cache/
+_testmain.go
+_mailinglist
+__pycache__/
+.hypothesis/
+[Rr]eleases/
+[Rr]elease*/
+_ReSharper*/
+docs/_build/
+node_modules
+*.bim.layout
+Gemfile.lock
+ftp/legal.md
+folder-*.ico
+!*.[Cc]ache/
+.AppleDouble
+AppPackages/
+develop-eggs
+coverage.xml
+config/*.yml
+/last-change
+report*.html
+.ropeproject
+[56789a].out
+.sass-cache/
+/.sass-cache
+.nyc_output/
+nosetests.xml
+*.build.csdef
+npm-debug.log
+*.azurePubxml
+.AppleDesktop
+AutoTest.Net/
+$RECYCLE.BIN/
+**/packages/*
+develop-eggs/
+node_modules/
+*.publishproj
+composer.phar
+/test/run.out
+.ruby-version
+[Rr]eleasePS/
+*.userosscache
+/test/pass.out
+/goinstall.log
+.pytest_cache/
+.spyderproject
+.installed.cfg
+[Dd]esktop.ini
+.brackets.json
+/VERSION.cache
+*.sln.docstates
+UpgradeLog*.XML
+.Spotlight-V100
+[Dd]ebugPublic/
+.python-version
+UpgradeLog*.htm
+Generated_Code/
+/test/times.out
+!config/ctf.yml
+lerna-debug.log
+TestResult*.xml
+.TemporaryItems
+!config/7ms.yml
+Temporary Items
+.webassets-cache
+FakesAssemblies/
+*.[Pp]ublish.xml
+!config/addo.yml
+!config/test.yml
+juiceshop.sqlite
+scintilla/.hgeol
+profile_default/
+[Bb]uild[Ll]og.*
+.VolumeIcon.icns
+.jekyll-metadata
+[Ss]tyle[Cc]op.*
+*.bim_*.settings
+_Pvt_Extensions/
+scintilla/.hgtags
+!config/quiet.yml
+!config/fbctf.yml
+*.specpip-log.txt
+package-lock.json
+.mr.developer.cfg
+ipython_config.py
+*.VisualState.xml
+getting-started/*
+*.publishsettings
+local_settings.py
+ModelManifest.xml
+*.[Rr]e[Ss]harper
+project.lock.json
+ehthumbs_vista.db
+vagrant/.vagrant/
+!frontend/src/app
+.ntvs_analysis.dat
+/src/cmd/dist/dist
+[Tt]est[Rr]esult*/
+.ipynb_checkpoints
+!config/unsafe.yml
+.tmp.drivedownload
+orleans.codegen.cs
+PowerEditor/bin64/
+*.DotSettings.user
+pip-wheel-metadata/
+scintilla/.hgignore
+/test/garbage/*.out
+celerybeat-schedule
+!**/packages/build/
+!config/mozilla.yml
+.*crunch*.local.xml
+*.dbproj.schemaview
+!config/bodgeit.yml
+!config/default.yml
+GeneratedArtifacts/
+DocProject/Help/html
+share/python-wheels/
+!config/juicebox.yml
+/src/go/doc/headscan
+Network Trash Folder
+!frontend/src/assets/
+/src/go/build/zcgo.go
+DocProject/Help/*.HxT
+DocProject/Help/Html2
+Thumbs.db:encryptable
+test/e2e/screenshots/
+_UpgradeReport_Files/
+DocProject/Help/*.hhk
+scintilla/win32/*.lib
+DocProject/buildhelp/
+DocProject/Help/*.hhc
+DocProject/Help/*.HxC
+DocProject/Help/*.hhp
+/misc/cgo/testso/main
+uploads/complaints/*.*
+/misc/cgo/life/run.out
+PowerEditor/bin/backup/
+/misc/cgo/stdio/run.out
+/src/unicode/maketables
+.DocumentRevisions-V100
+PowerEditor/bin/updater/
+scintilla/win32/Lexers.a
+scintilla/bin/SciLexer.*
+scintilla/boostregex/bin
+/doc/articles/wiki/*.bin
+!data/static/i18n/*.json
+PowerEditor/bin/plugins/
+scintilla/bin/__init__.py
+PowerEditor/bin/langs.xml
+assets/vendor/qtip2/basic
+scintilla/bin/Scintilla.*
+scintilla/.hg_archival.txt
+PowerEditor/bin/config.xml
+/src/cmd/cgo/zdefaultcc.go
+assets/vendor/clipboard/src
+PowerEditor/bin/session.xml
+PowerEditor/bin/stylers.xml
+scintilla/cppcheck.suppress
+assets/vendor/clipboard/test
+scintilla/win32/ScintRes.res
+PowerEditor/installer/build/
+PowerEditor/bin/SciLexer.dll
+PowerEditor/bin/localization/
+PowerEditor/bin/notepad++.exe
+PowerEditor/bin/shortcuts.xml
+pip-delete-this-directory.txt
+PowerEditor/bin/nativeLang.xml
+/PowerEditor/bin/NotepadPP.exe
+/PowerEditor/gcc/resources.res
+assets/vendor/selectivizr/tests
+PowerEditor/bin/contextMenu.xml
+PowerEditor/bin/NppShell_06.dll
+PowerEditor/bin/langs.model.xml
+!**/packages/repositories.config
+!frontend/src/assets/i18n/*.json
+PowerEditor/bin/functionList.xml
+PowerEditor/bin/config.model.xml
+/PowerEditor/bin/libstdc++-6.dll
+PowerEditor/installer/bin/wingup/
+PowerEditor/bin/stylers.model.xml
+PowerEditor/installer/minimalist/
+PowerEditor/bin/NppShell64_06.dll
+scintilla/boostregex/boostpath.mak
+/src/cmd/go/internal/cfg/zosarch.go
+PowerEditor/installer/minimalist64/
+.com.apple.timemachine.donotpresent
+/PowerEditor/bin/libgcc_s_sjlj-1.dll
+PowerEditor/bin/SourceCodePro-It.ttf
+/PowerEditor/bin/libwinpthread-1.dll
+PowerEditor/visual.net/Unicode Debug/
+/src/runtime/internal/sys/zversion.go
+template/src/__tests__/__snapshots__/
+PowerEditor/visual.net/notepadPlus.sln
+/src/cmd/go/internal/cfg/zdefaultcc.go
+/src/cmd/internal/objabi/zbootstrap.go
+PowerEditor/bin/SourceCodePro-Bold.ttf
+PowerEditor/visual.net/Unicode Release/
+PowerEditor/bin/SourceCodePro-BoldIt.ttf
+PowerEditor/bin/SourceCodePro-Regular.ttf
+PowerEditor/visual.net/x64/Unicode Debug/
+PowerEditor/visual.net/x64/Unicode Release/
+PowerEditor/installer/zipped.package.release/
+PowerEditor/installer/zipped.package.release64/
