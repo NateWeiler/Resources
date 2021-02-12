@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 
 # Clone or update all the GitHub gists of the current GitHub user into working directory
 # Specify GitHub username in the GITHUB_USER environment variable, i.e.
