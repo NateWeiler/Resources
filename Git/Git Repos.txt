@@ -6,26 +6,27 @@ https://github.com/NateWeiler/CSET.git
 https://github.com/NateWeiler/flask-todo.git
 https://github.com/NateWeiler/gatsby-starter-default.git
 https://github.com/NateWeiler/Gists.git
-https://github.com/NateWeiler/Maze-Game-Deluxe.git
 https://github.com/NateWeiler/NateWeiler.git
-https://github.com/NateWeiler/nateweiler.github.io.git
+https://github.com/NateWeiler/NateWeiler.io.git
 https://github.com/NateWeiler/Resources.git
-https://github.com/NateWeiler/Snake.git
-https://github.com/NateWeiler/Space-Invaders-Game.git
-https://github.com/NateWeiler/Teenage_Party_Escape.git
 https://github.com/NateWeiler/Termux.git
-https://github.com/NateWeiler/termux-go.git
-https://github.com/NateWeiler/Tic-Tac-Toe.git
 https://github.com/NateWeiler/tsct-portal.git
 https://github.com/NateWeiler/dotfiles
+https://github.com/NateWeiler/Dot.git
 
 	#####################
 	# WeilerWebServices #
 	#####################   
 
+https://github.com/WeilerWebServices/Maze-Game-Deluxe.git
+https://github.com/WeilerWebServices/Snake.git
+https://github.com/WeilerWebServices/Space-Invaders-Game.git
+https://github.com/WeilerWebServices/Teenage_Party_Escape.git
+https://github.com/WeilerWebServices/Termux.git
+https://github.com/WeilerWebServices/Tic-Tac-Toe.git
 https://github.com/WeilerWebServices/Database.git
 https://github.com/WeilerWebServices/Development.git
-https://github.com/WeilerWebServices/WeilerWebServices.github.io.git
+https://github.com/WeilerWebServices/WeilerWebServices.io.git
 https://github.com/WeilerWebServices/Firebase.git
 https://github.com/WeilerWebServices/Python.git
 https://github.com/WeilerWebServices/Microsoft_Videos.git

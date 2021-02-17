@@ -1,0 +1,50 @@
+########################################
+############ GitHub Repos  #############
+########################################
+
+############# NateWeiler ############### 
+https://github.com/NateWeiler/CSET
+https://github.com/NateWeiler/Projects.git
+https://github.com:NateWeiler/nateweiler.github.io.git
+https://github.com/NateWeiler/Clones
+https://github.com/NateWeiler/CSET-Done.git
+
+########### WeilerWebServices ##########
+https://github.com:WeilerWebServices/Development.git
+https://github.com/WeilerWebServices/Security.git
+https://github.com/WeilerWebServices/Books
+https://github.com:WeilerWebServices/Database.git
+https://github.com:WeilerWebServices/WeilerWebServices.github.io.git
+https://github.com/WeilerWebServices/Kali-WSL-App.git
+
+####### WhatsHappeningLancaster ########
+https://github.com:WhatsHappeningLancaster/Database.git
+
+########################################
+########### BitBucket Repos ############
+########################################
+
+########### WeilerWebServices ##########
+git@bitbucket.org:Weiler_Web_Services/resources.git
+git@bitbucket.org:Weiler_Web_Services/cset.git
+git@bitbucket.org:Weiler_Web_Services/development.git
+git@bitbucket.org:Weiler_Web_Services/projects.git
+git@bitbucket.org:Weiler_Web_Services/books.git
+git@bitbucket.org:Weiler_Web_Services/python.git
+git@bitbucket.org:Weiler_Web_Services/kotlin.git
+git@bitbucket.org:Weiler_Web_Services/react.git
+git@bitbucket.org:Weiler_Web_Services/python_videos.git
+git@bitbucket.org:Weiler_Web_Services/weilerwebservices.github.io.git
+git@bitbucket.org:Weiler_Web_Services/nateweiler.github.io.git
+git@bitbucket.org:Weiler_Web_Services/clones.git
+
+############# NateWeiler ###############
+
+########################################
+########### GitLab Repos ###############
+########################################
+
+############# NateWeiler ###############
+git@gitlab.com:NateWeiler/cset.git
+
+

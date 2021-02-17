@@ -123,7 +123,6 @@ assets/
 .Python
 [Bb]in/
 .builds
-.github
 .scrapy
 /vendor
 *.cache
@@ -137,7 +136,6 @@ target/
 *.cover
 *,cover
 *.psess
-/.github
 publish/
 .vscode/
 *.opendb
@@ -196,6 +194,7 @@ i18n/*.json
 order_*.pdf
 ehthumbs.db
 [Ee]xpress/
+desktop.ini
 [Rr]elease/
 [Dd]ebugPS/
 Desktop.ini
@@ -321,7 +320,6 @@ PowerEditor/bin64/
 *.DotSettings.user
 pip-wheel-metadata/
 scintilla/.hgignore
-@@ -1,162 +1,434 @@
 /test/garbage/*.out
 celerybeat-schedule
 !**/packages/build/
