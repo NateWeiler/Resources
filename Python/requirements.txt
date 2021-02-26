@@ -52,7 +52,7 @@ aiofile==3.1.0
 aiofiles==0.5.0
 aioftp==0.18.0
 aioftps3==0.0.6
-aiohttp==3.6.2
+aiohttp==3.7.4
 aiohttp-cors==0.7.0
 aiohttp-socks==0.5.3
 aiohttp-wsgi==0.8.2
