@@ -5,7 +5,7 @@ chardet==3.0.4
 colorama==0.4.3
 idna==2.10
 importlib-metadata==1.7.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 lyricsgenius @ git+https://github.com/johnwmillr/LyricsGenius.git@30a39f1a87ff9a538c78af11736d5c560381e806
 MarkupSafe==1.1.1
 pdfkit==0.6.1

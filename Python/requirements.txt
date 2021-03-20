@@ -1911,7 +1911,7 @@ jeepney==0.4.3
 jellyfish==0.6.1
 jidoka==0.1.3
 jieba==0.42.1
-Jinja2==2.11.2
+Jinja2==2.11.3
 jinxed==1.0.1
 jip==0.9.15
 JIVLearningPackage==1.1.1
