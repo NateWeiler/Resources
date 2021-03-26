@@ -3278,7 +3278,7 @@ pywin32-ctypes==0.2.0
 pywinpty==0.5.7
 PyWWW-Get==0.4.7
 pyxmahjongg==0.2.5
-PyYAML==5.3.1
+PyYAML==5.4
 pyykov==1.1
 pyzmq==19.0.2
 PyZOS==0.0.60
