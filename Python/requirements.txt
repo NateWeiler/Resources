@@ -2192,7 +2192,7 @@ luigi-completion==0.0.2
 lumigo-log-shipper==1.0.20
 Lupr==1.5.42
 lxa-iobus==0.0
-lxml==4.4.2
+lxml==4.6.3
 lyricsfandom==0.2.1
 lyricsgenius==1.8.6
 lyricwikia==0.1.11
