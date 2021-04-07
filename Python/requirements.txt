@@ -363,7 +363,7 @@ borg.localrole==3.1.8
 boto==2.49.0
 boto3==1.15.0
 botocore==1.18.0
-bottle==0.12.18
+bottle==0.12.19
 bottle-log==1.0.0
 bottle-utils-http==0.3
 boundio==0.0.2
