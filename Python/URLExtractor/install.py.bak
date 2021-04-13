@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
+import subprocess
+
+subprocess.call(('pip','install','-r','requirements.txt'))
+
+print
+print " ----- Installed -----"
+print
+print " run using 'python URLExtractor.py'"
+print

@@ -1,0 +1,9 @@
+include MANIFEST.in
+include LICENSE
+include README.rst
+include pytest_twisted.py
+include setup.cfg
+include setup.py
+include testing/conftest.py
+include testing/test_basic.py
+include tox.ini

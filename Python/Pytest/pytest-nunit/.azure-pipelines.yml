@@ -1,0 +1,323 @@
+trigger:
+- master
+name: $(Year:yy)$(DayOfYear)$(Rev:r)
+variables:
+  majorVer: '0.5.2'
+
+stages:
+  - stage: Unit_Test
+    jobs:
+
+    - job: 'Test_Linux'
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      strategy:
+        matrix:
+          Python37:
+            python.version: '3.7'
+            pytest_version: '>=4.1.0'
+        maxParallel: 8
+
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+          architecture: 'x64'
+
+      - script: |
+          echo "Installing Pytest - $PYTEST_VERSION"
+          python -m pip install --upgrade pip
+          pip install pytest$PYTEST_VERSION
+        env:
+          PYTEST_VERSION: $(pytest_version)
+      - script: "pip install -e ."
+        displayName: 'Install package'
+
+      - script: |
+          python -m pytest tests/unit -v --nunit-xml=test-results-unit.xml
+        displayName: 'pytest with nunit-xml flag - passes'
+      - task: CopyFiles@2
+        inputs:
+          contents: '**/test-results*.xml'
+          targetFolder: $(Build.ArtifactStagingDirectory)
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: TestOutput
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: NUnit
+          testResultsFiles: '**/test-results*.xml'
+  - stage: Integration_Test
+    jobs:
+
+    - job: 'Linter'
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      strategy:
+        matrix:
+          Linter:
+            python.version: '3.6'
+        maxParallel: 8
+
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+          architecture: 'x64'
+
+      - script: |
+          pip install -e .
+          pip install tox
+        displayName: 'Install package and dependencies'
+
+      - script: |
+          python -m tox -e lint -v
+        displayName: 'tox env'
+
+    - job: 'Test_Linux'
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      strategy:
+        matrix:
+          Python27_Pytest_Latest:
+            python.version: '2.7'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py27-pytestlatest'
+          Python34_Pytest_Latest:
+            python.version: '3.4'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py34-pytestlatest'
+          Python35_Pytest_Latest:
+            python.version: '3.5'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py35-pytestlatest'
+          Python36_Pytest_Latest:
+            python.version: '3.6'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py36-pytestlatest'
+          Python37:
+            python.version: '3.7'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py37-pytestlatest'
+          Python37_Pytest_50:
+            python.version: '3.7'
+            pytest_version: '>=5.0.0'
+            tox_env: 'py37-pytest50'
+          Python37_Pytest_41:
+            python.version: '3.7'
+            pytest_version: '>=4.1.0,<4.2.0'
+            tox_env: 'py37-pytest41'
+          Python37_Pytest_40:
+            python.version: '3.7'
+            pytest_version: '>=4.0.0,<4.1.0'
+            tox_env: 'py37-pytest40'
+          Python37_Pytest_38:
+            python.version: '3.7'
+            pytest_version: '>=3.8.0,<4.0.0'
+            tox_env: 'py37-pytest38'
+        maxParallel: 8
+
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+          architecture: 'x64'
+
+      - script: |
+          echo "Installing Pytest - $PYTEST_VERSION"
+          python -m pip install --upgrade pip
+          pip install pytest$PYTEST_VERSION
+        env:
+          PYTEST_VERSION: $(pytest_version)
+
+      - script: |
+          pip install -e .
+          pip install xmlschema==1.0.13 pytest-xdist tox
+        displayName: 'Install package and dependencies'
+
+      - script: |
+          python -m tox -e $TOXENV -v
+        displayName: 'tox env'
+        env:
+          TOXENV: $(tox_env)
+
+      - script: |
+          python -m pytest tests/integration -v --nunit-xml=test-results-integration.xml
+        displayName: 'pytest with nunit-xml flag - passes'
+
+      - script: |
+          python -m pytest tests/integration -v --nunit-xml=test-results-integration.xml -n 4
+        displayName: 'pytest with nunit-xml flag - passes'
+
+      - task: CopyFiles@2
+        inputs:
+          contents: '**/test-results*.xml'
+          targetFolder: $(Build.ArtifactStagingDirectory)
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: TestOutput
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: NUnit
+          testResultsFiles: '**/test-results*.xml'
+
+    - job: 'Test_Windows'
+      pool:
+        vmImage: 'vs2017-win2016'
+      strategy:
+        matrix:
+          Python27_Pytest_Latest:
+            python.version: '2.7'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py27-pytestlatest'
+          Python34_Pytest_Latest:
+            python.version: '3.4'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py34-pytestlatest'
+          Python35_Pytest_Latest:
+            python.version: '3.5'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py35-pytestlatest'
+          Python36_Pytest_Latest:
+            python.version: '3.6'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py36-pytestlatest'
+          Python37:
+            python.version: '3.7'
+            pytest_version: '>=4.1.0'
+            tox_env: 'py37-pytestlatest'
+          Python37_Pytest_50:
+            python.version: '3.7'
+            pytest_version: '>=5.0.0'
+            tox_env: 'py37-pytest50'
+          Python37_Pytest_41:
+            python.version: '3.7'
+            pytest_version: '>=4.1.0,<4.2.0'
+            tox_env: 'py37-pytest41'
+          Python37_Pytest_40:
+            python.version: '3.7'
+            pytest_version: '>=4.0.0,<4.1.0'
+            tox_env: 'py37-pytest40'
+          Python37_Pytest_38:
+            python.version: '3.7'
+            pytest_version: '>=3.8.0,<4.0.0'
+            tox_env: 'py37-pytest38'
+        maxParallel: 8
+
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(python.version)'
+          architecture: 'x64'
+
+      - script: |
+          echo "Installing Pytest - %PYTEST_VERSION%"
+          python -m pip install --upgrade pip
+          pip install "pytest%PYTEST_VERSION%"
+        env:
+          PYTEST_VERSION: $(pytest_version)
+
+      - script: |
+          pip install -e .
+          pip install xmlschema==1.0.13 tox
+        displayName: 'Install package and dependencies'
+
+      - script: |
+          python -m pytest tests\integration -v --nunit-xml=test-results-integration.xml
+        displayName: 'pytest with nunit-xml flag'
+        continueOnError: true
+
+      - script: |
+          python -m tox -e %TOXENV% -v
+        displayName: 'tox env'
+        env:
+          TOXENV: $(tox_env)
+
+      - task: CopyFiles@2
+        inputs:
+          contents: '**\test-results*.xml'
+          targetFolder: $(Build.ArtifactStagingDirectory)
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: $(Build.ArtifactStagingDirectory)
+          artifactName: TestOutput
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: NUnit
+          testResultsFiles: '**\test-results*.xml'
+
+  - stage: Package_Test
+    jobs:
+    - job: 'Test_Packages'
+      pool:
+        vmImage: 'Ubuntu-16.04'
+      steps:
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '3.7'
+            architecture: 'x64'
+
+        - script: 'python -m pip install -U pip setuptools wheel twine'
+          displayName: "Install packaging tools"
+        
+        - script: |
+            echo "Building rev $BUILD_VERSION"
+            python setup.py sdist bdist_wheel
+          displayName: "Build package"
+          env:
+            BUILD_VERSION: $(majorVer).dev$(Build.BuildNumber)
+        
+        - task: TwineAuthenticate@0
+          inputs:
+            artifactFeeds: 'nunit_test_feed'
+
+        - script: 'python -m twine upload -r nunit_test_feed --config-file $(PYPIRC_PATH) dist/*.tar.gz'
+          displayName: "Upload package"
+
+    - job: "Test_suite_Jinja2"
+      dependsOn: "Test_Packages"
+      pool:
+        vmImage: 'Ubuntu-16.04'
+
+      steps:
+        - task: UsePythonVersion@0
+          inputs:
+            versionSpec: '3.7'
+            architecture: 'x64'
+
+        - script: 'python -m pip install -U pip'
+          displayName: "Update pip"
+
+        - script: 'python -m pip install MarkupSafe>=0.23'
+          displayName: 'Install dependencies'
+
+        - task: PipAuthenticate@0
+          displayName: Authenticate with artifact feed
+          inputs:
+            artifactFeeds: "nunit_test_feed"
+
+        - script: "pip install --pre pytest-nunit==$BUILD_VERSION"
+          displayName: "Install pytest-nunit package"
+          env:
+            BUILD_VERSION: $(majorVer).dev$(Build.BuildNumber)
+        
+        - script: |
+            wget https://github.com/pallets/jinja/archive/c4813e51ad664bca17773517462610c1578a6850.zip
+            unzip c4813e51ad664bca17773517462610c1578a6850.zip -d jinja2
+            cd jinja2/jinja-c4813e51ad664bca17773517462610c1578a6850/
+            python -m pytest tests --nunit-xml=test-results-jinja.xml
+          displayName: "Test jinja2 pinned revision"
+        - task: CopyFiles@2
+          inputs:
+            contents: '**/test-results*.xml'
+            targetFolder: $(Build.ArtifactStagingDirectory)
+        - task: PublishBuildArtifacts@1
+          inputs:
+            pathToPublish: $(Build.ArtifactStagingDirectory)
+            artifactName: TestOutput
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFormat: NUnit
+            testResultsFiles: '**/test-results*.xml'

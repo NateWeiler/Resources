@@ -1,0 +1,10 @@
+apt-get remove metasploit
+cd /opt/
+ls
+cd ~
+wget http://downloads.metasploit.com/data/releases/archive/metasploit-4.10.0-linux-installer.run
+chmod 755 metasploit-4.10.0-linux-installer.run
+./metasploit-4.10.0-linux-installer.run
+Register Pro key
+apt-get update
+

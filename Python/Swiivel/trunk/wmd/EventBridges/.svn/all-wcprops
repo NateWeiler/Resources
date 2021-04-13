@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/22/trunk/wmd/EventBridges
+END
+PyXlib.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/4/trunk/wmd/EventBridges/PyXlib.py
+END
+SEP.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/4/trunk/wmd/EventBridges/SEP.py
+END
+uinputKeymap.py
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/4/trunk/wmd/EventBridges/uinputKeymap.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/4/trunk/wmd/EventBridges/__init__.py
+END
+uinput.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/4/trunk/wmd/EventBridges/uinput.py
+END

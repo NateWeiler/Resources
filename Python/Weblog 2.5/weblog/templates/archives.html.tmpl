@@ -1,0 +1,86 @@
+{% extends 'base.html.tmpl' %}
+
+{% block head %}
+{{ super() }}
+<style type='text/css'>
+    div#archives ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    div#archives ul.months, div#archives ul.days, div#archives ul.posts {
+        margin-top: -2em;
+    }
+
+    div#archives div {
+        height: 2em;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    div#archives ul.years div {
+        width: 4em;
+    }
+
+    div#archives ul.months {
+        margin-left: 4em;
+        padding: 0;
+    }
+
+    div#archives ul.months div {
+        width: 7em;
+    }
+
+    div#archives ul.days {
+        margin-left: 7em;
+    }
+
+    div#archives ul.days div {
+        width: 2em;
+    }
+
+    div#archives ul.posts {
+        margin-left: 2em;
+    }
+
+    div#archives ul.posts li {
+        margin-bottom: 0.5em;
+        margin-left: 1em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 id='title'>Archives</h1>
+
+<div id='archives'>
+<ul class='years'>
+{% for year, posts in posts|groupby('year')|reverse %}
+    <li>
+    <div>{{ year }}</div>
+    <ul class='months'>
+{% for month, posts in posts|groupby('month')|reverse %}
+        <li>
+        <div>{{ posts[0].date.strftime('%B') }}</div>
+        <ul class='days'>
+{% for day, posts in posts|groupby('day')|reverse %}
+            <li>
+            <div>{{ day }}</div>
+            <ul class='posts'>
+{% for post in posts %}
+                <li><a href='{{ post.url() }}'>{{ post.title|e|decode }}</a></li>
+{% endfor %}
+            </ul>
+{% endfor %}
+        </ul>
+{% endfor %}
+    </ul>
+{% endfor %}
+</ul>
+</div>
+
+{% endblock %}
+
+{% block archives %}{% endblock %}
+{# vim:set ft=htmljinja sw=4 ts=4 et: #}

@@ -1,0 +1,145 @@
+;;; -*- mode: stumpwm -*-
+;;; StumpWmRC: 
+;;; $Author: tv.raman.tv $
+;;; Keywords: StumpWM, Emacspeak, Audio Desktop
+(in-package :stumpwm)
+;;; {Variables:
+
+;;; Avoid focus getting stolen due to activity.
+
+(setq *deny-raise-request* t)
+
+(defvar *emacspeak-dir*
+  "/home/raman/emacs/lisp/emacspeak"
+  "Root directory of Emacspeak installation.")
+
+(defvar *tts-window-icon*
+  (concatenate 'string
+               *emacspeak-dir*
+               "/"
+               "sounds/pan-chimes/window-resize.wav")
+  "Window change icon.")
+
+(defvar *tts-off-icon*
+  (concatenate 'string
+               *emacspeak-dir*
+               "/"
+               "sounds/pan-chimes/off.wav")
+  "Off icon.")
+
+(defvar *tts-on-icon*
+  (concatenate 'string
+               *emacspeak-dir*
+               "/"
+               "sounds/pan-chimes/on.wav")
+  "On icon.")
+
+;;; }
+;;; {Prefix key matches my screen setup:
+
+(set-prefix-key (kbd "C-\\"))
+
+;;; }
+;;; {TTS
+
+(load
+ (concatenate 'string
+              *emacspeak-dir*
+              "/"
+              "stumpwm/tts.lisp"))
+(setq *tts-engine* *tts-outloud*)
+(tts-say "TTS: Ready to talk! ")
+
+;;; }
+;;; {Speak Actions:
+
+
+(defun speak-window-change (new old)
+  "Speak current window  information."
+  (declare (special *tts-window-icon*))
+  (when new
+    (tts-serve-icon *tts-window-icon*)
+    (tts-speak (format nil "~a Window" (window-name new)))))
+
+(defun speak-this-window (window)
+  "Speak this window  information."
+  (tts-speak (window-name window)))
+
+(defun speak-current-window ()
+  "Speak current window  information."
+  (tts-speak (window-name (current-window))))
+
+(defvar *tts-speak-messages* nil
+  "Switch messages on and off.
+Off by default to avoid a stumpwm crash on startup.
+Use C-\ t to turn it on.")
+
+(defcommand  tts-toggle-speak-messages ()
+  ()
+  "Toggle state of speak messages switch."
+  (declare (special *tts-speak-messages* *tts-on-icon*
+                    *tts-off-icon*))
+  (setq *tts-speak-messages* (not *tts-speak-messages*))
+  (tts-serve-icon
+   (if *tts-speak-messages*
+       *tts-on-icon*
+       *tts-off-icon*)))
+
+(define-key *root-map* (kbd "t") "tts-toggle-speak-messages")
+
+(defun speak-messages (&rest messages)
+  "Speak messages, a list of lines."
+  (declare (special *tts-speak-messages*))
+  (when *tts-speak-messages*
+    (tts-speak-list (mapcar #'stumpwm::uncolorify messages))))
+
+;;; }
+;;; {Attach Handlers:
+
+(setq  *focus-window-hook* (list 'speak-window-change))
+(setq *new-window-hook* (list 'speak-this-window))
+                        (setq *message-hook* (list 'speak-messages))
+
+;;; }
+;;; {Lock screen C-t D
+
+(defparameter *my-lock-command*
+  "exec emlock")
+
+(defcommand lock-screen ()
+  ()
+  "Lock my screen."
+  (eval-command *my-lock-command*))
+
+(define-key *root-map* (kbd "D") "lock-screen")
+
+;;; }
+;;; {Chrome:
+
+(defcommand chrome ()
+  ()
+  "Start  or switch to Chrome."
+  (run-or-raise "$HOME/bin/g" '(:class "chrome" :title "Chrome")))
+
+(define-key *root-map* (kbd "g") "chrome")
+
+(sb-ext:run-program
+        "/usr/local/bin/play" 
+        (list
+         (concatenate
+          'string
+          *emacspeak-dir*
+          "/sounds/prompts/launch-wm.mp3")))
+
+;;; }
+;;; {Emacs local variables
+
+;;; local variables:
+;;; mode: stumpwm
+;;; mode: folding
+;;; folded-file: t
+;;; stumpwm-mode: t
+;;; end:
+
+;;; }
+

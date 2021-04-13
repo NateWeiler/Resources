@@ -1,0 +1,16 @@
+# New BT5 Update script & Chrome Auto installer and root user bash scripts from Bl4ck5w4n.tk
+# Autor: Bl4ck54n
+# Url: http://bl4ck5w4n.tk
+# Bash Script to install Google Chrome in BackTrack
+echo "deb http://dl.google.com/linux/deb/ stable non-free main" >> /etc/apt/sources.list
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+apt-get update
+apt-get install google-chrome-stable -y
+sed -i 's/exec.*/& --user-data-dir/g' /usr/bin/google-chrome
+
+# Note: Remember  every time Google Chrome updates it will create a new /usr/bin/google-chrome and you will have to run this line:
+1
+	
+sed -i 's/exec.*/& --user-data-dir/g' /usr/bin/google-chrome
+
+#If you get problems with this you will have to remove /root/.config/google and run chrome again to recreate the dir structure.

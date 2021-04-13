@@ -1,0 +1,4 @@
+#!/bin/sh
+
+LOG=/tmp/outloud-$$.log
+tee -a $LOG | `dirname $0`/outloud

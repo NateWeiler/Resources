@@ -1,0 +1,70 @@
+version: 1.1.3.{build}
+image: Visual Studio 2017
+
+
+environment:
+  matrix:
+  - PlatformToolset: v141_xp
+    PLATFORM: amd64
+    PYTHONTEST: x64
+    PYTHON: "C:\\Python37"
+
+  - PlatformToolset: v141_xp
+    PLATFORM: Win32
+    PYTHONTEST: Win32
+    PYTHON: "C:\\Python37"
+
+  - PlatformToolset: v141_xp
+    PLATFORM: x64
+    
+  - PlatformToolset: v141_xp
+    PLATFORM: Win32
+
+configuration:
+    - Release
+    #- Debug
+
+install:
+    - SET PATH=%PYTHON%;%PATH%
+    - if not "%PYTHONTEST%"=="" python -m pip install requests jsonschema rfc3987 pywin32
+
+    - if "%platform%"=="x64" set archi=amd64
+    - if "%platform%"=="x64" set platform_input=x64
+
+    - if "%platform%"=="Win32" set archi=x86
+    - if "%platform%"=="Win32" set platform_input=Win32
+
+    - if "%PlatformToolset%"=="v141_xp" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %archi%
+    - if "%PlatformToolset%"=="v140_xp" call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %archi%
+
+build_script:
+    - cd "%APPVEYOR_BUILD_FOLDER%"
+    - if not "%PYTHONTEST%"=="" call python validator.py %PYTHONTEST%
+    - cd "%APPVEYOR_BUILD_FOLDER%"/vcxproj
+    - if "%PYTHONTEST%"=="" msbuild nppPluginList.vcxproj /p:configuration="%configuration%" /p:platform="%platform_input%" /p:PlatformToolset="%PlatformToolset%"
+
+after_build:
+    - cd "%APPVEYOR_BUILD_FOLDER%"
+    - ps: >-
+
+        if(-not ($env:PYTHONTEST))
+        {
+            if ($env:PLATFORM_INPUT -eq "x64" -and $env:CONFIGURATION -eq "Release") {
+                Push-AppveyorArtifact "bin64\nppPluginList.dll" -FileName nppPluginList.dll
+            }
+
+            if ($env:PLATFORM_INPUT -eq "Win32" -and $env:CONFIGURATION -eq "Release") {
+                Push-AppveyorArtifact "bin\nppPluginList.dll" -FileName nppPluginList.dll
+            }
+
+            if ($($env:APPVEYOR_REPO_TAG) -eq "true" -and $env:CONFIGURATION -eq "Release" -and $env:PLATFORMTOOLSET -eq "v141_xp") {
+                if($env:PLATFORM_INPUT -eq "x64"){
+                    $ZipFileName = "nppPluginList_$($env:APPVEYOR_REPO_TAG_NAME)_x64.zip"
+                    7z a $ZipFileName bin64\*.dll
+                }
+                if($env:PLATFORM_INPUT -eq "Win32"){
+                    $ZipFileName = "nppPluginList_$($env:APPVEYOR_REPO_TAG_NAME)_x86.zip"
+                    7z a $ZipFileName bin\*.dll
+                }
+            }
+        }

@@ -1,0 +1,57 @@
+#    -*- mode: org -*-
+The enjoyment of one's tools is an essential ingredient of successful work.
+ -- Donald E. Knuth
+
+Emacspeak News --History Of User-Visible Changes
+
+Author: T. V. Raman <tv.raman.tv@gmail.com>
+
+
+* Emacspeak 53 --- Emacspeak 53 User Visible Changes
+
+This version requires Emacs-27.1 or later.
+
+** Speech-Enable Package Syslog
+
+Speech-enable ~syslog~ for working with log files.
+This replaces the now very old ~analog~ in my regular work-flow.
+
+** Speech-enable Package ~hide-lines~
+
+A light-weight package for hide/show matching lines.
+
+** Speech-Enable Racer
+
+Module ~emacspeak-racer~ speech-enables ~racer~ for Rust documentation
+and completion.
+** Speech-Enable Eglot
+
+
+Module ~emacspeak-eglot~ speech-enables ~eglot~ for lsp  support.
+** speech-Enable project.el
+
+Module ~emacspeak-project~ speech-enables package ~project~.
+
+
+** Speech-Enable rust-mode
+
+Module ~emacspeak-rust-mode~ speech-enables ~rust-mode~.
+
+
+** Speech-Enable YTEl
+
+Module ~emacspeak-ytel~ speech-enables package ~ytel~, an Elisp API
+bridge to YT.
+
+** Emacspeak-sdcv --- speech-Enable Stardict Interaction
+
+
+Module ~emacspeak-sdcv~ speech-enables emacs package ~sdcv~ to enable
+interaction with Stardict dictionaries.
+
+** Module ~emacspeak-npr~ Is Marked Obsolete 
+
+
+The API used by module ~emacspeak-npr~ has been retired by  [[npr.org]] in
+favor of their newer NPR-One API. Module ~emacspeak-npr~ is therefore
+obsolete and no longer supported.

@@ -1,0 +1,4 @@
+ifconfig wlan1 down
+iw reg set BO
+iwconfig wlan1 txpower 30
+

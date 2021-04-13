@@ -1,0 +1,53 @@
+language: python
+dist: xenial
+cache: false
+env:
+  global:
+    - LD_PRELOAD=/lib/x86_64-linux-gnu/libSegFault.so
+    - SEGFAULT_SIGNALS=all
+matrix:
+  include:
+    - python: '3.6'
+      env:
+        - TOXENV=check,examples,publish
+{%- for env in tox_environments %}{{ '' }}
+    - env:
+        - TOXENV={{ env }},codecov,coveralls
+{%- if env.startswith('pypy3') %}{{ '' }}
+        - TOXPYTHON=pypy3
+      python: 'pypy3'
+{%- elif env.startswith('pypy') %}{{ '' }}
+      python: 'pypy'
+{%- else %}{{ '' }}
+      python: '{{ '{0[2]}.{0[3]}'.format(env) }}'
+{%- endif %}
+{%- endfor %}{{ '' }}
+before_install:
+  - |
+    if [[ "${TOXENV}" =~ "publish" ]]; then
+      openssl aes-256-cbc -K $encrypted_47bf4dbcd811_key -iv $encrypted_47bf4dbcd811_iv -in publish-key.enc -out ~/.ssh/publish-key -d
+      chmod u=rw,og= ~/.ssh/publish-key
+      echo "Host github.com" >> ~/.ssh/config
+      echo "  IdentityFile ~/.ssh/publish-key" >> ~/.ssh/config
+      git --version
+      git remote set-url origin git@github.com:ionelmc/python-darkslide.git
+      git fetch origin -f gh-pages:gh-pages
+    fi
+  - python --version
+  - uname -a
+  - lsb_release -a || true
+install:
+  - python -mpip install --progress-bar=off tox -rci/requirements.txt
+  - virtualenv --version
+  - easy_install --version
+  - pip --version
+  - tox --version
+script:
+  - tox -v
+after_failure:
+  - more .tox/log/* | cat
+  - more .tox/*/log/* | cat
+notifications:
+  email:
+    on_success: never
+    on_failure: always

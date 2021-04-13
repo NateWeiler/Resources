@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 27
+/svn/!svn/ver/48/trunk/game
+END
+main.py
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/44/trunk/game/main.py
+END
+fsm.py
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/!svn/ver/44/trunk/game/fsm.py
+END
+dispatcher.py
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/36/trunk/game/dispatcher.py
+END
+balloon.py
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/20/trunk/game/balloon.py
+END
+world.py
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/44/trunk/game/world.py
+END
+objects.py
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/35/trunk/game/objects.py
+END
+character.py
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/43/trunk/game/character.py
+END
+scene.py
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/44/trunk/game/scene.py
+END
+layers.py
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/21/trunk/game/layers.py
+END
+utils.py
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/44/trunk/game/utils.py
+END
+interface.py
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/48/trunk/game/interface.py
+END
+spells.py
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/38/trunk/game/spells.py
+END
+loader.py
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/44/trunk/game/loader.py
+END
+fsglobals.py
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/44/trunk/game/fsglobals.py
+END
+effects.py
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/38/trunk/game/effects.py
+END

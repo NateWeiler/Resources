@@ -1,0 +1,10 @@
+Weblog is a web log or blog publisher. It takes structured text files as input
+and outputs static HTML / RSS files. Weblog aims to be simple and robust.
+
+to learn how to install and use weblog please read the text file:
+  doc/weblog.rst
+
+If you have docutils installed you can turn it into a HTML file:
+  $ rst2html.py weblog.rst > weblog.html
+
+Jinja is needed to use Weblog (http://jinja.pocoo.org)

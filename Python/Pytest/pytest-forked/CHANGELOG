@@ -1,0 +1,34 @@
+v1.1.3
+======
+
+* Another dummy release to sort out missing wheels (hopefully).
+
+v1.1.2
+======
+
+* Another dummy release to sort out missing wheels (hopefully).
+
+v1.1.1
+======
+
+* Dummy release to sort out CI issues.
+
+v1.1.0
+======
+
+* New marker `pytest.mark.forked` to fork before individual tests.
+
+v1.0.2
+======
+
+* Fix support for pytest 4.2.
+
+v1.0.1
+======
+
+* Fix support for pytest 4.1.
+
+v1.0
+=====
+
+* just a takeout of pytest-xdist

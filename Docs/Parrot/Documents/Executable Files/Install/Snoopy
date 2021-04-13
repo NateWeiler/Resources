@@ -1,0 +1,225 @@
+▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+██                                                                       ██
+█▌                          -   SNOOPY LOGGER   -                          █▌
+█▌                                                                           █▌
+█                                                                            ▐▌
+█ Snoopy logger logs users or just root activities - Snoopy Logger, site is  ▐▌
+█ HERE, the old forums are HERE and HERE.                                    ▐▌
+█ Cons- You either log all, or just root. Once you have set this it can't be ▐▌
+█ changed (that I could find) without recompiling it.                        ▐▌
+█ If you want to log all; use apt-get. If you only want to log root only     ▐▌
+█ then I find it easier to compile it (as shown after).                      ▐▌
+█                                                                            ▐▌
+█ INSTALL:                                                                   ▐▌
+█ ````````                                                                   ▐▌
+█ su                                                                         ▐▌
+█ apt-get update                                                             ▐▌
+█ apt-get install snoopy                                                     ▐▌
+█ You'll be asked y/n to install ld.so.preload-manager snoopy, select:       ▐▌
+█ y to log all, or n to log only root.                                       ▐▌
+█                                                                            ▐▌
+█ You'll then have the 'Package configuration' window prompt you to agree;   ▐▌
+█ use arrow key to select yes, hit enter key.                                ▐▌
+█ (my note: using apt-get /etc/ld.so.preload has /lib/snoopy.so)             ▐▌
+█                                                                            ▐▌
+█ Or to compile it yourself:                                                 ▐▌
+█ Check the site and HERE for the latest version.                            ▐▌
+wget http://pkgs.fedoraproject.org/repo/pkgs/snoopy/snoopy-1.6.1.tar.gz/7a8186e45d959e1b3ed44805bfcd4467/snoopy-1.6.1.tar.gz
+█ tar xvzf snoopy-1.6.1.tar.gz                                               ▐▌
+█ cd snoopy-1.6.1                                                            ▐▌
+█ cat README                                                                 ▐▌
+█ If you want to only log root:                                              ▐▌
+█ pico snoopy.h                                                              ▐▌
+█ Change this line:                                                          ▐▌
+█ #define SNOOPY_ROOT_ONLY 0                                                 ▐▌
+█ To:                                                                        ▐▌
+█ #define SNOOPY_ROOT_ONLY 1                                                 ▐▌
+█                                                                            ▐▌
+█ ./configure                                                                ▐▌
+█ make                                                                       ▐▌
+█ su                                                                         ▐▌
+█ make install                                                               ▐▌
+█ Output will be similar to:                                                 ▐▌
+█ install -m 755 -d /usr/local/lib                                           ▐▌
+█ install -m 755 snoopy.so /usr/local/lib/snoopy.so                          ▐▌
+█ Snoopy shared library installed in /usr/local/lib.                         ▐▌
+█ Run 'make enable' to actually enable snoopy logging.                       ▐▌
+█                                                                            ▐▌
+█ make enable                                                                ▐▌
+█ output will be similar to:                                                 ▐▌
+█ ./enable.sh /usr/local/lib                                                 ▐▌
+█ Snoopy enabled in /etc/ld.so.preload. Check syslog messages for output.    ▐▌
+█ (my note: compile /etc/ld.so.preload has /usr/local/lib/snoopy.so)         ▐▌
+█                                                                            ▐▌
+█ Restart programs that you want it to log, for example:                     ▐▌
+█ /etc/init.d/apache2 restart                                                ▐▌
+█ /etc/init.d/ajaxterm restart                                               ▐▌
+█ /etc/init.d/ssh restart                                                    ▐▌
+█                                                                            ▐▌
+█ All executed commands will be logged in /var/log/auth.log                  ▐▌
+█                                                                            ▐▌
+█ Test it by running some cmds as a user, or root if you selected root only. ▐▌
+█ Then the cmds ran listed here:                                             ▐▌
+█ tail -30 /var/log/auth.log                                                 ▐▌
+█ (If you have programs set to execute on your MOTD, those will be there as  ▐▌
+█ well for each user.)                                                       ▐▌
+█                                                                            ▐▌
+█ MONITOR SELECTED APPLICATIONS:                                             ▐▌
+█ ``````````````````````````````                                             ▐▌
+█ As per the README states:                                                  ▐▌
+█ Snoopy is placed in /etc/ld.so.preload to trap all occurrences of exec, if ▐▌
+█ you wish to monitor only certain applications you can do so through the    ▐▌
+█ LD_PRELOAD environment variable - simply set it to /lib/snoopy.so before   ▐▌
+█ loading the application. For example:                                      ▐▌
+█ export LD_PRELOAD=/lib/snoopy.so                                           ▐▌
+█ lynx http://example.com/                                                   ▐▌
+█ unset LD_PRELOAD                                                           ▐▌
+█                                                                            ▐▌
+█ LOGCHECK IGNORE ENTRIES:                                                   ▐▌
+█ ````````````````````````                                                   ▐▌
+█ Thanks to a post HERE by knx on how to have logcheck ignore entries from   ▐▌
+█ snoopy:                                                                    ▐▌
+█ Create this file:                                                          ▐▌
+█ pico /etc/logcheck/ignore.d.server/snoopy                                  ▐▌
+█ Paste this in:                                                             ▐▌
+█ ^\w{3} [ :0-9]{11} [._[:alnum:]-]+ snoopy.*                                ▐▌
+█                                                                            ▐▌
+█ Create this file:                                                          ▐▌
+█ pico /etc/logcheck/violations.ignore.d/snoopy                              ▐▌
+█ Paste this in:                                                             ▐▌
+█ ^\w{3} [ :0-9]{11} [._[:alnum:]-]+ snoopy.*                                ▐▌
+█                                                                            ▐▌
+█ Note: I haven't tested this, nor does my Debian have a directory named     ▐▌
+█ 'violations.ignore.d' as stated HERE.                                      ▐▌
+█ find /etc/logcheck/ -name 'violation*'                                     ▐▌
+█ ls -alR /etc/logcheck/                                                     ▐▌
+█ 3 dirs:                                                                    ▐▌
+█ ignore.d.paranoid                                                          ▐▌
+█ ignore.d.server                                                            ▐▌
+█ ignore.d.workstation                                                       ▐▌
+█                                                                            ▐▌
+█ Read HERE, HERE and HERE for more info on logcheck ignore rules.           ▐▌
+█                                                                            ▐▌
+█ If you use Logwatch, tutorial HERE, it will create a summarized report of  ▐▌
+█ all the entries in /var/log/auth.log logged by snoopy and mail those to    ▐▌
+█ you daily - html or text. The report would be in this format for example:  ▐▌
+█ snoopy: [mewbie, uid:0 sid:11183]: pico /jail/glftpd/etc/glftpd.conf : 4 Time(s)
+█                                                                            ▐▌
+█ CHANGE FILE SNOOPY LOGS TO:                                                ▐▌
+█ ```````````````````````````                                                ▐▌
+█ By default Snoopy logs to auth.log. If you use syslog-ng (tutorial HERE)   ▐▌
+█ then to change this is very easy:                                          ▐▌
+█ pico /etc/syslog-ng/syslog-ng.conf                                         ▐▌
+█ Add these lines in their correct sections; destination, filter & log):     ▐▌
+destination df_snoopy { file("/var/log/syslog-ng/$HOST/snoopy"); };
+
+filter f_all { level(debug..emerg) and not program("snoopy"); };
+filter f_snoopy { program("snoopy"); };
+
+log {
+source(s_all);
+filter(f_snoopy);
+destination(df_snoopy);
+};
+
+█ Restart syslog-ng:                                                         ▐▌
+█ /etc/init.d/syslog-ng restart                                              ▐▌
+█                                                                            ▐▌
+█ You'll now see your new 'snoopy' log file in a directory with the name of  ▐▌
+█ your host:                                                                 ▐▌
+█ ls -al /var/log/syslog-ng/YOURHOSTNAME/snoopy                              ▐▌
+█                                                                            ▐▌
+█ NEW SNOOPY LOG ROTATION:                                                   ▐▌
+█ If you changed the default logging location as above you must set up       ▐▌
+█ logrotation for it or it will grow until your server runs out of space.    ▐▌
+█ If you DON'T use syslog-ng (directions for users of syslog-ng after) then  ▐▌
+█ create a new logrotate config for it:                                      ▐▌
+█ pico /etc/logrotate.d/snoopy                                               ▐▌
+█ Paste in, changing to your own paths and preferences - note that           ▐▌
+█ 'create 640 root adm' should follow what your ls -al replied above for     ▐▌
+█ the 'owners':                                                              ▐▌
+/var/log/syslog-ng/YOURHOSTNAME/snoopy {
+daily
+rotate 30
+compress
+delaycompress
+notifempty
+create 640 root adm
+
+}
+
+█ If you would like the snoopy log mailed to you daily add these 2 lines to  ▐▌
+█ the code above:                                                            ▐▌
+mailfirst
+mail my_email@gmail.com
+█                                                                            ▐▌
+█ You don't need to chmod it; it should have already perms 644: -rw-r--r--.  ▐▌
+█ To explain a briefly about what the logrotation code above does - It will  ▐▌
+█ rotate the snoopy log daily keeping 30 previous copies compressed  with    ▐▌
+█ the newest rotated one not compressed (delay compress) and it won't        ▐▌
+█ rotate it if the log is empty, it will recreate a new log for it with the  ▐▌
+█ perms 640 and the owners root adm.                                         ▐▌
+█                                                                            ▐▌
+█ If you want to test logrotation without actually rotating:                 ▐▌
+█ logrotate --debug --force /etc/logrotate.d/snoopy                          ▐▌
+█                                                                            ▐▌
+█ Then to rotate manually- note if doing this for the first time and if you  ▐▌
+█ have put in settings to e-mail log and the log right now is larger than    ▐▌
+█ your e-mail client is setup to send it will error out first rotation, just ▐▌
+█ rotate it again manually:                                                  ▐▌
+█ logrotate --force -v /etc/logrotate.d/snoopy                               ▐▌
+█                                                                            ▐▌
+█ View your files again, you will now have snoopy & snoopy.1                 ▐▌
+█ ls -al /var/log/syslog-ng/YOURHOSTNAME                                     ▐▌
+█                                                                            ▐▌
+█ If you do use syslog-ng then add the snoopy rotation to:                   ▐▌
+█ pico /etc/logrotate.d/syslog-ng                                            ▐▌
+█ Paste in at the bottom of the file:                                        ▐▌
+/var/log/syslog-ng/YOURHOSTNAME/snoopy {
+rotate 7
+daily
+compress
+postrotate
+/usr/sbin/invoke-rc.d syslog-ng reload >/dev/null
+endscript
+}
+
+█ Or you could just add the log to syslog settings if you want to use the    ▐▌
+█ same:                                                                      ▐▌
+█ Has this:                                                                  ▐▌
+█ /var/log/syslog {                                                          ▐▌
+█ Change to:                                                                 ▐▌
+█ /var/log/syslog /var/log/syslog-ng/YOURHOSTNAME/snoopy {                   ▐▌
+█                                                                            ▐▌
+█ Restart syslog-ng:                                                         ▐▌
+█ /etc/init.d/syslog-ng restart                                              ▐▌
+█ If you want to test logrotation without actually rotating:                 ▐▌
+█ logrotate --debug --force /etc/logrotate.d/syslog-ng                       ▐▌
+█                                                                            ▐▌
+█ Then to rotate manually:                                                   ▐▌
+█ logrotate --force -v /etc/logrotate.d/syslog-ng                            ▐▌
+█                                                                            ▐▌
+█ TURN OFF OR REMOVE SNOOPY:                                                 ▐▌
+█ ``````````````````````````                                                 ▐▌
+█ To turn off of remove Snoopy:                                              ▐▌
+█ pico /etc/ld.so.preload                                                    ▐▌
+█ Has this:                                                                  ▐▌
+█ /lib/snoopy.so                                                             ▐▌
+█ Either delete that line, or comment it out:                                ▐▌
+█ #/lib/snoopy.so                                                            ▐▌
+█ If you want to remove the program permanently then delete this file:       ▐▌
+█ rm /usr/local/lib/snoopy.so                                                ▐▌
+█                                                                            ▐▌
+█ //----------------------------------------------------------------------   ▐▌
+█                                                                            ▐▌
+█ If you find mistakes, have suggestions, and or questions please post at    ▐▌
+█ mewbies forum HERE - thank you.                                            ▐▌
+█                                                                            ▐▌
+█ Last update on 23 Aug '10                                                  ▐▌
+█                                                                            ▐▌
+█▌                                                                           █▌
+█▌                          -   mewbies.com   -                            █▌
+█▌                                                                       █▌
+██▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄██
+
+

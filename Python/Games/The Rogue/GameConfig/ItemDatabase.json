@@ -1,0 +1,60 @@
+{
+    "Cherry Juice" : 
+    {
+        "coords" : [238, 102, 32, 32],
+        "desc" : "Juice made of cherries."
+    },
+    "Blackberry" : 
+    {
+        "coords" : [0, 0, 32, 32],
+        "desc" : "A berry picked from a bush nearby."
+    },
+    "Green Apple" : {
+        "coords" : [70, 0, 32, 32],
+        "desc" : "A fruit picked from a tree nearby."
+    },
+    "Cherry" : {
+        "coords" : [35, 0, 32, 32],
+        "desc" : "A berry picked from a bush nearby."
+    },
+    "Red Apple" : {
+        "coords" : [105, 0, 32, 32],
+        "desc" : "A fruit picked from a tree nearby."
+    },
+    "Red Potion" : {
+        "coords" : [0, 70, 32, 32],
+        "desc" : "A magical red potion."
+    },
+    "Orange Potion" : {
+        "coords" : [35, 70, 32, 32],
+        "desc" : "A magical orange potion."
+    },
+    "Yellow Potion" : {
+        "coords" : [70, 70, 32, 32],
+        "desc" : "A magical yellow potion."
+    },
+    "Blue Potion" : {
+        "coords" : [105, 70, 32, 32],
+        "desc" : "A magical blue potion."
+    },
+    "Purple Potion" : {
+        "coords" : [140, 70, 32, 32],
+        "desc" : "A magical purple potion."
+    },
+    "Green Potion" : {
+        "coords" : [175, 70, 32, 32],
+        "desc" : "A magical green potion."
+    },
+    "Gray Potion" : {
+        "coords" : [205, 70, 32, 32],
+        "desc" : "A magical gray potion."
+    },
+    "Small Sword" : {
+        "coords" : [35, 170, 32, 32],
+        "desc" : "A basic sword."
+    },
+    "Book" : {
+        "coords" : [0, 987, 32, 32],
+        "desc" : "A book, full of mysteries."
+    }
+}

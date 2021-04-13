@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<level>
+	<name>Test Level</name>
+	<tiles>
+		<tile name="nothing"/>
+		<tile name="trees"/>
+		<tile name="grass"/>
+		<tile name="corner4"/>
+		<tile name="corner3"/>
+		<tile name="corner2"/>
+		<tile name="corner1"/>
+		<tile name="vtrack"/>
+		<tile name="htrack"/>
+	</tiles>
+	<nodes>
+		<node name="train-station">
+			<pos>8.02, 6.00</pos>
+			<depth>0.00</depth>
+		</node>
+		<node name="train-start">
+			<pos>2.99, 5.05</pos>
+			<depth>0.00</depth>
+		</node>
+		<node name="start-location">
+			<pos>7.99, 2.07</pos>
+			<depth>0.00</depth>
+		</node>
+	</nodes>
+	<grid depth="-1">
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	2 2 2 2 2 2 2 2 2 2 2 2 2 
+	</grid>
+	<grid depth="0">
+	0 0 0 0 0 0 0 0 0 0 0 0 0 
+	0 6 8 8 8 8 8 8 8 8 8 5 0 
+	0 7 0 0 0 0 0 0 0 1 1 7 0 
+	0 7 0 0 0 1 0 1 0 0 0 7 0 
+	0 7 0 1 1 0 0 0 0 0 0 7 0 
+	0 3 8 8 8 8 5 0 0 0 0 7 0 
+	0 0 0 0 0 0 7 0 0 0 0 7 0 
+	0 0 0 0 0 0 3 8 8 8 8 4 0 
+	0 0 0 0 0 0 0 0 0 0 0 0 0 
+	</grid>
+</level>

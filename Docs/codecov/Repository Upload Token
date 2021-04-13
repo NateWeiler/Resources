@@ -1,0 +1,8 @@
+Repository Upload Token
+=======================
+
+The token below is used exclusively for uploading coverage reports.
+
+Note: Token not required for public repositories uploading from Travis, CircleCI, AppVeyor, Azure Pipelines or GitHub Actions.
+
+ff68bee9-0d06-4390-99d1-aed2c81fde59

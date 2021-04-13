@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<tiles size="101x98" pitch="34,35">
+
+<tile name="nothing">
+  <img src="images/nothing.png" offset="0,0"/>
+  <solid src="solid/empty.png"/>
+</tile>
+
+<tile name="bridge">
+  <img src="tiles/bridge.png" offset="6,1"/>
+  <solid src="solid/top.png"/>
+</tile>
+
+<tile name="bridge2">
+  <img src="tiles/bridge2.png" offset="4,0"/>
+  <solid src="solid/top.png"/>
+</tile>
+
+<tile name="bridge3">
+  <img src="tiles/bridge3.png" offset="36,0"/>
+  <solid src="solid/empty.png"/>
+</tile>
+
+<tile name="brickwall">
+
+  <img src="nothing.png"/>
+
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="brickwall2">
+  <img src="nothing.png"/>
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="brickwall3">
+
+  <img src="tiles/brickwall.png" offset="0,-4" frequency="5"/>
+  <img src="tiles/brickwall_moss.png" offset="0,-5" frequency="1"/>
+
+  <img src="tiles/brickwall3.png" offset="0,-4" frequency="6"/>
+  <img src="tiles/brickwall3_moss.png" offset="0,-4" frequency="1"/>
+  <img src="tiles/brickwall3_moss2.png" offset="0,-4" frequency="1"/>
+  <img src="tiles/brickwall3_moss3.png" offset="0,-4" frequency="1"/>
+
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="brickwall4">
+
+  <img src="tiles/brickwall4.png" offset="0,-4" frequency="2"/>
+  <img src="tiles/brickwall4_moss.png" offset="0,-4" frequency="1"/>
+
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="brickwall5">
+
+  <img src="tiles/brickwall5.png" offset="-3,-4" frequency="2"/>
+  <img src="tiles/brickwall5_moss.png" offset="-3,-4" frequency="1"/>
+
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="brickwall6">
+  <img src="tiles/brickwall6.png" offset="0,-4"/>
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="stonewall">
+  <img src="tiles/stonewall.png" offset="-4,-2"/>
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="stonewall2">
+  <img src="tiles/stonewall2.png" offset="-4,-1"/>
+  <solid src="solid/full.png"/>
+</tile>
+
+<tile name="stonewall3">
+  <img src="tiles/stonewall3.png" offset="-4,-1"/>
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="stonewall4">
+  <img src="tiles/stonewall4.png" offset="-4,10"/>
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="stonewall5">
+  <img src="tiles/stonewall5.png" offset="-2,-5"/>
+  <solid src="solid/full.png"/>
+</tile>
+
+<tile name="stonewall6">
+  <img src="tiles/stonewall6.png" offset="-4,1"/>
+  <solid src="solid/full.png"/>
+</tile>
+
+<tile name="column">
+  <img src="tiles/column.png" offset="30,8"/>
+  <solid src="solid/full.png"/>
+</tile>
+
+<tile name="bridge4">
+  <img src="tiles/bridge4.png" offset="0,-1"/>
+  <solid src="solid/top.png"/>
+</tile>
+
+<tile name="brickwall7">
+  <img src="tiles/brickwall7.png" offset="2,-5"/>
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="brickwall8">
+  <img src="tiles/brickwall8.png" offset="0,-4"/>
+  <solid src="solid/full.png"/>
+  <front>true</front>
+</tile>
+
+<tile name="ladder">
+  <img src="tiles/ladder.png" offset="72,6"/>
+  <solid src="solid/ladder.png"/>
+</tile>
+
+<tile name="ladderw">
+  <img src="tiles/ladderw.png" offset="9,6"/>
+  <solid src="solid/ladderw.png"/>
+  <fullfront>true</fullfront>
+</tile>
+
+<tile name="stalagmite">
+  <img src="tiles/stalagmite.png" offset="20,0"/>
+  <solid src="solid/full.png"/>
+</tile>
+
+</tiles>

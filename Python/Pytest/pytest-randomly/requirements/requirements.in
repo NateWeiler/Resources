@@ -1,0 +1,17 @@
+black ; python_version == '3.8.*'
+check-manifest ; python_version == '3.8.*'
+docutils
+factory_boy
+faker
+flake8
+flake8-bugbear
+flake8-comprehensions
+flake8-tidy-imports
+importlib-metadata ; python_version < "3.8"
+isort
+multilint
+numpy
+pygments
+pytest
+secretstorage # required for twine on linux
+twine

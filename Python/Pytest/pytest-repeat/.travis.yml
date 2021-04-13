@@ -1,0 +1,34 @@
+language: python
+python:
+- 2.7
+- 3.4
+- 3.5
+- 3.6
+- pypy
+- pypy3
+- nightly
+env:
+- TOXENV=pytest36
+- TOXENV=pytest37
+- TOXENV=pytest38
+matrix:
+  include:
+  - python: 2.7
+    env: TOXENV=flake8
+  - python: 3.5
+    env: TOXENV=flake8
+install:
+- pip install tox-travis
+script:
+- tox
+deploy:
+  provider: pypi
+  user: davehunt
+  password:
+    secure: IuoBL03YKh7rZw78aQqRrlD6YcvwSPK6nKTpoxFc3uiljOufyfV3s4rGffSxEl4gAkMlBz3SXnfPKJPqNizfp3TEJXrc84TBO/Iq+U7j43rWyUluzJ0okPgU4892aalQiEvVyrrjEaMWA5ndhX7tkyTICN0BfHlKPmMrN+1mq73y4eUQl49CJWsbhF8Qnc5tcDh2athtgFA3fG0kSWDZHdw02i2JC1qlm+WvqBfw813BeUnmR55HKRgPQMJ2whUzab7m2QBg0HkjniNXaqS+aYY8fMGrntNtEDRrWO130ioeUqpFQvg7FoigbE5eQBX07Z50lpJn5CuCgnMzOrDpkXMy7Y+k+MyxKFUWaaqZjZiKolaPSs2qW5zggmCD4ECa5g8BpfpBkUj+D6iFkYyZIJUdq2jX0JFA536L9H2E1KOATxE8u0utQvkKcJhHgWVa0iw0q14MWSVLcZ8OdzP0Bo5nVVICcZAyIj7FQn0pIRnoXQ7cIpGbmMeJUBT9n08hyUYWoxfXKNt8KNkKDww81nAVphuz6ic1KwEKIDt3MJlHHbazjt59/+SBU+L0bDhS5ZHZkHAVHyl3EP18DCAYZWJjR4TZxlLRb2o3BUTcSwqFcIlTGw1O1DbZ/LTaGRRUxwh41AY98DKxrujxerALgX3MIlaS6WkM1FbOdO+ZB1Q=
+  distributions: sdist bdist_wheel
+  on:
+    tags: true
+    repo: pytest-dev/pytest-repeat
+    python: 3.5
+    condition: "$TOXENV = pytest38"

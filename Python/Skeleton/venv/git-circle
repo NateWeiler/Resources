@@ -1,0 +1,799 @@
+#!g:\code\editor\python\stackless37\python.exe
+
+from __future__ import print_function
+import sys
+import os
+import requests
+import subprocess
+import textwrap
+import datetime
+import csv
+from colorama import init, Fore, Style
+
+__version__ = "0.0.9"
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+
+try:
+    FileNotFoundError
+except NameError:
+    #py2
+    FileNotFoundError = IOError
+
+try:
+    get_input = raw_input
+except NameError:
+    get_input = input
+
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("command", help="The command to run", nargs='?')
+parser.add_argument("param", help="Optional param for commands, see " + \
+        "commands list for more information", nargs='?')
+parser.add_argument("-v", "--verbose", help="Run verbosely",
+        action="store_true")
+parser.add_argument("-np", "--no-page", help="Disable paging",
+        action="store_true")
+parser.add_argument("-l", "--list", help="List the commands available",
+        action="store_true")
+parser.add_argument("-s", "--stats", help="Display useful stats at the end",
+        action="store_true")
+parser.add_argument("-ar", "--all-remote", help="Filter by all remote " +\
+        "branches (not all commands support this)", action="store_true")
+parser.add_argument("-al", "--all-local", help="Filter by all local " + \
+        "branches (not all commands support this)", action="store_true")
+parser.add_argument("--limit", help="Change the default limit for the " + \
+        "underlying CircleCI API call (default 30, max 100)", type=int,
+        default=30)
+parser.add_argument("--today", help="Limit responses to just those from " + \
+        "today (not all commands support this)", action="store_true")
+parser.add_argument("--yesterday", help="Limit responses to just those " + \
+        "from yesterday (not all commands support this)", action="store_true")
+parser.add_argument("-d", "--date", help="Limit responses to just those " + \
+        "from a certain date, format YYYY-MM-DD (not all commands " + \
+        "support this)", default=None)
+parser.add_argument("-y", "--yes", help="Automatically answer all queries " + \
+        "with a 'yes'", action="store_true")
+parser.add_argument("-m", "--machine", help="Output the results in a " + \
+        "machine readable way", action="store_true")
+args = parser.parse_args()
+
+try:
+    # Win32
+    from msvcrt import getch
+except ImportError:
+    # UNIX
+    def getch():
+        import tty, termios
+        fd = sys.stdin.fileno()
+        old = termios.tcgetattr(fd)
+        try:
+            tty.setraw(fd)
+            return sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old)
+
+init()
+
+# Initialize time stuff
+LIMIT_TIME = None
+if args.today:
+    LIMIT_TIME = datetime.date.today()
+elif args.yesterday:
+    LIMIT_TIME = datetime.date.today() - datetime.timedelta(days=1)
+elif args.date:
+    _date_split = args.date.split('-')
+    LIMIT_TIME = datetime.date(int(_date_split[0]), int(_date_split[1]),
+            int(_date_split[2]))
+
+if args.machine:
+    writer = csv.writer(sys.stdout)
+
+# Initialize the pager stuff. Note, this will probably only work on *nixes
+def get_max_lines():
+    max_lines = None
+    try:
+        max_lines = subprocess.check_output(['tput', 'lines'])
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        max_lines = os.environ.get('LINES', 30)
+    return int(max_lines)
+
+def get_max_columns():
+    max_columns = None
+    try:
+        max_columns = subprocess.check_output(['tput', 'cols'])
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        max_columns = os.environ.get('COLUMNS', 70)
+    return int(max_columns)
+
+MAX_PAGE_LINES = get_max_lines()
+MAX_PAGE_WIDTH = get_max_columns()
+CURRENT_LINE = 0
+PAGE_TEXT = Style.BRIGHT + \
+    "Press any key to continue, Q to quit...\r" + Style.NORMAL
+CLEAR_TEXT = ' ' * len(PAGE_TEXT) + "\r"
+RESET_TEXT = Fore.RESET + Style.NORMAL
+
+# Obtain the passtoken and circle info from git
+PASSTOKEN = None
+CIRCLE_USER = None
+CIRCLE_PROJ = None
+
+try:
+    PASSTOKEN = subprocess.check_output(['git', 'config', 'git-circle.token'])
+    PASSTOKEN = PASSTOKEN.strip()
+except subprocess.CalledProcessError:
+    print("No CircleCI token found!")
+    print("Please set with:")
+    print("\tgit config git-circle.token <token>")
+    sys.exit(1)
+
+try:
+    CIRCLE_USER = subprocess.check_output(['git', 'config', 'git-circle.user'])
+    CIRCLE_USER = CIRCLE_USER.strip()
+except subprocess.CalledProcessError:
+    print("No CircleCI user found!")
+    print("Please set with:")
+    print("\tgit config git-circle.user <user>")
+    sys.exit(1)
+
+try:
+    CIRCLE_PROJ = subprocess.check_output(['git', 'config',
+        'git-circle.project'])
+    CIRCLE_PROJ = CIRCLE_PROJ.strip()
+except subprocess.CalledProcessError:
+    print("No CircleCI project found!")
+    print("Please set with:")
+    print("\tgit config git-circle.project <project>")
+    sys.exit(1)
+
+# Type conversion for Python3
+if isinstance(PASSTOKEN, bytes):
+    PASSTOKEN = PASSTOKEN.decode('utf-8')
+if isinstance(CIRCLE_USER, bytes):
+    CIRCLE_USER = CIRCLE_USER.decode('utf-8')
+if isinstance(CIRCLE_PROJ, bytes):
+    CIRCLE_PROJ = CIRCLE_PROJ.decode('utf-8')
+
+# The pagination method
+def pager(line=""):
+    if not args.machine:
+        global CURRENT_LINE
+        global MAX_PAGE_LINES
+        if CURRENT_LINE > MAX_PAGE_LINES - 3 and not args.no_page:
+            print(PAGE_TEXT, end="")
+            c = getch()
+            print(CLEAR_TEXT, end="")
+            CURRENT_LINE = 0
+            MAX_PAGE_LINES = get_max_lines()
+            if c == 'q' or c == 'Q' or ord(c) == 3:
+                sys.exit(0)
+        try:
+            print(line)
+        except UnicodeEncodeError:
+            print(line.encode('ascii', 'replace'))
+        if not args.no_page:
+            CURRENT_LINE = CURRENT_LINE + 1
+
+# Define the headers and base CircleCI URLs
+HEADERS = {'Accept' : 'application/json'}
+BASE_CIRCLE_BUILD_URL = 'https://circleci.com/gh'
+BASE_API_URL = 'https://circleci.com/api/v1'
+
+# Utility methods
+def machine_not_supported():
+    print("The -m/--machine option is not supported for this command")
+    sys.exit(1)
+
+def can_display_build(b):
+    if LIMIT_TIME is None:
+        return True
+
+    build_time = b['start_time']
+    if build_time is None:
+        build_time = b['stop_time']
+        if build_time is None:
+            if args.machine:
+                writer.writerow(['ERROR', 'Cannot decode time for build!'])
+            pager(Style.BRIGHT + u"ERROR! Cannot decode time for build!")
+            pager(u"Display build anyway..." + RESET_TEXT)
+            return True
+
+    date_str = build_time.split('T')[0]
+    date_tuple = date_str.split('-')
+    build_date = datetime.date(int(date_tuple[0]), int(date_tuple[1]),
+            int(date_tuple[2]))
+    return build_date == LIMIT_TIME
+
+def get_displayable_builds(builds):
+    new_builds = []
+    for b in builds:
+        if can_display_build(b):
+            new_builds.append(b)
+    return new_builds
+
+def display_build(b):
+    build_num = str(b['build_num'])
+    build_url = b['build_url']
+    vcs_url = b['vcs_url']
+    vcs_revision = b['vcs_revision']
+    status = str(b['status'])
+    outcome = str(b['outcome'])
+    lifecycle = str(b['lifecycle'])
+    why = b['why']
+    committer_name = b['committer_name']
+    committer_email = b['committer_email']
+    build_time = b['build_time_millis']
+    start_time = b['start_time']
+    stop_time = b['stop_time']
+    branch = b['branch']
+    if args.machine:
+        row = ['BUILD', branch, build_num, build_url, status, outcome,
+            lifecycle, vcs_url, vcs_revision, committer_name,
+            committer_email, build_time, start_time, stop_time]
+        try:
+            writer.writerow(row)
+        except UnicodeEncodeError:
+            asc_row = []
+            for l in row:
+                if type(l) == type(u''):
+                    asc_row.append(l.encode('ascii', 'replace'))
+                else:
+                    asc_row.append(l)
+            writer.writerow(asc_row)
+
+    pager(u' > #' + build_num.ljust(12) + ' <{0}>'.format(build_url))
+    pager(u' |   Status:     ' + get_status_color(status) + \
+                status.ljust(20) + RESET_TEXT  + 'Outcome: ' + \
+                get_status_color(outcome) + outcome.ljust(20) + RESET_TEXT)
+    pager(u' |   Lifecycle:  ' + get_status_color(lifecycle) + \
+                lifecycle.ljust(20) + RESET_TEXT+'Why:     ' + why)
+    pager(u' |   VCS URL:    {0}'.format(vcs_url))
+    pager(u' |   Hash:       {0}'.format(vcs_revision))
+    pager(u' |   Committer:  {0} <{1}>'.format(committer_name,
+            committer_email))
+    if args.verbose:
+        subject = str(b['subject'])
+        body = b['body']
+        pager(u' |   Start Time: ' + str(start_time))
+        pager(u' |   Stop Time:  ' + str(stop_time))
+        pager(u' |   Build Time: ' + str(build_time))
+        if 'previous' in b and b['previous'] is not None:
+            previous_build_num = str(b['previous']['build_num'])
+            previous_status = str(b['previous']['status'])
+            pager(u' |   Previous:   #' + previous_build_num.ljust(19) + \
+                    'Status: ' + get_status_color(previous_status) + \
+                    previous_status + RESET_TEXT)
+        pager(u' |   Subject:    ' + Style.BRIGHT + subject + RESET_TEXT)
+        if body:
+            pretty_message = textwrap.wrap(body, MAX_PAGE_WIDTH - 8)
+        else:
+            pretty_message = []
+        for l in pretty_message:
+            pager(u' |      ' + l)
+
+def display_build_totals(outcomes_by_branch):
+    for branch in sorted(outcomes_by_branch):
+        pager(Fore.YELLOW + Style.BRIGHT + branch + RESET_TEXT)
+        build_outcomes = outcomes_by_branch[branch]
+        if len(build_outcomes) > 0:
+            bkey_len = len(max(build_outcomes.keys(), key=len))
+            for outcome in sorted(build_outcomes.keys()):
+                if args.machine:
+                    writer.writerow(['TOTALS', branch, outcome,
+                        build_outcomes[outcome]])
+
+                message = u' ' + get_status_color(outcome) + \
+                    outcome.rjust(bkey_len) + RESET_TEXT + u' : ' + \
+                    str(build_outcomes[outcome])
+                pager(message)
+        else:
+            pager(u' No builds')
+        pager()
+
+def get_build_data(build_num):
+    api_url = \
+        "{0}/project/{1}/{2}/{3}?circle-token={4}".format(BASE_API_URL,
+        CIRCLE_USER, CIRCLE_PROJ, build_num, PASSTOKEN)
+    r = requests.get(api_url, headers=HEADERS)
+    return r.json()
+
+def get_latest_builds(current_branch=None):
+    if current_branch is None:
+        current_branch = get_current_branch()
+    api_url = "{0}/project/{1}/{2}/tree/{3}?circle-token={4}&limit={5}".format(
+            BASE_API_URL, CIRCLE_USER, CIRCLE_PROJ, current_branch, PASSTOKEN,
+            args.limit)
+    r = requests.get(api_url, headers=HEADERS)
+    return r.json()
+
+def get_commit_url(vcs_url, vcs_revision):
+    purl = urlparse(vcs_url)
+    commit_url = None
+    if 'github' in purl.netloc.lower():
+        commit_url = u'{0}/commit/{1}'.format(vcs_url, vcs_revision)
+    elif 'bitbucket' in purl.netloc.lower():
+        commit_url = u'{0}/commits/{1}'.format(vcs_url, vcs_revision)
+    else:
+        commit_url = u'<{0}> SHA:{1}'.format(vcs_url, vcs_revision)
+
+    return commit_url
+
+def get_current_branch():
+    current_branch = None
+    try:
+        current_branch = subprocess.check_output(['git', 'symbolic-ref',
+            '-q', '--short', 'HEAD'])
+        current_branch = current_branch.strip()
+    except subprocess.CalledProcessError:
+        current_branch = None
+
+    if current_branch is None:
+        print("Problem obtaining current branch!")
+        print("Check the output of:")
+        print("\tgit symbolic-ref -q --short HEAD")
+        sys.exit(1)
+    elif isinstance(current_branch, bytes):
+        current_branch = current_branch.decode('utf-8')
+    return current_branch
+
+def get_local_branches():
+    try:
+        bout = subprocess.Popen(["git", "for-each-ref",
+            "--format=%(refname:short)", "refs/heads/"],
+            stdout=subprocess.PIPE)
+        lines = bout.stdout.readlines()
+        branches = []
+        for l in lines:
+            if isinstance(l, bytes):
+                l = l.decode('utf-8')
+            branches.append(l.strip())
+    except subprocess.CalledProcessError:
+        branches = []
+    return branches
+
+def get_remote_branches():
+    # Okay, this is a bit uglier than I'd like. The problem is, there's
+    # nothing like what we use in get_local_branches() for remote branches.
+    try:
+        bout = subprocess.Popen(['git', 'ls-remote', '--heads'],
+                stdout=subprocess.PIPE)
+        lines = bout.stdout.readlines()
+        # HHRNG!
+        branches = []
+        for l in lines:
+            if isinstance(l, bytes):
+                l = l.decode('utf-8')
+            branches.append('/'.join(l.strip().split('/')[2:]))
+    except subprocess.CalledProcessError:
+        branches = []
+    return branches
+
+def get_status_color(outcome):
+    if outcome == 'success' or outcome == 'fixed':
+        return Fore.GREEN + Style.BRIGHT
+    elif outcome == 'failed' or outcome == 'infrastructure_fail':
+        return Fore.RED + Style.BRIGHT
+    elif outcome == 'canceled' or outcome == 'retried':
+        return Fore.YELLOW
+    elif outcome == 'timedout':
+        return Fore.BLUE
+    elif outcome == 'no_tests':
+        return Fore.MAGENTA + Style.BRIGHT
+    elif outcome == 'not_run' or outcome == 'not_running':
+        return Fore.RED + Style.DIM
+    elif outcome == 'running':
+        return Fore.CYAN + Style.BRIGHT
+    elif outcome == 'queued' or outcome == 'scheduled':
+        return Fore.BLUE + Style.BRIGHT
+
+    return Style.BRIGHT
+
+# Command handlers
+def artifact_handler():
+    branches = []
+    if args.param:
+        branches = [get_current_branch()]
+    elif args.all_local:
+        branches = get_local_branches()
+    elif args.all_remote:
+        branches = get_remote_branches()
+    else:
+        branches = [get_current_branch()]
+
+    artifacts_per_branch = {}
+    for branch in branches:
+        if branch not in artifacts_per_branch:
+            artifacts_per_branch[branch] = {}
+
+        if args.param:
+            build = args.param
+        else:
+            builds = get_latest_builds(branch)
+            pager(Fore.YELLOW + Style.BRIGHT + branch + RESET_TEXT)
+            if len(builds) >= 1:
+                build = builds[0]['build_num']
+            else:
+                pager("Error! No builds for for branch {0}".format(
+                    branch))
+                pager()
+                continue
+
+        api_url = '{0}/project/{1}/{2}/{3}/artifacts?circle-token={4}'.format(
+            BASE_API_URL, CIRCLE_USER, CIRCLE_PROJ, build, PASSTOKEN)
+        r = requests.get(api_url, headers=HEADERS)
+        artifacts = r.json()
+
+        if isinstance(artifacts, dict):
+            print("Error obtaining artifacts!")
+            if 'message' in artifacts:
+                print(artifacts['message'])
+            sys.exit(1)
+
+        if branch not in artifacts_per_branch:
+            artifacts_per_branch[branch] = {}
+
+        for a in artifacts:
+            node = a['node_index']
+            url = a['url']
+            cpath = a['path']
+            pretty_path = a['pretty_path']
+            cpath = a['path']
+            if args.machine:
+                writer.writerow(['ARTIFACT', node, pretty_path, cpath, url])
+            pager(u'{0} : {1}'.format(node, pretty_path))
+            if node in artifacts_per_branch[branch]:
+                artifacts_per_branch[branch][node] = \
+                        artifacts_per_branch[branch][node] + 1
+            else:
+                artifacts_per_branch[branch][node] = 1
+            if args.verbose:
+                pager(u'  Path: {0}'.format(cpath))
+                pager(u'  URL:  {0}'.format(url))
+                pager()
+        pager()
+
+    if args.stats:
+        header = u'TOTAL ARTIFACTS PER NODE'
+        spacer = u'-' * len(header)
+        pager(header)
+        pager(spacer)
+        for b in sorted(artifacts_per_branch.keys()):
+            pager(Fore.YELLOW + Style.BRIGHT + b + RESET_TEXT)
+            if len(artifacts_per_branch[b]) >= 1:
+                for k in sorted(artifacts_per_branch[b].keys()):
+                    pager(u' #{0} : {1}'.format(k, artifacts_per_branch[b][k]))
+                    if args.machine:
+                        writer.writerow(['TOTALS', b, k,
+                            artifacts_per_branch[b][k]])
+            else:
+                pager(u' No artifacts')
+
+def build_handler():
+    if args.param:
+        b = get_build_data(args.param)
+        if 'build_num' in b:
+            display_build(b)
+        elif 'message' in b:
+            pager(b['message'])
+            sys.exit(1)
+        else:
+            print(u"Problem obtaining build information for " + args.param)
+            sys.exit(1)
+    else:
+        last_build_handler()
+
+def cancel_build_handler():
+    if args.machine:
+        machine_not_supported()
+
+    if args.param:
+        builds = [get_build_data(args.param)]
+    else:
+        builds = get_latest_builds()
+
+    if isinstance(builds, dict):
+        if 'message' in builds:
+            print(builds['message'])
+            sys.exit(1)
+    if len(builds) >= 1:
+        b = builds[0]
+        if 'message' in b:
+            print(b['message'])
+            sys.exit(1)
+        display_build(b)
+        pager()
+        if b['lifecycle'] == 'finished':
+            pager("Build already finished, no need to cancel...")
+            sys.exit()
+        proceed = ''
+        if not args.yes:
+            proceed = get_input('Enter "Yes" to cancel this build: ').strip()
+            assert isinstance(proceed, str)
+        if proceed.lower() == 'yes' or args.yes:
+            api_url = '{0}/project/{1}/{2}/{3}/cancel?circle-token={4}'.format(
+                BASE_API_URL, CIRCLE_USER, CIRCLE_PROJ, b['build_num'],
+                PASSTOKEN)
+            r = requests.post(api_url, headers=HEADERS)
+            display_build(r.json())
+        else:
+            pager('Not cancelling build!')
+    else:
+        print("Error! No builds found!")
+        sys.exit(1)
+
+def last_build_handler():
+    builds = get_latest_builds()
+    if isinstance(builds, dict):
+        if 'message' in builds:
+            print(builds['message'])
+            sys.exit(1)
+    if len(builds) >= 1:
+        display_build(builds[0])
+    else:
+        print('Error! No builds found for branch {0}'.format(
+            get_current_branch()))
+
+def list_builds_handler():
+    branches = []
+    if args.param:
+        branches = [args.param]
+    elif args.all_local:
+        branches = get_local_branches()
+    elif args.all_remote:
+        branches = get_remote_branches()
+    else:
+        branches = [get_current_branch()]
+
+    outcomes_by_branch = {}
+    total_builds = 0
+    total_successful = 0
+    total_completed = 0
+    sum_successful = 0
+    sum_completed = 0
+    for branch in branches:
+        builds = get_displayable_builds(get_latest_builds(branch))
+        if len(builds) < 1:
+            continue
+
+        pager(u'' + Fore.YELLOW + Style.BRIGHT + branch + RESET_TEXT)
+        build_outcomes = {}
+        for b in builds:
+            if can_display_build(b):
+                total_builds = total_builds + 1
+                display_build(b)
+                pager(u' |')
+                outcome = str(b['outcome'])
+                if outcome == 'success' or outcome == 'fixed':
+                    total_successful = total_successful + 1
+                    sum_successful = sum_successful + b['build_time_millis']
+                if b['outcome'] is not None and outcome != 'canceled':
+                    if type(b['build_time_millis']) is type(int):
+                        total_completed = total_completed + 1
+                        sum_completed = sum_completed + b['build_time_millis']
+                if outcome in build_outcomes:
+                    build_outcomes[outcome] = build_outcomes[outcome] + 1
+                else:
+                    build_outcomes[outcome] = 1
+
+        outcomes_by_branch[branch] = build_outcomes
+
+    if args.stats:
+        pager()
+        header = u'               BUILD TOTALS'
+        spacer = u'-' * len(header)
+        pager(header)
+        pager(spacer)
+        display_build_totals(outcomes_by_branch)
+        pager(u" TOTAL BUILDS : {0}".format(total_builds))
+        pager()
+        if total_successful > 0:
+            avg_milli = sum_successful / total_successful
+            avg_time_successful = datetime.timedelta(milliseconds=avg_milli)
+            pager(u" TOTAL SUCCESSFUL : {0}\tAVERAGE TIME SUCCESSFUL : {1}".\
+                    format(total_successful, avg_time_successful))
+            if args.machine:
+                writer.writerow(['SUMMARY_SUCCESSFUL', total_successful,
+                    avg_milli])
+        if total_completed > 0:
+            avg_milli = sum_completed / total_completed
+            avg_time_completed = datetime.timedelta(milliseconds=avg_milli)
+            pager(u" TOTAL COMPLETED  : {0}\tAVERAGE TIME COMPLETED  : {1}".\
+                    format(total_completed, avg_time_completed))
+            if args.machine:
+                writer.writerow(['SUMMARY_COMPLETED', total_completed,
+                    avg_milli])
+
+def list_projects_handler():
+    if args.machine:
+        machine_not_supported()
+
+    api_url = "{0}/projects?circle-token={1}".format(BASE_API_URL, PASSTOKEN)
+    r = requests.get(api_url, headers=HEADERS)
+    projects = r.json()
+
+    total_builds = 0
+    build_outcomes = {}
+    for p in projects:
+        url = p['vcs_url']
+        username = p['username']
+        reponame = p['reponame']
+        pager(u'' + Fore.YELLOW + Style.BRIGHT + reponame + '   <' + url + \
+                '>' + RESET_TEXT)
+        for b in p['branches']:
+            pager(u' | Branch: {0}'.format(b))
+            for rb in p['branches'][b].get('recent_builds', []):
+                total_builds = total_builds + 1
+                outcome = rb['outcome']
+                if outcome in build_outcomes:
+                    build_outcomes[outcome] = build_outcomes[outcome] + 1
+                else:
+                    build_outcomes[outcome] = 1
+                build_num = rb['build_num']
+                pushed_at = rb['pushed_at']
+                vcs_revision = rb['vcs_revision']
+                build_url = u'{0}/{1}/{2}/{3}'.format(BASE_CIRCLE_BUILD_URL,
+                        username, reponame, build_num)
+                message = u' |-> ' + get_status_color(outcome)
+                if args.verbose:
+                    message = message + outcome + RESET_TEXT + \
+                        u' {0} {1} {2}'.format(build_num, pushed_at, build_url)
+                    pager(message)
+                    pager(u' |\t {0}'.format(get_commit_url(
+                        url, vcs_revision)))
+                else:
+                    message = message + outcome + RESET_TEXT + \
+                        u' {0} {1} {2}'.format(build_num, pushed_at,
+                        vcs_revision)
+                    pager(message)
+            pager(u' |')
+        pager()
+
+    if args.stats:
+        header = u'BUILD TOTALS ACROSS ALL PROJECTS'
+        spacer = u'-' * len(header)
+        pager(header)
+        pager(spacer)
+        display_build_totals(build_outcomes)
+
+def new_build_handler():
+    if args.param:
+        branch = args.param
+    else:
+        branch = get_current_branch()
+
+    if args.machine:
+        machine_not_supported()
+
+    pager(u'branch: ' + Fore.YELLOW + Style.BRIGHT + branch + RESET_TEXT)
+    proceed = ''
+    if not args.yes:
+        proceed = get_input('Enter "Yes" to trigger a new build for this branch: ')
+        assert isinstance(proceed, str)
+        proceed = proceed.strip()
+    if proceed.lower() == 'yes' or args.yes:
+        api_url = '{0}/project/{1}/{2}/tree/{3}?circle-token={4}'.format(
+                BASE_API_URL, CIRCLE_USER, CIRCLE_PROJ, branch,
+                PASSTOKEN)
+        r = requests.post(api_url, headers=HEADERS)
+        b = r.json()
+        if r.status_code == 200 or r.status_code == 201:
+            display_build(b)
+        else:
+            if 'message' in b:
+                pager(b['message'])
+            else:
+                pager('Error triggering new build, got code {0}!'.format(
+                    r.status_code))
+    else:
+        pager('Not triggering new build.')
+
+def retry_build_handler():
+    if args.machine:
+        machine_not_supported()
+
+    if args.param:
+        builds = [get_build_data(args.param)]
+    else:
+        builds = get_latest_builds()
+
+    if isinstance(builds, dict):
+        if 'message' in builds:
+            print(builds['message'])
+            sys.exit(1)
+    if len(builds) >= 1:
+        b = builds[0]
+        if 'message' in b:
+            print(b['message'])
+            sys.exit(1)
+        display_build(b)
+        pager()
+        proceed = ''
+        if not args.yes:
+            proceed = get_input('Enter "Yes" to retry this build: ').strip()
+            assert isinstance(proceed, str)
+        if proceed.lower() == 'yes' or args.yes:
+            api_url = '{0}/project/{1}/{2}/{3}/retry?circle-token={4}'.format(
+                BASE_API_URL, CIRCLE_USER, CIRCLE_PROJ, b['build_num'],
+                PASSTOKEN)
+            r = requests.post(api_url, headers=HEADERS)
+            display_build(r.json())
+        else:
+            pager('Not retrying build!')
+
+    else:
+        print("Error! No builds found!")
+        sys.exit(1)
+
+commands = {
+        'artifacts' : {
+            'method' : artifact_handler,
+            'desc' : "Display a build's artifact. If called with param " + \
+                    "set to a build number, will display that build's " + \
+                    "artifacts. If no param, will use the last build for " + \
+                    "current branch"
+            },
+        'build' : {
+            'method' : build_handler,
+            'desc' : 'Display information of a build. If called with ' + \
+                    'param set to a build number, will display that ' + \
+                    'build. If no param, will display last build for ' + \
+                    'current branch'
+            },
+        'cancel' : {
+            'method' : cancel_build_handler,
+            'desc' : 'Cancel a running build. If called with param set to ' + \
+                    'a build number, will cancel that build. If no param, ' + \
+                    'will cancel the latest build for the current branch'
+            },
+        'latest' : {
+            'method' : last_build_handler,
+            'desc' : 'Display the results of the last build for ' + \
+                    'current branch'
+            },
+        'list-projects' : {
+            'method' : list_projects_handler,
+            'desc' : "List the projects you're following, along with their " + \
+                    "branches and build statuses"
+            },
+        'list-builds' : {
+            'method' : list_builds_handler,
+            'desc' : 'List the recent builds for a given branch. If ' + \
+                    'called with param set to a branch, will use that ' + \
+                    'branch. If no param, will use the current branch'
+            },
+        'new-build' : {
+            'method' : new_build_handler,
+            'desc' : 'Trigger a new build. If called with param set to a ' + \
+                    'branch, will use that branch. If no param, will use ' + \
+                    'the current branch'
+            },
+        'retry' : {
+            'method' : retry_build_handler,
+            'desc' : 'Retry a build. If called with param set to a build ' + \
+                    'number, will retry that build. If no param, will ' + \
+                    'retry the latest build for the current branch'
+            }
+        }
+
+# Main entry point
+if args.list:
+    key_len = len(max(commands.keys(), key=len))
+    desc_len = MAX_PAGE_WIDTH - 5 - key_len
+    for cmd in sorted(commands.keys()):
+        desc = textwrap.wrap(commands[cmd]['desc'], desc_len)
+        print('  {0} : {1}'.format(cmd.rjust(key_len), desc[0]))
+        for i in range(1, len(desc)):
+            print(' ' * (5 + key_len) + '{0}'.format(desc[i]))
+    sys.exit(0)
+
+if args.command in commands:
+    commands[args.command]['method']()
+else:
+    print("Valid command required!")
+    parser.print_usage()
+    sys.exit(1)
+

@@ -1,0 +1,37 @@
+#!g:\code\editor\python\stackless37\python.exe
+
+import argparse
+import glob
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+
+KEYRINGS_DIR = os.path.expanduser('~/.local/share/public-keyrings')
+
+def cmd_get_keyrings(args):
+    os.makedirs(KEYRINGS_DIR, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='git-deb-', suffix='.keyrings') as tdir:
+        subprocess.check_call(
+            'apt-get source -b debian-keyring'.split(), cwd=tdir)
+        krs = glob.glob(tdir + '/debian-keyring-*/output/keyrings/*.gpg') \
+            + glob.glob(tdir + '/debian-keyring-*/output/keyrings/*.pgp')
+        if not krs:
+            print('No keyrings found, incompatible change in debian-keyring?',
+                  file=sys.stderr)
+            return 2
+        for krn in krs:
+            shutil.copy(krn, KEYRINGS_DIR)
+
+
+parser = argparse.ArgumentParser()
+commands = parser.add_subparsers(dest='command')
+sp_get_keyrings = commands.add_parser('get-keyrings')
+sp_get_keyrings.set_defaults(action=cmd_get_keyrings)
+args = parser.parse_args()
+if sys.argv[1:]:
+    sys.exit(args.action(args))
+else:
+    parser.print_help()
+

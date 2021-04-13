@@ -1,0 +1,19 @@
+Metadata-Version: 1.1
+Name: raceUP
+Version: 1.0.0
+Summary: 2D car racing game based on pygame
+Home-page: https://github.com/deepak7376/raceUP
+Author: Deepak Yadav
+Author-email: dky.united@gmail.com
+License: MIT
+Description: interesting game
+Keywords: car race pygame
+Platform: UNKNOWN
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Internet
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5

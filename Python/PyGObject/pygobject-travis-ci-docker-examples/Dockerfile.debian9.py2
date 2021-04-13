@@ -1,0 +1,13 @@
+FROM debian:stretch
+
+ENV LANG C.UTF-8
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    gir1.2-gtk-3.0 \
+    python-pep8 \
+    python-pyflakes \
+    python-gi \
+    python-gi-cairo \
+    python-pytest \
+    xauth \
+    xvfb

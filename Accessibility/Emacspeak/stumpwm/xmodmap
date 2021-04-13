@@ -1,0 +1,3 @@
+! swap escape and backquote
+ keycode 49 = Escape asciitilde
+keycode 9=grave asciitilde

@@ -1,0 +1,52 @@
+
+=======
+Changes
+=======
+
+0.5.0 (*2018-12-09*)
+====================
+
+- drop python 2 support
+- require doit==0.31, pytest==4.0
+
+
+0.4.2 (*2015-05-08*)
+====================
+
+- fix tox. include dependencies
+
+
+0.4.1 (*2015-05-08*)
+====================
+
+- include tests and docs on distribution package
+
+
+0.4.0 (*2015-05-07*)
+====================
+
+- move development to github
+- major re-rewrite, renamed all command line options
+- support for python 3
+- re-ordering of test execution
+
+
+0.3.0 (*2013-01-09*)
+=====================
+
+- fixes to work with latest doit (0.20)
+
+0.2.0 (*2011-05-07*)
+=====================
+
+- added option --graph-dependencies
+- support for xdist --dist=load
+- added option --list-dependencies
+- added option --list-outdated
+- fix bug. correctly detect when a test fails
+- rename option --watch-pkg to --watch-path
+
+0.1.0 (*2011-04-25*)
+====================
+
+- initial release

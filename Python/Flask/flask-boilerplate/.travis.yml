@@ -1,0 +1,14 @@
+language: python
+python:
+  - "3.6"
+env:
+  - FLASK_APP=flask_boilerplate
+install:
+  - pip install -e .
+  - pip install -e '.[test]'
+script: pytest
+services:
+  - postgresql
+before_script:
+  - psql -c 'CREATE DATABASE flask_boilerplate_test;' -U postgres
+  - psql -c 'CREATE USER flask_boilerplate_user;' -U postgres

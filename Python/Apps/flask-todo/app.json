@@ -1,0 +1,22 @@
+{
+  "name": "Flask To-Do",
+  "description": "A simple to-do application",
+  "keywords": ["python", "flask", "postgresql", "heroku"],
+  "addons": [{
+    "plan": "heroku-postgresql",
+    "options": {
+      "version": "12"
+    }
+  }],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
+  "env": {
+    "FLASK_APP": {
+      "value": "flasktodo"
+    }
+  }
+}

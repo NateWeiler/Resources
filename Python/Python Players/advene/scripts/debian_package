@@ -1,0 +1,38 @@
+#! /bin/bash -v
+
+ADVENEDIR=$(realpath -e $(dirname "$0")/..)
+DEBDIR=$(realpath -e ${ADVENEDIR}/../advene.debian)
+
+cd $ADVENEDIR
+VER=$(git describe --tags | sed -e 's!/!-!g; s!-!_!g; s!release_!!')
+
+TMPDIR=/tmp/advene-${VER}
+TMPDEBDIR=/tmp/advene.debian
+
+# Build archive
+rm -rf $TMPDIR
+git clone $ADVENEDIR $TMPDIR
+
+cd $TMPDIR || exit 1
+make archive
+
+/bin/rm -rf $TMPDEBDIR
+gbp clone $DEBDIR $TMPDEBDIR
+cd $TMPDEBDIR || exit 1
+
+git checkout master || exit 1
+
+# Clean untracked files
+git clean -df || exit 1
+
+gbp import-orig --upstream-version ${VER} ${TMPDIR}.tgz || exit 1
+gbp dch -a --commit --new-version ${VER}-1 || exit 1
+
+# To test package build
+gbp buildpackage
+
+# Once it is ok
+gbp tag --ignore-new
+
+# When tmp build is validated: use gbp push first from /tmp dir to
+# master dir, then from master dir to origin

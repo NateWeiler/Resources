@@ -1,0 +1,31 @@
+* Running Outloud/Voxin on 64-Bit Ubuntu 
+
+Install Voxin-1.6 which includes libvoxin.so,
+then build linux-outloud/atcleci.so as a 64bit module and profit.
+
+
+*Legacy: 32-Bit Outloud
+32-bit atcleci.so is checked in here for convenience.
+This is useful for use on a 64 bit system where you dont have a 32-bit build chain.
+To build  atcleci.so on modern  ubuntu systems, you may need 
+sudo aptitude install g++-multilib
+
+For getting 32-bit versions of the needed tcl libraries installed, see utility 
+getlibs available here:
+http://ubuntuforums.org/showthread.php?t=474790
+or just install package getlibs on ubuntu
+Execute:
+sudo aptitude install getlibs 
+sudo getlibs -p tcl8.4 tcl8.4-dev tclx8.4 tclx8.4-dev
+
+For Ubuntu Precise, you can first install 
+gcc-4.6-base:i386
+libstdc++6:i386
+and then install the ia32_tcl*.deb packages found on the
+emacspeak downloads area, or in svn in this directory.
+
+Then run ldd on the provided atcleci.so and make sure that all
+linker dependencies are resolved 
+ldd atcleci.so | grep -i found 
+should show missing culprits.
+

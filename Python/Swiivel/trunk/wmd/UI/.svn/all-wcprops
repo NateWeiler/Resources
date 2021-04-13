@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/!svn/ver/22/trunk/wmd/UI
+END
+PyGame.py
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/4/trunk/wmd/UI/PyGame.py
+END
+MatPlotLib.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/4/trunk/wmd/UI/MatPlotLib.py
+END
+UIManager.py
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/4/trunk/wmd/UI/UIManager.py
+END
+PyOSD.py
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/!svn/ver/4/trunk/wmd/UI/PyOSD.py
+END
+Logger.py
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/4/trunk/wmd/UI/Logger.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/4/trunk/wmd/UI/__init__.py
+END

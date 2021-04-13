@@ -1,0 +1,19 @@
+language: python
+dist: bionic
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+
+install:
+  - pip install tox tox-travis
+script: tox
+branches:
+  except:
+    - /^\d/
+notifications:
+  email:
+    - bubenkoff@gmail.com
+    - oleg.pidsadnyi@gmail.com

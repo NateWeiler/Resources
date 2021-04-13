@@ -1,0 +1,15 @@
+{
+    "GESExtractable": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GESExtractableInterface.html#GESExtractable",
+    "ges-GES-Enums": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GES-Enums.html#ges-GES-Enums",
+    "ges-GES-GErrors": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GES-GErrors.html#ges-GES-GErrors",
+    "ges-GESAudioTrack": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GESAudioTrack.html#ges-GESAudioTrack",
+    "ges-GESBaseXmlFormatter": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GESBaseXmlFormatter.html#ges-GESBaseXmlFormatter",
+    "ges-GESExtractableInterface": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GESExtractableInterface.html#ges-GESExtractableInterface",
+    "ges-GESPitiviFormatter": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GESPitiviFormatter.html#ges-GESPitiviFormatter",
+    "ges-GESVideoTrack": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GESVideoTrack.html#ges-GESVideoTrack",
+    "ges-GESXmlFormatter": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-GESXmlFormatter.html#ges-GESXmlFormatter",
+    "ges-Initialization": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-Initialization.html#ges-Initialization",
+    "ges-architecture": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-architecture.html#ges-architecture",
+    "ges-hierarchy": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-hierarchy.html#ges-hierarchy",
+    "layer_tracks_diagram": "http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer-editing-services/html/ges-architecture.html#layer_tracks_diagram"
+}

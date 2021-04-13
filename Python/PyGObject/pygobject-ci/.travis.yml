@@ -1,0 +1,14 @@
+_defaults_osx: &defaults_osx
+  os: osx
+  osx_image: xcode9.4
+  language: generic
+
+matrix:
+  include:
+    - env: SCRIPT="test-gi.sh"
+      <<: *defaults_osx
+    - env: SCRIPT="test-pygobject.sh"
+      <<: *defaults_osx
+
+script:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then bash -x $SCRIPT; fi

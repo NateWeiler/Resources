@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: grizzled-python
+Version: 2.2.0
+Summary: The Grizzled Python Utility Library
+Home-page: http://software.clapper.org/grizzled-python/
+Author: Brian M. Clapper
+Author-email: bmc@clapper.org
+License: BSD license
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Description-Content-Type: text/markdown
+
+
+The Grizzled Utility Library is a general-purpose Python library with
+a variety of different modules and packages. It's roughly organized into
+subpackages that group different kinds of utility functions and classes.
+
+

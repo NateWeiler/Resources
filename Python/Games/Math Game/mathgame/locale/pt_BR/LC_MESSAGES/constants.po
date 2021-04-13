@@ -1,0 +1,100 @@
+# Translation to pt_BR
+# Copyright (C) 2019 
+# <gustavooquinteiro@outlook.com>, 2019.
+
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: mathgame 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-22 14:11-0300\n"
+"PO-Revision-Date: 2019-03-22 14:13-0300\n"
+"Last-Translator: Gustavo Oliveira Quinteiro <gustavooquinteiro@outlook.com>\n"
+"Language: Brazilian portuguese \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: constants.py:22
+msgid "Math Game"
+msgstr "Jogo de matemática"
+
+#: constants.py:41
+msgid "I don't give tips unless you (p)ress me"
+msgstr "Não dou dicas a não ser que você me (p)ressione"
+
+#: constants.py:42
+msgid "Walk around"
+msgstr "Ande por aí"
+
+#: constants.py:43
+msgid "Faster"
+msgstr "Mais rápido"
+
+#: constants.py:44
+msgid "But don't stay in horizontal"
+msgstr "Mas não fique só na horizontal"
+
+#: constants.py:45
+msgid "Face the snake at space"
+msgstr "Encare as cobras com espaço"
+
+#: constants.py:46
+msgid "Or jump them again"
+msgstr "Ou pule de novo"
+
+#: constants.py:47
+msgid "When they come along better go down"
+msgstr "Quando elas vem juntas melhor ir pra baixo"
+
+#: constants.py:48
+msgid "As long you go down more power you get"
+msgstr "Quanto mais você vai pra baixo mais poder você tem"
+
+#: constants.py:49
+msgid "Don't need avoid the void anymore"
+msgstr "Não se preocupe com o vazio"
+
+#: constants.py:50
+msgid "But you give twice what you have"
+msgstr "Mas você dá o dobro que você tem"
+
+#: constants.py:51
+msgid "As long you stay more you can heal"
+msgstr "Quanto mais você fica parado mais você se cura"
+
+#: constants.py:53
+msgid "Health {}%"
+msgstr "Saúde {}%"
+
+#: constants.py:54
+msgid "Press me"
+msgstr "Me pressione"
+
+#: constants.py:55
+msgid "Level {}"
+msgstr "Nível {}"
+
+#: constants.py:56
+msgid "Press enter to play"
+msgstr "Pressione Enter para jogar"
+
+#: constants.py:57
+msgid "Game Over"
+msgstr "Game Over"
+
+#: constants.py:58
+msgid "Press q to quit or enter to play again"
+msgstr "Pressione q para sair ou Enter para jogar de novo"
+
+#: constants.py:59
+msgid "Game Paused"
+msgstr "Jogo pausado"
+
+#: constants.py:60
+msgid "You Won!!"
+msgstr "Você ganhou!!"
+
+#: constants.py:61
+msgid "The gravity here is too high to jump"
+msgstr "A gravidade aqui é muito alta para pular"

@@ -1,0 +1,13 @@
+include README
+include COPYING
+include INSTALL
+
+include test.py
+include weblog_run.py
+
+recursive-include weblog/templates *.tmpl
+recursive-include examples *
+recursive-include test *
+recursive-include doc *
+prune doc/.build
+prune doc/_build

@@ -1,0 +1,15 @@
+[run]
+source =
+    src
+
+[report]
+omit =
+  src/streamlink/packages/*
+  src/streamlink_cli/packages/*
+  src/streamlink/_version.py
+
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:

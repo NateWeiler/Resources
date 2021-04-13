@@ -1,0 +1,73 @@
+Installation
+============
+
+Requirements
+------------
+
+- Python 2.5+
+- `Jinja 2.0+ <http://jinja.pocoo.org/2/documentation/intro#installation>`_
+
+Optionally to use the `Markdown syntax
+<http://daringfireball.net/projects/markdown/>`_, install `markdown2
+<http://pypi.python.org/pypi/markdown2/>`_, or for `reStructuredText
+<http://docutils.sourceforge.net/rst.html>`_, install `docutils
+<http://pypi.python.org/pypi/docutils>`_.
+
+Download
+--------
+
+`Download Weblog 2.5 <http://henry.precheur.org/weblog/weblog-2.5.tar.gz>`_
+
+A standalone version of Weblog which includes Jinja2 and markdown2 is also
+available:
+
+`Download Weblog 2.5 standalone version <http://henry.precheur.org/weblog/weblog+jinja2+markdown2-2.5.tar.gz>`_
+
+You can also get it from Weblog's page on the `Python package Index
+<http://pypi.python.org/pypi/weblog/>`_.
+
+You can get the development version of Weblog using the Mercurial_ repository
+http://bitbucket.org/henry/weblog/::
+
+  $ hg clone http://bitbucket.org/henry/weblog/
+
+.. _Mercurial: http://www.selenic.com/mercurial/
+
+How to install
+--------------
+
+Download Weblog's tarball and extract it::
+
+  tar zxf weblog-<version>.tar.gz
+
+It can be used right away using the helper script ``weblog_run.py``.
+
+Or install it using the supplied `setup.py` script. Run ``python setup.py
+--help`` to learn how to use it.
+
+You can also use `easy_install` or `pip`, ``pip install weblog`` will install
+Weblog and all its dependencies.
+
+Optionally you can install markdown2 and docutils to use the Markdown and
+reStructuredText syntaxes: ``pip install markdown2 docutils``.
+
+Hacking Weblog
+--------------
+
+Weblog comes with tests, you can run them from the root of the source
+directory::
+
+  python test.py
+
+If you plan to modify Weblog, I recommend to install `nose`_ a test runner and
+`coverage`_ a tool for measuring code coverage of Python programs. Like Weblog,
+you can install them with `pip` or `easy_install`::
+
+  pip install nose coverage
+
+To run the tests::
+
+  nosetests --with-doctest --with-coverage --cover-package=weblog
+
+.. _nose: http://somethingaboutorange.com/mrl/projects/nose/
+.. _coverage: http://nedbatchelder.com/code/coverage/

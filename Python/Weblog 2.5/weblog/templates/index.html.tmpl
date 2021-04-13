@@ -1,0 +1,25 @@
+{% extends 'base.html.tmpl' %}
+
+{% block content %}
+<h1 id='title'><a href='index.html'>{{ title|escape|decode }}</a></h1>
+{% if description %}
+<p id='description'>{{ description|escape|decode }}</p>
+{% endif %}
+
+{% for post in posts[:(post_per_page or 10)] %}
+<h2><a href='{{ post.url() }}'>{{ post.title|escape|decode }}</a></h2>
+<p class='post-header'>
+<span class='date'>{{ post.date.isoformat(' ')
+ if post.date.__class__.__name__ == 'datetime' else post.date.isoformat() }}</span>
+{%- if post.author %}
+, <span class='author'>by {{ post.author.name()|escape|decode }}
+&lt;{{ post.author.email()|urlize }}&gt;</span>
+{% endif %}
+</p>
+<div class='post-content'>
+{{ post.get_html()|decode }}</div>
+{% endfor %}
+
+{% endblock %}
+
+{# vim:set ft=htmljinja: #}

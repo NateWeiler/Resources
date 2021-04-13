@@ -1,0 +1,24 @@
+extends ../base
+
+block header
+  h1= title
+
+  if user
+    a.action(href='/create') New
+  
+block content
+  each post, index in posts ? posts : []
+    article.post
+      header
+        div
+          h1= post.title
+          .about= `by ${post.username} on ${post.created}`
+
+        if user && user.id == post.authorID
+          a.action(href=`/${post.id}/update`) Edit
+
+      p= post.body
+
+    if index < posts.length - 1
+      hr
+

@@ -1,0 +1,3 @@
+* ESpeak Todo 
+  
+  - Teach tclespeak.cpp to  list and use mbrola voices if installed.

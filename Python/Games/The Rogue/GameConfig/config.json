@@ -1,0 +1,18 @@
+{
+  "fileSettings" :
+  {
+    "loadGamePath" : "Data/saved.db"
+  },
+  "levelSettings" : 
+  {
+    "starting_level" : 1,
+    "player" : "BlueHairedHero"
+  },
+  "musicSettings" : 
+  {
+    "music" : true,
+    "SFX": true
+  }
+}
+
+  

@@ -1,0 +1,101 @@
+# Translation to en
+# Copyright (C) 2019 
+# This file is distributed under the same license as the mathgame package.
+# <gustavooquinteiro@outlook.com>, 2019.
+
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: mathgame 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-05-20 07:25-0300\n"
+"PO-Revision-Date: 2019-05-20 07:30-0300\n"
+"Last-Translator: Gustavo Oliveira Quinteiro <gustavooquinteiro@outlook.com>\n"
+"Language: English \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: constants.py:22
+msgid "Math Game"
+msgstr ""
+
+#: constants.py:41
+msgid "I don't give tips unless you (p)ress me"
+msgstr ""
+
+#: constants.py:42
+msgid "Walk around"
+msgstr ""
+
+#: constants.py:43
+msgid "Faster"
+msgstr ""
+
+#: constants.py:44
+msgid "But don't stay in horizontal"
+msgstr ""
+
+#: constants.py:45
+msgid "Face the snake at space"
+msgstr ""
+
+#: constants.py:46
+msgid "Or jump them again"
+msgstr ""
+
+#: constants.py:47
+msgid "When they come along better go down"
+msgstr ""
+
+#: constants.py:48
+msgid "As long you go down more power you get"
+msgstr ""
+
+#: constants.py:49
+msgid "Don't need avoid the void anymore"
+msgstr ""
+
+#: constants.py:50
+msgid "But you give twice what you have"
+msgstr ""
+
+#: constants.py:51
+msgid "As long you stay more you can heal"
+msgstr ""
+
+#: constants.py:53
+msgid "Health {}%"
+msgstr ""
+
+#: constants.py:54
+msgid "Press me"
+msgstr ""
+
+#: constants.py:55
+msgid "Level {}"
+msgstr ""
+
+#: constants.py:56
+msgid "Press enter to play"
+msgstr ""
+
+#: constants.py:57
+msgid "Game Over"
+msgstr ""
+
+#: constants.py:58
+msgid "Press q to quit or enter to play again"
+msgstr ""
+
+#: constants.py:59
+msgid "Game Paused"
+msgstr ""
+
+#: constants.py:60
+msgid "You Won!!"
+msgstr ""
+
+#: constants.py:61
+msgid "The gravity here is too high to jump"
+msgstr ""

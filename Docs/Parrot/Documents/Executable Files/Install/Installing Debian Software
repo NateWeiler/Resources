@@ -1,0 +1,174 @@
+Installing Debian Software with the Advanced Package Tool
+
+apt-get update
+		
+so your package list is up-to-date, and then try something like
+
+apt-cache search tunnel
+apt-cache search 'php.*sql'
+apt-cache search apache.\*perl
+apt-cache search elvis\|vim
+
+That is how you tell apt to search the packages you've downloaded, using REGEX (regular expression, a pattern-matching 'language') -- if your pattern uses any keystrokes that mean something to your command shell (e.g. [|?*] ) you'll need to quote them so that apt-cache will be able to see them, instead of having the shell expand the term to a list of file names that mean something else entirely.
+
+" NOTE -- apt-cache only knows about the package descriptions you've already downloaded. To search among ALL known Debian packages just browse to http://packages.debian.org/PACKAGESUBSTRING to see what's available. For example: http://packages.debian.org/vnc That would get you a listing of packages that contain the term "vnc" somewhere in the title."
+3.2. Describing packages -- apt-cache show
+
+The simplest way to see the description of a package:
+
+apt-cache show postgresql
+apt-cache show iproute
+
+That displays what the package is designed to do, version info and so forth. (Pretty simple, huh? Not everything worthwhile needs to be complicated...)
+3.3. Listing packages -- dpkg -l
+
+Which packages are installed? Do any packages need configuring?
+
+dpkg -l
+		
+
+(that's a lower-case EL, not a one.) That lists all INSTALLED packages.
+
+dpkg -l \*
+dpkg -l '*'
+
+These list all packages. (Without the star glob, dpkg only lists installed packages.)
+
+% dpkg -l \*postgres\*
+% dpkg -l '*postgres*'
+		
+
+That shows the status of packages matching that GLOB (it's not a regular expression [REGEX]: a regex interprets .* to mean '"." = any character, "*" = zero or more times'; a glob interprets .* to mean '"." = a dot, "*" = followed by zero or more characters').
+
+NOTE: If your pattern uses fancy characters that have a special meaning to your command shell (* ? | etc.) you'll need to QUOTE them so that your command shell doesn't interpret them -- you want dpkg to see the pattern, instead. Quote such characters by either enclosing them in quotes:
+
+'*like|this?or that'
+"even[this|is]acceptable"
+		
+
+or precede them with the BACKSLASH:
+
+this\ acts\ like\ one\ word\ cuz\ spaces\ are\ quoted
+\[one\|two\?three\*four\]
+		
+
+And note that the /SLASH/ (forward slash) leans right, in the same direction as the text you're reading, whereas the \BACKSLASH\ leans to the left. SLASH is used to delineate components (folders and subfolders, if you like) along a directory path (/home/will/public_html/index.html for example); BACKSLASH is used to alter the meaning of the keystroke that follows. Very important distinction! (And curses to the weenie who first thought QDOS -- which became MS-DOS -- should use backslashes as path delimiters! Bad dog!)
+3.4. Combine dpkg with grep for some powerful searches
+
+dpkg -l \* | grep ^pi
+		
+
+finds installed packages marked to be purged.
+
+dpkg -l '*' | grep "^i[^i]"
+		
+
+lists packages marked for installation, that aren't installed yet.
+
+dpkg -l \* | grep '^[^i]i'
+		
+
+shows installed packages that are marked for anything but installation (i.e.uninstallation or purgery). See man grep for more info on grep and man dpkg for more on the listing format.
+
+On my system, to find out which apt packages I have installed, I can do this:
+
+dpkg -l \*apt\* 
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed
+|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)
+||/ Name              Version           Description
++++-=================-=================-=============================================================
+ii  apt               0.3.19            Advanced front-end for dpkg
+ii  apt-move          3.0-13            Move cache of Debian packages into a mirror hierarchy
+ii  aptitude          0.0.4a-4.1        Console based apt frontend
+un  libapt-pkg-dev    <none>            (no description available)
+un  libapt-pkg-doc    <none>            (no description available)
+un  libapt-pkg2.7     <none>            (no description available)
+pn  task-laptop       <none>            (no description available)
+		
+
+Here, dpkg displays its headers, and then shows all packages that have "apt" anywhere in the title. The three libapt-* packages are not installed (I've hilighted the "apt" strings that belong to non-apt packages, so you can see why they showed up. Interesting, no?)
+
+For a slightly different approach, how about this:
+
+%  dpkg -l \* | grep apt 
+ii  apt               0.3.19            Advanced front-end for dpkg
+ii  apt-move          3.0-13            Move cache of Debian packages into a mirror hierarchy
+ii  aptitude          0.0.4a-4.1        Console based apt frontend
+un  libapt-pkg-dev    <none>            (no description available)
+un  libapt-pkg-doc    <none>            (no description available)
+un  libapt-pkg2.7     <none>            (no description available)
+ii  libpcap0          0.4a6-3           System interface for user-level packet capture.
+pn  task-laptop       <none>            (no description available)
+%
+		
+
+Here I asked to see ALL packages (dpkg -l \*) and thenI used grep to display only those lines from the output that contained "apt". The headers disappeared, since none of them contain "apt" -- so grep discards them.
+3.5. Package contents -- dpkg -L
+
+dpkg -L mysql
+dpkg -L apt
+
+ an upper-case EL) shows all the files -- with full path names -- that are provided by the package.
+3.6. Finding which package contains... -- dpkg -S
+
+How can you determine here did file XYZ come from? Here's how to find which package contains/supplies a certain file:
+
+dpkg -S postmaster
+dpkg -S 'doc/*sql' | cut -f1 -d: | sort -u
+		
+
+That searches for packages that supply files whose paths contain the requested GLOB. See man cut and man sort for info on how to use these tools in your day-to-day fiddling.
+
+If you're using unstable then you might be able to tinker with dlocate as well. I hear it's highly thought-of by all who've used it. (If you know about it and want to include some info here, please let me know!)
+
+By the way -- here's a quickie command to show what packages I've got installed that provided all of the apt-* files you saw above when I tried apt<^D> :
+
+%  dpkg -S apt- | sort 
+apt-move: /etc/apt-move.conf
+apt-move: /etc/cron.weekly/apt-move
+apt-move: /usr/bin/apt-move
+apt-move: /usr/share/doc/apt-move
+apt-move: /usr/share/doc/apt-move/README.Debian
+apt-move: /usr/share/doc/apt-move/README.gz
+apt-move: /usr/share/doc/apt-move/TODO
+apt-move: /usr/share/doc/apt-move/TODO.Debian
+apt-move: /usr/share/doc/apt-move/changelog.Debian.gz
+apt-move: /usr/share/doc/apt-move/changelog.gz
+apt-move: /usr/share/doc/apt-move/copyright
+apt-move: /usr/share/doc/apt-move/examples
+apt-move: /usr/share/doc/apt-move/examples/SAMPLE.exclude
+apt-move: /usr/share/man/man8/apt-move.8.gz
+apt: /usr/bin/apt-cache
+apt: /usr/bin/apt-cdrom
+apt: /usr/bin/apt-config
+apt: /usr/bin/apt-get
+apt: /usr/lib/libapt-pkg.so.2.7
+apt: /usr/lib/libapt-pkg.so.2.7.1
+apt: /usr/share/man/man8/apt-cache.8.gz
+apt: /usr/share/man/man8/apt-cdrom.8.gz
+apt: /usr/share/man/man8/apt-config.8.gz
+apt: /usr/share/man/man8/apt-get.8.gz
+base-config: /usr/sbin/apt-setup
+base-config: /usr/share/debconf/templates/apt-setup.templates
+base-config: /usr/share/man/man8/apt-setup.8.gz
+		
+
+That shows three of the apt packages I've got installed: apt, apt-move, and base-config. You'll notice that aptitude isn't listed -- which is understandable, since it doesn't contain the "apt DASH" string. Also, base-config didn't show up above when I searched via dpkg -l \* | grep apt since the string "apt" doesn't appear within base-config. See?
+
+As is the case with many packages, most of the files are documentation: either /usr/share/doc/* or manpages.
+
+NOTE that if I do dpkg -S apt without the dash after "apt-" i get more irrelevant stuff, because many packages contain files that have the string "apt" in them, including:
+
+    /usr/bin/aptitude it'll be a nice APT front-end when it's done
+
+    /usr/share/doc/gpm/README.synaptics.gz
+
+    /usr/share/doc/postgresql-doc/postgres/libpq-chapter18164.htm
+
+    /usr/share/texmf/tex/latex/caption 
+
+...so you must learn to be careful what you search for... you'll find it!
+
+Prev	Home	Next
+Using APT to install packages	 	Learn more

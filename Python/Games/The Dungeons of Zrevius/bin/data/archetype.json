@@ -1,0 +1,61 @@
+{
+	"room":
+	{
+		"position"  : null,
+		"isroom"    : null,
+		"inventory" : null,
+		"descriptor": null
+	},
+
+	"area":
+	{
+		"area" : []
+	},
+
+
+	"weapon":
+	{
+		"descriptor"	: null,
+		"item"			: null,
+		"equippable"    : null,
+		"weapon": {
+			"damage_type": "melee",
+			"weapon_type": "sword",
+			"main_modifier": "str"
+		},
+		"modifiers" : {},
+		"location"	: null
+	},
+
+	"character" :
+	{
+		"descriptor": null,
+		"stats"     : null,
+		"inventory" : null,
+		"equipment" : null,
+		"location"  : null
+	},
+
+	"door":
+	{
+		"descriptor": null,
+		"transition": null,
+		"location"	: null
+	},
+
+	"container" : {
+		"descriptor": null,
+		"inventory" : null,
+		"location"	: null,
+		"container" : null
+	},
+
+	"consumable_refill" : {
+		"descriptor" : null,
+		"consumable" : null,
+		"buff_refill": null,
+		"item"		: null,
+		"location"	: null
+	}
+}
+

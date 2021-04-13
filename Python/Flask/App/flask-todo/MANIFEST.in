@@ -1,0 +1,4 @@
+include flask-todo/schema.sql
+graft flask-todo/static
+graft flask-todo/templates
+global-exclude *.pyc

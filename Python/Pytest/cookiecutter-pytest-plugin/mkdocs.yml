@@ -1,0 +1,16 @@
+site_name: cookiecutter-pytest-plugin
+site_description: Minimal Cookiecutter template for authoring pytest plugins.
+site_author: Raphael Pierzina
+
+theme: readthedocs
+
+repo_url: https://github.com/pytest-dev/cookiecutter-pytest-plugin
+
+pages:
+- Home: index.md
+- User Guide:
+    - Quickstart: user-guide/quickstart.md
+    - Publish: user-guide/publish-plugin.md
+- Contributor Guide:
+    - Quickstart: contributor-guide/quickstart.md
+    - Documentation: contributor-guide/documentation.md

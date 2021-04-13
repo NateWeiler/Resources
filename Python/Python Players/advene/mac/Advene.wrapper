@@ -1,0 +1,41 @@
+#! /bin/sh
+
+#exec > /tmp/advene.log 2>&1
+
+d=`dirname "$0"`
+parent=`dirname "$d"`
+# Ensure that we get an absolute path
+parent=`(cd "$parent" ; pwd)`
+
+echo "Advene.app started at "  `date` " on " `uname -a`
+
+if [ -x /opt/local/lib/libgstreamer-0.10.0.dylib ]
+then
+   osascript -e 'tell application "Finder" to display dialog "You have installed gstreamer from macports.org.\nThis may conflict with the executable you are trying to run. If the application crashes, you may either disable darwinports (sudo chmod 0 /opt) or try to run Advene from the sources."'
+fi
+
+osx_version=`sw_vers -productVersion`
+case ${osx_version} in
+10.4*)
+      X11APP=/Applications/Utilities/X11.app
+      if [ ! -x $X11APP ]
+      then
+         osascript -e 'tell application "Finder" to display dialog "No X11 server found. Please install it from the MacOS X install disc, package System/Installation/Packages/X11User.pkg"'
+         exit 0
+      fi
+
+      if [ ! -e /tmp/.X11-unix/* ]
+      then
+         osascript -e 'tell application "Finder" to display dialog "Please start the X11 server (from /Applications/Utilities) before trying to run Advene"'
+         exit 0
+      fi
+
+      # Set DISPLAY variable for 10.4 only. In 10.5, the X server is automatically launched.
+      export DISPLAY=:0.0
+      ;;
+esac
+
+theme="${parent}/Resources/theme"
+[ -e "$theme" ] && export GTK2_RC_FILES="${theme}/gtk-2.0/gtkrc"
+
+exec ${d}/Advene.bin $@

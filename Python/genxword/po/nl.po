@@ -1,0 +1,243 @@
+# SOME DESCRIPTIVE TITLE translation for genxword.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the genxword package.
+# Koen Wybo <koen.wybo@telenet.be>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-29 10:38+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Koen Wybo <koen.wybo@telenet.be>\n"
+"Language-Team: \n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: control.py:30
+msgid ""
+"The word list file contains the words and clues, or just words, that you "
+"want in your crossword. \n"
+"For further information on how to format the word list file and about the "
+"other options, please consult the man page.\n"
+msgstr ""
+"De lijst met woorden bevat ofwel de woorden en de sleutels of enkel de "
+"woorden, die je in je kruiswoordraadsel wenst \n"
+"Aanvullende informatie over de indeling van de woordenlijst en andere opties "
+"vind je terug in de hulp(man)-pagina. \n"
+
+#: control.py:68
+msgid "Enter grid size ("
+msgstr "Voer rastergrootte in ("
+
+#: control.py:68
+msgid " is the default): "
+msgstr "is de standaardwaarde):"
+
+#: control.py:83
+msgid "Calculating your crossword..."
+msgstr "Berekenen van het kruiswoordraadsel..."
+
+#: control.py:92
+msgid "Are you happy with this solution? [Y/n] "
+msgstr "Ben je tevreden met deze oplossing? [Y/n]"
+
+#: control.py:93 control.py:96
+msgid "n"
+msgstr "n"
+
+#: control.py:95
+msgid "And increase the grid size? [Y/n] "
+msgstr "Rasterafmetingen groter maken?[Y/n]"
+
+#: control.py:98 gui.py:78
+msgid "Across/Down"
+msgstr "Horizontaal/Verticaal"
+
+#: control.py:99
+msgid ""
+"The following files have been saved to your current working directory:\n"
+msgstr "Deze bestanden werden opgeslagen in je huidige werkmap:\n"
+
+#: control.py:105
+msgid "Crossword generator."
+msgstr "Kruiswoordraadsel generator."
+
+#: control.py:106
+msgid "Name of word list file."
+msgstr "Naam van het woordenlijstbestand."
+
+#: control.py:107
+msgid "Save files as A4 pdf (p), letter size pdf (l), png (n) and/or svg (s)."
+msgstr ""
+"Bestand opslaan als A4 pdf (p), letter us pdf (l), png (n) en/of svg (s)."
+
+#: control.py:108
+msgid "Automated (non-interactive) option."
+msgstr "Automatische (niet-interactieve) optie. "
+
+#: control.py:109
+msgid "Create anagrams for the clues"
+msgstr "Aanmaken van anagrammen voor de oplossingen. "
+
+#: control.py:110
+msgid "Number of words to be used."
+msgstr "Aantal te gebruiken woorden."
+
+#: control.py:111
+msgid "Name of crossword."
+msgstr "Naam van het kruiswoordraadsel."
+
+#: gui.py:104
+msgid "_Word list"
+msgstr "_Woordenlijst"
+
+#: gui.py:105
+msgid "_New word list"
+msgstr "_Nieuwe woordenlijst"
+
+#: gui.py:106
+msgid "Create a new word list or go back to the already open word list"
+msgstr "Maak nieuwe woordenlijst aan of terug naar openstaande woordenlijst"
+
+#: gui.py:107
+msgid "_Open word list"
+msgstr "_Open woordenlijst"
+
+#: gui.py:107
+msgid "Open a word list"
+msgstr "Open een nieuwe woordenlijst"
+
+#: gui.py:108
+msgid "_Sort word list"
+msgstr "_Sorteer woordenlijst"
+
+#: gui.py:109
+msgid "Sort the word list and remove words with non-alphabetic characters"
+msgstr ""
+"Sorteer de woordenlijst en verwijder woorden met niet-alfabetische "
+"karakters. "
+
+#: gui.py:110
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: gui.py:111
+msgid "_Crossword"
+msgstr "_Kruiswoordraadsel"
+
+#: gui.py:112
+msgid "_Calculate crossword"
+msgstr "_Bereken kruiswoordraadsel"
+
+#: gui.py:113
+msgid "Calculate the crossword"
+msgstr "Bereken kruiswoordraadsel"
+
+#: gui.py:114
+msgid "_Recalculate"
+msgstr "_Herbereken"
+
+#: gui.py:115
+msgid "Increase the grid size and recalculate the crossword"
+msgstr "Vergroot de rastergrootte en herbereken het kruiswoordraadsel"
+
+#: gui.py:116
+msgid "_Save"
+msgstr "_Opslaan"
+
+#: gui.py:116
+msgid "Save crossword"
+msgstr "Sla kruiswoordraadsel op"
+
+#: gui.py:117 gui.py:118
+msgid "_Help"
+msgstr "_Help"
+
+#: gui.py:118
+msgid "Open the help page"
+msgstr "Open de helppagina"
+
+#: gui.py:119
+msgid "_About"
+msgstr "_Over"
+
+#: gui.py:119
+msgid "About"
+msgstr "Over..."
+
+#: gui.py:123
+msgid "Anagram clues"
+msgstr "Anagram sleutels"
+
+#: gui.py:124
+msgid "Choose the grid size"
+msgstr "Kies de rastergrootte"
+
+#: gui.py:173
+msgid "Save the crossword as"
+msgstr "Sla kruiswoordraadsel op als"
+
+#: gui.py:176
+msgid "A4 pdf"
+msgstr "A4 pdf"
+
+#: gui.py:180
+msgid "letter pdf"
+msgstr "Letter (us) pdf"
+
+#: gui.py:194
+msgid "Name of crossword"
+msgstr "Naam kruiswoordraadsel"
+
+#: gui.py:196
+msgid "Choose the name of your crossword"
+msgstr "Kies de naam van het kruiswoordraadsel"
+
+#: gui.py:201
+msgid "Number of words"
+msgstr "Aantal woorden"
+
+#: gui.py:208
+msgid "Choose the number of words you want to use"
+msgstr "Kies het aantal woorden die je wenst te gebruiken"
+
+#: gui.py:211
+msgid "Grid size"
+msgstr "Rastergrootte"
+
+#: gui.py:217
+msgid ""
+"Choose the crossword grid size\n"
+"Go to the Crossword menu to enable this option"
+msgstr ""
+"Kies de rastergrootte \n"
+"Ga naar het kruiswoordraadselmenu om deze optie te activeren. "
+
+#: gui.py:251
+msgid "Please choose a file"
+msgstr "Selecteer bestand"
+
+#: gui.py:321
+msgid "Please choose a folder"
+msgstr "Selecteer een map"
+
+#: gui.py:336
+msgid "Your crossword files have been saved in "
+msgstr "De kruiswoordraadselbestanden zijn opgeslagen in"
+
+#: gui.py:340
+msgid ""
+"Please fill in the name of the crossword and the format you want it saved in "
+"(A4 size pdf, letter size pdf, png or svg).\n"
+"Then click on the Save button again."
+msgstr ""
+"Vul de naam van het kruiswoordraadsel in en het bestandstype om in op te "
+"slaan (A4 pdf, letter (us) pdf, png of svg). \n"
+"Klik opnieuw op de opslaan-knop."
+
+#: gui.py:367
+msgid "A crossword generator"
+msgstr "Een kruiswoordraadsel generator"

@@ -1,0 +1,38 @@
+language: python
+sudo: false
+dist: xenial
+cache: pip
+
+matrix:
+  include:
+    - python: 3.5
+      env: TOXENV=py35
+    - python: 3.6
+      env: TOXENV=py36
+    - python: 3.7
+      env: TOXENV=py37
+    - python: 3.8
+      env: TOXENV=py38
+    - python: 3.6
+      env: TOXENV=sphinx11
+    - python: 3.6
+      env: TOXENV=sphinx12
+    - python: 3.6
+      env: TOXENV=sphinx13
+    - python: 3.6
+      env: TOXENV=sphinx14
+    - python: 3.6
+      env: TOXENV=sphinx15
+    - python: 3.6
+      env: TOXENV=sphinx16
+    - python: 3.6
+      env: TOXENV=sphinx17
+    - python: 3.6
+      env: TOXENV=sphinx18
+    - python: 3.6
+      env: TOXENV=sphinx2
+    - python: 3.6
+      env: TOXENV=sphinx-dev
+
+install: pip install docutils tox
+script: tox

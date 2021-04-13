@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>{% block title %}{{ title|escape|decode }}{% endblock %}
+</title>
+{% block feed %}
+<link rel="alternate" type="application/atom+xml" title="{{ title|escape|decode }} - Feed" href="{{ top_dir }}feed.atom">
+{% endblock %}
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta name='generator' content='weblog'>
+{% block head %}
+<link rel='stylesheet' type='text/css' href='{{ top_dir }}common.css'>
+{% endblock %}
+</head>
+<body>
+{% block header %}
+{% endblock %}
+<div id='main'>
+{% block content %}{% endblock %}
+</div>
+{% block footer %}
+{% endblock %}
+<p>Some UTF-8 characters: ËÃØ ...</p>
+</body>
+</html>
+{# vim:set ft=htmljinja: #}

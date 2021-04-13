@@ -1,0 +1,42 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2007-2020, Georg Brandl and the Sphinx team
+# This file is distributed under the same license as the Sphinx package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Izabel Wang <izabelwang@pku.edu.cn>, 2020
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Sphinx 4.0.0+/d9280e253\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-13 23:32+0000\n"
+"PO-Revision-Date: 2020-06-03 21:55+0000\n"
+"Last-Translator: Izabel Wang <izabelwang@pku.edu.cn>, 2020\n"
+"Language-Team: Chinese (China) (https://www.transifex.com/sphinx-doc/teams/15434/zh_CN/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ../../sphinx/doc/development/index.rst:17
+#: ../../sphinx/doc/development/index.rst:17
+msgid "Theming"
+msgstr "主题"
+
+#: ../../sphinx/doc/development/index.rst:3
+msgid "Extending Sphinx"
+msgstr "扩展 Sphinx"
+
+#: ../../sphinx/doc/development/index.rst:5
+msgid ""
+"This guide is aimed at those wishing to develop their own extensions for "
+"Sphinx. Sphinx possesses significant extensibility capabilities including "
+"the ability to hook into almost every point of the build process.  If you "
+"simply wish to use Sphinx with existing extensions, refer to "
+":doc:`/usage/index`."
+msgstr ""
+"本指南针对那些希望为 Sphinx 开发自己的扩展的用户。 Sphinx 具有显着的可扩展性功能，包括几乎可以连接到构建过程的每个点的能力。 "
+"如果您只是希望将 Sphinx 与现有扩展一起使用，请参考：doc：`/ usage / index`。"

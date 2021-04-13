@@ -1,0 +1,12 @@
+To do
+
+- have dynamic container and room descriptions so that they can return something about the objects inside them
+- better way to set room exits when initializing
+- grammar
+    - have support for more than four-word actions
+    - use lambdas or mapping instead of list comprehensions
+    - less hardcoded, more intelligent processing
+- serialise/deserialise
+    - all objects are checked against base game (assumes that no objects get created or destroyed -- might want to change)
+- dynamic room class creation?
+- rewrite game_site so that it doesn't connect and disconnect to/from the database before/after every request

@@ -1,0 +1,24 @@
+TODOs
+------------------------------------------------------------------------------
+* The in-game menu is only accessible via the mouse. Support for keyboard should be added.
+* implement gamepad (+feedback) support
+* fix physics (or AI) problem with blocking vehicles
+
+Nice to have
+------------------------------------------------------------------------------
+* possiblity for full screen resolutions 1024x768+ with centered game screen
+* create UI (Qt or GTK+) for player mods to create additional vehicles
+* network play
+* make blood green (add parent control setting in mainmenu)
+
+Done
+------------------------------------------------------------------------------
+[done] add SDL_mixer support instead of FMod 
+[done] remove pstdint.h dependency (Windows platforms)
+[done] revise game sounds
+[done] clean-up code (remove externs)
+[done] clean-up code (replace old-logging)
+[done] use STL instead of char* for string operations wherever possible
+[done] modify-automate resource loading procedure
+[done] integrate support for custom controls via XML file (bindings.xml)
+[NOT-NEEDED] * Precalculate 1000-10000 range of sqrt() values !!! (optimze for speed against memory!)

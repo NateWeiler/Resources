@@ -1,0 +1,29 @@
+#The latest version of SFLphone is 1.4.1, released on September 19th 2014.
+#Ubuntu PPA
+#To install the latest version, you need to install the ppa.
+#Run:
+sudo add-apt-repository ppa:savoirfairelinux
+#Or add the following repositories in your sources list to install SFLphone stable version:
+deb http://ppa.launchpad.net/savoirfairelinux/ppa/ubuntu Ubuntu 10.04 lucid main 
+deb-src http://ppa.launchpad.net/savoirfairelinux/ppa/ubuntu Ubuntu 10.04 lucid main 
+#Read the documentation here on how adding new repositories in your sources list on Ubuntu.
+Gnome client with video support
+sudo apt-get update
+sudo apt-get install sflphone-gnome-video
+Gnome client, audio-only
+sudo apt-get install sflphone-gnome
+KDE client
+sudo apt-get update
+sudo apt-get install sflphone-kde
+
+#By default, when installing the Gnome client, the Evolution/Gnome addressbook support is not installed. To do so, install the following package:
+sudo apt-get install sflphone-plugins
+#Fedora
+#To install packages for Fedora 19 and Fedora 20:
+sudo yum install https://yum.savoirfairelinux.com/sflphone/f20/RPMS/x86_64/sflphone-relea...
+sudo yum install sflphone-gnome
+sudo yum install sflphone-plugins
+openSUSE
+#To install packages for openSUSE (note: these are unofficial packages) visit:
+wget http://download.opensuse.org/repositories/home:/spiette/Fedora_17/src/sflphone-1.2.2-10.3.src.rpm
+

@@ -1,0 +1,36 @@
+sudo rm /var/lib/apt/lists/* -vf
+sudo apt-get update
+./ufonet --update
+apt-get install zip
+apt-get install lsof samba mysql-client
+msfupdate
+apt-get clean
+apt-get update
+apt-get install update
+sudo rm /var/lib/apt/lists/* -vf
+sudo apt-get update
+apt-get upgrade
+apt-get install upgrade
+apt-get dist-upgrade
+sudo rm /var/lib/apt/lists/* -vf
+sudo apt-get update
+apt-get update
+apt-get dist-update
+sudo apt-get update
+apt-get check
+apt-get -f install
+sudo apt-get autoremove 
+apt-get clean
+apt-get autoclean
+sudo rm /var/lib/apt/lists/* -vf
+sudo apt-get update
+sudo rm /var/lib/apt/lists/* -vf
+sudo apt-get update
+./Backtrack 5 install package
+sudo rm /var/lib/apt/lists/* -vf
+sudo apt-get update
+./bt5-fixit.sh
+sudo rm /var/lib/apt/lists/* -vf
+sudo apt-get update
+/apt.sh
+

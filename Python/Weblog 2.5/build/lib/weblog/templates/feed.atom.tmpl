@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+<id>{{ url|escape }}</id>
+<title>{{ title|escape }}</title>
+{% if description %}
+<subtitle>{{ description|escape }}</subtitle>
+{% endif %}
+<updated>{{ feed_updated|rfc3339 }}</updated>
+{% if author %}
+<author>
+    <name>{{ author.name()|escape }}</name>
+    <email>{{ author.email() }}</email>
+    <uri>{{ url|escape }}</uri>
+</author>
+{% endif %}
+<link rel="self" href="{{ url|escape }}feed.atom" />
+<link href="{{ url|escape }}" />
+<generator uri="http://henry.precheur.org/weblog/" version="{{ weblog_version }}">
+    Weblog
+</generator>
+
+{% for post in posts %}
+<entry>
+    <id>{{ url }}{{ post.url() }}</id>
+    <link href='{{ url|escape }}{{ post.url()|escape }}' />
+    <title>{{ post.title|escape }}</title>
+    <updated>{{ post.date|rfc3339 }}</updated>
+    <author>
+        <name>{{ post.author.name()|escape }}</name>
+        <email>{{ post.author.email()|escape }}</email>
+        <uri>{{ url|escape }}</uri>
+    </author>
+    <content type="xhtml">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            {{ post.get_xhtml() }}
+        </div>
+    </content>
+</entry>
+{% endfor %}
+
+</feed>
+{# vim: set filetype=jinja ts=4 sw=4 et: #}

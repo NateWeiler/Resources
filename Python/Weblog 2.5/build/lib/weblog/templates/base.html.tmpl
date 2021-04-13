@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>{% block title %}{{ title|escape|decode }}{% endblock %}
+</title>
+{% block feed %}
+<link rel="alternate" type="application/atom+xml" title="{{ title|escape|decode }} - Feed" href="{{ top_dir }}feed.atom">
+{% endblock %}
+<meta http-equiv="Content-Type" content="text/html;charset=US-ASCII">
+<meta name='generator' content='weblog'>
+{% block head %}
+<style type='text/css'>
+        body {
+            font-family: sans-serif;
+            font-size: 100.01%;
+            text-align: center; /* for IE 4+ */
+        }
+
+        div#main {
+            margin: 0 auto;
+            text-align: left; /* counter the body center */
+            width: 42em;
+            max-width: 90%;
+        }
+
+        h1 a, h2 a:link {
+            color: black;
+        }
+
+        h3, h4, h5 {
+            border-bottom: solid 1px;
+        }
+
+        p#description, p.post-header {
+            font-size: small;
+        }
+
+        p, ul, ol {
+            line-height: 150%;
+        }
+
+        pre {
+            font-family: monospace;
+            border: gray solid 1px;
+            background-color: silver;
+            padding: 1em;
+        }
+
+        div.post-content {
+            width: 38em;
+        }
+
+        a {
+            text-decoration: none;
+            border-bottom: 1px dotted;
+        }
+
+        a:hover {
+            border-bottom: 1px solid;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            border: solid black 1px;
+        }
+</style>
+{% endblock %}
+</head>
+<body>
+{% block header %}
+{% endblock %}
+<div id='main'>
+{% block content %}{% endblock %}
+</div>
+{% block footer %}
+<div id='footer'>
+<p>
+<a href='{{ top_dir }}index.html' id='recents'>Last posts</a> |
+<a href='{{ top_dir }}archives.html' id='archives'>Archives</a>
+</p>
+<p id='weblog-ad'>
+Published using <a href='http://henry.precheur.org/weblog/'>Weblog</a>
+</p>
+</div>
+{% endblock %}
+</body>
+</html>
+{# vim:set ft=htmljinja: #}

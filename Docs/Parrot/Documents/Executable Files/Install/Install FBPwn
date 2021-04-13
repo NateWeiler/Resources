@@ -1,0 +1,6 @@
+#How to install FBPwn Facebook Profile Dumper
+wget http://fbpwn.googlecode.com/files/FBPwn-beta-0.1.7.zip
+unzip FBPwn-beta-0.1.7.zip
+cd FBPwn-beta-0.1.7
+./run.sh
+

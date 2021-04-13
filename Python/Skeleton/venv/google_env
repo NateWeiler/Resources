@@ -1,0 +1,4 @@
+#!g:\installers\code\editors\python\scripts\scripts\python.exe
+
+import google_env
+google_env.rewrite_env_file()

@@ -1,0 +1,47 @@
+Tor on BackTrack 5 R3
+
+Add repository
+Edit file /etc/apt/sources.list and append the following line:
+
+deb http://deb.torproject.org/torproject.org lucid main
+
+Add the new key for repository
+
+gpg --keyserver keys.gnupg.net --recv 886DDD89
+
+gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
+
+Update the software list
+
+apt-get update
+
+Install Tor, Vidalia and Privoxy
+
+apt-get install tor tor-geoipdb privoxy vidalia
+
+Configure Privoxy
+
+gedit /etc/privoxy/config
+
+Append the following line : forward-socks5 / 127.0.0.1:9050 .
+
+Start the engines
+
+/etc/init.d/privoxy start
+
+/etc/init.d/tor start
+
+Download Torbutton for firefox
+
+https://www.torproject.org/dist/torbutton/torbutton-current.xpi
+
+or
+
+Open Firefox Options -> Advanced -> Network -> Settings -> Choose Manual Configuration
+In HTTP Proxy field type: 127.0.0.1 and in Port field type 8118
+
+Check option “Use this proxy server for all protocols”
+
+Check if you are using tor in Firefox
+
+https://check.torproject.org/

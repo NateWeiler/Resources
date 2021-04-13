@@ -1,0 +1,12 @@
+type: edu
+files:
+- name: tests.py
+  visible: false
+- name: execute.svg
+  visible: false
+- name: hello_world.py
+  visible: true
+  placeholders:
+  - offset: 32
+    length: 4
+    placeholder_text: type your name

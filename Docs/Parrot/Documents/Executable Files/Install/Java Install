@@ -1,0 +1,19 @@
+#Install Java
+
+killall -9 /opt/firefox/firefox-bin
+
+mkdir /opt/java
+
+mv -f jre1.7.0_05/ /opt/java/
+
+update-alternatives --install /usr/bin/java java /opt/java/jre1.7.0_05/bin/java 1
+
+update-alternatives --set java /opt/java/jre1.7.0_05/bin/java
+
+
+ln -sf /opt/java/jre1.7.0_05/lib/i386/libnpjp2.so  /usr/lib/mozilla/plugins/
+
+export JAVA_HOME="/opt/java/jre1.7.0_05/bin/java"
+
+firefox http://java.com/en/download/testjava.jsp
+

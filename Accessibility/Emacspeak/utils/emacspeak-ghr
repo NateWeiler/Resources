@@ -1,0 +1,29 @@
+#!/bin/sh
+#Upload a release to github
+#Usage:  $1 tagname $2 filename asset (tar.bz2)
+# run from emacspeak dir after make release:
+#Example: emacspeak-ghr 44.0 emacspeak-44.tar.bz2
+# Set token, username and repo in environment
+
+. ${HOME}/.github_token
+export PATH=$PATH:${HOME}/go/bin
+AText="./announcements/ANNOUNCE-$1.txt"
+AHtml="./announcements/ANNOUNCE-$1.html"
+# First,  create a release for this tag.
+github-release release --tag $1 --name "Release $1 " 
+
+# Next, upload the tar.bz2 dist package 
+github-release upload --tag $1 --name $2 --file $2
+
+# Upload the latest NEWS   into releases 
+github-release upload --tag $1 --name News-$1 --file ./etc/NEWS
+
+# Final releases contain  an announcement file.
+test -f ${AText} &&  github-release upload --tag $1 --name $AText --file $AText
+test -f ${AHtml} &&  github-release upload --tag $1 --name $AHtml --file $AHtml
+
+echo "Released $1"
+echo "uploaded assets are under release name:"
+echo "https://github.com/tvraman/emacspeak/releases/download/tagname/assetname"
+
+echo "Download URL: https://github.com/tvraman/emacspeak/releases/download/$1/$2"

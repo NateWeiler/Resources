@@ -1,0 +1,17 @@
+cloud 
+cloud-dtk
+cloud-espeak
+cloud-mac
+cloud-outloud
+dtk-exp
+espeak
+log-dtk
+log-espeak
+log-mac
+log-outloud
+log-plain
+mac
+outloud
+plain
+ssh-dtk-exp
+ssh-outloud

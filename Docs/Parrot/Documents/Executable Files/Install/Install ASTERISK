@@ -1,0 +1,18 @@
+How to install ASTERISK in Backtrack 5r3
+apt-get update && apt-get install asterisk
+
+If you have any problems with package install :
+The basic repo for Backtrack 5 is "Ubuntu 10.04 Lucid" : Support ended a month ago.
+This new '/etc/apt/sources.list' will do : EDIT : See post # 5.
+Code:
+
+deb http://old-releases.ubuntu.com/ubuntu/ lucid main restricted
+deb http://old-releases.ubuntu.com/ubuntu/ lucid multiverse universe
+deb http://old-releases.ubuntu.com/ubuntu/ lucid-updates main restricted
+deb http://old-releases.ubuntu.com/ubuntu/ lucid-updates multiverse universe
+deb http://old-releases.ubuntu.com/ubuntu/ lucid-backports main restricted
+deb http://old-releases.ubuntu.com/ubuntu/ lucid-backports multiverse universe
+deb http://old-releases.ubuntu.com/ubuntu/ lucid-security main restricted
+deb http://old-releases.ubuntu.com/ubuntu/ lucid-security multiverse universe
+
+

@@ -1,0 +1,4 @@
+include flask_boilerplate/schema.sql
+graft flask_boilerplate/static
+graft flask_boilerplate/templates
+global-exclude *.pyc

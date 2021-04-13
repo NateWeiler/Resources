@@ -1,0 +1,15 @@
+sudo: false
+language: python
+python: "3.5"
+env:
+  matrix:
+  - TESTENV=py27
+  - TESTENV=py35
+  - TESTENV=coveralls
+install:
+- pip install tox
+script: tox -e $TESTENV
+notifications:
+    email:
+        - bubenkoff@gmail.com
+        - oleg.pidsadnyi@gmail.com

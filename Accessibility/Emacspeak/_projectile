@@ -1,0 +1,9 @@
+-/lisp/contrib
+-/lisp/obsolete
+-/servers/obsolete
+-/etc/obsolete
+-obsolete
+-contrib
+-patches
+-*.info
+-/tvr/unused

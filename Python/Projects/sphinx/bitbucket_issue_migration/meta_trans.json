@@ -1,0 +1,36 @@
+{
+  "kind": {
+    "proposal": ["proposal","enhancement"],
+    "task": ["task"],
+    "enhancement": ["enhancement"],
+    "bug": ["bug"]
+  },
+  "status": {
+    "new": [],
+    "wontfix": ["wontfix"],
+    "on hold": ["hold"],
+    "invalid": ["invalid"],
+    "duplicate": ["duplicate"],
+    "open": [],
+    "resolved": ["resolved"],
+    "closed": ["closed"]
+  },
+  "state": {
+    "wontfix": "closed",
+    "invalid": "closed",
+    "duplicate": "closed",
+    "resolved": "closed",
+    "closed": "closed"
+  },
+  "prio": {
+    "trivial": ["prio:low"],
+    "minor": ["prio:low"],
+    "major": [],
+    "critical": ["prio:high"],
+    "blocker": ["prio:high"]
+  },
+  "comp": {
+    "a-comp": ["comp:a"],
+    "b-comp": ["comp:b"]
+  }
+}

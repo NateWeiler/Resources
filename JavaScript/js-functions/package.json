@@ -1,0 +1,22 @@
+{
+  "name": "js-functions",
+  "version": "1.0.0",
+  "description": "Simple test runner to practice writing JavaScript functions",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ts-cset/js-functions.git"
+  },
+  "author": "zachfedor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ts-cset/js-functions/issues"
+  },
+  "homepage": "https://github.com/ts-cset/js-functions#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
+}

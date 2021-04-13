@@ -1,0 +1,31 @@
+@c $Id$
+@node Top
+@top Emacspeak
+
+@ifinfo 
+The manual is divided into the following chapters:
+@end ifinfo
+
+@menu
+* Copying: Copyright.
+* Announce: Announce.
+* Background: Background.
+* Introduction: Introduction.
+* Installation: Installation.
+* Basic Usage: Basic Usage.
+* Audio Desktop: Audio Desktop.
+* Voice Lock: Voice Lock.
+* Using Online Help: Using Online Help.
+* Emacs Packages:  Emacs Packages.
+* Running Terminal Based Applications: Running Terminal Based Applications.
+* Emacspeak Commands And Options:  Emacspeak Commands And Options.
+* Emacspeak Keyboard Commands: Emacspeak Keyboard Commands.
+* TTS Servers:  TTS Servers.
+*  Emacspeak At Twenty: Emacspeak At Twenty.
+* Acknowledgments: Acknowledgments.
+
+Indices:
+
+* Concept Index: Concept Index.
+* Key Index: Key Index.
+@end  menu
