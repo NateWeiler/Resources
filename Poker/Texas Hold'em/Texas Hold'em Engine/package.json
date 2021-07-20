@@ -1,0 +1,51 @@
+{
+  "name": "@botpoker/engine-holdem",
+  "version": "1.0.3",
+  "description": "Texas Hold'em poker engine",
+  "main": "tournament.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "demo": "node demo/live.js --run",
+    "demo:debug": "node demo/live.js | node --inspect-brk demo/tournament-debug.js",
+    "lint": "eslint tournament.js domain/** engine/** logger/**",
+    "test": "npm run lint && jest",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brunoscopelliti/poker-holdem-engine.git"
+  },
+  "keywords": [
+    "poker engine",
+    "poker holdem engine",
+    "poker",
+    "hold'em",
+    "poker hold'em",
+    "hold'em engine"
+  ],
+  "author": "Bruno Scopelliti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brunoscopelliti/poker-holdem-engine/issues"
+  },
+  "homepage": "https://github.com/brunoscopelliti/poker-holdem-engine",
+  "dependencies": {
+    "@botpoker/all-combs": "1.0.0",
+    "@botpoker/cards": "1.0.0",
+    "@botpoker/rank-hands": "1.0.0",
+    "knuth-shuffle": "1.0.8",
+    "request": "2.88.2",
+    "winston": "3.3.3"
+  },
+  "devDependencies": {
+    "body-parser": "1.19.0",
+    "chalk": "4.1.1",
+    "eslint": "7.25.0",
+    "eslint-config-bruno": "3.0.0",
+    "express": "4.17.1",
+    "jest": "26.6.3",
+    "pre-commit": "1.2.2"
+  }
+}
