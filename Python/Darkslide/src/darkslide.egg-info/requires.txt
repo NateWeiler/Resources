@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5074e249d28180494ab5027648e9bb56fdebc36939b5661ec1ba12f4e9dede32
-size 45
+Jinja2
+Markdown
+Pygments
+docutils
+six
+qrcode

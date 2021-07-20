@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8a9c02465b6ed6ad0725cf3a56758af2ef2d6e77a35d6a4c5d392ecb9caf6c15
-size 543
+import unittest
+
+from streamlink.plugins.startv import StarTV
+
+
+class TestPluginStarTV(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.startv.com.tr/canli-yayin',
+        ]
+        for url in should_match:
+            self.assertTrue(StarTV.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(StarTV.can_handle_url(url))

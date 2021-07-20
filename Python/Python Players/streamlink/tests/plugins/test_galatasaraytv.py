@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1c6fa43b4a77979e3bfbf854bb63a21f07a1fca8fa151160ab819f0c223682f2
-size 687
+import unittest
+
+from streamlink.plugins.galatasaraytv import GalatasarayTV
+
+
+class TestPluginGalatasarayTV(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://galatasaray.com/',
+            'https://galatasaray.com',
+            'https://galatasaray.com/',
+            'https://www.galatasaray.com/',
+        ]
+        for url in should_match:
+            self.assertTrue(GalatasarayTV.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(GalatasarayTV.can_handle_url(url))

@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:239b79d6e3c1dc21e270378007165a4518ed51a07a4e5fa31e356fd3828e8e98
-size 384
+#!python3
+
+# ABC Song Video
+
+import cv2
+import numpy as np
+
+capture=cv2.VideoCapture('../video/Phonics-Song.mp4')
+
+if (capture.isOpened()==False):
+	print("Video Failed to Open")
+
+while(capture.isOpened()):
+
+	ret,frame=capture.read()
+	if ret==True:
+		cv2.imshow("Frame",frame)
+		if cv2.waitKey(25) & 0xFF==ord('q'):
+			break
+
+
+	else:
+		break
+capture.release()
+cv2.destroyAllWindows()
+

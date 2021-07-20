@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8f69b2a266e9dd91f77d33b2e11855032657acfffed62c15a9d7a712f636bbe4
-size 407
+class AttributeDict(dict):
+    def __getattr__(self, key):
+        try:
+            return self[key]
+        except KeyError:
+            # to conform with __getattr__ spec
+            raise AttributeError(key)
+
+    def __setattr__(self, key, value):
+        self[key] = value
+
+    def __delattr__(self, key):
+        del self[key]
+
+    def __dir__(self):
+        return dir(type(self)) + list(self.keys())

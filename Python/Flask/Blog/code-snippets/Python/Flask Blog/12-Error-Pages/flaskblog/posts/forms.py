@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:edf2492c5dbf6578cfbde27279e50fe31cee90d9ff2f7f139e2f213f45b7d187
-size 328
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired
+
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
+    submit = SubmitField('Post')

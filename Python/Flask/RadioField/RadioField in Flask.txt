@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ccd3a8f844ce0651d12ec487356ca6adaf8bf0b9f5f86dcfd37df151a754373d
-size 473
+﻿You should add the value attribute to each of your input fields:
+
+<input type="radio" name="options" id="option1" value="option1"> Option1 </input><br>
+<input type="radio" name="options" id="option2" value="option2"> Option2 </input><br>
+<input type="radio" name="options" id="option3" value="option3"> Option3 </input><br>
+and in your flask route you can read the selected option:
+
+option = request.form['options']
+and you'll get the value of the selected radio button.

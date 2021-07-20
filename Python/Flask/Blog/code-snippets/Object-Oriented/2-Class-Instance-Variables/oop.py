@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:46a26d96f57e53cbdd0060b388ec8c18689f46c11a2edae3100e8f7d8bc7c035
-size 357
+
+class Employee:
+
+    def __init__(self, first, last, pay):
+        self.first = first
+        self.last = last
+        self.email = first + '.' + last + '@email.com'
+        self.pay = pay
+
+    def fullname(self):
+        return '{} {}'.format(self.first, self.last)
+
+emp_1 = Employee('Corey', 'Schafer', 50000)
+emp_2 = Employee('Test', 'Employee', 60000)

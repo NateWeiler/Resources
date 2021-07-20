@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:48c7258b8201b14e9f38edb82cfd46096d1d13b29c6bc9c6aa9a08cc793a6a1d
-size 317
+This directory contains example scripts which read in PDFs
+and convert pages to PDF Form XObjects using pdfrw, and then
+write out the PDFs using reportlab.
+
+The examples, from easiest to hardest, are:
+
+subset.py -- prints a subset of pages
+4up.py -- prints pages 4-up
+booklet.py -- creates a booklet out of the pages

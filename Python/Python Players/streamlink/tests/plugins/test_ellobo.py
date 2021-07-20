@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d97af10115ea76b65823d334e3240e092625917e26fa04ba86050c492e3c7bda
-size 557
+import unittest
+
+from streamlink.plugins.ellobo import ElLobo
+
+
+class TestPluginElLobo(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.ellobo106.com/index.php/vivo/solo-3audio',
+        ]
+        for url in should_match:
+            self.assertTrue(ElLobo.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(ElLobo.can_handle_url(url))

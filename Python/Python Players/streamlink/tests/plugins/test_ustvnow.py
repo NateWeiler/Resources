@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f947bd0ff3b19ce8f81cbbdff1872906fadf87f451c3855771bf60341e3f6a6a
-size 1393
+import unittest
+
+from streamlink.plugins.ustvnow import USTVNow
+
+
+class TestPluginUSTVNow(unittest.TestCase):
+    def test_can_handle_url(self):
+        self.assertTrue(USTVNow.can_handle_url("http://www.ustvnow.com/live/foo/-65"))
+
+    def test_can_not_handle_url(self):
+        self.assertFalse(USTVNow.can_handle_url("http://www.tvplayer.com"))
+
+    def test_encrypt_data(self):
+        key = "80035ad42d7d-bb08-7a14-f726-78403b29"
+        iv = "3157b5680927cc4a"
+
+        self.assertEqual(
+            b"uawIc5n+TnmsmR+aP2iEDKG/eMKji6EKzjI4mE+zMhlyCbHm7K4hz7IDJDWwM3aE+Ro4ydSsgJf4ZInnoW6gqvXvG0qB"
+            + b"/J2WJeypTSt4W124zkJpvfoJJmGAvBg2t0HT",
+            USTVNow.encrypt_data(
+                b'{"login_id":"test@test.com","login_key":"testtest1234","login_mode":"1","manufacturer":"123"}',
+                key,
+                iv
+            )
+        )
+
+    def test_decrypt_data(self):
+        key = "80035ad42d7d-bb08-7a14-f726-78403b29"
+        iv = "3157b5680927cc4a"
+
+        self.assertEqual(
+            b'{"status":false,"error":{"code":-2,"type":"","message":"Invalid credentials.","details":{}}}',
+            USTVNow.decrypt_data(
+                b"KcRLETVAmHlosM0OyUd5hdTQ6WhBRTe/YRAHiLJWrzf94OLkSueXTtQ9QZ1fjOLCbpX2qteEPUWVnzvvSgVDkQmRUttN"
+                + b"/royoxW2aL0gYQSoH1NWoDV8sIgvS5vDiQ85",
+                key,
+                iv
+            )
+        )

@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:824403407b12121f89d72170ed94f769ea3fa870df7f879028f47325f511c0a8
-size 978
+# facebook-dl
+<p align="center">
+  Very <b>minimal</b> Facebook downloader written in <b>28 lines</b> of Python code (not including comments and blank spaces)
+ </p>
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/27065646/79065713-ba4f3f00-7cb2-11ea-9c08-61842fcc6791.gif" width="90%" height="90%">
+</p>
+
+## Installation
+
+```bash
+git clone https://github.com/sdushantha/facebook-dl.git
+cd facebook-dl
+pip3 install -r requirements.txt
+```
+
+## Usage
+```
+usage: facebook-dl.py [-h] url [resolution]
+```
+
+---
+Download video in High Definition.
+```bash
+$ python3 facebook-dl.py https://www.facebook.com/McLaren.Racing/videos/10155088130291413 hd
+```
+
+OR
+
+```bash
+# Without mentioning the resolution will also download in HD
+python3 facebook-dl.py https://www.facebook.com/McLaren.Racing/videos/10155088130291413
+```
+
+Download video in Standard Definition.
+```bash
+python3 facebook-dl.py https://www.facebook.com/McLaren.Racing/videos/10155088130291413 sd
+```

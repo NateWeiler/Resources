@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:27e6de183caa47abb26f7896fce23d628d1916b7f0255a8d1450de2fbfa78ea0
-size 712
+/*global showAddAnotherPopup, showRelatedObjectLookupPopup showRelatedObjectPopup updateRelatedObjectLinks*/
+
+(function($) {
+    'use strict';
+    $(document).ready(function() {
+        var modelName = $('#django-admin-form-add-constants').data('modelName');
+        $('body').on('click', '.add-another', function(e) {
+            e.preventDefault();
+            var event = $.Event('django:add-another-related');
+            $(this).trigger(event);
+            if (!event.isDefaultPrevented()) {
+                showAddAnotherPopup(this);
+            }
+        });
+
+        if (modelName) {
+            $('form#' + modelName + '_form :input:visible:enabled:first').focus();
+        }
+    });
+})(django.jQuery);

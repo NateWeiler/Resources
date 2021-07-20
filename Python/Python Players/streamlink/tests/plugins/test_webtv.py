@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f5b6672fecb3ca44e4070b12478d1f8fd1143b5c295216d9c7e8916dfa940cfb
-size 1218
+import unittest
+
+from streamlink.plugins.webtv import WebTV
+
+
+class TestPluginWebTV(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(WebTV.can_handle_url("http://planetmutfak.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://telex.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://nasamedia.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://genctv.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://etvmanisa.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://startv.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://akuntv.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://telebarnn.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://kanal48.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://digi24tv.web.tv"))
+        self.assertTrue(WebTV.can_handle_url("http://french24.web.tv"))
+
+        # shouldn't match
+        self.assertFalse(WebTV.can_handle_url("http://www.youtube.com/"))
+        self.assertFalse(WebTV.can_handle_url("https://www.tvplayer.com/watch/itv"))
+        self.assertFalse(WebTV.can_handle_url("https://tvplayer.com/watch/itv"))

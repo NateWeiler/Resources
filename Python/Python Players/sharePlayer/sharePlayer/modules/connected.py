@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:15cfd08915f709c35298ba6918f478ee7658b5d3c9f42ddd68488789d53a6440
-size 648
+
+class Connected:
+    """
+    Keep track of who is connected
+    """
+
+    def __init__(self):
+        self._connected = []
+
+    def setConsole(self,console):
+        self._console = console
+
+    def add(self,host):
+        self._connected.append(host)
+        self._console.draw()
+
+    def remove(self,host):
+        try:
+            self._connected.remove(host)
+            self._console.draw()
+        except:
+            # Usually this will happen if there is a failed authentication
+            pass
+
+    def draw(self,height,width):
+
+        return "Connected: {0}".format(
+            ', '.join([host for host in self._connected])
+        )
+

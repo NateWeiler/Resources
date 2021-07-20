@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ec6bf35a1110efa1d9c2a26d78b63e321ed0ce24f4a054dc3b7f2127b78b44a0
-size 532
+import unittest
+
+from streamlink.plugins.tv360 import TV360
+
+
+class TestPluginTV360(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://tv360.com.tr/canli-yayin',
+        ]
+        for url in should_match:
+            self.assertTrue(TV360.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(TV360.can_handle_url(url))

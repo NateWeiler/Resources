@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:27b2108184dd58fbe692cf4eba8968918f0d8ee793ae98e811cf0c41ccb64bae
-size 216
+import sys
+from video_convert import video_to_js
+
+try:
+    filein = sys.argv[1]
+    fileout = "html/video.js"
+    video_to_js(filein, 120, 150, 1, 15, fileout)
+except:
+    print("Usage: %s video_file" % sys.argv[0])

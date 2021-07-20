@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4640294c859393a8aa3ecb68037e9e7d7d6febf1a2f95d4920c3eb18e1544402
-size 659
+{% extends "layouts/base.html" %}
+
+{% block title %}Add To-Do{% endblock %}
+
+{% block content %}
+  <form class="add" method="post">
+    <label>
+      <input type="text" name="text" id="text" autofocus />
+    </label>
+
+    <input type="submit" value="Add To-Do" />
+  </form>
+
+  <a href="/" class="button">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px" viewBox="0 0 50 50" xml:space="preserve">
+      <g>
+        <circle cx="25" cy="25" r="25"></circle>
+        <path d="M32 14 L16 25 L32 36" />
+      </g>
+    </svg>
+
+    <span>Back</span>
+  </a>
+{% endblock %}

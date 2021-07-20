@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b56b3d28edaba6fb3dd3efc4440d4b3314a396219a9d0e9898eba39eaebce9f0
-size 549
+import setuptools
+
+with open("README.md", "r") as f:
+    long_description = f.read()
+
+
+setuptools.setup(
+    name="yourproject"
+    version="0.0.1",
+    author="your name",
+    author_email="your@email.com",
+    url="https://github.com/yourusername/yourproject",
+    description="what does yourproject do?",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    packages=setuptools.find_packages(),
+    install_requires=[],
+    extras_require=[],
+    tests_require=['pytest'],
+    python_requires='>=3.6',
+)
+

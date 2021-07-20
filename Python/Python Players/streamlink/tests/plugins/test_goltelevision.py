@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f6a7eeaa79314c7d87f557e4cd17f2d4e225c638cd454cc170f4efd71d7dd8ed
-size 732
+import unittest
+
+from streamlink.plugins.goltelevision import GOLTelevision
+
+
+class TestPluginEuronews(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(GOLTelevision.can_handle_url("http://www.goltelevision.com/live"))
+        self.assertTrue(GOLTelevision.can_handle_url("http://goltelevision.com/live"))
+        self.assertTrue(GOLTelevision.can_handle_url("https://goltelevision.com/live"))
+        self.assertTrue(GOLTelevision.can_handle_url("https://www.goltelevision.com/live"))
+
+        # shouldn't match
+        self.assertFalse(GOLTelevision.can_handle_url("http://www.tvcatchup.com/"))
+        self.assertFalse(GOLTelevision.can_handle_url("http://www.youtube.com/"))

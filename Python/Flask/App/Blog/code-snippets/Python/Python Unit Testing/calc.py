@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b42ecc549becc09273c02590e97afd14370373f9809b35c4cbdb28430bbad49f
-size 320
+
+def add(x, y):
+    """Add Function"""
+    return x + y
+
+
+def subtract(x, y):
+    """Subtract Function"""
+    return x - y
+
+
+def multiply(x, y):
+    """Multiply Function"""
+    return x * y
+
+
+def divide(x, y):
+    """Divide Function"""
+    if y == 0:
+        raise ValueError('Can not divide by zero!')
+    return x / y

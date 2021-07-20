@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2f550608071f44f230059c8a736a4ff01abc0911604405219534976326aaaa66
-size 331
+import datetime
+
+current_weight = 220
+goal_weight = 180
+avg_lbs_week = 2
+
+start_date = datetime.date.today()
+end_date = start_date
+
+while current_weight > goal_weight:
+    end_date += datetime.timedelta(days=7)
+    current_weight -= avg_lbs_week
+
+print(end_date)
+print(f'Reached goal in {(end_date - start_date).days // 7} weeks')

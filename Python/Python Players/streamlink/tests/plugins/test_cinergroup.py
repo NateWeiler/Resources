@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6b5752637fdcfc762d91c7d037c7b3bd3a95c90c851e92649f7fc03b4da9df4d
-size 799
+import unittest
+
+from streamlink.plugins.cinergroup import CinerGroup
+
+
+class TestPluginCinerGroup(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://showtv.com.tr/canli-yayin',
+            'http://haberturk.com/canliyayin',
+            'http://showmax.com.tr/canliyayin',
+            'http://showturk.com.tr/canli-yayin/showturk',
+            'http://bloomberght.com/tv',
+            'http://haberturk.tv/canliyayin',
+        ]
+        for url in should_match:
+            self.assertTrue(CinerGroup.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(CinerGroup.can_handle_url(url))

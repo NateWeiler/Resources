@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5257e1c14b356506a9cbdb3c134701e8e762aa97d5fc9afe0c722e7740f8a8f9
-size 525
+
+# DEBUG: Detailed information, typically of interest only when diagnosing problems.
+
+# INFO: Confirmation that things are working as expected.
+
+# WARNING: An indication that something unexpected happened, or indicative of some problem in the near future (e.g. ‘disk space low’). The software is still working as expected.
+
+# ERROR: Due to a more serious problem, the software has not been able to perform some function.
+
+# CRITICAL: A serious error, indicating that the program itself may be unable to continue running.

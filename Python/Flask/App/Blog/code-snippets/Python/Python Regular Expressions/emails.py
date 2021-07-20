@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1f34c1e41cc15717ef78293513c5411c4028a8df7d87851859b6a7768087fcf4
-size 260
+import re
+
+emails = '''
+CoreyMSchafer@gmail.com
+corey.schafer@university.edu
+corey-321-schafer@my-work.net
+'''
+
+pattern = re.compile(r'[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+')
+
+matches = pattern.finditer(emails)
+
+for match in matches:
+    print(match)

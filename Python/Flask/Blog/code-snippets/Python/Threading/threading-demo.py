@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:58236d2694a72bd1d4caddad12bd447129db00277d3cdf149e8de544e4fa8015
-size 667
+import concurrent.futures
+import time
+
+start = time.perf_counter()
+
+
+def do_something(seconds):
+    print(f'Sleeping {seconds} second(s)...')
+    time.sleep(seconds)
+    return f'Done Sleeping...{seconds}'
+
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    secs = [5, 4, 3, 2, 1]
+    results = executor.map(do_something, secs)
+
+    # for result in results:
+    #     print(result)
+
+# threads = []
+
+# for _ in range(10):
+#     t = threading.Thread(target=do_something, args=[1.5])
+#     t.start()
+#     threads.append(t)
+
+# for thread in threads:
+#     thread.join()
+
+finish = time.perf_counter()
+
+print(f'Finished in {round(finish-start, 2)} second(s)')

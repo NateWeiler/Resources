@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2717e648bfd77cbaf062c14bfd8418d20ae44c9b01959b3cdcce450ee7e5012c
-size 142
+certifi==2018.10.15
+chardet==3.0.4
+Django==2.1
+django-crispy-forms==1.7.2
+idna==2.7
+Pillow==5.2.0
+pytz==2018.5
+requests==2.19.1
+urllib3==1.23

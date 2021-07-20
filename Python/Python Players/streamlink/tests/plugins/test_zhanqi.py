@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:61af67ab817794540316db0e2adf875b60cf85add28550fb377b0c540bcee755
-size 495
+import unittest
+
+from streamlink.plugins.zhanqi import Zhanqitv
+
+
+class TestPluginZhanqitv(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.zhanqi.tv/lpl',
+        ]
+        for url in should_match:
+            self.assertTrue(Zhanqitv.can_handle_url(url))
+
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Zhanqitv.can_handle_url(url))

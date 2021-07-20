@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:aa5c091eb85c59eb5e7769889fbafd5e6fac078952e2ca03aabd1da108b9cac5
-size 49
+Changelog
+=========
+
+.. include:: ../CHANGES.rst

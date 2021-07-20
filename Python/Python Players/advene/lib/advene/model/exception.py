@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8b1468eb2738ecbaea9e27cf7063a40ebd4210834ef8eeb00eac6fb9b7cbdc3a
-size 1113
+#
+# Advene: Annotate Digital Videos, Exchange on the NEt
+# Copyright (C) 2008-2017 Olivier Aubert <contact@olivieraubert.net>
+#
+# Advene is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Advene is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Advene; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#
+class AdveneException (Exception):
+    """
+    Advene-specific exception.
+
+    Appart from being a specific class,
+    this class is absolutely homogeneous to Exception.
+    """
+    pass
+
+class AdveneValueError (AdveneException, ValueError):
+    """
+    Advene-specific value error.
+    """
+    pass

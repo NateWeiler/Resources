@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3743d97357626cbb2c3cc108bf5e580dd53ca54d4816e67e5fa12d8efcbe4f7c
-size 581
+#!/usr/bin/env python3
+
+from setuptools import setup, Command
+import os.path
+
+setup(
+    name = 'remoteplayer_server',
+    version = '0.1.0',
+    description = "Remote player controllable by RESTful API and built using libMPV",
+    author = 'MarWit',
+    url = 'https://github.com/MarWit/remoteplayer-server',
+    license = 'MIT',
+    packages = [ 'remoteplayer_server' ],
+    install_requires = [
+        'python-mpv',
+        'PyYAML',
+        'bottle',
+    ],
+    entry_points = {
+        'console_scripts': [ 'remoteplayer-server = remoteplayer_server.__main__:main' ]
+    }
+)

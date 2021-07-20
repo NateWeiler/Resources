@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c079eb5226526b0418292839ca17fef25a5aa3e1f70e5e2130eabb0c9049079f
-size 717
+import unittest
+
+from streamlink.plugins.btsports import BTSports
+
+
+class TestPluginBTSports(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(BTSports.can_handle_url("https://sport.bt.com/btsportsplayer/football-match-1"))
+        self.assertTrue(BTSports.can_handle_url("https://sport.bt.com/ss/Satellite/btsportsplayer/football-match-1"))
+
+        # shouldn't match
+        self.assertFalse(BTSports.can_handle_url("http://www.bt.com/"))
+        self.assertFalse(BTSports.can_handle_url("http://bt.com/"))
+        self.assertFalse(BTSports.can_handle_url("http://www.tvcatchup.com/"))
+        self.assertFalse(BTSports.can_handle_url("http://www.youtube.com/"))

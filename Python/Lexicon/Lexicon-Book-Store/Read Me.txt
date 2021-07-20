@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2d430e9a10b1a00a002f6b394f5803fe58d52f374f41fdbf149796b41bd4e05c
-size 219
+# Lexicon-Book-Store
+A Bookstore Management System with information stored in binary files for fast access.
+![image](https://user-images.githubusercontent.com/33005138/40478842-c6261520-5f67-11e8-8e33-a3ca22b31e2f.png)

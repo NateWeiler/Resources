@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e78e1c3ec6c46c140a65342fcb55e06bc296fe1f766ae736154b8436afda297d
-size 534
+import unittest
+
+from streamlink.plugins.foxtr import FoxTR
+
+
+class TestPluginFoxTR(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.fox.com.tr/canli-yayin',
+        ]
+        for url in should_match:
+            self.assertTrue(FoxTR.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(FoxTR.can_handle_url(url))

@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:864c8a78388832def9726247fd28763c833be9bc59649cea4378a670dd2ab512
-size 63
+.DS_Store
+__pycache__/
+*.pyc
+
+# Video Scripts
+s.txt
+script.txt

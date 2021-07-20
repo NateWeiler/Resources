@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3856af6dfcd0c2f1cdb2763a204484ac53477b6903ebd115cc03e24849859385
-size 370
+from nose.tools import *
+from lexicon import *
+from lexicon.parser import *
+
+def test_parser():
+	test_sentence = "I want to kill the bear"
+	result = scan(test_sentence)
+	#assert_equal(result, "")
+	parsed_result = parse_sentence(result)
+	assert_equal(parsed_result.subject, 'player')
+	assert_equal(parsed_result.verb, 'kill')
+	assert_equal(parsed_result.object, 'bear')
+

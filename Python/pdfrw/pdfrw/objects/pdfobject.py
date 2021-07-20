@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e878ec3dbb313216af1b87ab963ffc8f3e6577863f00cda08c708bcfdd669ac9
-size 385
+# A part of pdfrw (https://github.com/pmaupin/pdfrw)
+# Copyright (C) 2006-2015 Patrick Maupin, Austin, Texas
+# MIT license -- See LICENSE.txt for details
+
+
+class PdfObject(str):
+    ''' A PdfObject is a textual representation of any PDF file object
+        other than an array, dict or string. It has an indirect attribute
+        which defaults to False.
+    '''
+    indirect = False

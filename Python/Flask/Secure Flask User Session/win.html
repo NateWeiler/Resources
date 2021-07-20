@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:274c93734274facdc39adcf60530a0c15e22a964b0e40270c895b8c513b6fc35
-size 298
+win.html:
+
+<html>
+    <head>
+        <title>Guess the number: You win!</title>
+    </head>
+    <body>
+        <h1>Guess the number!</h1>
+        <p>Congratulations, {{ session['answer'] }} is the correct number.</p>
+        <p><a href="{{ url_for('index') }}">Play again</a></p>
+    </body>
+</html>

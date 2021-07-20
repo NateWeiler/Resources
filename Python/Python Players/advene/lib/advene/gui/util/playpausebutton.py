@@ -1,3 +1,47 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3d4cadd76c3abfaddf405b761ec181ae3ae6fc571b4de2fbcc6b0dba7b51384f
-size 1659
+#
+# Advene: Annotate Digital Videos, Exchange on the NEt
+# Copyright (C) 2008-2017 Olivier Aubert <contact@olivieraubert.net>
+#
+# Advene is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Advene is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Advene; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#
+"""PlayPause button.
+"""
+
+from gi.repository import Gtk
+
+class PlayPauseButton(Gtk.ToolButton):
+    def __init__(self, *p, **kw):
+        super(PlayPauseButton, self).__init__(*p, **kw)
+        self.active_id = Gtk.STOCK_MEDIA_PLAY
+        self.inactive_id = Gtk.STOCK_MEDIA_PAUSE
+        self.is_active = True
+
+    def set_stock_ids(self, active_id, inactive_id):
+        self.active_id = active_id
+        self.inactive_id = inactive_id
+        if self.is_active:
+            self.set_stock_id(self.active_id)
+        else:
+            self.set_stock_id(self.inactive_id)
+
+    def set_active(self, a):
+        if a == self.is_active:
+            return
+        if a:
+            self.set_stock_id(self.active_id)
+            self.is_active = True
+        else:
+            self.set_stock_id(self.inactive_id)
+            self.is_active = False

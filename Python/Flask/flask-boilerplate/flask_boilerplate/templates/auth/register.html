@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9e7a584793f1db07be453594d8b826ec32f7fca484bab40c10ad741d506512c4
-size 556
+{% extends "layouts/base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+  <form class="register" method="post">
+    <label for="email">
+      Email:
+      <input type="email" name="email" />
+      <!-- <input type="email" value="{{ email }}" name="email" /> -->
+    </label>
+
+    <label for="password">
+      Password:
+      <input type="password" name="password" />
+      <!-- <input type="password" value="{{ password }}" name="password" /> -->
+    </label>
+
+    <input type="submit" value="Register" />
+  </form>
+{% endblock %}
+

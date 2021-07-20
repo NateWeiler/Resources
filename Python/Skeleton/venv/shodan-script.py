@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d52ced0c4b64fbc0f80383a3dcf3fadf73429104d8aff79fc320db09a06a2efd
-size 396
+#!g:\code\editor\python\python.exe
+# EASY-INSTALL-ENTRY-SCRIPT: 'shodan==1.23.0','console_scripts','shodan'
+__requires__ = 'shodan==1.23.0'
+import re
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+    sys.exit(
+        load_entry_point('shodan==1.23.0', 'console_scripts', 'shodan')()
+    )

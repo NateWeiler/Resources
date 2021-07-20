@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3913ccdd020e22efe55aff4cd74d5b3c766df9b9b2f018aedbaeb7680a0ee748
-size 147
+{{ text }}
+{{ html }}
+{% autoescape false %}{{ text }}
+{{ html }}{% endautoescape %}
+{% autoescape true %}{{ text }}
+{{ html }}{% endautoescape %}

@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5945fefa0fb5ab8c8e46c9ad52f0fa816f25159926cca4d4dba259f606a343e0
-size 625
+import io
+
+from setuptools import find_packages
+from setuptools import setup
+
+with io.open("README.rst", "rt", encoding="utf8") as f:
+    readme = f.read()
+
+setup(
+    name="flaskr",
+    version="1.0.0",
+    url="https://flask.palletsprojects.com/tutorial/",
+    license="BSD",
+    maintainer="Pallets team",
+    maintainer_email="contact@palletsprojects.com",
+    description="The basic blog app built in the Flask tutorial.",
+    long_description=readme,
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=["flask"],
+    extras_require={"test": ["pytest", "coverage"]},
+)

@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:709be81efeee11fe7cd73643ea55564e5a5a7d1d13151abf5ea2cbcde990e18d
-size 339
+import unittest
+
+from streamlink.plugins.dlive import DLive
+
+
+class TestPluginDLive(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(DLive.can_handle_url("https://dlive.tv/pewdiepie"))
+
+        # shouldn't match
+        self.assertFalse(DLive.can_handle_url("https://twitch.tv/lirik"))

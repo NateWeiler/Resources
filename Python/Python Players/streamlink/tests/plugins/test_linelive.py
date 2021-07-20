@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:007b55b3336e86e4367b2b5ca7bd747ec7559496b5507a37003a3598503d58b7
-size 702
+import unittest
+
+from streamlink.plugins.linelive import LineLive
+
+
+class TestPluginLineLive(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://live.line.me/channels/123/broadcast/12345678',
+            'https://live.line.me/channels/123/broadcast/12345678',
+        ]
+        for url in should_match:
+            self.assertTrue(LineLive.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+            'https://live.line.me/channels/123/upcoming/12345678',
+        ]
+        for url in should_not_match:
+            self.assertFalse(LineLive.can_handle_url(url))

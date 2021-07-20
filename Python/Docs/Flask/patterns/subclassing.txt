@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5f7e400c7970951eb104df5a2d9613c8986a3b05c16bf622d7d1a6ddc69d720b
-size 676
+Subclassing Flask
+=================
+
+The :class:`~flask.Flask` class is designed for subclassing.
+
+For example, you may want to override how request parameters are handled to preserve their order::
+
+    from flask import Flask, Request
+    from werkzeug.datastructures import ImmutableOrderedMultiDict
+    class MyRequest(Request):
+        """Request subclass to override request parameter storage"""
+        parameter_storage_class = ImmutableOrderedMultiDict
+    class MyFlask(Flask):
+        """Flask subclass using the custom request class"""
+        request_class = MyRequest
+
+This is the recommended approach for overriding or augmenting Flask's internal functionality.

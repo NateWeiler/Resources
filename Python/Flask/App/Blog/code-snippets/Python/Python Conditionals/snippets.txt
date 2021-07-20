@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:75f98682d0fc4228b4ee1b813100b61a0364a3b21a81498663a156cf6d713107
-size 443
+
+# Comparisons:
+# Equal:            ==
+# Not Equal:        !=
+# Greater Than:     >
+# Less Than:        <
+# Greater or Equal: >=
+# Less or Equal:    <=
+# Object Identity:  is
+
+
+# False Values:
+    # False
+    # None
+    # Zero of any numeric type
+    # Any empty sequence. For example, '', (), [].
+    # Any empty mapping. For example, {}.
+
+condition = False
+
+if condition:
+    print('Evaluated to True')
+else:
+    print('Evaluated to False')

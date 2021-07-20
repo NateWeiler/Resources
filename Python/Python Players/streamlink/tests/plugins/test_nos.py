@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:18b961e33ab8a6ad5db801fd3b707faa3fad71d61ad1a4727970aac2f145d280
-size 568
+import unittest
+
+from streamlink.plugins.nos import NOS
+
+
+class TestPluginNOS(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://nos.nl/livestream/2220100-wk-sprint-schaatsen-1-000-meter-mannen.html',
+        ]
+        for url in should_match:
+            self.assertTrue(NOS.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(NOS.can_handle_url(url))

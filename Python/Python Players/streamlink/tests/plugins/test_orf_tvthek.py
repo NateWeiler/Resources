@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8a6a85130ee6b1ad421a0d75f23a17c55cbe9ae6df86419659ec98d6fba415bf
-size 563
+import unittest
+
+from streamlink.plugins.orf_tvthek import ORFTVThek
+
+
+class TestPluginORFTVThek(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://tvthek.orf.at/live/Wetter/13953206',
+        ]
+        for url in should_match:
+            self.assertTrue(ORFTVThek.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(ORFTVThek.can_handle_url(url))

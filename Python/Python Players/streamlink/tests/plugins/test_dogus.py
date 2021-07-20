@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:53338d26dd40db341441a8fa01df7a97063dd1d80684574e6bc068c0f14a1e81
-size 586
+import unittest
+
+from streamlink.plugins.dogus import Dogus
+
+
+class TestPluginDogus(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.ntvspor.net/canli-yayin',
+            'http://eurostartv.com.tr/canli-izle',
+        ]
+        for url in should_match:
+            self.assertTrue(Dogus.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Dogus.can_handle_url(url))

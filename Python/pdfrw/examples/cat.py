@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8b42a07df160ed7a1610354a7ee4078f03db81d980a71f076d5897d386bcd00b
-size 663
+#!/usr/bin/env python
+
+'''
+usage:   cat.py <first.pdf> [<next.pdf> ...]
+
+Creates cat.<first.pdf>
+
+This file demonstrates two features:
+
+1) Concatenating multiple input PDFs.
+
+2) adding metadata to the PDF.
+
+'''
+
+import sys
+import os
+
+from pdfrw import PdfReader, PdfWriter, IndirectPdfDict
+
+inputs = sys.argv[1:]
+assert inputs
+outfn = 'cat.' + os.path.basename(inputs[0])
+
+writer = PdfWriter()
+for inpfn in inputs:
+    writer.addpages(PdfReader(inpfn).pages)
+
+writer.trailer.Info = IndirectPdfDict(
+    Title='your title goes here',
+    Author='your name goes here',
+    Subject='what is it all about?',
+    Creator='some script goes here',
+)
+writer.write(outfn)

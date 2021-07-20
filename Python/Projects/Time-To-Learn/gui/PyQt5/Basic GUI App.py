@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3e5427f7cdda84c2f90fd2bc4a5ecefa33a68d47b733e745e209bf20a47cdf1c
-size 800
+﻿#!python
+
+# Basic GUI App
+
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
+import sys
+
+def main():
+    app = QApplication(sys.argv)
+    win = QMainWindow()
+    win.setGeometry(1000,1000,1000,1000,) 
+    win.setWindowTitle("My first window!") 
+    
+    label = QLabel(win)
+    label.setText("my first label")
+    label.move(100, 250)  
+
+    win.show()
+    sys.exit(app.exec_())
+
+main()  # make sure to call the function
+
+win.setGeometry(1000,1000,1000,1000,) # sets the windows x, y, width, height
+win.setWindowTitle("My first window!")  # setting the window title
+	
+label = QLabel(win)
+label.setText("my first label")
+label.move(150, 150)  # x, y from top left hand corner.
+# If we want to see the label now we will need to show the window.
+
+jkwin.show()

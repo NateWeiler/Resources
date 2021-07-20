@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8cc7e12e78ac2a36db0803e282f6c1c7cf895e6df94d26bc0c6e64a96a59b0c4
-size 720
+import unittest
+
+from streamlink.plugins.mediaklikk import Mediaklikk
+
+
+class TestPluginMediaklikk(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.mediaklikk.hu/duna-world-elo/',
+            'https://www.mediaklikk.hu/duna-world-radio-elo',
+            'https://www.mediaklikk.hu/m1-elo',
+            'https://www.mediaklikk.hu/m2-elo',
+        ]
+        for url in should_match:
+            self.assertTrue(Mediaklikk.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://www.mediaklikk.hu',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Mediaklikk.can_handle_url(url))

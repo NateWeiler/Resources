@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5522f50e1b64b73dd8dad03f442d7050fee596c02b69837002ef698b27c74e4c
-size 552
+import unittest
+
+from streamlink.plugins.rtlxl import rtlxl
+
+
+class TestPluginrtlxl(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.rtl.nl/video/206a0db0-9bc8-3a32-bda3-e9b3a9d4d377/',
+        ]
+        for url in should_match:
+            self.assertTrue(rtlxl.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://www.rtl.nl/',
+        ]
+        for url in should_not_match:
+            self.assertFalse(rtlxl.can_handle_url(url))

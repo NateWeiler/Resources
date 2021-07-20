@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4df3583b58c004f36b472d8eb0a4cdc0ac930e418383793bde1d427733953415
-size 209
+from django.shortcuts import render
+from django.http import HttpResponse
+
+
+def home(request):
+    return HttpResponse('<h1>Blog Home</h1>')
+
+
+def about(request):
+    return HttpResponse('<h1>Blog About</h1>')

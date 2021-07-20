@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b5606308e0358946109ef052a2bf97e3ec674ddfade986e99d1fcd682b570655
-size 839
+#
+# Advene: Annotate Digital Videos, Exchange on the NEt
+# Copyright (C) 2008-2017 Olivier Aubert <contact@olivieraubert.net>
+#
+# Advene is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# Advene is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Advene; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+#
+"""Advene GUI plugins."""

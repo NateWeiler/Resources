@@ -1,3 +1,2 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:41a02339e2fc1e9b2c4a032cbff7908f5c8b0925a232e218d44ae88b82e20be6
-size 70
+SECRET_KEY = b'\xd7\xa4\xd9,\xf0\xb5\xe8\xf4\xa56\x1cP>\xf4\xa0\xa9'
+

@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2f35b789a8d5c4b71bb3cfd03a11701bf2581058ad8d24ca3e6ff76c8575a34e
-size 682
+
+class Banner:
+    """
+    Just a silly banner class
+    """
+
+    def __init__(self):
+        pass
+
+    def setConsole(self,console):
+        self._console = console
+
+    def draw(self,height,width):
+
+        # If we're in too small of an area to actually draw, just type
+        if height < 4 or width < 49:
+            return "sharePlayer -- {0}".format(url)
+
+        else:
+            return banner
+
+url = '(c) https://github.com/Owlz/sharePlayer'
+
+banner = """  ___ / /  ___ ________ / _ \/ /__ ___ _____ ____
+ (_-</ _ \/ _ `/ __/ -_) ___/ / _ `/ // / -_) __/
+/___/_//_/\_,_/_/  \__/_/  /_/\_,_/\_, /\__/_/   
+                                  /___/          {0}""".format(url)

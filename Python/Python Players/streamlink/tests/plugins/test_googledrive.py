@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:029922fc6978a49dc77d1788f169f3ef8422fbcae05ba36071bdb15c9ac854a1
-size 581
+import unittest
+
+from streamlink.plugins.googledrive import GoogleDocs
+
+
+class TestPluginGoogleDocs(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://drive.google.com/file/d/123123/preview?start=1',
+        ]
+        for url in should_match:
+            self.assertTrue(GoogleDocs.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(GoogleDocs.can_handle_url(url))

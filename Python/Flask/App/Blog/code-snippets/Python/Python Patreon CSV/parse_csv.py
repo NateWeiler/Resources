@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f0bd4a5caf4766c79e6ca71dce16e2cf8877389543226e8f712f7adecb40a36e
-size 567
+import csv
+
+html_output = ''
+names = []
+
+with open('patrons.csv', 'r') as data_file:
+    csv_data = csv.DictReader(data_file)
+
+    # We don't want first line of bad data
+    next(csv_data)
+
+    for line in csv_data:
+        if line['FirstName'] == 'No Reward':
+            break
+        names.append(f"{line['FirstName']} {line['LastName']}")
+
+html_output += f'<p>There are currently {len(names)} public contributors. Thank You!</p>'
+
+html_output += '\n<ul>'
+
+for name in names:
+    html_output += f'\n\t<li>{name}</li>'
+
+html_output += '\n</ul>'
+
+print(html_output)

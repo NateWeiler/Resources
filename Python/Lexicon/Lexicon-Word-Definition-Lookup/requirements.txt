@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:61df977b306bf2dd2cce2a6add5ed30830c52f7db87c6d8d81ab827f32502666
-size 89
+easygui==0.98.1
+pyperclip==1.6.0
+requests>=2.20.0
+keyboard==0.11.0
+beautifulsoup4==4.6.0

@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f6fe2ede162777894624c5e26e2db088e3c1e75691d6ab321baf1f78f4cf579c
-size 51
+pychromecast>=0.8.1
+twisted>=17.5.0
+chardet>=3.0.4

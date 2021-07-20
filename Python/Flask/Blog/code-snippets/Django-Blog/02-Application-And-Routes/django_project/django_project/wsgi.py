@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:df821960d88407f4cfb171428cc874d3889a08959a333a09fe00243e83bbaa75
-size 405
+"""
+WSGI config for django_project project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/
+"""
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_project.settings')
+
+application = get_wsgi_application()

@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1ae42415c00a3aecce0b90bc753ecea1d0753d2617f18e875502881bddec7661
-size 772
+from streamlink.plugins.stadium import Stadium
+import unittest
+
+
+class TestPluginStadium(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(Stadium.can_handle_url("http://www.watchstadium.com/live"))
+        self.assertTrue(Stadium.can_handle_url("https://www.watchstadium.com/live"))
+        self.assertTrue(Stadium.can_handle_url("https://watchstadium.com/live"))
+        self.assertTrue(Stadium.can_handle_url("http://watchstadium.com/live"))
+
+        # shouldn't match
+        self.assertFalse(Stadium.can_handle_url("http://www.watchstadium.com/anything/else"))
+        self.assertFalse(Stadium.can_handle_url("http://www.tvcatchup.com/"))
+        self.assertFalse(Stadium.can_handle_url("http://www.youtube.com/"))

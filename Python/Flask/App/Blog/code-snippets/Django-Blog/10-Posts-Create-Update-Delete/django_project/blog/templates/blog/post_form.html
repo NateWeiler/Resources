@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:34b1c376be12a81d33fdbc6df6503d5438c2132ba6cdb966c50fa434dc399d4c
-size 529
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Blog Post</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Post</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

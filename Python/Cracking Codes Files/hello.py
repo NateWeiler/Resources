@@ -1,3 +1,5 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8a319fa05e504caccc3cad34bd7811676800f3886a160cf57824951d23d9d480
-size 157
+# This program says hello and asks for my name.
+print('Hello world!')
+print('What is your name?')
+myName = input()
+print('It is good to meet you, ' + myName)

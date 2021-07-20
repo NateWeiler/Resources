@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9a4663f285871e7637da85929480dd6f3cf01828c31d9fd169e64ef985e99333
-size 801
+# -*- coding: utf-8 -*-
+"""Streamlink extracts streams from various services.
+
+The main compontent of Streamlink is a command-line utility that
+launches the streams in a video player.
+
+An API is also provided that allows direct access to stream data.
+
+Full documentation is available at https://streamlink.github.io.
+
+"""
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
+__title__ = "streamlink"
+__license__ = "Simplified BSD"
+__author__ = "Streamlink"
+__copyright__ = "Copyright 2020 Streamlink"
+__credits__ = ["https://github.com/streamlink/streamlink/blob/master/AUTHORS"]
+
+from .api import streams
+from .exceptions import (StreamlinkError, PluginError, NoStreamsError,
+                         NoPluginError, StreamError)
+from .session import Streamlink

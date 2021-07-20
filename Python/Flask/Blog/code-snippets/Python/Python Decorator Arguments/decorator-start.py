@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:af6cab40ba0bed1b8aa12bd6cbceca6139c134b58a89d9374a1e9b6ac420d866
-size 507
+# Decorators
+
+
+def decorator_function(original_function):
+    def wrapper_function(*args, **kwargs):
+        print('Executed Before', original_function.__name__)
+        result = original_function(*args, **kwargs)
+        print('Executed After', original_function.__name__, '\n')
+        return result
+    return wrapper_function
+
+
+@decorator_function
+def display_info(name, age):
+    print('display_info ran with arguments ({}, {})'.format(name, age))
+
+
+display_info('John', 25)
+display_info('Travis', 30)

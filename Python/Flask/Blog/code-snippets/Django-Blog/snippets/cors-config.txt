@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:eed03e70680e0a5be82361c333e9c02cc44440e8e88dc3622950bdc1f90a65a5
-size 370
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+   <CORSRule>
+        <AllowedOrigin>*</AllowedOrigin>
+        <AllowedMethod>GET</AllowedMethod>
+        <AllowedMethod>POST</AllowedMethod>
+        <AllowedMethod>PUT</AllowedMethod>
+        <AllowedHeader>*</AllowedHeader>
+    </CORSRule>
+</CORSConfiguration>

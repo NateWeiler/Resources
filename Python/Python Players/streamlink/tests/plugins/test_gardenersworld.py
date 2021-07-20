@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6e15d620e8499ff63dae37a16b4926d92fd5dfd3e49ab2f223953745f4b53290
-size 576
+import unittest
+
+from streamlink.plugins.gardenersworld import GardenersWorld
+
+
+class TestPluginGardenersWorld(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.gardenersworld.com/',
+        ]
+        for url in should_match:
+            self.assertTrue(GardenersWorld.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(GardenersWorld.can_handle_url(url))

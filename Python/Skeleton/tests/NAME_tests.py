@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0392db5c2872ec4623746247606722205bcedf3c9482d8e8dfea2098e250c0af
-size 151
+from nose.tools import *
+import NAME
+
+def setup():
+    print("SETUP!")
+
+def teardown():
+    print("TEAR DOWN!")
+
+def test_basic():
+    print("I RAN!")

@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:56f0f7c4fc9f784bd249209461dfab122b3f500e454e3e35ebfd7c0f04d18c35
-size 75
+# Other Features: QR
+
+.qr: 450|https://github.com/ionelmc/python-darkslide

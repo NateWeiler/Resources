@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:694337dc1b3cc3d83ce53f16d3bb4f273bac6c87091f2a441998cffd4ecfc170
-size 252
+import datetime
+import pytz
+
+a = datetime.datetime.utcnow().replace(tzinfo=pytz.UTC)
+
+b = str(a)
+
+print 'str(a): {}'.format(str(a))
+print 'str(b): {}'.format(str(b))
+
+print
+
+print 'repr(a): {}'.format(repr(a))
+print 'repr(b): {}'.format(repr(b))
+
+print

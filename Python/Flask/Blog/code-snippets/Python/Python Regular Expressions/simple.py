@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f3d79e716ff5e2c032d4f0b62913ec7611695892947735e01dca54c8e7710e62
-size 455
+import re
+
+text_to_search = '''
+abcdefghijklmnopqurtuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+1234567890
+
+Ha HaHa
+
+MetaCharacters (Need to be escaped):
+. ^ $ * + ? { } [ ] \ | ( )
+
+coreyms.com
+
+321-555-4321
+123.555.1234
+123*555*1234
+800-555-1234
+900-555-1234
+
+Mr. Schafer
+Mr Smith
+Ms Davis
+Mrs. Robinson
+Mr. T
+'''
+
+sentence = 'Start a sentence and then bring it to an end'
+
+pattern = re.compile(r'start', re.I)
+
+matches = pattern.search(sentence)
+
+print(matches)

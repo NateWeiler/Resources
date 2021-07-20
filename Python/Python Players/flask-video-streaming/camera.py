@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:78fbc1424ae8fe4ad7dc4b2378f715be58c02810b45d50063e4ee415902c0858
-size 426
+import time
+from base_camera import BaseCamera
+
+
+class Camera(BaseCamera):
+    """An emulated camera implementation that streams a repeated sequence of
+    files 1.jpg, 2.jpg and 3.jpg at a rate of one frame per second."""
+    imgs = [open(f + '.jpg', 'rb').read() for f in ['1', '2', '3']]
+
+    @staticmethod
+    def frames():
+        while True:
+            time.sleep(1)
+            yield Camera.imgs[int(time.time()) % 3]

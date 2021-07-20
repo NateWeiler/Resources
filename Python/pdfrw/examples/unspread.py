@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4db12a608b7eaa88da0e96c8b0cb9d43d9bf7d673a1731ae277cb1fe07d229f7
-size 674
+#!/usr/bin/env python
+
+'''
+usage:   unspread.py my.pdf
+
+Creates unspread.my.pdf
+
+Chops each page in half, e.g. if a source were
+created in booklet form, you could extract individual
+pages.
+'''
+
+import sys
+import os
+
+from pdfrw import PdfReader, PdfWriter, PageMerge
+
+
+def splitpage(src):
+    ''' Split a page into two (left and right)
+    '''
+    # Yield a result for each half of the page
+    for x_pos in (0, 0.5):
+        yield PageMerge().add(src, viewrect=(x_pos, 0, 0.5, 1)).render()
+
+
+inpfn, = sys.argv[1:]
+outfn = 'unspread.' + os.path.basename(inpfn)
+writer = PdfWriter(outfn)
+for page in PdfReader(inpfn).pages:
+    writer.addpages(splitpage(page))
+writer.write()

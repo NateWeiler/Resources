@@ -1,3 +1,216 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5f75c75100a386b4ab9ebcb4cf7b095e9c8c2c55511aa07e96a6f6f1017f9812
-size 8413
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"></meta>
+    <meta name="viewport" content="width=device-width"></meta>
+    <title>Advene Shortcuts</title>
+  </head>
+
+  <body>
+    <pre>
+Advene shortcuts
+================
+
+This wiki documents the shortcuts available in the most recent version
+of Advene (3.3).
+
+Generic player shortcuts
+------------------------
+
+These shortcuts are available in most parts/views of the
+interface. The *Control* prefix can be changed to some other special
+key on the keyboard (Alt, Meta, Shift...) through `Edit/Preferences`.
+
+-   **Control+Tab** or Control-Space : play/pause the movie. *Note:*
+    Using simply Space is a frequent request, but cannot be used here
+    since Advene is about annotating videos. We need to be able to
+    enter a space character as annotation content, hence it cannot be
+    used for control.
+-   Control+right/left : go forward/backward in the movie by 2 s
+    (customizable through `Edit/Preferences/Time related`)
+-   Control+Shift-right/left : go forward/backward in the movie by 5 s
+    (customizable through `Edit/Preferences/Time related`)
+-   Control+down/up : go forward/backward in the movie by 1/25 s
+    (customizable through `Edit/Preferences/Time related`)
+-   Control+Shift-down/up : go forward/backward in the movie by 1ms
+    (customizable through `Edit/Preferences/Time related`)
+-   Control+Home : go to the beginning of the movie
+-   Control+End : go to the end of the movie
+-   Insert (Linux, Windows) or Alt-Space (Linux, Mac OS X): create a new
+    bookmark
+-   Insert + Shift or Alt-Space + Shift: create a new bookmark next to
+    the current one
+-   Numeric/symbolic keypad shortcuts:
+    -   0 or Insert: create a new bookmark
+    -   5 or Begin: play/pause
+    -   8/2 or Up/Down: go forward/backward in the movie by 1/25 s
+    -   4/6 or Left/Right: go forward/backward in the movie by 2 s (5 s
+        with Shift)
+    -   7 or Home: go to the beginning of the movie
+    -   1 or End: go to the end of the movie
+
+Fullscreen shortcuts
+--------------------
+
+In addition to the generic player shortcuts, additional shorcuts are
+available in fullscreen mode.
+
+-   **Tab** or Space : play/pause the movie (no *Control* is needed if
+    we are not entering text yet).
+-   right/left : go forward/backward in the movie by 2 s (customizable
+    through Edit/Preferences/Time related)
+-   shift-right/left : go forward/backward in the movie by 5 s
+    (customizable through Edit/Preferences/Time related)
+-   up/down : go forward/backward in the movie by 1/25 s (optionally
+    customizable)
+-   Shift-down/up : go forward/backward in the movie by 1ms
+    (customizable through Edit/Preferences/Time related)
+-   Home : go to the beginning of the movie
+-   End : go to the end of the movie
+-   1 to 0 keys (top row of the keyboard) display the *n* 10th of the
+    movie, i.e. 1 displays the first 10% (goes to the beginning), 2
+    displays the second 10%, etc. As a convenience for french users
+    (AZERTY keyboard), the Shift key does not have to be pressed to get
+    the behaviour, simply press the key with the number on it.
+
+Main GUI
+--------
+
+-   Control-q : quit the application
+-   Control-s : save the package
+-   Control-k : select the quicksearch entry
+-   Control-a : open the EditAccumulator
+-   Control-e : get the evaluator window (for advanced users)
+
+Timeline
+--------
+
+### Timeline background
+
+-   `p` : play the movie at the cursor position
+-   single-click in the snapshots zone/timescale: play at the cursor
+    position
+-   double-click in the background: play at the cursor position
+-   single-click in the background: unlock the inspector if it was
+    locked
+-   `c` : center the timeline on the current player position
+-   draw a rectangle on the background: if the area covers at least one
+    annotation, select covered annotations. Else, propose to either
+    create an annotation or to zoom on the selected area.
+
+### Annotation widget
+
+-   simple click: player the annotation and lock the inspector on this
+    annotation
+-   `e` or double-click : edit the annotation
+-   `a` : adjust annotation begin time
+-   `A` : adjust annotation end time
+-   `h` : toggle highlight annotation (in all views)
+-   `Return` : quickly edit the annotation (textual content only).
+-   `p` : play the annotation (either at the beginning or the end,
+    depending on the cursor position)
+-   `space` : play the focused annotation (even if the cursor is not
+    on the annotation widget)
+-   control+click : set the annotation begin or end (depending on the
+    cursor position) to the current movie time
+-   control+scroll : update the annotation begin or end (depending on
+    the cursor position) time. Holding Shift uses a larger increment
+-   control+return : split the annotation at the current player position
+    (if the position is in the annotation's bounds)
+-   `Delete` or `Backspace` : delete the annotation
+-   Drag-and-drop of an annotation on another one: popup a menu to
+    propose to create a relation, merge annotations or align bounds.
+
+### Quick edit mode
+
+Quick-edit mode is obtained in the timeline by pressing Enter while the
+mouse pointer is over an annotation. It allows to edit the annotation
+content through a small text entry with the following shortcuts:
+
+-   `Return`: validate the new content
+-   `Escape`: cancel the editing
+-   `Tab`: validate the content and quick-edit the following annotation
+
+### Annotation-type widget
+
+-   `e` : edit the annotation-type
+-   `a` : display the Shot validation interface
+-   `Return` : create a new annotation with the current position as begin
+    time, edit it, and use the new current position value as end time
+    when validating
+-   `Space` : restrict playing to annotations of the given annotation-type
+    (toggle)
+
+Active bookmarks
+----------------
+
+-   Shift+DND on a timestamp: move the timestamp
+-   Control+DND on a timestamp : copy the timestamp
+-   Control+D: duplicate a bookmark
+-   See also the bookmark creation shortcuts (Insert/Alt-Space) in the
+    [\#Generic\_player\_shortcuts](#Generic_player_shortcuts "wikilink")
+
+Note-taking
+-----------
+
+-   `Control-Return` : insert a timestamp mark (if the movie is playing)
+-   `Control-Shift-Return` : pause and insert a timestamp mark
+-   `Control-PageDown/PageUp` : go to next/previous mark
+-   Control-Scroll on a mark: update the mark timestamp. If the
+    play-on-scroll option is set, the player will be set to the new
+    position when the control key is released.
+-   Control-Shift-Scroll: update the timestamp with a larger step
+    (customizable through Edit/Preferences/Time related)
+-   Control-Click in the text in single-click-insert mode : move cursor
+    (instead of inserting a mark)
+-   `Control-C`: convert transcription into annotations
+
+Table view
+----------
+
+- `Return` edits the content of the annotation
+- `Control-<`/`Control->` modifies begin/end time
+- `Space` or `Control-Return` plays the selected annotation
+
+Element Edition popup
+---------------------
+
+### Text and generic content handler
+
+-   `Control-s` : save the content
+-   `Control-o` : get the content from a file
+-   `Control-r` : reload the content (re-uses the filename used to save)
+-   `Control-i` : insert a TALES expression or result from the package
+    browser (text content only)
+
+### Timecode edit widget
+
+-   Click on image: play the movie
+-   Control+click on image: set the value to current player time
+-   Control+scroll on image: modify the value
+-   Right click: display a popup menu, which offers to save the
+    screenshot, adjust the timestamp through the frame selector or use
+    the current player time.
+
+Evaluator
+---------
+
+For advanced users, a python shell is available to directly access the
+internal API. Feel free to tinker with it but there are no safeguards.
+
+-   F1: display the help message
+-   Control-w: close the window
+-   Control-Return: evaluate the expression
+-   Control-l: clear the expression buffer
+-   Control-S: save the expression buffer
+-   Control-n: next item in history
+-   Control-p: previous item in history
+-   Control-PageUp/PageDown: scroll the output window
+-   Control-s: save the output
+-   Control-d: display completion possibilities
+-   Tab: perform autocompletion
+-   Control-h: display docstring for element before cursor
+-   Control-H: display source for element before cursor
+    </pre>
+  </body>
+</html>

@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d0ea3d141790e83b43ed648f4dd4cd21d87f0a2b8511f0a94dd4299b52fa8e86
-size 287
+The Files.py contains all the code snippets shown in
+the tutorial. To explicitly use them all through out the video tutorial, make sure to uncomment
+them to use it.
+
+In the image section, make sure to use your own image.
+
+
+Video Link: https://www.youtube.com/watch?v=Uh2ebFW8OYM&t=1295s

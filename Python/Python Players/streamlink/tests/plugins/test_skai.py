@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5d068ab563bda495fd090b2fda919b676b39b92baf3d97b1ab4c5b65e5d5c585
-size 570
+import unittest
+
+from streamlink.plugins.skai import Skai
+
+
+class TestPluginSkai(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.skai.gr/player/tvlive/',
+            'http://www.skaitv.gr/live',
+        ]
+        for url in should_match:
+            self.assertTrue(Skai.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Skai.can_handle_url(url))

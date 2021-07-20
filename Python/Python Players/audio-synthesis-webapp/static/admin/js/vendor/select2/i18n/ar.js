@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:286a9c84c6d8452ea38b5f1d4aade7ac2fff005dcbc03e387a7d356cb1a4ace4
-size 941
+/*! Select2 4.0.7 | https://github.com/select2/select2/blob/master/LICENSE.md */
+
+(function(){if(jQuery&&jQuery.fn&&jQuery.fn.select2&&jQuery.fn.select2.amd)var e=jQuery.fn.select2.amd;return e.define("select2/i18n/ar",[],function(){return{errorLoading:function(){return"لا يمكن تحميل النتائج"},inputTooLong:function(e){var t=e.input.length-e.maximum;return"الرجاء حذف "+t+" عناصر"},inputTooShort:function(e){var t=e.minimum-e.input.length;return"الرجاء إضافة "+t+" عناصر"},loadingMore:function(){return"جاري تحميل نتائج إضافية..."},maximumSelected:function(e){return"تستطيع إختيار "+e.maximum+" بنود فقط"},noResults:function(){return"لم يتم العثور على أي نتائج"},searching:function(){return"جاري البحث…"},removeAllItems:function(){return"قم بإزالة كل العناصر"}}}),{define:e.define,require:e.require}})();

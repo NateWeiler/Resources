@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1621c24abf4668c5203bbc7a486d3d272dea54d527f69fa7882b8bf4152fd129
-size 945
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    {% block head %}
+    <title>{% block title %}{% endblock %}</title>
+    
+
+    <link rel="stylesheet" href="static/styles.css" type="text/css" />
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon" />
+
+    <script src="static/main.js"></script>
+    {% endblock %}
+  </head>
+  <body class="preload">
+    <header class="wrapper">
+      <h1>{{ self.title() }}</h1>
+    </header>
+
+    <main class="wrapper">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <p class="flash {{ category }}">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+
+    {% include 'layouts/footer.html' %}
+  </body>
+</html>

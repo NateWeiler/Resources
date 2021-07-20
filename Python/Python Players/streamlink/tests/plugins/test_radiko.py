@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:791070456f299cd0ca329333d99cb7758f80a309804e0416e2a23c430decb6c9
-size 685
+import unittest
+
+from streamlink.plugins.radiko import Radiko
+
+
+class TestPluginRadiko(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://radiko.jp/#!/live/QRR',
+            'http://radiko.jp/live/QRR',
+            'http://radiko.jp/#!/ts/QRR/20200308180000',
+            'http://radiko.jp/ts/QRR/20200308180000'
+        ]
+        for url in should_match:
+            self.assertTrue(Radiko.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Radiko.can_handle_url(url))

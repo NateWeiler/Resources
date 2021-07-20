@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3cf0699d826fb9c9ff42c83d17d30c367619fcec6649799d61992b9c63812628
-size 395
+#!/usr/bin/env bash
+
+[[ "$CI" = true ]] || [[ -n "$GITHUB_ACTIONS" ]] || [[ -n "$VIRTUAL_ENV" ]] || exit 1
+
+set -ex
+
+python -m pip install --disable-pip-version-check --upgrade pip setuptools
+python -m pip install --upgrade -r dev-requirements.txt
+python -m pip install 'pycountry==19.8.18;python_version<"3.0"'
+python -m pip install 'pycountry;python_version>="3.0"'
+python -m pip install -e .

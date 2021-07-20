@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:adaf8c64dd62c903420b3547ec6755065a22a65f5fdba2d89e3b743a0fe96d77
-size 920
+import unittest
+
+from streamlink.plugins.steam import SteamBroadcastPlugin
+
+
+class TestPluginSteamBroadcastPlugin(unittest.TestCase):
+    def test_can_handle_url(self):
+        self.assertTrue(SteamBroadcastPlugin.can_handle_url('https://steamcommunity.com/broadcast/watch/12432432'))
+        self.assertTrue(SteamBroadcastPlugin.can_handle_url('http://steamcommunity.com/broadcast/watch/342342'))
+        self.assertTrue(SteamBroadcastPlugin.can_handle_url('https://steam.tv/dota2'))
+        self.assertTrue(SteamBroadcastPlugin.can_handle_url('http://steam.tv/dota2'))
+
+    def test_can_handle_url_negative(self):
+        # shouldn't match
+        self.assertFalse(SteamBroadcastPlugin.can_handle_url('http://steamcommunity.com/broadcast'))
+        self.assertFalse(SteamBroadcastPlugin.can_handle_url('https://steamcommunity.com'))
+        self.assertFalse(SteamBroadcastPlugin.can_handle_url('https://youtube.com'))

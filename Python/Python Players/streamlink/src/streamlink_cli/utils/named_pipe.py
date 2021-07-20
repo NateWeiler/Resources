@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6894d88ca4250ee7bee3bb961e2b4918179f9a9fe66cfa26af5eebe5375b6a67
-size 390
+# These imports, while unused, are here to provide API compatibility for this module
+from streamlink.utils.named_pipe import NamedPipe
+from ..compat import is_win32
+
+if is_win32:
+    from streamlink.utils.named_pipe import (
+        PIPE_ACCESS_OUTBOUND,
+        PIPE_TYPE_BYTE,
+        PIPE_READMODE_BYTE,
+        PIPE_WAIT,
+        PIPE_UNLIMITED_INSTANCES,
+        INVALID_HANDLE_VALUE)

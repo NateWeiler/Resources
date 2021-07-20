@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3f3ed790a1dde1b10c22898ae6d80ecf9d7b6978e4e1e984bf18ab8da91b4d86
-size 683
+import unittest
+
+from streamlink.plugins.eltrecetv import ElTreceTV
+
+
+class TestPluginElTreceTV(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(ElTreceTV.can_handle_url("http://www.eltrecetv.com.ar/vivo"))
+        self.assertTrue(ElTreceTV.can_handle_url("http://www.eltrecetv.com.ar/pasapalabra/capitulo-1_084027"))
+        self.assertTrue(ElTreceTV.can_handle_url("http://www.eltrecetv.com.ar/a-todo-o-nada-2014/programa-2_072251"))
+
+        # shouldn't match
+        self.assertFalse(ElTreceTV.can_handle_url("http://eltrecetv.com.ar/"))
+        self.assertFalse(ElTreceTV.can_handle_url("https://www.youtube.com/c/eltrece"))

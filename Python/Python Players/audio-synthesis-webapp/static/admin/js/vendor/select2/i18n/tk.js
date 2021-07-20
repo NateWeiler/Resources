@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:26a9490fff9dc4618183eb140b8b980e16c2b6316f56fd7e7a1472a43e5723eb
-size 827
+/*! Select2 4.0.7 | https://github.com/select2/select2/blob/master/LICENSE.md */
+
+(function(){if(jQuery&&jQuery.fn&&jQuery.fn.select2&&jQuery.fn.select2.amd)var e=jQuery.fn.select2.amd;return e.define("select2/i18n/tk",[],function(){return{errorLoading:function(){return"Netije ýüklenmedi."},inputTooLong:function(e){var t=e.input.length-e.maximum,n=t+" harp bozuň.";return n},inputTooShort:function(e){var t=e.minimum-e.input.length,n="Ýene-de iň az "+t+" harp ýazyň.";return n},loadingMore:function(){return"Köpräk netije görkezilýär…"},maximumSelected:function(e){var t="Diňe "+e.maximum+" sanysyny saýlaň.";return t},noResults:function(){return"Netije tapylmady."},searching:function(){return"Gözlenýär…"},removeAllItems:function(){return"Remove all items"}}}),{define:e.define,require:e.require}})();

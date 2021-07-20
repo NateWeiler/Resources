@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:281ef356e64d3c4bfaba1383b62baedb06c21d9608806dabba8a57d4b01ccc51
-size 602
+import unittest
+
+from streamlink.plugins.trtspor import TRTSpor
+
+
+class TestPluginTRTSpor(unittest.TestCase):
+
+    ''' Plugin URL Broken
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.trtspor.com.tr/canli-yayin-izle/trt-spor-159/',
+        ]
+        for url in should_match:
+            self.assertTrue(TRTSpor.can_handle_url(url))
+    '''
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(TRTSpor.can_handle_url(url))

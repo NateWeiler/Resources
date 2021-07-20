@@ -1,3 +1,42 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ef3105e9b23a059606c7d1fc496dcbf40cd59aa79d4ae616ccb33f38395de903
-size 831
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Post method example</title>
+    <style>
+      form {
+        width: 420px;
+      }
+
+      div {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: inline-block;
+        width: 240px;
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      button, input {
+        float: right;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="http://foo.com" method="post">
+      <div>
+        <label for="say">What greeting do you want to say?</label>
+        <input name="say" id="say" value="Hi">
+      </div>
+      <div>
+        <label for="to">Who do you want to say it to?</label>
+        <input name="to" value="Mom">
+      </div>
+      <div>
+        <button>Send my greetings</button>
+      </div>
+    </form>
+  </body>
+</html>

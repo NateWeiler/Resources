@@ -1,3 +1,67 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:222e5cc288d892f6d1b2effef9061d0f3491cc24c941454fdc50ba332fc6c6be
-size 1514
+# Note:
+# perl -lne 'print $1 if /(application\/x-advene-.+?)\b/' lib/advene/**/*py | sort -u
+
+Advene uses internally mimetypes to identify specific elements.
+
+* application/x-advene-adhoc
+
+  Parameters and arguments for adhoc views.
+
+* application/x-advene-bookmark
+
+  A bookmark structure. Used to implement drag-n-drop of bookmarks
+  (timestamp + text).
+
+* application/x-advene-timestamp
+
+  Timestamp information. Used to implement drag-n-drop of timestamps.
+
+* application/x-advene-ruleset
+
+  Dynamic views (rulesets).
+
+* application/x-advene-rule
+
+  A single rule.
+
+* application/x-advene-annotation-id 
+
+  An annotation-id. Used to implement drag-n-drop of annotations.
+
+* application/x-advene-structured
+
+  Structured content stored in a simple way
+  (keyword=content...). Annotations of this type can be parsed by the
+  Content method 'parsed'.
+ 
+* application/x-advene-simplequery
+
+  Simple query language based on ECA conditions.
+
+* application/x-advene-quicksearch
+
+  Serialization of a quicksearch (from the searchbox).
+
+* application/x-advene-zip-package
+
+  An Advene Zip Package (cf advene.model.zippackage)
+
+* application/x-advene-zone
+
+  A specialized structured content, that defines the following fields:
+  shape=...
+  name=...
+  x=...
+  y=...
+  width=...
+  height=...
+
+* application/x-advene-values
+
+  A space-separated list of float values, 
+  in the 0.00 - 100.0 range.
+
+* application/x-advene-workspace
+
+  Serialization of the workspace environment (opened adhoc views,
+  window sizes, etc).

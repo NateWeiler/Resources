@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4f9f96139ea64f5a628b6a31f2245f91ce7cee2eb1510d8e526f15a1e283232e
-size 712
+import unittest
+
+from streamlink.plugins.sportschau import sportschau
+
+
+class TestPluginSportschau(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.sportschau.de/wintersport/videostream-livestream---wintersport-im-ersten-242.html',
+            'http://www.sportschau.de/weitere/allgemein/video-kite-surf-world-tour-100.html',
+        ]
+        for url in should_match:
+            self.assertTrue(sportschau.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(sportschau.can_handle_url(url))

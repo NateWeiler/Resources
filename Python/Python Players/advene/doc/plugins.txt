@@ -1,3 +1,83 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:510a0ab2b0d81952613382b238945a3da09a325b70de1d67fd5a020ff17bfad8
-size 2327
+Plugin architecture for Advene
+------------------------------
+
+Types of plugins
+================
+
+  * content-type handler (editor / viewer)
+  * adhoc views
+  * actions
+  * importers
+  * global methods
+
+Location of plugins
+===================
+
+For the builtin core features: lib/advene/plugins
+
+For the builtin GUI features: lib/advene/gui/plugins
+
+For user-defined plugins: 
+* $HOME/.advene/plugins on linux
+* %USERPROFILE%/advene/plugins on windows
+* $HOME/Library/Preferences/Advene/plugins on MacOSX
+
+Implementation
+==============
+
+A plugin is a module. It *must* have :
+  * a name attribute
+  * a register(controller=None) function
+
+Upon loading, the register function is called, with the controller as
+parameter. It initializes and registers the plugin's components in the
+Advene infrastructure.
+
+For the moment, the following registration methods are available from
+the controller:
+
+register_content_handler(handler)
+register_global_method(method, name=None)
+register_action(action)
+register_viewclass(class)
+register_importer(importer)
+register_player(player_class)
+
+Example
+=======
+
+Here is a minimal plugin to register a new global method (in TALES):
+
+  name="Test plugin"
+  
+  def register(controller=None):
+      controller.register_global_method(test_global_method, 'test')
+        
+  def test_global_method(target, context):
+      return "TEST"
+
+You can find real examples in lib/advene/gui/plugins or lib/advene/plugins
+
+Component-specific information
+==============================
+
+Adhoc-views have to inherit from advene.gui.views.AdhocView in order
+to be integrated in the Advene framework.
+
+Importers have to inherit from advene.util.importer.GenericImporter
+
+Content-type handlers have to inherit from advene.gui.edit.elements.ContentHandler
+
+Actions must be wrapped in a advene.rules.elements.RegisteredAction
+
+Global methods must respect the signature: function(context, target)
+
+Player plugins respect the player API. The dummy.py player basically
+serves as reference for this API.
+- they define a player_capabilities list of strings :
+  * svg : able to caption svg
+  * caption : able to caption text
+  * pause : able to be paused
+  * record : able to record
+  * frame-by-frame : able to do frame-by-frame
+  * async-snapshot : able to do asynchronous (callback-based) snapshot with precise positioning.

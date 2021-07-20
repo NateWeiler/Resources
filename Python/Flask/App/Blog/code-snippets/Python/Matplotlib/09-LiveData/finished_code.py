@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dabfcd51df0ef6087b009448a68574ca8ea0ebdc0c77028eb63ad4b07ee0b3a8
-size 584
+
+import random
+from itertools import count
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+plt.style.use('fivethirtyeight')
+
+x_vals = []
+y_vals = []
+
+index = count()
+
+
+def animate(i):
+    data = pd.read_csv('data.csv')
+    x = data['x_value']
+    y1 = data['total_1']
+    y2 = data['total_2']
+
+    plt.cla()
+
+    plt.plot(x, y1, label='Channel 1')
+    plt.plot(x, y2, label='Channel 2')
+
+    plt.legend(loc='upper left')
+    plt.tight_layout()
+
+
+ani = FuncAnimation(plt.gcf(), animate, interval=1000)
+
+plt.tight_layout()
+plt.show()

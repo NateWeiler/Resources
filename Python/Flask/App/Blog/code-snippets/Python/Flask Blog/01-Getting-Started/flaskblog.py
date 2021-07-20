@@ -1,3 +1,17 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0dd8f0ca713368cbbf30c7fdfef66bb05cdd0e3d7f878efe860bfd47cc7eb780
-size 250
+from flask import Flask
+app = Flask(__name__)
+
+
+@app.route("/")
+@app.route("/home")
+def home():
+    return "<h1>Home Page</h1>"
+
+
+@app.route("/about")
+def about():
+    return "<h1>About Page</h1>"
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

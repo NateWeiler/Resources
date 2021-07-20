@@ -1,3 +1,172 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:de691191f3ed4da4141a4e2e50b702412d21177843fb614a133d03649eb2d8de
-size 6001
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--     <script src=".\design.js"></script>
+ -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- External CSS -->
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'micApp/scrollmenu.css' %}">
+    
+
+	<!-- Video-js record CSS -->
+	<link href="https://vjs.zencdn.net/7.6.0/video-js.min.css" rel="stylesheet">
+	<link href="https://unpkg.com/videojs-wavesurfer/dist/css/videojs.wavesurfer.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/videojs-record/3.8.0/css/videojs.record.min.css" rel="stylesheet">
+	<link href="https://collab-project.github.io/videojs-record/examples/assets/examples.css" rel="stylesheet">
+
+
+	<!-- Video-js record CDN -->
+	<script src="https://vjs.zencdn.net/7.6.0/video.min.js"></script>
+	<script src="https://unpkg.com/recordrtc/RecordRTC.js"></script>
+	<script src="https://unpkg.com/webrtc-adapter/out/adapter.js"></script>
+	<script src="https://unpkg.com/wavesurfer.js/dist/wavesurfer.min.js"></script>
+	<script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.microphone.min.js"></script>
+	<script src="https://unpkg.com/videojs-wavesurfer/dist/videojs.wavesurfer.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-record/3.8.0/videojs.record.min.js"></script>
+  	<!-- <script src="https://collab-project.github.io/videojs-record/examples/browser-workarounds.js"></script> -->
+
+	<script type="text/javascript" src="{% static '/micApp/browser-workarounds.js' %}"></script>
+
+    <title>Mic website</title>
+</head>
+
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+				<li class="nav-item"><a class="nav-link" href="#">Example</a></li>
+			</ul>
+		</div>
+
+		<div class="mx-auto order-0">
+	        <a class="navbar-brand mx-auto" href="#">Audiocon</a>
+	        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+	            <span class="navbar-toggler-icon"></span>
+	        </button>
+    	</div>
+
+    	<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+	        <ul class="navbar-nav ml-auto">
+	            <li class="nav-item">
+	                <a class="nav-link" href="#">Paper</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="#">Project Page</a>
+	            </li>
+	        </ul>
+    	</div>	
+	</nav>
+
+
+
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col-sm-12">
+				<h3>1. Select a target speaker</h3>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container scrollmenu" style="margin-bottom:1cm;">
+		{% for image in images %}
+		<label class="radio-inline"> 
+			<img src="{% static 'micApp/images/'%}{{image}}" alt=" {{ image }} " height="84" width="84">
+			<input type="radio" name="personality-name" value="{{ image|slice:-4 }}">
+			{{ image|slice:-4 }}
+		</label>
+		{% endfor %}
+	</div>
+
+
+	
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h3>2. What do you want them to say? Record here or upload a file.</h3>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 d-flex justify-content-center">
+					<audio id="myAudio_recorded" class="video-js vjs-default-skin"></audio>
+			</div>
+
+			<div class="col-sm-6 d-flex justify-content-center">
+				<form>
+					<video height="240" width="320" controls id="return_video" type="video/webm"></video>
+				</form>
+			</div>	
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row mt-3">
+			<div class="col-sm-6  d-flex justify-content-center">
+				<input id="myAudio_uploaded" type="file">
+			</div>
+		</div>		
+	</div>
+
+
+	<div id='loadingmsg' style='display: none;'>Loading, please wait...</div>
+	<div id='loadingover' style='display: none;'></div>
+
+<!-- 
+	<div class="container">
+		<div class="row mt-4 d-flex justify-content-center">
+			<div class="col-sm-6">
+
+				
+				<audio controls>
+					<source id="return_video" type="audio/wav">
+				</audio>
+				<audio  controls>
+					<source id="return_video" type="audio/wav" src="static/micApp/result1.wav">
+				</audio>
+			</div>
+		</div>
+	</div> -->
+	
+	<div class="container ">
+		<div class="row mt-4 d-flex justify-content-center">
+				<button id="b1" type="button" class="btn btn-primary btn-lg" onclick="return_video()"> Click Me !!! </button>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="row mt-4">
+			<divc class="col-sm-12">
+				<div class="alert alert-primary text-center" role="alert">
+		 			<p>Please contact <a href="http://www.cs.cmu.edu/~aayushb/">Aayush Bansal</a> in case of any suggestions for the website </p>  
+				</div>	
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap CDN -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+	
+	<!-- Video-js external JS file -->
+	<script type="text/javascript" src="{% static '/micApp/videojs-record_audio-only.js' %}"></script>
+	<script type="text/javascript" src="{% static '/micApp/video_play.js' %}"></script>
+</body>

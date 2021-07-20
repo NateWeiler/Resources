@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7c5714c1f36a3082c8572acb7dbb33730f9b111aa6d2dca002b4b39328e255c0
-size 646
+#!g:\installers\code\editors\python\scripts\scripts\python.exe
+
+# $Id: rst2xml.py 4564 2006-05-21 20:44:42Z wiemann $
+# Author: David Goodger <goodger@python.org>
+# Copyright: This module has been placed in the public domain.
+
+"""
+A minimal front end to the Docutils Publisher, producing Docutils XML.
+"""
+
+try:
+    import locale
+    locale.setlocale(locale.LC_ALL, '')
+except:
+    pass
+
+from docutils.core import publish_cmdline, default_description
+
+
+description = ('Generates Docutils-native XML from standalone '
+               'reStructuredText sources.  ' + default_description)
+
+publish_cmdline(writer_name='xml', description=description)

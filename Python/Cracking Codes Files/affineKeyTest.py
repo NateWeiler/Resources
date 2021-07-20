@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f58ded4fe83b71885f06db75d2f626cd36f2cc28e3d38744d3fcb93e8062d80e
-size 400
+# This program proves that the keyspace of the affine cipher is limited
+# to less than len(SYMBOLS) ^ 2.
+
+import affineCipher, cryptomath
+
+message = 'Make things as simple as possible, but not simpler.'
+for keyA in range(2, 80):
+    key = keyA * len(affineCipher.SYMBOLS) + 1
+
+    if cryptomath.gcd(keyA, len(affineCipher.SYMBOLS)) == 1:
+        print(keyA, affineCipher.encryptMessage(key, message))

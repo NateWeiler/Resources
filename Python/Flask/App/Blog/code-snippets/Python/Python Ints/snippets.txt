@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9b0942d36fda745a624f244c7b30e185b69dc5e47697a02ff2edc081fdec51fa
-size 372
+
+# Arithmetic Operators:
+# Addition:       3 + 2
+# Subtraction:    3 - 2
+# Multiplication: 3 * 2
+# Division:       3 / 2
+# Floor Division: 3 // 2
+# Exponent:       3 ** 2
+# Modulus:        3 % 2
+
+
+# Comparisons:
+# Equal:            3 == 2
+# Not Equal:        3 != 2
+# Greater Than:     3 > 2
+# Less Than:        3 < 2
+# Greater or Equal: 3 >= 2
+# Less or Equal:    3 <= 2

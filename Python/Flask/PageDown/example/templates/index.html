@@ -1,3 +1,41 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:399c3a6c38e326b3c49142c1588a8d8ae36c95bf8cd004d432276de6d6761fc6
-size 996
+<html>
+<head>
+{{ pagedown.include_pagedown() }}
+<style>
+.flask-pagedown-input {
+}
+.flask-pagedown-preview {
+    border: 1px dotted black;
+    background-color: #f0f0f0;
+}
+</style>
+</head>
+<body>
+    <h1>Flask-PageDown Demo</h1>
+    {% if text or text2 %}
+    <div>
+        <p>Received text was:</p>
+        <pre>{{ text }}</pre>
+        <pre>{{ text2 }}</pre>
+    </div>
+    <hr>
+    {% endif %}
+    <div style="width: 500px;">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div>
+                <b>{{ form.pagedown.label }}</b>:
+                {{ form.pagedown(rows=10, style='width:100%') }}
+            </div>
+            <br>
+            <div>
+                {{ form.pagedown2(only_preview=True) }}
+                <br>
+                <b>{{ form.pagedown2.label }}</b>:
+                {{ form.pagedown2(only_input=True, rows=10, style='width:100%') }}
+            </div>
+            <div>{{ form.submit() }}</div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4ebd0d7b060a26a7c43f6a6a26e17e8876345247e2ad9eb64b3dfa71cf34b07e
-size 292
+
+def find_index(to_search, target):
+  for i, value in enumerate(to_search):
+    if value == target:
+      break
+  else:
+    return -1
+  return i
+
+
+my_list = ['Corey', 'Rick', 'John']
+index_location = find_index(my_list, 'Steve')
+
+print 'Location of target is index: {}'.format(index_location)

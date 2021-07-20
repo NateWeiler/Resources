@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f66a8e609bba2c2f368d2dff9493427caeb7c3ee50a24fb8c95539ddec52b805
-size 225
+appdirs==1.4.4
+colorama==0.4.3
+importlib-metadata==1.7.0
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+pep517==0.6.0
+python-for-android==2020.6.2
+pytoml==0.1.21
+sh==1.13.1
+six==1.15.0
+sl4a-pydroid-mock-api==0.4.1
+toml==0.10.1
+zipp==3.1.0

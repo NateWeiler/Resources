@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4aa6b64f00a846071021b83f0d7c8b4365e1d1274f429cd851473d555c30a155
-size 630
+import unittest
+
+from streamlink.plugins.picarto import Picarto
+
+
+class TestPluginPicarto(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://picarto.tv/example',
+            'https://picarto.tv/videopopout/example_2020.00.00.00.00.00_nsfw.mkv',
+        ]
+        for url in should_match:
+            self.assertTrue(Picarto.can_handle_url(url), url)
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Picarto.can_handle_url(url), url)

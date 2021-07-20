@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:185dbc83312a1c5efda33ad6f55b28fb64688528704e1bad038a5b279037f3d4
-size 206
+import psutil
+import os
+import sys
+import time
+
+
+def memory_usage_psutil():
+    process = psutil.Process(os.getpid())
+    mem = process.memory_info().rss / float(2 ** 20)
+    return '{:.2f} MB'.format(mem)

@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5c74a9f3f22b56a95bdab5c7b8444dd109849c15955443faf5b28c2ac2c7ca57
-size 633
+import unittest
+
+from streamlink.plugins.streamingvideoprovider import Streamingvideoprovider
+
+
+class TestPluginStreamingvideoprovider(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.streamingvideoprovider.co.uk/example',
+        ]
+        for url in should_match:
+            self.assertTrue(Streamingvideoprovider.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Streamingvideoprovider.can_handle_url(url))

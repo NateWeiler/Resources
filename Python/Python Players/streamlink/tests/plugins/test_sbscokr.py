@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f1349096b6d23ee1c56c0bd24594d3aa19375c7f8c4b77a0a27b70d35635ad87
-size 566
+import unittest
+
+from streamlink.plugins.sbscokr import SBScokr
+
+
+class TestPluginSBScokr(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://play.sbs.co.kr/onair/pc/index.html',
+            'http://play.sbs.co.kr/onair/pc/index.html',
+        ]
+        for url in should_match:
+            self.assertTrue(SBScokr.can_handle_url(url))
+
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(SBScokr.can_handle_url(url))

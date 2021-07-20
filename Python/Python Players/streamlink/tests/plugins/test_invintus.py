@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b38913f125b9136dd86ee2d07edc666e85b587dec463d254999d13436cf5210b
-size 782
+import unittest
+
+from streamlink.plugins.invintus import InvintusMedia
+
+
+class TestPluginInvintusMedia(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://player.invintus.com/?clientID=9375922947&eventID=2020031185',
+            'https://player.invintus.com/?clientID=9375922947&eventID=2020031184',
+            'https://player.invintus.com/?clientID=9375922947&eventID=2020031183',
+            'https://player.invintus.com/?clientID=9375922947&eventID=2020031182',
+            'https://player.invintus.com/?clientID=9375922947&eventID=2020031181'
+        ]
+        for url in should_match:
+            self.assertTrue(InvintusMedia.can_handle_url(url))
+
+        self.assertFalse(InvintusMedia.can_handle_url("https://example.com"))

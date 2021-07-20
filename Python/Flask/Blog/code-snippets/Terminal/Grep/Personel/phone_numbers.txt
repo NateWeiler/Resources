@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:55a38f6e1779a02e859df77b5fb6c97d7f83aae6f272e309b2d1fff0f4670ab9
-size 79
+
+Corey Schafer
+304-555-0223
+
+John Williams
+321-555-1234
+
+Jane Doe
+123-555-4321

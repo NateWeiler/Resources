@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cfadfb697a67377537eadab674a39c44f5655dfa992a2ac5070806b0e3b9c84e
-size 693
+import unittest
+
+from streamlink.plugins.hitbox import Hitbox
+
+
+class TestPluginHitbox(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.smashcast.tv/pixelradio',
+            'https://www.hitbox.tv/pixelradio',
+            'https://www.smashcast.tv/jurnalfm',
+            'https://www.smashcast.tv/sscaitournament',
+        ]
+        for url in should_match:
+            self.assertTrue(Hitbox.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Hitbox.can_handle_url(url))

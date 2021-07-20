@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b8206f4ef9a098303c11b6040b0e8a2f07b2b509ed25ad43a7154fdeb7405895
-size 964
+import unittest
+
+from streamlink.plugins.vimeo import Vimeo
+
+
+class TestPluginVimeo(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(Vimeo.can_handle_url("https://vimeo.com/237163735"))
+        self.assertTrue(Vimeo.can_handle_url("https://vimeo.com/channels/music/176894130"))
+        self.assertTrue(Vimeo.can_handle_url("https://vimeo.com/album/3706071/video/148903960"))
+        self.assertTrue(Vimeo.can_handle_url("https://vimeo.com/ondemand/surveyopenspace/92630739"))
+        self.assertTrue(Vimeo.can_handle_url("https://vimeo.com/ondemand/100footsurfingdays"))
+        self.assertTrue(Vimeo.can_handle_url("https://player.vimeo.com/video/176894130"))
+
+        # shouldn't match
+        self.assertFalse(Vimeo.can_handle_url("https://www.vimeo.com/"))
+        self.assertFalse(Vimeo.can_handle_url("http://www.tvcatchup.com/"))
+        self.assertFalse(Vimeo.can_handle_url("http://www.youtube.com/"))

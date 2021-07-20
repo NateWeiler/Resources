@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bb85a14bce242d3d91cf91e451df59e4c957411f08e21895cce9ef4740e9f077
-size 1153
+from __future__ import print_function
+
+import re
+
+from streamlink.plugin import Plugin
+from streamlink.plugin.api.utils import itertags
+from streamlink.stream import HLSStream
+from streamlink.utils import update_scheme
+
+
+class EuropaPlusTV(Plugin):
+    url_re = re.compile(r"https?://(?:www\.)?europaplus\.ru/europaplustv")
+    src_re = re.compile(r"""['"]file['"]\s*:\s*(?P<quote>['"])(?P<url>.*?)(?P=quote)""")
+
+    @classmethod
+    def can_handle_url(cls, url):
+        return cls.url_re.match(url) is not None
+
+    def _get_streams(self):
+        res = self.session.http.get(self.url)
+        for iframe in itertags(res.text, "iframe"):
+            self.logger.debug("Found iframe: {0}".format(iframe))
+            iframe_res = self.session.http.get(iframe.attributes['src'], headers={"Referer": self.url})
+            m = self.src_re.search(iframe_res.text)
+            surl = m and m.group("url")
+            if surl:
+                surl = update_scheme(self.url, surl)
+                self.logger.debug("Found stream URL: {0}".format(surl))
+                return HLSStream.parse_variant_playlist(self.session, surl)
+
+
+__plugin__ = EuropaPlusTV

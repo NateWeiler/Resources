@@ -1,3 +1,51 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d4c40066764f143062fb51ad549b5f41bd0962dbb4fbf5b2b199f4e6776339e3
-size 1658
+#!/usr/bin/env python
+
+import os
+
+# Support setuptools or distutils
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
+with open(os.path.join(os.path.dirname(__file__), 'README.md')) as fd:
+    long_description = fd.read()
+
+setup(
+    name='lexicon',
+    version="1.0.0",
+    description='Powerful dict subclass(es) with aliasing & attribute access',
+    license='BSD',
+
+    long_description=long_description,
+    author='Jeff Forcier',
+    author_email='jeff@bitprophet.org',
+    url='https://github.com/bitprophet/lexicon',
+
+    packages=["lexicon"],
+    install_requires=["six<2.0"],
+
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Unix',
+        'Operating System :: POSIX',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Topic :: Software Development',
+        'Topic :: Software Development :: Libraries',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
+)

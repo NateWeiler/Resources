@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d05c04ab665a9cde27e009eb6026152e683a9060ec6bf7bcfc730c68adb53add
-size 750
+import unittest
+
+from streamlink.plugins.clubbingtv import ClubbingTV
+
+
+class TestPluginClubbingTV(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(ClubbingTV.can_handle_url("https://www.clubbingtv.com/live"))
+        self.assertTrue(ClubbingTV.can_handle_url("https://www.clubbingtv.com/video/play/3950/moonlight/"))
+        self.assertTrue(ClubbingTV.can_handle_url("https://www.clubbingtv.com/video/play/2897"))
+        self.assertTrue(ClubbingTV.can_handle_url("https://www.clubbingtv.com/tomer-s-pick/"))
+
+        # shouldn't match
+        self.assertFalse(ClubbingTV.can_handle_url("http://www.tvcatchup.com/"))
+        self.assertFalse(ClubbingTV.can_handle_url("http://www.youtube.com/"))

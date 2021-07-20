@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c572190f63a773f0e33f0af41bf6a817a22d525eabd0496752b547efe7606e13
-size 594
+import unittest
+
+from streamlink.plugins.tv3cat import TV3Cat
+
+
+class TestPluginTV3Cat(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.ccma.cat/tv3/directe/tv3/',
+            'http://www.ccma.cat/tv3/directe/324/',
+        ]
+        for url in should_match:
+            self.assertTrue(TV3Cat.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(TV3Cat.can_handle_url(url))

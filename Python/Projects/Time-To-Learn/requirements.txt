@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b5b87bbc5a43a0ce498cfe3d2c4177f2c2a3493755a22eebc942993d6d819e5a
-size 91
+gTTS
+tk
+PySimpleGUI
+PySide2
+PyQt5
+opencv-python
+numpy
+matplotlib
+flask
+pyinstaller
+py-quiz

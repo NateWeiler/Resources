@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3ec8c96f7b0e3243db6ce3e7176aaf77f84ba0006e1d3dcebcda4d597f276939
-size 641
+import unittest
+
+from streamlink.plugins.yupptv import YuppTV
+
+
+class TestPluginZattoo(unittest.TestCase):
+    def test_can_handle_url(self):
+        self.assertTrue(YuppTV.can_handle_url('https://www.yupptv.com/channels/etv-telugu/live'))
+        self.assertTrue(YuppTV.can_handle_url('https://www.yupptv.com/channels/india-today-news/news/25326023/15-jun-2018'))
+
+    def test_can_handle_negative(self):
+        # shouldn't match
+        self.assertFalse(YuppTV.can_handle_url('https://ewe.de'))
+        self.assertFalse(YuppTV.can_handle_url('https://netcologne.de'))
+        self.assertFalse(YuppTV.can_handle_url('https://zattoo.com'))

@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:50bc1e719931dff353a61933ef2fea89acc1794a071670825a72928e80c2663d
-size 161
+# This package will contain the spiders of your Scrapy project
+#
+# Please refer to the documentation for information on how to create and manage
+# your spiders.

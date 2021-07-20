@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7cfed491ea6dba4ea42bc9301f9dc87512aebc602e63933ddabfc5e3ad05d6a9
-size 397
+import unittest
+
+from streamlink.plugins.stv import STV
+
+
+class TestPluginSTV(unittest.TestCase):
+    def test_can_handle_url(self):
+        self.assertTrue(STV.can_handle_url('https://player.stv.tv/live'))
+        self.assertTrue(STV.can_handle_url('http://player.stv.tv/live'))
+
+    def test_can_handle_url_negative(self):
+        self.assertFalse(STV.can_handle_url('http://example.com/live'))

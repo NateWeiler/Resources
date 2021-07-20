@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ae9f7da2bf7ac0abc081fe21ce9a17e75f77316dd2526e34c8507c0aa1f95193
-size 1050
+import logging
+import re
+
+from streamlink.plugin import Plugin
+from streamlink.plugin.api import useragents
+from streamlink.stream import HLSStream
+
+log = logging.getLogger(__name__)
+
+
+class TLCtr(Plugin):
+
+    _url_re = re.compile(r'https?://(?:www\.)?tlctv\.com\.tr/canli-izle')
+    _hls_re = re.compile(
+        r'''["'](?P<url>https?://[^/]+/live/hls/[^"']+)["']''')
+
+    @classmethod
+    def can_handle_url(cls, url):
+        return cls._url_re.match(url) is not None
+
+    def _get_streams(self):
+        self.session.http.headers.update({'User-Agent': useragents.FIREFOX})
+        res = self.session.http.get(self.url)
+
+        m = self._hls_re.search(res.text)
+        if not m:
+            log.error('No playlist found.')
+            return
+
+        hls_url = m.group('url')
+        log.debug('URL={0}'.format(hls_url))
+        streams = HLSStream.parse_variant_playlist(self.session, hls_url)
+        if not streams:
+            return {'live': HLSStream(self.session, hls_url)}
+        else:
+            return streams
+
+
+__plugin__ = TLCtr

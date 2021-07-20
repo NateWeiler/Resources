@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:71e30f962bcdcda4a1035b8f0cd5993a40519a2d678c216f89c5238c40836ce3
-size 259
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+
+sudo certbot --nginx
+
+sudo certbot renew --dry-run

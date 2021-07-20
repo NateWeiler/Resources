@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:68f925784d10b335bdf19908f8a3e59312f6a2795249f8a6fa624b6d4b96ea82
-size 611
+from .box import Box, RawPayload
+from .compat import is_py2
+
+
+class F4V(object):
+    def __init__(self, fd, strict=False, raw_payload=False):
+        self.fd = fd
+        self.raw_payload = raw_payload
+        self.strict = strict
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            box = Box.deserialize(self.fd,
+                                  strict=self.strict,
+                                  raw_payload=self.raw_payload)
+        except IOError:
+            raise StopIteration
+
+        return box
+
+    if is_py2:
+        next = __next__
+
+
+__all__ = ["F4V"]

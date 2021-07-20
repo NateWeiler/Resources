@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bd2dab7e3c44f9968768954ecdc1da726aa4eb4a12cb3976d26dfa929bb7ead2
-size 131
+Flask==1.0
+Flask_PageDown
+Flask-WTF==0.13
+Jinja2==2.8
+MarkupSafe==0.23
+WTForms==2.1
+Werkzeug==0.15.3
+click==6.6
+itsdangerous==0.24

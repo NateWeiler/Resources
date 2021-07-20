@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:712ba79b363d732edab1dc397b75131bcab59c9afc101c04ed650b63202b5648
-size 418
+from matplotlib import pyplot as plt
+
+plt.style.use("fivethirtyeight")
+
+slices = [59219, 55466, 47544, 36443, 35917]
+labels = ['JavaScript', 'HTML/CSS', 'SQL', 'Python', 'Java']
+explode = [0, 0, 0, 0.1, 0]
+
+plt.pie(slices, labels=labels, explode=explode, shadow=True,
+        startangle=90, autopct='%1.1f%%',
+        wedgeprops={'edgecolor': 'black'})
+
+plt.title("My Awesome Pie Chart")
+plt.tight_layout()
+plt.show()

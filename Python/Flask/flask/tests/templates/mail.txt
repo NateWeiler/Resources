@@ -1,3 +1,1 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f1ff63d4fc54a3f75e19bae926e0ddae28b5eaa13ec6d57d454ea660f544ffae
-size 14
+{{ foo}} Mail

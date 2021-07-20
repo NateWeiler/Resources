@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:28ef7beed6d8c3051b99efcc44d23bd41accaaf6558696827d4c17d472baa7dd
-size 601
+from django.urls import path
+from .views import (
+    PostListView,
+    PostDetailView,
+    PostCreateView,
+    PostUpdateView,
+    PostDeleteView
+)
+from . import views
+
+urlpatterns = [
+    path('', PostListView.as_view(), name='blog-home'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+    path('about/', views.about, name='blog-about'),
+]

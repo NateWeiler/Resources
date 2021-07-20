@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c7cecc705e4dd38d79e663a818d25b430971a5a2c87acfc1e473c27e96d7becc
-size 686
+import unittest
+
+from streamlink.plugins.aljazeeraen import AlJazeeraEnglish
+
+
+class TestPluginAlJazeeraEnglish(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.aljazeera.com/live/',
+            'https://www.aljazeera.com/programmes/techknow/2017/04/science-sugar-170429141233635.html',
+        ]
+        for url in should_match:
+            self.assertTrue(AlJazeeraEnglish.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(AlJazeeraEnglish.can_handle_url(url))

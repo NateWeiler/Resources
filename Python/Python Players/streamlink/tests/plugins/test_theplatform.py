@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:04d453b6c6d309efa4ebb38caa4c921fbbe0a901c29390912c79f47983f47e9a
-size 612
+import unittest
+
+from streamlink.plugins.theplatform import ThePlatform
+
+
+class TestPluginThePlatform(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://player.theplatform.com/p/',
+            'http://player.theplatform.com/p/',
+        ]
+        for url in should_match:
+            self.assertTrue(ThePlatform.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(ThePlatform.can_handle_url(url))

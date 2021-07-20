@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:487888b7d548ae4839d4b5cea2fb5bbb7c2f5c37eb450e965b8730c8e9922eff
-size 598
+import unittest
+
+from streamlink.plugins.animelab import AnimeLab
+
+
+class TestPluginAnimeLab(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.animelab.com/player/123',
+            'https://animelab.com/player/123',
+        ]
+        for url in should_match:
+            self.assertTrue(AnimeLab.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(AnimeLab.can_handle_url(url))

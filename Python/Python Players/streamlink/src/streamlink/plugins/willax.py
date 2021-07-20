@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e4d8af4ff3c95647c3552a619b51e5c90be4ce5a4ad511579835c09c21388c6d
-size 740
+import logging
+import re
+
+from streamlink.compat import html_unescape
+from streamlink.plugin import Plugin
+from streamlink.plugin.api import useragents
+from streamlink.plugin.api.utils import itertags
+
+log = logging.getLogger(__name__)
+
+
+class Willax(Plugin):
+    _url_re = re.compile(r'https?://(?:www\.)?willax\.tv/en-vivo')
+
+    @classmethod
+    def can_handle_url(cls, url):
+        return cls._url_re.match(url) is not None
+
+    def _get_streams(self):
+        self.session.http.headers.update({'User-Agent': useragents.FIREFOX})
+        res = self.session.http.get(self.url)
+        for iframe in itertags(res.text, 'iframe'):
+            return self.session.streams(html_unescape(iframe.attributes.get('src')))
+
+
+__plugin__ = Willax

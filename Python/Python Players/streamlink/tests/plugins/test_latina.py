@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5944b9722a01498ac98138b58d5021f7eff68cb0a84b34edfe9d31a2112da3d2
-size 537
+import unittest
+
+from streamlink.plugins.latina import Latina
+
+
+class TestPluginLatina(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.latina.pe/tvenvivo/',
+        ]
+        for url in should_match:
+            self.assertTrue(Latina.can_handle_url(url), url)
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'http://www.latina.pe/',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Latina.can_handle_url(url), url)

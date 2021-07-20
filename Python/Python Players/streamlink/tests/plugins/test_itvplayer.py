@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:83fb2a67a0417e7719253cb7efce82f87c223899bdd40c3cdc3db38159784ced
-size 592
+import unittest
+
+from streamlink.plugins.itvplayer import ITVPlayer
+
+
+class TestPluginITVPlayer(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.itv.com/hub/itv',
+            'https://www.itv.com/hub/itv2',
+        ]
+        for url in should_match:
+            self.assertTrue(ITVPlayer.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(ITVPlayer.can_handle_url(url))

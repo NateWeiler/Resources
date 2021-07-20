@@ -1,3 +1,4 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d785f9a015aaf0c9c8fc865ecf4b2867172f1cd4bbc47eeb50767b63d18a7f7e
-size 66
+Django==2.1
+django-crispy-forms==1.7.2
+Pillow==5.2.0
+pytz==2018.5

@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:876ad3c96c89cf43a25113c7160b14de7ea7d48a7262ae4d6b3d9616c6c31686
-size 185
+
+# Empty Lists
+empty_list = []
+empty_list = list()
+
+# Empty Tuples
+empty_tuple = ()
+empty_tuple = tuple()
+
+# Empty Sets
+empty_set = {} # This isn't right! It's a dict
+empty_set = set()

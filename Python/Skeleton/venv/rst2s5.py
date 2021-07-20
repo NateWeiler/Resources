@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:75fabc1f75d662d2d0d2c9d921dbca1dc6fbd1db85c484f6198f58d8fbf7ca61
-size 681
+#!g:\installers\code\editors\python\scripts\scripts\python.exe
+
+# $Id: rst2s5.py 4564 2006-05-21 20:44:42Z wiemann $
+# Author: Chris Liechti <cliechti@gmx.net>
+# Copyright: This module has been placed in the public domain.
+
+"""
+A minimal front end to the Docutils Publisher, producing HTML slides using
+the S5 template system.
+"""
+
+try:
+    import locale
+    locale.setlocale(locale.LC_ALL, '')
+except:
+    pass
+
+from docutils.core import publish_cmdline, default_description
+
+
+description = ('Generates S5 (X)HTML slideshow documents from standalone '
+               'reStructuredText sources.  ' + default_description)
+
+publish_cmdline(writer_name='s5', description=description)

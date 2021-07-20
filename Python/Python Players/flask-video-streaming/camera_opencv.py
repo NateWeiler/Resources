@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c2bbcf1c14da4497658531f0347c85814c773e0d41bac5c2d8db3b22537754f1
-size 769
+import os
+import cv2
+from base_camera import BaseCamera
+
+
+class Camera(BaseCamera):
+    video_source = 0
+
+    def __init__(self):
+        if os.environ.get('OPENCV_CAMERA_SOURCE'):
+            Camera.set_video_source(int(os.environ['OPENCV_CAMERA_SOURCE']))
+        super(Camera, self).__init__()
+
+    @staticmethod
+    def set_video_source(source):
+        Camera.video_source = source
+
+    @staticmethod
+    def frames():
+        camera = cv2.VideoCapture(Camera.video_source)
+        if not camera.isOpened():
+            raise RuntimeError('Could not start camera.')
+
+        while True:
+            # read current frame
+            _, img = camera.read()
+
+            # encode as a jpeg image and return it
+            yield cv2.imencode('.jpg', img)[1].tobytes()

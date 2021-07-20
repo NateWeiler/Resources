@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf5cb7991feea74b6ffed2843dcc2f5cf0fa7801e91cb97077410eb287690408
-size 298
+*.py[co]
+*~
+COPYED_TO
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+#Translations
+*.mo
+
+#Mr Developer
+.mr.developer.cfg
+
+#Others
+debug.log
+.env
+.venv
+.DS_Store
+.git
+.github

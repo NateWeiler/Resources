@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:caa6cae45d9cb7671b6dcc33245735186820be364dbe2a9e5b5f8a575a5b2e36
-size 243
+from collections import namedtuple
+
+# list / tuple
+color = (55,155,255)
+
+# dictionary
+color = {'red': 55, 'green': 155, 'blue': 255}
+
+# namedtuple
+Color = namedtuple('Color', ['red', 'green', 'blue'])
+color = Color(blue=55,green=155,red=255)
+

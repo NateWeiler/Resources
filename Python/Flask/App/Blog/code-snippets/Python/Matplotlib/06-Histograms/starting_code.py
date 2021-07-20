@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a8897d6e223b2c8f4520412dab1a71fa31c4daf36cbe1242f7eb8f45f428a71d
-size 400
+import pandas as pd
+from matplotlib import pyplot as plt
+
+plt.style.use('fivethirtyeight')
+
+ages = [18, 19, 21, 25, 26, 26, 30, 32, 38, 45, 55]
+
+# data = pd.read_csv('data.csv')
+# ids = data['Responder_id']
+# ages = data['Age']
+
+# median_age = 29
+# color = '#fc4f30'
+
+# plt.legend()
+
+plt.title('Ages of Respondents')
+plt.xlabel('Ages')
+plt.ylabel('Total Respondents')
+
+plt.tight_layout()
+
+plt.show()

@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:53da308c1d62f057613ec8e445eb70e89404288f503156102d1e3e39ec5b2153
-size 428
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="username">Username</label>
+    <input name="username" id="username" required>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+    <input type="submit" value="Register">
+  </form>
+{% endblock %}

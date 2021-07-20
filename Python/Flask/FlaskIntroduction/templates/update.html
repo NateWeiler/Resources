@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:92bb5442e81014e0917a3fa384abc7677c7f30e66ef6520f3530dd030339955f
-size 442
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Task Master</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Update Task</h1>
+
+    <div class="form">
+        <form action="/update/{{task.id}}" method="POST">
+            <input type="text" name="content" id="content" value="{{task.content}}">
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</div>
+{% endblock %}

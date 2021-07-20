@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b242a3548896c6b8a67d669d62f50b09fa38520e85110297f2ba7c91c80d1da9
-size 529
+import unittest
+
+from streamlink.plugins.dommune import Dommune
+
+
+class TestPluginDommune(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://dommune.com',
+        ]
+        for url in should_match:
+            self.assertTrue(Dommune.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Dommune.can_handle_url(url))

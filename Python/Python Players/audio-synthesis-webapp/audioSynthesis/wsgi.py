@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e947a57a42369523d632adccaa8ac0e766135f98111bcf464b815d1ee7f5027c
-size 405
+"""
+WSGI config for audioSynthesis project.
+
+It exposes the WSGI callable as a module-level variable named ``application``.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
+"""
+
+import os
+
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'audioSynthesis.settings')
+
+application = get_wsgi_application()

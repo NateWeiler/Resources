@@ -1,3 +1,7 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1992e472398a606974003e1d44bf1c65b4629bf16ce9368b2fffb2adcd098eb1
-size 181
+launchctl load /Users/air/Library/LaunchAgents/gitcron.crontab.plist
+
+launchctl unload /Users/air/Library/LaunchAgents/gitcron.crontab.plist
+
+
+sudo launchctl list | grep 'gitcron'
+

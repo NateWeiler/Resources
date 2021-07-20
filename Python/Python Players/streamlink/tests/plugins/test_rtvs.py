@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a3f9781c0f8ad5d4407cd37b2a9c02120e437f4099f656ed70d310d4008821b3
-size 622
+import unittest
+
+from streamlink.plugins.rtvs import Rtvs
+
+
+class TestPluginRtvs(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.rtvs.sk/televizia/live-1',
+            'http://www.rtvs.sk/televizia/live-2',
+            'http://www.rtvs.sk/televizia/live-o',
+        ]
+        for url in should_match:
+            self.assertTrue(Rtvs.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'http://www.rtvs.sk/',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Rtvs.can_handle_url(url))

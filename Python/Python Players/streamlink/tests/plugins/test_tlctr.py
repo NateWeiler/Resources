@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ab7a996d1c5c3aef564e0bff84cd3f0d56a3a32c6408fcdd4741efe2b3f96ff8
-size 492
+import unittest
+
+from streamlink.plugins.tlctr import TLCtr
+
+
+class TestPluginTLCtr(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.tlctv.com.tr/canli-izle',
+        ]
+        for url in should_match:
+            self.assertTrue(TLCtr.can_handle_url(url))
+
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(TLCtr.can_handle_url(url))

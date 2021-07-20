@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:49c1732d7b6c72f9ab676f10789ff9933a7055c58297ba4119e36f67e66ed97e
-size 294
+Tests
+=====
+
+Testing is essential.
+
+Run the tests
+-------------
+
+`tox`
+
+Coverage results can be seen with
+
+`coverage html`
+
+and then opening the `./htmlcov/index.html` file with your browser.
+
+New tests
+---------
+New tests are always welcome see [contributing](contributing.md) for guidelines.

@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:82aec2aa611c1330fad6d9594ed1777f67d72d519d525ca4821df027a3cab25c
-size 326
+import os
+
+
+class Config:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = os.environ.get('EMAIL_USER')
+    MAIL_PASSWORD = os.environ.get('EMAIL_PASS')

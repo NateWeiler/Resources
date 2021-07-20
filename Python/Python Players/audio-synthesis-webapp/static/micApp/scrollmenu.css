@@ -1,3 +1,57 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:58f22ca6abf0f1d94ec7a260148d8cc56db6e4c78aa932c359938b509468f03d
-size 875
+
+/*Horizontal scroll bar CSS*/
+div.scrollmenu {
+  background-color: #333;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu label {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+div.scrollmenu label:hover {
+  background-color: #777;
+}
+
+
+
+/*Video-js CSS*/
+/* change player background color */
+#myAudio_recorded {
+  background-color: #9FD6BA;
+}
+
+
+#loadingmsg {
+  color: black;
+  background: #fff; 
+  padding: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  margin-right: -25%;
+  margin-bottom: -25%;
+}
+
+
+
+#loadingover {
+  background: black;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+  -moz-opacity: 0.8;
+  -khtml-opacity: 0.8;
+  opacity: 0.8;
+}

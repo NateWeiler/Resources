@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7583c83c8c9876d993c3d2cdc0ac4b87ed7f6190ae6502d2ca2af73a18ebc628
-size 957
+# Title Slide
+
+---
+
+# Paragraphs
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultricies
+tempus ultricies. Ut porta scelerisque viverra. Pellentesque aliquam metus
+scelerisque dui ultricies, auctor dictum erat aliquet. Integer vehicula nunc
+elit, vel iaculis lorem facilisis non.
+
+Vivamus ante mauris, pellentesque et rhoncus ut, condimentum sed ipsum.
+Nullam eu molestie sapien. Curabitur imperdiet, ligula id blandit sagittis,
+libero quam consectetur felis, ac pharetra metus lectus vitae leo. Mauris
+lacinia fermentum augue.
+
+---
+
+# Blockquotes
+
+> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ultricies
+> tempus ultricies. Ut porta scelerisque viverra. Pellentesque aliquam metus
+> scelerisque dui ultricies, auctor dictum erat aliquet. Integer vehicula nunc
+> elit, vel iaculis lorem facilisis non.
+
+---
+
+# Subheadings and Emphasis
+
+## Italic
+
+*Lorem ipsum dolor sit amet*
+
+## Bold
+
+**Lorem ipsum dolor sit amet**
+

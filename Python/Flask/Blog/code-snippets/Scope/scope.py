@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c097b9d61ac5f2ce65586d6d571c8dfff743f3c15b98944389c622ef1b71f5ae
-size 404
+'''
+LEGB
+Local, Enclosing, Global, Built-in
+'''
+
+for a in range(2):
+    x = 'global {}'.format(a)
+
+
+def outer():
+    # x = 'outer x'
+    for b in range(3):
+        x = 'outer {}'.format(b)
+
+    def inner():
+        # x = 'inner x'
+        for c in range(4):
+            x = 'inner {}'.format(c)
+        print(x)
+        print(a, b, c)
+
+    inner()
+    print(x)
+    print(a, b)
+
+outer()
+print(x)
+print(a)

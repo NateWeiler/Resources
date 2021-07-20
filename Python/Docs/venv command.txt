@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7454a53acff34b45090033618c861cb884d2ca9c3daaaa7ed1566c7ce0aabbc9
-size 191
+python3 -m venv venv
+. venv/bin/activate
+pip install --upgrade pip
+pip install flask
+pip freeze > requirements.txt
+export FLASK_APP=flaskr
+export FLASK_ENV=development
+flask init-db
+flask run

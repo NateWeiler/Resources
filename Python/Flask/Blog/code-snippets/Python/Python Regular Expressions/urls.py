@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a97bd0843a18fdd9b35d056fec78464e3c1b7845726974322cf88164a79b7f7c
-size 316
+import re
+
+urls = '''
+https://www.google.com
+http://coreyms.com
+https://youtube.com
+https://www.nasa.gov
+'''
+
+pattern = re.compile(r'https?://(www\.)?(\w+)(\.\w+)')
+
+subbed_urls = pattern.sub(r'\2\3', urls)
+
+print(subbed_urls)
+
+# matches = pattern.finditer(urls)
+
+# for match in matches:
+#     print(match.group(3))

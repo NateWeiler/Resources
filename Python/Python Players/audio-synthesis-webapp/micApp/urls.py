@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:62f833d9cd7a3c316f71f3072a9c7a4c7856c5e5efa498953e7239efaf1a2728
-size 375
+from django.urls import path
+from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+	path('', views.index, name='index'),
+	path('about/', views.about, name='about'),
+	path('uploads/', views.uploads, name='uploads')
+] 
+
+if settings.DEBUG:
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

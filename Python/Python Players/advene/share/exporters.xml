@@ -1,3 +1,826 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:244fb5d7e491b29b6004be3737c623953a05e3ac92a5fe69d7ad7b6386a3f82b
-size 54573
+<package dc:creator="oaubert" dc:date="2004-06-15" xmlns="http://experience.univ-lyon1.fr/advene/ns" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <meta><is_template xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">true</is_template><default_adhoc xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool"/><default_utbv xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool"/><default_stbv xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool"/><description xmlns="http://purl.org/dc/elements/1.1/">This Advene standard package define views to export annotations to various formats.</description><media_uri xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool"/>
+    <tag_colors xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool"></tag_colors>
+    <duration xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool"/>
+    <title xmlns="http://purl.org/dc/elements/1.1/">Export package</title>
+    <mediafile xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool"/>
+  </meta>
+  <imports/>
+  <annotations/>
+  <queries/>
+  <schemas/>
+  <views>
+    <view dc:creator="oaubert" dc:date="2004-06-14" id="srt" viewable-class="*">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">SRT subtitles</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">srt</extension>
+      </meta>
+      <content mime-type="text/plain">&lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;a here/annotations/sorted&quot;&gt;
+&lt;span tal:replace=&quot;python:repeat['a'].getIndex()+1&quot; &gt;Index&lt;/span&gt;
+&lt;span tal:define=&quot;begin a/fragment/formatted/begin&quot; tal:replace=&quot;python:begin.replace('.',',')&quot; &gt;Begin&lt;/span&gt; --&gt; &lt;span tal:define=&quot;end a/fragment/formatted/end&quot; tal:replace=&quot;python:end.replace('.',',')&quot; &gt;End&lt;/span&gt;
+&lt;span tal:replace=&quot;a/content/data&quot;&gt;Content&lt;/span&gt;
+&lt;/span&gt;</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2004-06-14" id="smil" viewable-class="*">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">SMIL</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">smil</extension>
+      </meta>
+      <content mime-type="text/smil">&lt;smil xmlns=&quot;http://www.w3.org/2001/SMIL20/Language&quot;&gt;
+ &lt;head&gt;
+  &lt;meta name=&quot;copyright&quot; tal:attributes=&quot;content here/author&quot; /&gt;
+  &lt;layout&gt;
+   &lt;root-layout width=&quot;300&quot; height=&quot;200&quot; background-color=&quot;white&quot; /&gt;
+   &lt;region id=&quot;narrator&quot; left=&quot;75&quot; top=&quot;50&quot; width=&quot;32&quot; height=&quot;32&quot; /&gt;
+  &lt;/layout&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;div tal:omit-tag='' tal:repeat='e here/annotations/sorted'&gt;
+      &lt;text region=&quot;narrator&quot; tal:attributes='
+      id    e/id ;
+      begin e/fragment/formatted/begin ; 
+      end   e/fragment/formatted/end' 
+      tal:content=&quot;e/content/data&quot;&gt;Texte&lt;/text&gt;
+  &lt;/div&gt;
+ &lt;/body&gt;
+&lt;/smil&gt;
+</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2006-01-18" id="svg" viewable-class="package">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">SVG</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">svg</extension>
+      </meta>
+      <content encoding="utf-8" mime-type="image/svg+xml">&lt;?xml version=&quot;1.0&quot;  encoding=&quot;UTF-8&quot;?&gt;
+&lt;svg tal:define=&quot;hoffset python:150 ; voffset python:30 ; line_height python:30 ; duration package/meta/advenetool/duration&quot;  xmlns='http://www.w3.org/2000/svg'  xmlns:xlink='http://www.w3.org/1999/xlink'  xmlns:tal='http://xml.zope.org/namespaces/tal' version='1'   x='0' y='0' tal:attributes=&quot;width python:int(hoffset) + int(duration) ; height python:int(line_height) * (2 + len(package.annotationTypes))&quot;&gt;
+
+&lt;script type=&quot;text/ecmascript&quot;&gt;
+      var hoffset = &lt;span tal:replace=&quot;hoffset&quot;&gt;150&lt;/span&gt;;
+      var voffset = &lt;span tal:replace=&quot;voffset&quot;&gt;30&lt;/span&gt;;
+      var zoom = 1;
+      var scale_layout;
+      var annotations_layout;
+      var time_marker;
+      
+    function setYScale(s) {
+        function transform_string(vscale, hoff, voff) {
+               if (vscale === undefined) vscale = 1;
+               if (hoff === undefined)  hoff = 0;
+               if (voff === undefined)  voff = 0;
+               return &quot;translate(&quot; + hoff + &quot; &quot; + voff + &quot;) scale(&quot; + s + &quot; 1)&quot;;
+         }
+         if (! scale_layout)
+             scale_layout = document.getElementById(&quot;scale_layout&quot;);
+         if (scale_layout) 
+             scale_layout.setAttribute(&quot;transform&quot;, transform_string(s, hoffset));
+         if (! annotations_layout)
+              annotations_layout = document.getElementById(&quot;annotations_layout&quot;);
+         if (annotations_layout)
+             annotations_layout.setAttribute(&quot;transform&quot;, transform_string(s, hoffset, voffset));
+         if (! time_marker)
+              time_marker = document.getElementById(&quot;time_marker&quot;);
+      	if (time_marker)
+      		time_marker.setAttribute(&quot;stroke-width&quot;, (2 / s) + &quot;px&quot;)
+        zoom = s;
+    }
+    function zoomIn(evt) {
+        setYScale(zoom * 1.1);
+    }
+    function zoomOut(evt) {
+        setYScale(zoom / 1.1);
+    }
+    
+    function svg_init() {
+        var svg = document.getElementsByTagName(&quot;svg&quot;)[0];
+        console.log(&quot;Setting zoom to &quot; + 1.0 * window.innerWidth / svg.width.baseVal.value);
+        setYScale(1.0 * window.innerWidth / svg.width.baseVal.value);
+    }
+    
+    function onLoadHandler(init_fxn) {
+      var old_init = window.onload;
+      var new_init = init_fxn;
+      window.onload = function() {
+          if (typeof(old_init) == &quot;function&quot;) {
+               old_init();
+          }
+          new_init();
+       }
+       return this;
+    }
+    onLoadHandler(svg_init);
+
+&lt;/script&gt;
+
+&lt;g id=&quot;control_layout&quot;&gt;
+   &lt;a href=&quot;#&quot; onclick=&quot;zoomOut(evt)&quot;&gt;
+     &lt;rect x=&quot;5&quot; y=&quot;5&quot; width=&quot;20&quot; height=&quot;20&quot; style=&quot;fill:grey; stroke:black&quot; /&gt;
+     &lt;text x=&quot;10&quot; y=&quot;20&quot;&gt;-&lt;/text&gt;
+   &lt;/a&gt;
+   
+   &lt;a href=&quot;#&quot; onclick=&quot;zoomIn(evt)&quot;&gt;
+       &lt;rect x=&quot;30&quot; y=&quot;5&quot; width=&quot;20&quot; height=&quot;20&quot; style=&quot;fill:grey; stroke:black&quot;/&gt;
+       &lt;text x=&quot;35&quot; y=&quot;20&quot;&gt;+&lt;/text&gt;
+   &lt;/a&gt;
+&lt;/g&gt;
+
+&lt;g id=&quot;scale_layout&quot; tal:attributes=&quot;transform string:translate(${hoffset} 0)&quot;&gt;
+&lt;!-- Header generation --&gt;
+&lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;i python:range(int(int(duration) / 60000))&quot;&gt;
+  &lt;span tal:omit-tag=&quot;&quot; tal:define=&quot;t python:int(i)*60000 ; pos python:t&quot;&gt;
+    &lt;line tal:attributes=&quot;x1 pos ; x2 pos&quot; y1=&quot;0&quot; y2=&quot;20&quot; stroke=&quot;black&quot; &gt;&lt;/line&gt;
+    &lt;text tal:attributes=&quot;x python:int(pos)-20&quot; y=&quot;10&quot; tal:content=&quot;t/formatted&quot;  font-family=&quot;sans-serif&quot; font-size=&quot;10&quot; stroke=&quot;black&quot;&gt;Timestamp&lt;/text&gt;
+  &lt;/span&gt;
+&lt;/span&gt;
+&lt;/g&gt;
+
+&lt;g id=&quot;legend_layout&quot; tal:attributes=&quot;transform string:translate(0 ${voffset})&quot;&gt;
+&lt;!-- Looping on annotation types --&gt;
+&lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;at here/annotationTypes&quot;&gt;
+   &lt;span tal:omit-tag=&quot;&quot; tal:define=&quot;vpos python:int(line_height)*repeat['at'].getIndex() + 30&quot; &gt;
+     &lt;a tal:attributes=&quot;xlink:href at/absolute_url&quot;&gt;
+        &lt;rect x=&quot;1&quot; tal:attributes=&quot;y python:int(vpos)-15 ; width python:int(hoffset)-5 ; style string:fill:${at/color | string:none}&quot;  height=&quot;20&quot; stroke=&quot;black&quot;&gt;&lt;/rect&gt;
+        &lt;text x=&quot;3&quot; tal:attributes=&quot;y vpos ; id at/id&quot;  tal:content=&quot;at/title&quot; stroke=&quot;black&quot; font-size=&quot;13&quot; font-family=&quot;sans-serif&quot;&gt;Titre&lt;/text&gt;
+    &lt;/a&gt;
+   &lt;/span&gt;
+ &lt;/span&gt;
+ &lt;/g&gt;
+ 
+&lt;g id=&quot;annotations_layout&quot; tal:attributes=&quot;transform string:translate(${hoffset} ${voffset})&quot;&gt;
+&lt;!-- Looping again on annotation types --&gt;
+  &lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;at here/annotationTypes&quot;&gt;
+
+      &lt;span tal:omit-tag=&quot;&quot; tal:define=&quot;vpos python:int(line_height)*repeat['at'].getIndex()+30&quot; &gt;
+ 
+      &lt;!-- Looping on annotations --&gt;
+         &lt;span tal:omit-tag=&quot;&quot;   tal:define=&quot;rpos python:int(vpos)-15&quot; tal:repeat=&quot;a at/annotations&quot;&gt;
+
+	    &lt;a class=&quot;transcript&quot; tal:attributes=&quot;xlink:href a/player_url ; title a/content/data ; data-annotation a/id&quot;&gt;
+               &lt;rect tal:attributes=&quot;x python:a.fragment.begin ; width python:a.fragment.duration ; y rpos ; style string:fill:${a/color | string:none}&quot;  height=&quot;20&quot; stroke=&quot;black&quot;&gt;&lt;/rect&gt;
+               &lt;clipPath tal:attributes=&quot;id string:clip_${a/id}&quot;&gt;&lt;rect tal:attributes=&quot;x python:a.fragment.begin ; width python:a.fragment.duration ; y rpos ; style string:fill:${a/color | string:none}&quot;  height=&quot;20&quot; stroke=&quot;black&quot;&gt;&lt;/rect&gt;&lt;/clipPath&gt;
+               &lt;text tal:attributes=&quot;x python:a.fragment.begin ; y vpos ; id a/id ; clip-path string:url(#clip_${a/id})&quot;  tal:content=&quot;a/representation&quot; stroke=&quot;black&quot; font-size=&quot;12&quot; font-family=&quot;sans-serif&quot;&gt;Texte&lt;/text&gt;
+           &lt;/a&gt;
+        &lt;/span&gt;
+      &lt;/span&gt;
+    &lt;/span&gt;
+&lt;/g&gt;
+
+&lt;/svg&gt;
+</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2005-03-07" id="tsv" viewable-class="*">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">Spreadsheet (tab separated values)</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">tsv</extension>
+      </meta>
+      <content encoding="utf-8" mime-type="text/tab-separated-values">&lt;span tal:omit-tag=&quot;&quot;&gt;Begin_ms	End_ms	Duration_ms	Begin	End	Type	Content
+&lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;a here/annotations/sorted&quot;&gt;&lt;span tal:replace=&quot;a/fragment/begin&quot; &gt;Begin&lt;/span&gt;	&lt;span tal:replace=&quot;a/fragment/end&quot; &gt;End&lt;/span&gt;	&lt;span tal:replace=&quot;a/fragment/duration&quot; &gt;Duration&lt;/span&gt;	&lt;span tal:replace=&quot;a/fragment/formatted/begin&quot; &gt;Begin&lt;/span&gt;	&lt;span tal:replace=&quot;a/fragment/formatted/end&quot; &gt;End&lt;/span&gt;	&lt;span tal:replace=&quot;a/type/title&quot;&gt;Title&lt;/span&gt;	&lt;span tal:replace=&quot;a/representation&quot;&gt;Content&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2006-01-26" id="index" viewable-class="package">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">index</title>
+      </meta>
+      <content mime-type="text/html">&lt;h1&gt;About this export_views package&lt;/h1&gt;
+
+&lt;p&gt;This package provides some views that can be used to export some package data to another format. Currently supported formats are &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SMIL : a basic &lt;a href=&quot;http://www.w3.org/TR/REC-smil/&quot;&gt;SMIL&lt;/a&gt; rendering of annotations. It can be applied to a package.&lt;/li&gt;
+&lt;li&gt;SRT subtitles : subtitles in the SRT format (used by some video players).&lt;/li&gt;
+&lt;li&gt;SVG : all annotations on a timeline, in a graphical representation&lt;/li&gt;
+&lt;li&gt;spreadsheet : a tab-separated-value conversion.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You can either import the export_views package (through the &lt;em&gt;Edit/Package imports&lt;/em&gt; menu), or copy/paste the contents of a view into one of your own views, to adapt if better to your needs.&lt;/p&gt;
+
+&lt;h1&gt;Note about exporter definition&lt;/h1&gt;
+
+&lt;p&gt;Export views can be applied either to a whole package, or to an annotation-type. The MatchFilter class attribute is used to discriminate this: it is either 'package' for exporters which only handle full packages, or '*' for exporters which handle both packages and annotation-types.&lt;/p&gt;
+    
+</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2006-02-07" id="timeline" viewable-class="package">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">HTML+CSS timeline</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">html</extension>
+      </meta>
+      <content mime-type="text/html">&lt;html&gt;
+
+&lt;head&gt;
+&lt;title&gt;Timeline view for &lt;span tal:replace=&quot;here/title&quot;&gt;titre&lt;/span&gt;&lt;/title&gt;
+&lt;!-- Generate the style header --&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+
+&lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;at here/annotationTypes&quot;&gt;
+
+  &lt;span tal:omit-tag=&quot;&quot; tal:define=&quot;vpos python:5*repeat['at'].getIndex()+5&quot; &gt;
+
+        &lt;span tal:replace=&quot;string: 
+div.${at/id} { 
+  background:${at/color};
+  border:thin;
+  position:absolute;
+  left:1ex;
+  top:${vpos}ex;
+  width:45ex;
+}&quot;&gt;style&lt;/span&gt;
+
+    &lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;a at/annotations&quot;&gt;
+        &lt;span tal:replace=&quot;string: 
+div.${a/id} { 
+  background:${a/color};
+  border:thin;
+  position:absolute;
+  left:${python:50+a.fragment.begin/100}ex;
+  width:${python:a.fragment.duration/100}ex;
+  top:0ex;
+}&quot;&gt;style&lt;/span&gt;
+
+  &lt;/span&gt;
+ &lt;/span&gt;
+&lt;/span&gt;
+&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- Annotation types --&gt;
+&lt;div tal:repeat=&quot;at here/annotationTypes&quot; tal:attributes=&quot;class at/id&quot;&gt;
+
+&lt;a tal:attributes=&quot;href at/absolute_url&quot;
+     tal:content=&quot;at/title&quot;&gt;Annotation type&lt;/a&gt;
+
+&lt;div tal:repeat=&quot;a at/annotations&quot; tal:attributes=&quot;class a/id&quot;&gt;
+
+&lt;a tal:attributes=&quot;href a/absolute_url; 
+                              title string: ${a/fragment/formatted/begin} - ${a/fragment/formatted/end}&quot; 
+     tal:content=&quot;a/representation&quot;&gt;Data&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2007-10-23" id="mpeg7" viewable-class="*">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">MPEG7 (experimental)</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">mp7</extension>
+      </meta>
+      <content mime-type="text/html">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;Mpeg7 xmlns=&quot;urn:mpeg:mpeg7:schema:2001&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:mpeg7=&quot;urn:mpeg:mpeg7:schema:2001&quot;
+       xsi:schemaLocation=&quot;urn:mpeg:mpeg7:schema:2001 mpeg7-2001-valid.xsd&quot;&gt;
+  &lt;Description xsi:type=&quot;ContentEntityType&quot;&gt;
+    &lt;MultimediaContent xsi:type=&quot;AudioVisualType&quot;&gt;
+      &lt;AudioVisual&gt;
+        &lt;MediaLocator&gt;
+          &lt;MediaUri tal:content=&quot;here/ownerPackage/meta/advenetool/mediafile&quot;&gt;file.mpg&lt;/MediaUri&gt;
+        &lt;/MediaLocator&gt;
+        &lt;TemporalDecomposition&gt;
+
+	&lt;span tal:repeat=&quot;a here/annotations/sorted&quot; tal:omit-tag=&quot;&quot;&gt;
+          &lt;AudioVisualSegment tal:attributes=&quot;id a/id&quot;&gt;
+            &lt;TextAnnotation&gt;
+              &lt;FreeTextAnnotation tal:content=&quot;a/content/data&quot;&gt;Data&lt;/FreeTextAnnotation&gt;
+            &lt;/TextAnnotation&gt;
+            &lt;MediaTime&gt;
+              &lt;MediaTimePoint tal:content=&quot;a/fragment/begin/mpeg7_time&quot;&gt;Time&lt;/MediaTimePoint&gt;
+              &lt;MediaDuration tal:content=&quot;a/fragment/begin/mpeg7_duration&quot;&gt;Duration&lt;/MediaDuration&gt;
+            &lt;/MediaTime&gt;
+          &lt;/AudioVisualSegment&gt;
+         &lt;/span&gt;
+        &lt;/TemporalDecomposition&gt;
+      &lt;/AudioVisual&gt;
+    &lt;/MultimediaContent&gt;
+  &lt;/Description&gt;
+&lt;/Mpeg7&gt;
+</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2007-12-11" id="iri" viewable-class="package">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">IRI</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">iri</extension>
+      </meta>
+      <content mime-type="application/xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;iri&gt;
+  &lt;head&gt;
+    &lt;meta name=&quot;id&quot; tal:attributes=&quot;content python:options['aliases'][package]&quot;/&gt;
+    &lt;meta name=&quot;title&quot; tal:attributes=&quot;content package/title&quot;/&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;&quot;/&gt;
+    &lt;meta name=&quot;contributor&quot; tal:attributes=&quot;content package/author&quot;/&gt;
+    &lt;meta name=&quot;type&quot; content=&quot;Film&quot;/&gt;
+    &lt;meta name=&quot;copyright&quot; content=&quot;&quot;/&gt;
+    &lt;meta name=&quot;date&quot; tal:attributes=&quot;content package/date&quot;/&gt;
+    &lt;meta name=&quot;abstract&quot; tal:attributes=&quot;content string:Converted from ${package/uri}&quot;/&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;ensembles&gt;
+      &lt;ensemble tal:repeat=&quot;sch package/schemas&quot;
+      tal:attributes=&quot;id sch/id ; author sch/author ; date
+      sch/date ; title sch/title ; abstract sch/meta/dc/description&quot;&gt;
+	&lt;decoupage tal:repeat=&quot;at sch/annotationTypes&quot; tal:attributes=&quot;id at/id ; dur
+      package/cached_duration ;  color at/color ;
+      author at/author ; date at/date ;  title at/title ; label
+      at/representation ; abstract at/meta/dc/description&quot;&gt;
+	  &lt;elements&gt;
+	    &lt;element tal:repeat=&quot;a at/annotations/sorted&quot;
+		     order=&quot;&quot; prev=&quot;&quot; next=&quot;&quot; 
+		     tal:attributes=&quot;id a/id ; begin a/fragment/begin
+		     ; dur a/fragment/duration ;  author a/author ;
+		     date a/date ; title a/representation ; abstract
+		     a/content/data ; src string:http://localhost:1234${a/snapshot_url}&quot; /&gt;
+	  &lt;/elements&gt;
+	  &lt;views&gt;
+	  &lt;/views&gt;
+	&lt;/decoupage&gt;
+      &lt;/ensemble&gt;
+    &lt;/ensembles&gt;
+    &lt;links/&gt;
+    &lt;medias&gt;
+      &lt;media id=&quot;audio&quot;/&gt;
+      &lt;media id=&quot;image&quot;/&gt;
+      &lt;media id=&quot;text&quot;/&gt;
+      &lt;media id=&quot;video&quot;&gt;
+	&lt;video id=&quot;media&quot; q=&quot;BQ&quot; begin=&quot;0&quot; tal:attributes=&quot;src
+	package/meta/advenetool/mediafile ; dur package/cached_duration&quot;/&gt;
+      &lt;/media&gt;
+    &lt;/medias&gt;
+    &lt;display&gt;
+    &lt;decoupage tal:repeat=&quot;at package/annotationTypes&quot; tal:attributes=&quot;idensemble at/schema/id ; id at/id ; position repeat/at/index&quot;/&gt;
+    &lt;/display&gt;
+  &lt;/body&gt;
+&lt;/iri&gt;
+</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2008-01-17" id="Advene2" viewable-class="package">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">Advene2</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">cxp</extension>
+      </meta>
+      <content encoding="utf-8" mime-type="application/xml">&lt;!-- Cinelab Advene XML exporter - v0.2 --&gt;
+&lt;package xmlns=&quot;http://advene.org/ns/cinelab/&quot;
+                xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot;
+                xmlns:adv=&quot;http://advene.liris.cnrs.fr/ns/meta/&quot;
+                xmlns:trans=&quot;http://advene.liris.cnrs.fr/ns/transition/&quot;&gt;
+  &lt;meta&gt;
+    &lt;adv:main_media id-ref=&quot;m1&quot;&gt;&lt;/adv:main_media&gt;
+    &lt;dc:title tal:content=&quot;package/title&quot;&gt;Title&lt;/dc:title&gt;
+    &lt;dc:creator tal:content=&quot;package/author&quot;&gt;author&lt;/dc:creator&gt;
+    &lt;dc:created tal:content=&quot;package/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+    &lt;dc:contributor tal:content=&quot;package/author&quot;&gt;author&lt;/dc:contributor&gt;
+    &lt;dc:modified tal:content=&quot;package/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;    
+  &lt;/meta&gt;
+  &lt;annotation-types&gt;
+    &lt;annotation-type tal:repeat=&quot;at package/annotationTypes&quot; tal:attributes=&quot;id at/id&quot;&gt;
+      &lt;meta&gt;
+        &lt;dc:title tal:content=&quot;at/title&quot;&gt;title&lt;/dc:title&gt;
+        &lt;color tal:content=&quot;string:string:${at/color}&quot;&gt;color&lt;/color&gt;
+        &lt;dc:creator tal:content=&quot;at/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;at/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;at/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;at/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+        &lt;dc:description tal:content=&quot;at/meta/dc/description | string:&quot;&gt;description&lt;/dc:description&gt;
+        &lt;representation tal:content=&quot;python:at.getMetaData('http://experience.univ-lyon1.fr/advene/ns/advenetool','representation')&quot;&gt;representation&lt;/representation&gt;
+        &lt;element-constraint tal:attributes=&quot;id-ref string::constraint:${at/id}&quot;&gt;constraint&lt;/element-constraint&gt;
+      &lt;/meta&gt;
+    &lt;/annotation-type&gt;
+  &lt;/annotation-types&gt;
+  &lt;relation-types&gt;
+    &lt;relation-type tal:repeat=&quot;rt package/relationTypes&quot; tal:attributes=&quot;id rt/id&quot;&gt;
+      &lt;meta&gt;
+        &lt;dc:title tal:content=&quot;at/title&quot;&gt;title&lt;/dc:title&gt;
+        &lt;dc:creator tal:content=&quot;rt/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;rt/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;rt/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;rt/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+        &lt;dc:description tal:content=&quot;at/meta/dc/description | string:&quot;&gt;description&lt;/dc:description&gt;        
+        &lt;element-constraint tal:attributes=&quot;id-ref string::constraint:${rt/id}&quot;&gt;constraint&lt;/element-constraint&gt;
+      &lt;/meta&gt;
+    &lt;/relation-type&gt;
+  &lt;/relation-types&gt;
+  &lt;medias&gt;
+    &lt;media frame-of-reference=&quot;http://advene.liris.cnrs.fr/ns/frame_of_reference/ms;o=0&quot; id=&quot;m1&quot; tal:attributes=&quot;url package/meta/advenetool/mediafile&quot; &gt;
+     &lt;meta&gt;
+      &lt;dc:duration tal:content=&quot;package/cached_duration&quot;&gt;30000&lt;/dc:duration&gt;
+      &lt;dc:creator tal:content=&quot;package/author&quot;&gt;author&lt;/dc:creator&gt;
+      &lt;dc:created tal:content=&quot;package/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+      &lt;dc:contributor tal:content=&quot;package/author&quot;&gt;author&lt;/dc:contributor&gt;
+      &lt;dc:modified tal:content=&quot;package/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+     &lt;/meta&gt;
+     &lt;/media&gt;    
+  &lt;/medias&gt;
+  &lt;annotations&gt;
+    &lt;annotation tal:repeat=&quot;a package/annotations&quot; tal:attributes=&quot;begin a/fragment/begin ; end a/fragment/end ; id a/id&quot; media=&quot;m1&quot;&gt;
+      &lt;content tal:attributes=&quot;mimetype a/content/mimetype&quot; tal:content=&quot;a/content/data&quot; /&gt;
+      &lt;meta&gt;
+        &lt;type tal:attributes=&quot;id-ref a/type/id&quot;&gt;&lt;/type&gt;
+        &lt;dc:creator tal:content=&quot;a/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;a/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;a/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;a/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+      &lt;/meta&gt;
+    &lt;/annotation&gt;
+  &lt;/annotations&gt;
+  &lt;relations&gt;
+    &lt;relation tal:repeat=&quot;r package/relations&quot; tal:attributes=&quot;id r/id&quot;&gt;
+      &lt;members&gt;
+        &lt;member tal:repeat=&quot;m r/members&quot; tal:attributes=&quot;id-ref m/id&quot; /&gt;
+      &lt;/members&gt;
+      &lt;content tal:attributes=&quot;mimetype r/content/mimetype&quot; tal:content=&quot;r/content/data&quot; /&gt;
+      &lt;meta&gt;
+         &lt;type tal:attributes=&quot;id-ref r/type/id&quot;&gt;&lt;/type&gt;
+        &lt;dc:creator tal:content=&quot;r/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;r/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;r/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;r/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+      &lt;/meta&gt;
+    &lt;/relation&gt;
+  &lt;/relations&gt;
+  &lt;views&gt;
+
+    &lt;view tal:repeat=&quot;at package/annotationTypes&quot; tal:attributes=&quot;id string::constraint:${at/id}&quot;&gt;
+      &lt;content tal:attributes=&quot;mimetype string:application/x-advene-type-constraint&quot; tal:content=&quot;string:mimetype=${at/mimetype}&quot;&gt;&lt;/content&gt;
+      &lt;meta&gt;
+        &lt;dc:title tal:content=&quot;string:${at/title} constraint&quot;&gt;title&lt;/dc:title&gt;
+        &lt;dc:creator tal:content=&quot;at/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;at/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;at/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;at/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+      &lt;/meta&gt;
+    &lt;/view&gt;
+
+    &lt;view tal:repeat=&quot;rt package/relationTypes&quot; tal:attributes=&quot;id string::constraint:${rt/id}&quot;&gt;
+      &lt;content tal:attributes=&quot;mimetype string:application/x-advene-type-constraint&quot; tal:content=&quot;string:mimetype=${rt/mimetype}&quot;&gt;&lt;/content&gt;
+      &lt;meta&gt;
+        &lt;dc:title tal:content=&quot;string:${rt/title} constraint&quot;&gt;title&lt;/dc:title&gt;
+        &lt;dc:creator tal:content=&quot;rt/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;rt/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;rt/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;rt/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+      &lt;/meta&gt;
+    &lt;/view&gt;
+
+    &lt;view tal:repeat=&quot;v package/views&quot; tal:attributes=&quot;id v/id&quot;&gt;
+      &lt;content tal:attributes=&quot;mimetype v/content/mimetype&quot; tal:content=&quot;v/content/data/transition_fix_ns&quot; /&gt;
+      &lt;meta&gt;
+        &lt;dc:title tal:content=&quot;v/title&quot;&gt;title&lt;/dc:title&gt;
+        &lt;dc:creator tal:content=&quot;v/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;v/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;v/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;v/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+        &lt;dc:description tal:content=&quot;v/meta/dc/description | string:&quot;&gt;description&lt;/dc:description&gt;
+      &lt;/meta&gt;
+    &lt;/view&gt;
+  &lt;/views&gt;
+  &lt;queries&gt;
+    &lt;query tal:repeat=&quot;q package/queries&quot; tal:attributes=&quot;id q/id&quot;&gt;
+      &lt;content tal:attributes=&quot;mimetype q/content/mimetype&quot; tal:content=&quot;q/content/data/transition_fix_ns&quot; /&gt;
+      &lt;meta&gt;
+        &lt;dc:title tal:content=&quot;q/title&quot;&gt;title&lt;/dc:title&gt;
+        &lt;dc:creator tal:content=&quot;q/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;q/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;q/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;q/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+        &lt;dc:description tal:content=&quot;q/meta/dc/description | string:&quot;&gt;description&lt;/dc:description&gt;
+      &lt;/meta&gt;
+    &lt;/query&gt;
+  &lt;/queries&gt;
+  
+    &lt;schemas&gt;
+    &lt;schema tal:repeat=&quot;s package/schemas&quot; tal:attributes=&quot;id s/id&quot;&gt;
+      &lt;items&gt;
+        &lt;item tal:repeat=&quot;i s/annotationTypes&quot; tal:attributes=&quot;id-ref i/id&quot; /&gt;
+        &lt;item tal:repeat=&quot;i s/relationTypes&quot; tal:attributes=&quot;id-ref i/id&quot; /&gt;
+      &lt;/items&gt;
+      &lt;meta&gt;
+        &lt;dc:title tal:content=&quot;s/title&quot;&gt;title&lt;/dc:title&gt;
+        &lt;dc:creator tal:content=&quot;s/author&quot;&gt;author&lt;/dc:creator&gt;
+        &lt;dc:created tal:content=&quot;s/date/transition_fix_date&quot;&gt;date&lt;/dc:created&gt;
+        &lt;dc:contributor tal:content=&quot;s/author&quot;&gt;author&lt;/dc:contributor&gt;
+        &lt;dc:modified tal:content=&quot;s/date/transition_fix_date&quot;&gt;date&lt;/dc:modified&gt;
+        &lt;dc:description tal:content=&quot;s/meta/dc/description | string:&quot;&gt;description&lt;/dc:description&gt;
+       &lt;/meta&gt;
+    &lt;/schema&gt;
+  &lt;/schemas&gt;
+
+&lt;/package&gt;</content>
+    </view>
+    <view dc:creator="oaubert" dc:date="2008-02-14" id="CMML" viewable-class="*">
+      <meta>
+        <title xmlns="http://purl.org/dc/elements/1.1/">CMML</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">cmml</extension>
+      </meta>
+      <content mime-type="text/xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+
+&lt;!-- This view can be applied either to a package, or to an annotation-type --&gt;
+
+&lt;cmml&gt;
+
+&lt;stream timebase=&quot;npt:0&quot;&gt;
+  &lt;import id=&quot;a1&quot; contenttype=&quot;video/mpeg&quot; tal:attributes=&quot;src package/meta/advenetool/mediafile&quot; start=&quot;npt:0&quot;&gt;&lt;/import&gt;
+&lt;/stream&gt;
+
+&lt;head&gt;
+&lt;title tal:content=&quot;here/title | string:No title&quot;&gt;Title (type or package's)&lt;/title&gt;
+&lt;meta name=&quot;DC.audience&quot; content=&quot;General&quot;&gt;&lt;/meta&gt;
+&lt;meta name=&quot;DC.author&quot; tal:attributes=&quot;content here/author | string:No author&quot;&gt;&lt;/meta&gt;
+&lt;meta name=&quot;DC.description&quot; tal:attributes=&quot;content here/description | string:No description&quot;&gt;&lt;/meta&gt;
+&lt;meta name=&quot;DC.format&quot; content=&quot;video&quot;&gt;&lt;/meta&gt;
+&lt;meta name=&quot;DC.language&quot; content=&quot;English&quot;&gt;&lt;/meta&gt;
+&lt;meta name=&quot;DC.publisher&quot; tal:attributes=&quot;content here/author | string:No author&quot;&gt;&lt;/meta&gt;
+&lt;meta name=&quot;DESCRIPTION&quot; tal:attributes=&quot;content here/description | string:No description&quot;&gt;&lt;/meta&gt;
+&lt;meta name=&quot;TYPE&quot; content=&quot;video&quot;&gt;&lt;/meta&gt;
+&lt;/head&gt;
+
+&lt;clip tal:repeat=&quot;a here/annotations/sorted&quot; tal:attributes=&quot;id a/id ; start string:npt:${a/fragment/begin/formatted} ; end string:npt:${a/fragment/end/formatted}&quot;&gt;
+&lt;a tal:attributes=&quot;href a/absolute_url&quot; tal:content=&quot;a/representation&quot;&gt;Annotation representation&lt;/a&gt;
+&lt;img tal:attributes=&quot;src a/snapshot_url&quot;&gt;&lt;/img&gt;
+&lt;desc tal:content=&quot;a/content/data&quot;&gt;Content&lt;/desc&gt;
+&lt;/clip&gt;
+
+&lt;/cmml&gt;
+</content>
+    </view><view dc:creator="oaubert" dc:date="2009-05-22" id="rdf" viewable-class="*"><meta><title xmlns="http://purl.org/dc/elements/1.1/">RDF</title></meta><content mime-type="application/xml">&lt;rdf:RDF
+xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+xmlns:rdfs=&quot;http://www.w3.org/2000/01/rdf-schema#&quot;
+xmlns:owl=&quot;http://www.w3.org/2002/07/owl#&quot;
+xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema#&quot;
+xmlns:foaf=&quot;http://xmlns.com/foaf/0.1/&quot;
+xmlns:dc=&quot;http://purl.org/dc/terms/&quot;
+xmlns=&quot;http://advene.org/ns/linked-data/&quot;
+&gt;
+&lt;!-- Note: this view can be applied to a package or to an annotation-type --&gt;
+  &lt;Annotation
+    tal:repeat=&quot;a here/annotations&quot;
+    tal:attributes=&quot;rdf:about a/uri&quot;&gt;
+    &lt;media tal:attributes=&quot;rdf:resource package/meta/advenetool/mediafile&quot; /&gt;
+    &lt;begin tal:content=&quot;a/fragment/begin&quot;&gt;1&lt;/begin&gt;
+    &lt;end tal:content=&quot;a/fragment/begin&quot;&gt;2&lt;/end&gt;
+    &lt;transcription tal:content=&quot;a/content/data&quot;&gt;text&lt;/transcription&gt;
+ &lt;!--    &lt;rdfs:seeAlso
+       tal repeat=&quot;l a/query/Overlapping_links&quot;
+       tal attributes=&quot;rdf:resource l/content/parsed/url&quot; /&gt;
+       --&gt;
+  &lt;/Annotation&gt;
+&lt;/rdf:RDF&gt;</content></view><view dc:creator="oaubert" dc:date="2010-02-26" id="TimedText" viewable-class="*"><meta><extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">tt</extension><title xmlns="http://purl.org/dc/elements/1.1/">TimedText</title></meta><content mime-type="application/xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;tt xml:lang=&quot;en&quot; xmlns=&quot;http://www.w3.org/2006/10/ttaf1&quot; xmlns:tts=&quot;http://www.w3.org/2006/04/ttaf1#styling&quot;&gt; 
+&lt;head&gt;
+  &lt;metadata xmlns:ttm=&quot;http://www.w3.org/2006/10/ttaf1#metadata&quot;&gt; 
+      &lt;ttm:title tal:content=&quot;here/title&quot;&gt;Title&lt;/ttm:title&gt;
+      &lt;ttm:desc tal:content=&quot;here/meta/dc/description&quot;&gt;Description&lt;/ttm:desc&gt;
+  &lt;/metadata&gt;  
+  &lt;styling&gt;
+    &lt;style id=&quot;1&quot; tts:textAlign=&quot;center&quot; tts:color=&quot;transparent&quot; tts:fontFamily=&quot;Verdana&quot; tts:wrapOption=&quot;wrap&quot;/&gt;
+    &lt;/styling&gt;  
+&lt;/head&gt;  
+&lt;body&gt;
+  &lt;div xml:id=&quot;captions&quot; xml:lang=&quot;en&quot;&gt;
+     &lt;p tal:repeat=&quot;a here/annotations&quot; tal:attributes=&quot;begin a/fragment/formatted/begin ; end a/fragment/formatted/end&quot; tal:content=&quot;a/content/data&quot;&gt;data&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+ &lt;/tt&gt;
+ </content></view><view dc:creator="oaubert" dc:date="2010-12-06" id="json" viewable-class="*"><meta>
+   <title xmlns="http://purl.org/dc/elements/1.1/">json</title>
+   <extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">json</extension>
+</meta><content encoding="utf-8" mime-type="text/plain">{ &quot;annotations&quot;: [
+&lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;a here/annotations/sorted&quot; &gt;
+                {
+                        &quot;id&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/id&quot;&gt;aid&lt;/span&gt;&quot;,
+                        &quot;type&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/type/id&quot;&gt;atid&lt;/span&gt;&quot;,
+                        &quot;media&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/meta/advenetool/mediafile/urlquote&quot;&gt;movie&lt;/span&gt;&quot;,
+                        &quot;begin&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/fragment/begin&quot;&gt;begin&lt;/span&gt;,
+                        &quot;end&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/fragment/end&quot;&gt;end&lt;/span&gt;,
+                        &quot;content&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/content/data/json&quot;&gt;content&lt;/span&gt;&lt;span tal:omit-tag=&quot;&quot; tal:omit-tag=&quot;&quot; tal:condition=&quot;python:'x-advene-structured' in a.content.mimetype&quot;&gt;, 
+                        &quot;parsed&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/content/parsed/json&quot;&gt;parsed&lt;/span&gt;&lt;/span&gt;
+                }&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;not:repeat/a/end&quot;&gt;,&lt;/span&gt;
+&lt;/span&gt;
+] }
+</content></view>
+<view dc:creator="oaubert" dc:date="2010-12-06" id="json_by_type" viewable-class="package">
+<meta>
+  <title xmlns="http://purl.org/dc/elements/1.1/">json-by-type</title>
+  <extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">json</extension>
+</meta>
+<content encoding="utf-8" mime-type="text/plain">{
+  &lt;span tal:repeat=&quot;at here/annotationTypes&quot; tal:omit-tag=&quot;&quot;&gt;
+   &quot;&lt;span tal:replace=&quot;at/id&quot;&gt;atid&lt;/span&gt;&quot;: [
+      &lt;span tal:repeat=&quot;a at/annotations/sorted&quot; tal:omit-tag=&quot;&quot;&gt;
+                {
+                        &quot;id&quot;: &quot;&lt;span tal:replace=&quot;a/id&quot;&gt;aid&lt;/span&gt;&quot;,
+                        &quot;type&quot;: &quot;&lt;span tal:replace=&quot;at/id&quot;&gt;atid&lt;/span&gt;&quot;,
+                        &quot;media&quot;: &quot;&lt;span tal:replace=&quot;package/meta/advenetool/mediafile/urlquote&quot;&gt;movie&lt;/span&gt;&quot;,
+                        &quot;begin&quot;: &lt;span tal:replace=&quot;a/fragment/begin&quot;&gt;begin&lt;/span&gt;,
+                        &quot;end&quot;: &lt;span tal:replace=&quot;a/fragment/end&quot;&gt;end&lt;/span&gt;,
+                        &quot;content&quot;: &lt;span tal:replace=&quot;a/content/data/json&quot;&gt;content&lt;/span&gt;&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;python:'x-advene-structured' in a.content.mimetype&quot;&gt;, 
+                        &quot;parsed&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/content/parsed/json&quot;&gt;parsed&lt;/span&gt;&lt;/span&gt;
+                }&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;not:repeat/a/end&quot;&gt;,&lt;/span&gt;
+&lt;/span&gt;
+]&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;not:repeat/at/end&quot;&gt;,&lt;/span&gt;
+&lt;/span&gt;
+}
+</content></view><view dc:creator="oaubert" dc:date="2012-02-21" id="TTL" viewable-class="package"><meta><extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">ttl</extension><title xmlns="http://purl.org/dc/elements/1.1/">TTL</title></meta><content encoding="utf-8" mime-type="text/plain">&lt;div tal:omit-tag=&quot;&quot; tal:repeat=&quot;at here/annotationTypes&quot;&gt;
+  &lt;div tal:omit-tag=&quot;&quot; tal:repeat=&quot;a at/annotations&quot;&gt;
+@prefix xsd: &amp;lt;http://www.w3.org/2001/XMLSchema#&gt; .
+@prefix ktbs: &amp;lt;http://liris.cnrs.fr/silex/2009/ktbs/&amp;gt; .
+@prefix : &amp;lt;../advene/&amp;gt; .
+
+[] a :&lt;span tal:replace=&quot;python:at.id.capitalize().replace('-', '_')&quot;&gt;id&lt;/span&gt;;
+ktbs:hasTrace &lt;&lt;span tal:replace=&quot;package/meta/advenetool/mediafile | no_source&quot;&gt;&lt;/span&gt;&gt; ;
+ktbs:hasBegin &lt;span tal:replace=&quot;a/fragment/begin&quot;&gt;b&lt;/span&gt;;
+ktbs:hasEnd &lt;span tal:replace=&quot;a/fragment/end&quot;&gt;e&lt;/span&gt;;
+ktbs:hasSubject &quot;&lt;span tal:replace=&quot;package/author&quot;&gt;&lt;/span&gt;&quot;;
+&lt;div tal:omit-tag=&quot;&quot; tal:condition=&quot;at/_fieldnames&quot;&gt;&lt;div tal:omit-tag=&quot;&quot; tal:repeat=&quot;fn python:list(at._fieldnames)&quot;&gt;:has&lt;span tal:replace=&quot;fn/capitalize&quot;&gt;Field&lt;/span&gt; &quot;&lt;span tal:replace=&quot;a/content/parsed/?fn&quot;&gt;value&lt;/span&gt;&quot;;
+&lt;/div&gt;.&lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+</content></view><view dc:creator="oaubert" dc:date="2013-12-03" id="metadataplayer" viewable-class="*"><meta><title xmlns="http://purl.org/dc/elements/1.1/">metadataplayer</title></meta><content encoding="utf-8" mime-type="text/html">{
+    &quot;views&quot;: [],
+    &quot;tags&quot;: [],
+    &quot;lists&quot;: [],
+    &quot;medias&quot;: [
+        {
+            &quot;origin&quot;: &quot;0&quot;,
+            &quot;url&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/meta/advenetool/mediafile/urlquote&quot;&gt;movie&lt;/span&gt;&quot;,
+            &quot;http://advene.liris.cnrs.fr/ns/frame_of_reference/ms&quot;: &quot;o=0&quot;,
+            &quot;meta&quot;: {
+                &quot;dc:contributor&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/author&quot;&gt;author&lt;/span&gt;&quot;,
+                &quot;dc:created&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/date&quot;&gt;date&lt;/span&gt;&quot;,
+                &quot;dc:duration&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/meta/advenetool/duration&quot;&gt;duration&lt;/span&gt;,
+                &quot;dc:creator&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/author&quot;&gt;author&lt;/span&gt;&quot;,
+                &quot;dc:created.contents&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/date&quot;&gt;date&lt;/span&gt;&quot;,
+                &quot;dc:title&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/meta/advenetool/mediafile/urlquote&quot;&gt;movie&lt;/span&gt;&quot;,
+                &quot;dc:creator.contents&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/author&quot;&gt;author&lt;/span&gt;&quot;,
+                &quot;dc:modified&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/date&quot;&gt;date&lt;/span&gt;&quot;,
+                &quot;dc:description&quot;: &quot;&quot;
+            },
+            &quot;id&quot;: &quot;m1&quot;,
+            &quot;unit&quot;: &quot;ms&quot;
+        }
+    ],
+    &quot;meta&quot;: {
+        &quot;dc:contributor&quot;: &quot;admin&quot;,
+        &quot;dc:created&quot;: &quot;2011-02-14T15:15:52.602502&quot;,
+        &quot;dc:creator&quot;: &quot;admin&quot;,
+        &quot;main_media&quot;: {
+            &quot;id-ref&quot;: &quot;m1&quot;
+        },
+        &quot;dc:description&quot;: &quot;&quot;,
+        &quot;dc:title&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/title&quot;&gt;title&lt;/span&gt;&quot;,
+        &quot;id&quot;: &quot;package1&quot;,
+         &quot;dc:modified&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/date&quot;&gt;date&lt;/span&gt;&quot;
+    },
+   &quot;annotations&quot;: [
+&lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;a here/annotations/sorted&quot; &gt;
+        {
+            &quot;content&quot;: {
+                &quot;mimetype&quot;: &quot;application/x-ldt-structured&quot;,
+                &quot;description&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/content/parsed/body/json | a/representation/json&quot;&gt;data&lt;/span&gt;,
+                &quot;img&quot;: {
+                    &quot;src&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/snapshot_url&quot;&gt;url&lt;/span&gt;&quot;
+                },
+                &quot;title&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/representation/json&quot;&gt;data&lt;/span&gt;,
+                &quot;polemics&quot;: [],
+                &quot;audio&quot;: {
+                    &quot;mimetype&quot;: &quot;audio/mp3&quot;,
+                    &quot;src&quot;: &quot;&quot;,
+                    &quot;href&quot;: null
+                }
+            },
+           &quot;begin&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/fragment/begin&quot;&gt;begin&lt;/span&gt;,
+           &quot;end&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/fragment/end&quot;&gt;end&lt;/span&gt;,
+            &quot;meta&quot;: {
+                &quot;dc:contributor&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/author&quot;&gt;author&lt;/span&gt;&quot;,
+                &quot;id-ref&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/type/id&quot;&gt;type&lt;/span&gt;&quot;,
+                &quot;dc:created&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/date&quot;&gt;date&lt;/span&gt;&quot;,
+                &quot;dc:modified&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/date&quot;&gt;date&lt;/span&gt;&quot;,
+                &quot;dc:creator&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/author&quot;&gt;author&lt;/span&gt;&quot;&lt;span tal:condition=&quot;a/content/parsed/num&quot; tal:omit-tag=&quot;&quot;&gt;,
+                &quot;advene:num&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/content/parsed/num&quot;&gt;#&lt;/span&gt;&lt;/span&gt;
+            },
+            &quot;tags&quot;: null,
+            &quot;color&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/color&quot;&gt;color&lt;/span&gt;&quot;,
+            &quot;media&quot;: &quot;m1&quot;,
+            &quot;id&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/id&quot;&gt;aid&lt;/span&gt;&quot;
+         }&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;not:repeat/a/end&quot;&gt;,&lt;/span&gt;
+&lt;/span&gt;
+],
+   &quot;annotation-types&quot;: [
+&lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;at here/annotationTypes/sorted&quot; &gt;
+        {
+            &quot;dc:contributor&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;at/author&quot;&gt;author&lt;/span&gt;&quot;,
+            &quot;dc:creator&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;at/author&quot;&gt;author&lt;/span&gt;&quot;,
+            &quot;dc:title&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;at/title&quot;&gt;title&lt;/span&gt;&quot;,
+            &quot;id&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;at/id&quot;&gt;id&lt;/span&gt;&quot;,
+            &quot;dc:created&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;at/date&quot;&gt;date&lt;/span&gt;&quot;,
+            &quot;dc:modified&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;at/date&quot;&gt;date&lt;/span&gt;&quot;,
+            &quot;dc:description&quot;: &quot;&quot;
+        }&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;not:repeat/at/end&quot;&gt;,&lt;/span&gt;
+    &lt;/span&gt;
+    ]
+ }
+ </content></view><view dc:creator="oaubert" dc:date="2017-02-02" id="WebAnnotation" viewable-class="*"><meta><title xmlns="http://purl.org/dc/elements/1.1/">WebAnnotation</title>
+	<extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">json</extension>
+ </meta><content encoding="utf-8" mime-type="text/plain">{
+  &quot;@context&quot;: [ 
+       &quot;http://www.w3.org/ns/anno.jsonld&quot;,
+        { &quot;local&quot;: &quot;http://advene.org/ns/local#&quot; } 
+        ],
+  &quot;id&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;here/uri&quot;&gt;container_uri&lt;/span&gt;&quot;,
+  &quot;type&quot;: &quot;AnnotationCollection&quot;,
+  &quot;label&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;here/representation/json&quot;&gt;container_title&lt;/span&gt;,
+  &quot;total&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;here/annotations/length&quot;&gt;annotation_count&lt;/span&gt;,
+  &quot;first&quot;: {
+    &quot;id&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;here/uri&quot;&gt;container_uri&lt;/span&gt;/page1&quot;,
+    &quot;type&quot;: &quot;AnnotationPage&quot;,
+    &quot;startIndex&quot;: 0,
+    &quot;items&quot;: [
+         &lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;a here/annotations/sorted&quot; &gt;
+         {
+            &quot;@context&quot;: &quot;http://www.w3.org/ns/anno.jsonld&quot;,
+            &quot;id&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/uri/json&quot;&gt;annotation_uri&lt;/span&gt;,
+            &quot;type&quot;: [ &quot;Annotation&quot;, &quot;local:&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/type/id&quot;&gt;type&lt;/span&gt;&quot; ],
+            &quot;creator&quot;: {
+                &quot;id&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/author/json&quot;&gt;author&lt;/span&gt;,
+                &quot;type&quot;: &quot;Person&quot;,
+                &quot;nick&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/author/json&quot;&gt;author&lt;/span&gt;
+            },
+            &quot;created&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/date/json&quot;&gt;created&lt;/span&gt;,
+            &quot;body&quot;: {
+                &quot;type&quot;: &quot;TextualBody&quot;,
+                &quot;value&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/content/data/json&quot;&gt;annotation_data&lt;/span&gt;,
+                &quot;format&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/content/mimetype/json&quot;&gt;content type&lt;/span&gt;
+            },
+            &quot;target&quot;: {
+                &quot;source&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/meta/advenetool/mediafile/urlquote&quot;&gt;movie&lt;/span&gt;&quot;,
+                &quot;selector&quot;: {
+                    &quot;type&quot;: &quot;FragmentSelector&quot;,
+                    &quot;conformsTo&quot;: &quot;http://www.w3.org/TR/media-frags/&quot;,
+                    &quot;value&quot;: &quot;t=&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/fragment/begin/formatted&quot;&gt;begin&lt;/span&gt;,&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/fragment/end/formatted&quot;&gt;end&lt;/span&gt;&quot;
+                }
+            }
+        }&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;not:repeat/a/end&quot;&gt;,&lt;/span&gt;
+        &lt;/span&gt;
+     ]
+  }
+}
+</content></view><view dc:creator="oaubert" dc:date="2017-12-22T11:08:56" id="AdA_RDF_Export_View" viewable-class="package"><meta><extension xmlns="http://experience.univ-lyon1.fr/advene/ns/advenetool">json</extension><title xmlns="http://purl.org/dc/elements/1.1/">AdA RDF Export View</title></meta><content encoding="utf-8" mime-type="text/html">{
+  &quot;@context&quot;: [ &quot;http://www.w3.org/ns/anno.jsonld&quot;,
+                              &quot;http://www.w3.org/ns/ldp.jsonld&quot;,
+                              {
+                                     &quot;ar&quot;: &quot;http://ada.filmontology.org/resource/2018/02/&quot;,
+                                     &quot;ao&quot;: &quot;http://ada.filmontology.org/ontology/2018/02/&quot;
+                               }
+    ],
+  &quot;id&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;here/uri&quot;&gt;container_uri&lt;/span&gt;&quot;,
+  &quot;type&quot;: &quot;AnnotationCollection&quot;,
+  &quot;label&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;here/representation/json&quot;&gt;container_title&lt;/span&gt;,
+  &quot;first&quot;: {
+    &quot;id&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;here/uri&quot;&gt;container_uri&lt;/span&gt;/page1&quot;,
+    &quot;type&quot;: &quot;AnnotationPage&quot;,
+    &quot;startIndex&quot;: 0,
+    &quot;items&quot;: [
+         &lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;a here/annotations/sorted&quot; &gt;
+         &lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;python:a.content.mimetype != 'application/x-advene-values'&quot; &gt;
+         {
+            &quot;@id&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/uri/json&quot;&gt;annotation_uri&lt;/span&gt;,
+            &quot;@type&quot;: &quot;Annotation&quot;,
+            &quot;created&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/date/json&quot;&gt;created&lt;/span&gt;,
+            &quot;creator&quot;: {
+                &quot;@id&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/author/json&quot;&gt;author&lt;/span&gt;,
+                &quot;@type&quot;: &quot;Person&quot;,
+                &quot;nick&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/author/json&quot;&gt;author&lt;/span&gt;
+            },
+            &quot;body&quot;: {
+                &quot;@type&quot;: &quot;Text&quot;,
+                &quot;value&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/content/data/json&quot;&gt;annotation_data&lt;/span&gt;
+            },
+         &lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;python:a.content.mimetype=='text/x-advene-keyword-list'&quot; &gt;
+            &quot;body&quot;: {
+                &quot;@type&quot;: &quot;ao:PredefinedValuesAnnotationType&quot;,
+                 &quot;ao:annotationType&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/type/meta/advenetool/ontology_uri/json&quot;&gt;type&lt;/span&gt;,
+                 &lt;span tal:omit-tag=&quot;&quot; tal:repeat=&quot;item python:list(a.content.parsed().as_dict().items())&quot;&gt;
+                 &quot;ao:annotationValue&quot;: &lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;item/1/ontology_uri/json | item/0/json&quot;&gt;annotation_data&lt;/span&gt;&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;not:repeat/item/end&quot;&gt;,&lt;/span&gt;
+                  &lt;/span&gt;
+            },
+            &lt;/span&gt;
+            &quot;target&quot;: {
+                &quot;source&quot;: &quot;&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;package/meta/advenetool/media_uri | package/meta/advenetool/mediafile/urlquote&quot;&gt;movie&lt;/span&gt;&quot;,
+                &quot;selector&quot;: {
+                    &quot;@type&quot;: &quot;FragmentSelector&quot;,
+                    &quot;conformsTo&quot;: &quot;http://www.w3.org/TR/media-frags/&quot;,
+                    &quot;value&quot;: &quot;t=&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/fragment/begin/formatted&quot;&gt;begin&lt;/span&gt;,&lt;span tal:omit-tag=&quot;&quot; tal:replace=&quot;a/fragment/end/formatted&quot;&gt;end&lt;/span&gt;&quot;
+                }
+            }
+        }&lt;span tal:omit-tag=&quot;&quot; tal:condition=&quot;not:repeat/a/end&quot;&gt;,&lt;/span&gt;
+        &lt;/span&gt;
+        &lt;/span&gt;
+     ]
+  }
+}
+</content></view>
+  </views>
+</package>

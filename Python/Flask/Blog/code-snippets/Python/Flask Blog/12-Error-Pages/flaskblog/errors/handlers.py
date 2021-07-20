@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e3cdd84e1fd3776d9e759ece827c6957a741a43987ffa8e9d6a96033be9ad0a0
-size 400
+from flask import Blueprint, render_template
+
+errors = Blueprint('errors', __name__)
+
+
+@errors.app_errorhandler(404)
+def error_404(error):
+    return render_template('errors/404.html'), 404
+
+
+@errors.app_errorhandler(403)
+def error_403(error):
+    return render_template('errors/403.html'), 403
+
+
+@errors.app_errorhandler(500)
+def error_500(error):
+    return render_template('errors/500.html'), 500

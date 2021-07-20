@@ -1,3 +1,28 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:de96710ea7aa1eb34fc104d86fbe7fe626f957e20a00ab219ad870f54cc1ef4c
-size 832
+{% extends 'base.html' %}
+
+{% block intro %}
+  <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest"><code>XMLHttpRequest</code></a>
+  is the plain JavaScript way to make requests. It's natively supported
+  by all browsers.
+{% endblock %}
+
+{% block script %}
+  <script>
+    function addSubmit(ev) {
+      ev.preventDefault();
+      var request = new XMLHttpRequest();
+      request.addEventListener('load', addShow);
+      request.open('POST', {{ url_for('add')|tojson }});
+      request.send(new FormData(this));
+    }
+
+    function addShow() {
+      var data = JSON.parse(this.responseText);
+      var span = document.getElementById('result');
+      span.innerText = data.result;
+    }
+
+    var form = document.getElementById('calc');
+    form.addEventListener('submit', addSubmit);
+  </script>
+{% endblock %}

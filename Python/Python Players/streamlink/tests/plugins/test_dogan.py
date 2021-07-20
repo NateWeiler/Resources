@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e1f7de173da1624dd020015a54c6676b3ecb578c03708f185130f48a4dc2fb96
-size 745
+import unittest
+
+from streamlink.plugins.dogan import Dogan
+
+
+class TestPluginDogan(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://www.cnnturk.com/canli-yayin',
+            'https://www.dreamturk.com.tr/canli',
+            'https://www.dreamtv.com.tr/canli-yayin',
+            'https://www.kanald.com.tr/canli-yayin',
+            'https://www.teve2.com.tr/canli-yayin',
+        ]
+        for url in should_match:
+            self.assertTrue(Dogan.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Dogan.can_handle_url(url))

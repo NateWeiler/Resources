@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:58988d9162ad2dc0acaa123698114f322677036c80437dca77978cf2b06951df
-size 161
+from collections import namedtuple
+
+Color = namedtuple('Color', ['red', 'green', 'blue'])
+
+color = Color(55,155,255)
+white = Color(255,255,255)
+
+print color.blue

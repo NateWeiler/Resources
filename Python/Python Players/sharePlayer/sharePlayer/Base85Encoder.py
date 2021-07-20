@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:bb6c81a1e3ba837343f4c025593405191c84727a6a4e3cdc131ff928e93f578d
-size 247
+import base64
+
+class Base85Encoder(object):
+
+    @staticmethod
+    def encode(data):
+        return base64.b85encode(data)
+
+    @staticmethod
+    def decode(data):
+        # Strip any newlines...
+        return base64.b85decode(data.strip(b"\n"))

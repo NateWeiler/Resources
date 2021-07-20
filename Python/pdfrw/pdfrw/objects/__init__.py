@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:25f728d7360eacb817baeb3fb5073059ec72290ccc1c88bf4948e310cadf76a1
-size 654
+# A part of pdfrw (https://github.com/pmaupin/pdfrw)
+# Copyright (C) 2006-2015 Patrick Maupin, Austin, Texas
+# MIT license -- See LICENSE.txt for details
+
+'''
+Objects that can occur in PDF files.  The most important
+objects are arrays and dicts.  Either of these can be
+indirect or not, and dicts could have an associated
+stream.
+'''
+from .pdfname import PdfName
+from .pdfdict import PdfDict, IndirectPdfDict
+from .pdfarray import PdfArray
+from .pdfobject import PdfObject
+from .pdfstring import PdfString
+from .pdfindirect import PdfIndirect
+
+__all__ = """PdfName PdfDict IndirectPdfDict PdfArray
+             PdfObject PdfString PdfIndirect""".split()

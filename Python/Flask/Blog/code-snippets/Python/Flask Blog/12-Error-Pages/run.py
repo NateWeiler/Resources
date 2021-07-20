@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b1a7ab12947a6bcb3984dbcd8b741547ce8793439ce29faa99d7771b11dbe61e
-size 105
+from flaskblog import create_app
+
+app = create_app()
+
+if __name__ == '__main__':
+    app.run(debug=True)

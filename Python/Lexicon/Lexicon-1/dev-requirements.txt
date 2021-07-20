@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:827f0b0fb92c2808d4c597419aefe838ff9871e8820361c71e20d7e6985f37f3
-size 280
+# Development requirements. There are no runtime/install requirements.
+
+# Python 3 compat spec
+spec>=0.10.0,<2.0
+# Ourselves
+-e .
+# Invoke, invocations for release shenanigans etc
+invoke==0.17.0
+invocations==0.18.0
+# Release deps
+wheel==0.24
+twine==1.11.0
+# Linting
+flake8==3.6.0

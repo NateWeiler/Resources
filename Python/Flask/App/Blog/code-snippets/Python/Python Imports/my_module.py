@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0c76e1abbcd92c84c1b5fb08fcc2a9df251cd33adb8a5e7008ab24bcc7ce81dc
-size 247
+
+print('Imported my_module...')
+
+test = 'Test String'
+
+
+def find_index(to_search, target):
+    '''Find the index of a value in a sequence'''
+    for i, value in enumerate(to_search):
+        if value == target:
+            return i
+
+    return -1

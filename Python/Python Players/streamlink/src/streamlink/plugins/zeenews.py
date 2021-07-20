@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:de47f88f275d6b913e706051c73dcfb907415272217e914b01cd20f6924fa384
-size 847
+import logging
+import re
+
+from streamlink.plugin import Plugin
+from streamlink.stream import HLSStream
+
+log = logging.getLogger(__name__)
+
+
+class ZeeNews(Plugin):
+    _url_re = re.compile(r'https?://zeenews\.india\.com/live-tv')
+
+    HLS_URL = 'https://z5ams.akamaized.net/zeenews/index.m3u8{0}'
+    TOKEN_URL = 'https://useraction.zee5.com/token/live.php'
+
+    @classmethod
+    def can_handle_url(cls, url):
+        return cls._url_re.match(url) is not None
+
+    def get_title(self):
+        return 'Zee News'
+
+    def _get_streams(self):
+        res = self.session.http.get(self.TOKEN_URL)
+        token = self.session.http.json(res)['video_token']
+        log.debug('video_token: {0}'.format(token))
+        for s in HLSStream.parse_variant_playlist(self.session, self.HLS_URL.format(token)).items():
+            yield s
+
+
+__plugin__ = ZeeNews

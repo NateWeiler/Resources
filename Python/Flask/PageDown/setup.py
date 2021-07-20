@@ -1,3 +1,37 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7a876e0d8ea06d9032318829fd3288f9dc65f80cf22a58073175a49eb384f9bd
-size 1055
+"""
+Flask-PageDown
+--------------
+
+Implementation of StackOverflow's "PageDown" markdown editor for Flask-WTF.
+"""
+from setuptools import setup
+
+
+setup(
+    name='Flask-PageDown',
+    version='0.2.2',
+    url='http://github.com/miguelgrinberg/flask-pagedown/',
+    license='MIT',
+    author='Miguel Grinberg',
+    author_email='miguelgrinberg50@gmail.com',
+    description=('Implementation of StackOverflow\'s "PageDown" markdown '
+                 'editor for Flask-WTF.'),
+    long_description=__doc__,
+    packages=['flask_pagedown'],
+    zip_safe=False,
+    include_package_data=True,
+    platforms='any',
+    install_requires=[
+        'Flask',
+        'WTForms'
+    ],
+    classifiers=[
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Software Development :: Libraries :: Python Modules'
+    ]
+)

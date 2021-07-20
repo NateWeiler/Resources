@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4fa2ef87d2f563ff3bfe54429eac4bdbb674aeebe1377efe38b3cba9d96f1643
-size 666
+{% extends 'base.html' %}
+
+{% block intro %}
+  <a href="https://jquery.com/">jQuery</a> is a popular library that
+  adds cross browser APIs for common tasks. However, it requires loading
+  an extra library.
+{% endblock %}
+
+{% block script %}
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    function addSubmit(ev) {
+      ev.preventDefault();
+      $.ajax({
+        method: 'POST',
+        url: {{ url_for('add')|tojson }},
+        data: $(this).serialize()
+      }).done(addShow);
+    }
+
+    function addShow(data) {
+      $('#result').text(data.result);
+    }
+
+    $('#calc').on('submit', addSubmit);
+  </script>
+{% endblock %}

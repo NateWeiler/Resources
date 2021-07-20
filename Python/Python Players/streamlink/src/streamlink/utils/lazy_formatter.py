@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1058447b9fd58de95e144feb4eb9e7bbeeabbeb1a9eb18a1bd076bae30223fa1
-size 560
+import string
+
+
+class LazyFormatter(object):
+    def __init__(self, **lazy_props):
+        self.lazy_props = lazy_props
+
+    def __getitem__(self, item):
+        value = self.lazy_props[item]
+        if callable(value):
+            return value()
+        else:
+            return value
+
+    @classmethod
+    def format(cls, *args, **lazy_props):
+        if len(args) == 1:
+            fmt = args[0]
+        else:
+            raise TypeError("format() takes exactly 1 positional argument")
+
+        return string.Formatter().vformat(fmt, (), cls(**lazy_props))

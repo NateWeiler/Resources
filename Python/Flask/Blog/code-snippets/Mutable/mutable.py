@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:35321562c5b9252723d2ce1d4d2596764719831d6c59719f35fcb61e825e44fa
-size 126
+
+a = [1,2,3,4,5]
+print a
+print 'Address of a is: {}'.format(id(a))
+
+a[0] = 6
+print a
+print 'Address of a is: {}'.format(id(a))

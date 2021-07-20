@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4acf21daa25be1517bcd9c79124522172a7c87a62e3010884ecf086e88e05386
-size 396
+import time
+
+startTime = time.time()
+for trial in range(10000):
+  building = ''
+  for i in range(10000):
+      building += 'x'
+print('String concatenation: ', (time.time() - startTime))
+
+startTime = time.time()
+for trial in range(10000):
+  building = []
+  for i in range(10000):
+      building.append('x')
+  building = ''.join(building)
+print('List concatenation:   ', (time.time() - startTime))

@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:36599c3f60a8476a15bd76bae31ae0cc422466f058de12095eddaf741236d026
-size 655
+import unittest
+
+from streamlink.stream import StreamIOIterWrapper
+
+
+class TestPluginStream(unittest.TestCase):
+    def test_iter(self):
+        def generator():
+            yield b"1" * 8192
+            yield b"2" * 4096
+            yield b"3" * 2048
+
+        fd = StreamIOIterWrapper(generator())
+        self.assertEqual(fd.read(4096), b"1" * 4096)
+        self.assertEqual(fd.read(2048), b"1" * 2048)
+        self.assertEqual(fd.read(2048), b"1" * 2048)
+        self.assertEqual(fd.read(1), b"2")
+        self.assertEqual(fd.read(4095), b"2" * 4095)
+        self.assertEqual(fd.read(1536), b"3" * 1536)
+        self.assertEqual(fd.read(), b"3" * 512)

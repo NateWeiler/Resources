@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:16605cc4fd4ef82a981456c953b23073937e21e889b377f7be0c1f77a2434ca9
-size 483
+import concurrent.futures
+import time
+
+start = time.perf_counter()
+
+
+def do_something(seconds):
+    print(f'Sleeping {seconds} second(s)...')
+    time.sleep(seconds)
+    return f'Done Sleeping...{seconds}'
+
+
+with concurrent.futures.ProcessPoolExecutor() as executor:
+    secs = [5, 4, 3, 2, 1]
+    results = executor.map(do_something, secs)
+
+    # for result in results:
+    #     print(result)
+
+finish = time.perf_counter()
+
+print(f'Finished in {round(finish-start, 2)} second(s)')

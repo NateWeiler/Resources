@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:faa59a77c77f9353e2eb3cd1b959c2c5c5eee509c8d5c8762f73ffb2baf5c342
-size 650
+import unittest
+
+from streamlink.plugins.vidio import Vidio
+
+
+class TestPluginVidio(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(Vidio.can_handle_url('https://www.vidio.com/live/204-sctv-tv-stream'))
+        self.assertTrue(Vidio.can_handle_url('https://www.vidio.com/live/5075-dw-tv-stream'))
+        self.assertTrue(Vidio.can_handle_url('https://www.vidio.com/watch/766861-5-rekor-fantastis-zidane-bersama-real-madrid'))
+
+        # shouldn't match
+        self.assertFalse(Vidio.can_handle_url('http://www.vidio.com'))
+        self.assertFalse(Vidio.can_handle_url('https://www.vidio.com'))

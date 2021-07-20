@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9f0dab647adc76bb80ba4dca66bdfd8ba569680f876ef52d417d9abfd9704b25
-size 546
+from .error import FLVError
+from .compat import is_py2
+from .tag import Header, Tag
+
+
+class FLV(object):
+    def __init__(self, fd=None, strict=False):
+        self.fd = fd
+        self.header = Header.deserialize(self.fd)
+        self.strict = strict
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        try:
+            tag = Tag.deserialize(self.fd, strict=self.strict)
+        except (IOError, FLVError):
+            raise StopIteration
+
+        return tag
+
+    if is_py2:
+        next = __next__
+
+
+__all__ = ["FLV"]

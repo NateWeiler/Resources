@@ -1,3 +1,65 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:64daed02d9ca069afc4ef8f696558a5bc141f727606622401af4310b218ad778
-size 1060
+#fullscreen_player {
+    background-color: #000;
+    color: #fff;
+}
+
+.advene_drag_icon {
+    background-color: #000;
+    color: #fff;
+}
+
+.black_on_black {
+    background-color: #000;
+    color: #000;
+}
+
+.advene_caption {
+    background-color: #000;
+    color: #fff;
+}
+
+.restrict_playing_button {
+    margin: 0;
+    padding: 0;
+}
+
+.frameselector_before {
+    background-color: #fcc;
+}
+
+.frameselector_after {
+    background-color: #000;
+}
+
+.frameselector_frame {
+    border-width: 4px;
+}
+
+.frameselector_frame_both:focus {
+    border-color: green;
+}
+.frameselector_frame_left:focus {
+    border-color: green;
+    border-left-color: #ff8888;
+}
+.frameselector_frame_right:focus {
+    border-color: green;
+    border-right-color: #ff8888;
+}
+
+.frameselector_frame_both.frameselector_selected {
+    border-left-color: red;
+    border-right-color: red;
+}
+
+.frameselector_frame_left.frameselector_selected {
+    border-left-color: red;
+}
+
+.frameselector_frame_right.frameselector_selected {
+    border-right-color: red;
+}
+
+.timestamp_label {
+    font-size: x-small;
+}

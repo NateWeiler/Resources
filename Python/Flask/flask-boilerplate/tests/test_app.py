@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:448285aa398ad57d2b65f0ed3849dc7d123572f6ecca1a6a3031e3ed1148b8b1
-size 481
+from flask_boilerplate import create_app
+
+
+def test_config():
+    assert not create_app().testing
+    assert create_app({'TESTING': True}).testing
+
+
+def test_index(client):
+    response = client.get('/')
+    assert b'Flask Boilerplate' in response.data
+
+
+def test_protected(client, auth):
+    response = client.get('/private')
+    assert b'Secret Message' not in response.data
+
+    auth.login()
+    response = client.get('/private')
+    assert b'Secret Message' in response.data
+
+

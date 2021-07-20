@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:48286e98916f4841e577dfe00f47e86ae30d7a58cc0c324425fa473347242de6
-size 420
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
+config = {
+    'description': 'My Project',
+    'author': 'My Name',
+    'url': 'URL to get it at.',
+    'download_url': 'Where to download it.',
+    'author_email': 'My email.',
+    'version': '0.1',
+    'install_requires': ['nose'],
+    'packages': ['NAME'],
+    'scripts': [],
+    'name': 'projectname'
+}
+
+setup(**config)

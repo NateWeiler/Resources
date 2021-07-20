@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:07c625eb24e702d4d22036f4311cbd3b3c8a07120f8569f5b59e868ec6af79e6
-size 1110
+import unittest
+
+from streamlink.plugins.teamliquid import Teamliquid
+
+
+class TestPluginTeamliquid(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(Teamliquid.can_handle_url("http://www.teamliquid.net/video/streams/Classic%20BW%20VODs"))
+        self.assertTrue(Teamliquid.can_handle_url("http://teamliquid.net/video/streams/iwl-fuNny"))
+        self.assertTrue(Teamliquid.can_handle_url("http://www.teamliquid.net/video/streams/OGamingTV%20SC2"))
+        self.assertTrue(Teamliquid.can_handle_url("http://www.teamliquid.net/video/streams/Check"))
+        self.assertTrue(Teamliquid.can_handle_url("https://tl.net/video/streams/GSL"))
+
+        # shouldn't match
+        self.assertFalse(Teamliquid.can_handle_url("http://www.teamliquid.net/Classic%20BW%20VODs"))
+        self.assertFalse(Teamliquid.can_handle_url("http://www.teamliquid.net/video/Check"))
+        self.assertFalse(Teamliquid.can_handle_url("http://www.teamliquid.com/video/streams/Check"))
+        self.assertFalse(Teamliquid.can_handle_url("http://www.teamliquid.net/video/stream/Check"))

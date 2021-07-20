@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:20067e48643ceb1e6525c6818364d95c4d2a8da518bd3aff0b1bf0904bad6039
-size 260
+import datetime
+import math
+
+goal_subs = 150000
+current_subs = 85000
+subs_to_go = goal_subs - current_subs
+
+avg_subs_day = 200
+days_to_go = math.ceil(subs_to_go / avg_subs_day)
+
+today = datetime.date.today()
+
+print(today + datetime.timedelta(days=days_to_go))

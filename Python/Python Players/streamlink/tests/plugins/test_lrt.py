@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7ffb54dbc8f61e9349110b05b3b7635bc43a61f0708d7050069f0e8d62711d91
-size 1031
+import unittest
+
+from streamlink.plugins.lrt import LRT
+
+
+class TestPluginLRT(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            "https://www.lrt.lt/mediateka/tiesiogiai/lrt-opus",
+            "https://www.lrt.lt/mediateka/tiesiogiai/lrt-klasika",
+            "https://www.lrt.lt/mediateka/tiesiogiai/lrt-radijas",
+            "https://www.lrt.lt/mediateka/tiesiogiai/lrt-lituanica",
+            "https://www.lrt.lt/mediateka/tiesiogiai/lrt-plius",
+            "https://www.lrt.lt/mediateka/tiesiogiai/lrt-televizija",
+        ]
+        for url in should_match:
+            self.assertTrue(LRT.can_handle_url(url), url)
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            "https://www.lrt.lt",
+            "https://www.youtube.com",
+            "https://www.lrt.lt/mediateka/irasas/1013694276/savanoriai-tures-galimybe-pamatyti-popieziu-is-arciau",
+
+        ]
+        for url in should_not_match:
+            self.assertFalse(LRT.can_handle_url(url), url)

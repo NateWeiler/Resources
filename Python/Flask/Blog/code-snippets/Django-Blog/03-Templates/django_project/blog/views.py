@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:aa8df19824246aed5b49ed36a1131ca466b9141d391c99d6eada26bf050497c8
-size 570
+from django.shortcuts import render
+
+posts = [
+    {
+        'author': 'CoreyMS',
+        'title': 'Blog Post 1',
+        'content': 'First post content',
+        'date_posted': 'August 27, 2018'
+    },
+    {
+        'author': 'Jane Doe',
+        'title': 'Blog Post 2',
+        'content': 'Second post content',
+        'date_posted': 'August 28, 2018'
+    }
+]
+
+
+def home(request):
+    context = {
+        'posts': posts
+    }
+    return render(request, 'blog/home.html', context)
+
+
+def about(request):
+    return render(request, 'blog/about.html', {'title': 'About'})

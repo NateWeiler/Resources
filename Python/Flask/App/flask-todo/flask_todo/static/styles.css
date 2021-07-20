@@ -1,3 +1,223 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c73e91c902e2fa4546c898c2fc401f0eceaca2aaee2aa4987b8205d3f41b5f06
-size 3411
+/*
+ * COLORS
+ *
+ * Foreground: #434343;
+ * Background: #fafafa;
+ * Primary: #2195f2
+ * Primary Light: #6ec5ff
+ * Primary Dark: #0068bf
+ * Secondary: #7bb241
+ * Secondary Light: #ade470
+ * Secondary Dark: #4a820c
+ */
+
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  background: #0069c0;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 18px;
+}
+
+body {
+  background: #fafafa;
+  color: #434343;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  min-height: 100vh;
+}
+body.preload * {
+  transition: none !important;
+}
+
+header {
+  background: #2196f3;
+  border-top: 20px solid #0069c0;
+  color: #fafafa;
+  text-align: center;
+}
+
+main {
+  flex: 1;
+}
+
+footer.wrapper {
+  background: #ddd;
+  color: #434343;
+  padding: 1rem 20vw;
+  text-align: center;
+}
+
+.wrapper {
+  padding: 0 10vw;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 4rem;
+  letter-spacing: 5px;
+  line-height: 2.5rem;
+  margin: 12vw 0 0;
+}
+
+p.flash {
+  color: #2195f2;
+  margin: 4vh auto;
+  opacity: 0;
+  text-align: center;
+  transition: opacity 1s ease-out;
+}
+p.flash.error{
+  color: red;
+}
+
+form.add,
+ul {
+  margin: 8vh auto;
+  max-width: 700px;
+  padding: 0;
+}
+ul {
+  margin-bottom: 4vh;
+}
+
+li {
+  list-style-type: none;
+  margin: 2vh;
+}
+form.complete {
+  display: inline;
+}
+li.completed:before,
+form.complete input {
+  border: 2px solid #434343;
+  content: "";
+  cursor: pointer;
+  display: inline-block;
+  height: 12px;
+  margin-right: 1rem;
+  padding: 0;
+  text-indent: -9999px;
+  transform: translateY(1px);
+  width: 12px;
+}
+li.completed:before {
+  border: 2px solid #aaa;
+  background: #aaa;
+}
+form.complete input:hover {
+  border: 2px solid #7bb241;
+  background: #7bb241;
+}
+li span {
+  padding-left: 1rem;
+  color: #aaa;
+  float: right;
+}
+li.completed {
+  color: #aaa;
+}
+li.completed:before {
+  background: #ccc;
+  border: 2px solid #ccc;
+}
+li.completed span {
+  opacity: 1;
+}
+
+section.filters {
+  color: #aaa;
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto 6vh;
+  max-width: 700px;
+}
+section.filters span,
+section.filters a {
+  color: #aaa;
+  padding: 0.2rem 0.5rem;
+  text-decoration: none;
+}
+section.filters a:hover,
+section.filters a.selected {
+  box-shadow: 0 0 1px 1px #0066c3
+}
+
+
+label {
+  display: block;
+}
+
+a.button {
+  align-items: center;
+  color: #7bb241;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  text-decoration: none;
+  width: max-content;
+}
+a.button svg {
+  transform: translateY(10px);
+  transition: transform 0.5s ease-out;
+}
+a.button span {
+  padding: 10px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+a.button:focus svg,
+a.button:hover svg {
+  transform: translateY(0px);
+}
+a.button:focus span,
+a.button:hover span {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+svg circle {
+  fill: #7cb342;
+}
+svg line,
+svg path {
+  fill: #7cb342;
+  stroke: #fafafa;
+  stroke-width: 3px;
+  stroke-miterlimit: 10;
+}
+
+form.add input {
+  background: none;
+  border: none;
+  border-bottom: 2px solid #7bb439;
+  color: #434343;
+  font-size: 1rem;
+  padding: 0.5rem;
+  outline: none;
+  width: 100%;
+}
+form.add input:hover {
+  cursor: pointer;
+}
+
+form.add input[type='submit'] {
+  border: 2px solid #7bb439;
+  display: block;
+  margin: 1rem auto;
+  width: auto;
+}
+form.add input[type='submit']:hover,
+form.add input[type='submit']:focus {
+  box-shadow: 0px 0px 4px #434343;
+}
+

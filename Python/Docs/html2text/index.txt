@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e9612cd1f0e48d7eee495ae14ec341df56e95cfefe3020d245831da915b514fa
-size 251
+Html2Text
+=========
+
+1. [About](about.md)
+2. [Authors](../AUTHORS.rst)
+3. [What is markdown](https://daringfireball.net/projects/markdown/)
+4. [How it works](how_it_works.md)
+5. [Usage](usage.md)
+6. [Contributing](contributing.md)
+7. [Tests](test.md)

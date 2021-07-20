@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:75ff4739234a304657a3f4552b9ea172c0aeb6927d7417bc19ab279c54ae5fd3
-size 806
+import unittest
+
+from streamlink.plugins.rtpplay import RTPPlay
+
+
+class TestPluginRTPPlay(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://www.rtp.pt/play/',
+            'https://www.rtp.pt/play/',
+            'https://www.rtp.pt/play/direto/rtp1',
+            'https://www.rtp.pt/play/direto/rtpmadeira',
+        ]
+        for url in should_match:
+            self.assertTrue(RTPPlay.can_handle_url(url), url)
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://www.rtp.pt/programa/',
+            'http://www.rtp.pt/programa/',
+            'https://media.rtp.pt/',
+            'http://media.rtp.pt/',
+        ]
+        for url in should_not_match:
+            self.assertFalse(RTPPlay.can_handle_url(url), url)

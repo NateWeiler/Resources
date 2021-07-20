@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7ec7d68409da6e3c74df5daade7f86236bed5bce060c59bd20753dfe4c6d4719
-size 749
+import unittest
+
+from streamlink.plugins.webcast_india_gov import WebcastIndiaGov
+
+
+class TestPluginWebcastIndiaGov(unittest.TestCase):
+    def test_can_handle_url(self):
+        # should match
+        self.assertTrue(WebcastIndiaGov.can_handle_url("http://webcast.gov.in/ddpunjabi/"))
+        self.assertTrue(WebcastIndiaGov.can_handle_url("http://webcast.gov.in/#Channel1"))
+        self.assertTrue(WebcastIndiaGov.can_handle_url("http://webcast.gov.in/#Channel3"))
+
+        # shouldn't match
+        self.assertFalse(WebcastIndiaGov.can_handle_url("http://meity.gov.in/"))
+        self.assertFalse(WebcastIndiaGov.can_handle_url("http://www.nic.in/"))
+        self.assertFalse(WebcastIndiaGov.can_handle_url("http://digitalindiaawards.gov.in/"))

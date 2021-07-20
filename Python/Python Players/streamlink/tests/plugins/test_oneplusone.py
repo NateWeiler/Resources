@@ -1,3 +1,26 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7cc3c1414ea00ec969d86074c5bdc8ff0ddf3eed9bce3ec6a2479040b5701a76
-size 895
+import unittest
+
+from streamlink.plugins.oneplusone import OnePlusOne
+
+
+class TestPluginOnePlusOne(unittest.TestCase):
+
+    def test_can_handle_url(self):
+        should_match = [
+            'https://1plus1.video/tvguide/1plus1/online',
+            'https://1plus1.video/tvguide/2plus2/online',
+            'https://1plus1.video/tvguide/tet/online',
+            'https://1plus1.video/tvguide/plusplus/online',
+            'https://1plus1.video/tvguide/bigudi/online',
+            'https://1plus1.video/tvguide/uniantv/online',
+        ]
+        for url in should_match:
+            self.assertTrue(OnePlusOne.can_handle_url(url), url)
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com',
+            'https://1plus1.video/',
+        ]
+        for url in should_not_match:
+            self.assertFalse(OnePlusOne.can_handle_url(url), url)

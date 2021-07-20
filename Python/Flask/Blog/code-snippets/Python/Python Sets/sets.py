@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dd6221bf6f5e749e6ae1f64caaf1f4ba94284631dbf21af1967bd04b11e2bca0
-size 263
+
+employees = ['Corey', 'Jim', 'Steven', 'April', 'Judy', 'Jenn', 'John', 'Jane']
+
+gym_members = ['April', 'John', 'Corey']
+
+developers = ['Judy', 'Corey', 'Steven', 'Jane', 'April']
+
+if 'Corey' in developers:
+    print('Found!')
+
+# O(n) for list
+# O(1) for a set

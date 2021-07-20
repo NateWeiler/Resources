@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cf296902a185cb4d243690a9fb364ac2b07ffbda8ecc047b0ece751dcd84e57a
-size 229
+''' JavaScript Object Notation '''
+import json
+
+with open('states.json') as f:
+  data = json.load(f)
+
+for state in data['states']:
+  del state['area_codes']
+
+with open('new_states.json', 'w') as f:
+  json.dump(data, f, indent=2)

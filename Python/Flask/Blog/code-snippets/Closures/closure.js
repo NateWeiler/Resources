@@ -1,3 +1,16 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c05464bff830170c7d5d1c1952c36d86f811ece6d9739c5e47720ba63e1ae60c
-size 271
+
+function html_tag(tag){
+  function wrap_text(msg){
+    console.log('<' + tag +'>' + msg + '</' + tag + '>')
+  }
+  return wrap_text
+}
+
+print_h1 = html_tag('h1')
+
+print_h1('Test Headline!')
+print_h1('Another Headline!')
+
+
+print_p = html_tag('p')
+print_p('Test Paragraph!')

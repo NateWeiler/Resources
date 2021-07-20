@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f27660c4ec6efa86aac4d61036c5f495e9438805a6f63be44f17db003979a06f
-size 22
+*.pyc
+*.pyo
+.DS_Store

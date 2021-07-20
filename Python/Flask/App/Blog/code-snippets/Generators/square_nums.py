@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:09e305903373d0120c13d0a06fc21429a52a11af1a6d4c684c2269beb5d672d1
-size 230
+
+# def square_numbers(nums):
+#     for i in nums:
+#         yield (i*i)
+
+# my_nums = square_numbers([1,2,3,4,5])
+
+my_nums = (x*x for x in [1,2,3,4,5])
+
+print list(my_nums) # [1, 4, 9, 16, 25]
+
+# for num in my_nums:
+#     print num

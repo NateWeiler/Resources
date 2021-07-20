@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c3e18c647209eca7a2374351990f13a2f60f0ce61491c04a9679fb20d89aa383
-size 678
+
+import urllib2
+import urllib
+import json
+
+
+def getFromJson(response):
+	jsonvalues = json.loads(response)  # jsonvalues is a dict
+	definations = jsonvalues["definitions"]
+	print "Meaning: "
+	for i in range(0,len(definations)):
+		print i+1,"." ,definations[i]["text"]
+
+
+
+## url for calling api
+url = "https://montanaflynn-dictionary.p.mashape.com/define?word=lexicon"
+# compulsory parameters for api 
+headers = { 'X-Mashape-Key' : "	GET-YOUR-KEY",
+			"Accept": "application/json" }
+url_values = urllib.urlencode(headers)	
+#sending request to server		
+request = urllib2.Request(url,headers=headers)
+response =urllib2.urlopen(request).read()
+#decoding json 
+getFromJson(response)
+

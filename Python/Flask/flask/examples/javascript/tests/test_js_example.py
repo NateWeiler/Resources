@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:6a4db3cadff615f5c13eac8b4a075f5de9f34439582734b91553572cf04146f1
-size 729
+import pytest
+from flask import template_rendered
+
+
+@pytest.mark.parametrize(
+    ("path", "template_name"),
+    (
+        ("/", "plain.html"),
+        ("/plain", "plain.html"),
+        ("/fetch", "fetch.html"),
+        ("/jquery", "jquery.html"),
+    ),
+)
+def test_index(app, client, path, template_name):
+    def check(sender, template, context):
+        assert template.name == template_name
+
+    with template_rendered.connected_to(check, app):
+        client.get(path)
+
+
+@pytest.mark.parametrize(
+    ("a", "b", "result"), ((2, 3, 5), (2.5, 3, 5.5), (2, None, 2), (2, "b", 2))
+)
+def test_add(client, a, b, result):
+    response = client.post("/add", data={"a": a, "b": b})
+    assert response.get_json()["result"] == result

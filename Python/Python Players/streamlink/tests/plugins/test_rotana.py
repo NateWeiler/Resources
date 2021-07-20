@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:986d93ed2d6dd387f1634ec8e4df416d2949337814501d2b776659a1ec25ff25
-size 592
+import unittest
+
+from streamlink.plugins.rotana import Rotana
+
+
+class TestPluginRotana(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'https://rotana.net/live-classic',
+            'https://rotana.net/live-music',
+        ]
+        for url in should_match:
+            self.assertTrue(Rotana.can_handle_url(url), url)
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'https://example.com/index.html',
+        ]
+        for url in should_not_match:
+            self.assertFalse(Rotana.can_handle_url(url), url)

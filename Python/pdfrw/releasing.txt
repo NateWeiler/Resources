@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f120eb5537e82def6c659aa2dc03a9e151b183234f22320f9c3a3667d98dd441
-size 238
+Notes on releasing, which is not yet fully automated:
+
+1) Update version number in pdfrw/__init__.py
+
+2) Use pyroma
+
+3) https://packaging.python.org/en/latest/distributing.html
+
+a) python setup.py sdist bdist_wheel
+b) twine upload dist/*

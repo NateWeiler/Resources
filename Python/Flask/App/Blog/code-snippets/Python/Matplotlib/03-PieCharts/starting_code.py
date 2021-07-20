@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8549f368e7dc26d71042d1cd486b87204026bd72641f2797a1f452bfef610254
-size 218
+from matplotlib import pyplot as plt
+
+plt.style.use("fivethirtyeight")
+
+
+plt.title("My Awesome Pie Chart")
+plt.tight_layout()
+plt.show()
+
+# Colors:
+# Blue = #008fd5
+# Red = #fc4f30
+# Yellow = #e5ae37
+# Green = #6d904f

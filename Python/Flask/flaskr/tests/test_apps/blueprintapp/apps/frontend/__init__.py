@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:1630cefb5d073808e8b4164e4d910f69aee57a93eaee53debb575e7e7aabb83f
-size 327
+from flask import Blueprint
+from flask import render_template
+
+frontend = Blueprint("frontend", __name__, template_folder="templates")
+
+
+@frontend.route("/")
+def index():
+    return render_template("frontend/index.html")
+
+
+@frontend.route("/missing")
+def missing_template():
+    return render_template("missing_template.html")

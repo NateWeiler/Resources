@@ -1,3 +1,9 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:29edf27fa08b3e71ea70553811e4b8ed6b833311179465e260399f9ed27cdd5d
-size 184
+
+Dear Mr. Doe,
+
+In our meeting today, John Williams had mentioned that the work could be completed by the end of the month.
+
+We really appreciate the hard work!
+
+Thanks,
+Corey Schafer

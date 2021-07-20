@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ce43091a9c8e6993c4bca704fad6fbd4348df9447f6f73d8304d408bbe50357a
-size 731
+import queue
+
+class OrderedPriorityQueue(queue.PriorityQueue):
+    """
+    Implements a PriorityQueue that is sub-sorted using entry order. I.e.: everything else equal, the thing put into the queue first will go out first.
+    """
+
+    def __init__(self,maxsize=10):
+        # The count is the critical part here
+        self._count = 0
+
+        # Call the constructor
+        queue.PriorityQueue.__init__(self,maxsize=maxsize)
+
+    def put(self,msg,priority):
+        """
+        This is where the magic is. Give a priority integer (lower is higher priority).
+        """
+        
+        # Send it
+        queue.PriorityQueue.put(self,(priority,self._count,msg))
+        
+        # Update our count
+        self._count += 1
+    

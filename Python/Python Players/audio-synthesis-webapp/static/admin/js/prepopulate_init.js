@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b83dff66861f27ada671282acc77de3c0dd8e6368e063c67ed25342ee6058041
-size 495
+(function($) {
+    'use strict';
+    var fields = $('#django-admin-prepopulated-fields-constants').data('prepopulatedFields');
+    $.each(fields, function(index, field) {
+        $('.empty-form .form-row .field-' + field.name + ', .empty-form.form-row .field-' + field.name).addClass('prepopulated_field');
+        $(field.id).data('dependency_list', field.dependency_list).prepopulate(
+            field.dependency_ids, field.maxLength, field.allowUnicode
+        );
+    });
+})(django.jQuery);

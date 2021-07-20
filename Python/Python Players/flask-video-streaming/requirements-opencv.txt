@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b49c47df6b54c794505e24a30e3c721d189dbf0ef1d7f97628e6f46414775686
-size 129
+click==6.7
+Flask==1.1.2
+itsdangerous==0.24
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+Werkzeug==1.0.1
+numpy==1.13.1
+opencv-python==3.2.0.8

@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d9aadc9b794f9191b43ccca4b8421bc581aa0b1dae51aea050e97b119bc15a02
-size 678
+import unittest
+
+from streamlink.plugins.tvibo import Tvibo
+
+
+class TestPluginTvibo(unittest.TestCase):
+    def test_can_handle_url(self):
+        should_match = [
+            'http://player.tvibo.com/aztv/5929820',
+            'http://player.tvibo.com/aztv/6858270/',
+            'http://player.tvibo.com/aztv/3977238/',
+        ]
+        for url in should_match:
+            self.assertTrue(Tvibo.can_handle_url(url))
+
+    def test_can_handle_url_negative(self):
+        should_not_match = [
+            'http://www.idmantv.az/',
+            'https://www.twitch.tv/twitch'
+        ]
+        for url in should_not_match:
+            self.assertFalse(Tvibo.can_handle_url(url))
