@@ -1,3 +1,92 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:582dd03c991f9caa68e47a0ffe37606ce8e7705454f719d3b7350458fa2fb6f7
-size 11858
+Git Repository's ~ #
+#######################
+
+#### Weiler Web Services ####
+git@github.com:WeilerWebServices/Books
+git@github.com:WeilerWebServices/Development.git
+git@github.com:WeilerWebServices/Database.git
+git@github.com:WeilerWebServices/WeilerWebServices.github.io.git
+
+#### NateWeiler ####
+git@github.com:NateWeiler/CSET.git
+git@github.com:NateWeiler/Google-Drive.git
+git@github.com:NateWeiler/Resources.git
+git@github.com:NateWeiler/Projects.git
+git@github.com:NateWeiler/Security.git
+git@github.com:NateWeiler/Database.git
+git@github.com:NateWeiler/nateweiler.github.io.git
+git@github.com:NateWeiler/Clones
+
+#### What's Happening Lancaster ####
+git@github.com:WhatsHappeningLancaster/Database.git
+
+
+##############################
+#~ Commit to Git Repository ~#
+##############################
+
+git add -A
+git add .
+git commit -m "Add"
+git push origin master
+git pull
+
+git add -A
+git add .
+git commit -m "Add"
+git push -u --force origin master
+git pull
+
+
+########################################
+#~ Sync GitHub Repo to BitBucket Repo ~#
+########################################
+
+git remote add github git@github.com:NateWeiler/CSET.git
+git remote add bb git@bitbucket.org:Weiler_Web_Services/cset.git
+git remote add bb git remote add bb git@bitbucket.org:njweiler/cset.git
+
+git remote set-url --add --push origin git@github.com:NateWeiler/CSET.git
+git remote set-url --add --push origin git@bitbucket.org:Weiler_Web_Services/cset.git
+repo.git
+git remote add bb git@bitbucket.org:njweiler/cset.git
+
+
+################################################
+#~ Clear ALL Commit History of Git Repository ~#
+################################################
+
+cat .git/config
+# COPY REPO URL #
+rm -rf .git
+git init
+git add -A
+git add .
+git commit -m "Initial commit"
+git remote add origin <add github url>
+git push -u --force origin master
+
+
+####################################
+#~ Git Large File Storage install ~#
+####################################
+
+git lfs install
+git lfs track '<pattern>'
+git add .gitattributes
+git commit -m "add Git LFS to the repo"
+git push origin master
+git add -A
+git commit -m "Add LFS file"
+git push origin master
+
+
+#################################
+#~ Install Git-Flow on Windows ~#
+#################################
+
+cd gitflow
+cp c:\bin\GnuWin32\bin\getopt.exe c:\bin\git\bin\getopt.exe
+cp c:\bin\GnuWin32\bin\libintl3.dll c:\bin\git\bin\libintl3.dll
+cp c:\bin\GnuWin32\bin\libiconv2.dll c:\bin\git\bin\libiconv2.dll
+contrib\msysgit-install.cmd c:\bin\git
