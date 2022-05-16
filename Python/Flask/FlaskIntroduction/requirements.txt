@@ -67,7 +67,7 @@ bs4==0.0.1
 cachetools==2.1.0
 caliendo==2.1.10
 cchardet==2.1.6
-celery==3.1.8
+celery==5.2.2
 cerium==1.2.6
 certbot==1.4.0
 certbot-dns-google==1.4.0
