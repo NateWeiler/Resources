@@ -376,7 +376,7 @@ packaging==20.4
 pandas==1.0.3
 pandas-gbq==0.13.2
 pandocfilters==1.4.2
-paramiko==2.7.1
+paramiko==2.10.1
 paramiko-ng==2.8.2
 parsedatetime==2.5
 parso==0.7.0
