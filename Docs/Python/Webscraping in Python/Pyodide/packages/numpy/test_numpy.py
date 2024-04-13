@@ -1,4 +1,5 @@
 import pytest
+from pytest_pyodide import run_in_pyodide
 
 
 def test_numpy(selenium):
@@ -26,7 +27,7 @@ def test_numpy(selenium):
 def test_typed_arrays(selenium):
     selenium.load_package("numpy")
     selenium.run("import numpy")
-    for (jstype, npytype) in (
+    for jstype, npytype in (
         ("Int8Array", "int8"),
         ("Uint8Array", "uint8"),
         ("Uint8ClampedArray", "uint8"),
@@ -64,7 +65,6 @@ def test_typed_arrays(selenium):
     ),
 )
 def test_python2js_numpy_dtype(selenium, order, dtype):
-
     selenium.load_package("numpy")
     selenium.run("import numpy as np")
 
@@ -144,7 +144,6 @@ def test_py2js_buffer_clear_error_flag(selenium):
     ),
 )
 def test_python2js_numpy_scalar(selenium, dtype):
-
     selenium.load_package("numpy")
     selenium.run("import numpy as np")
     selenium.run(
@@ -189,11 +188,11 @@ def test_runpythonasync_numpy(selenium_standalone):
         )
 
 
+@pytest.mark.xfail_browsers(
+    firefox="Timeout in WebWorker when using numpy in Firefox 87"
+)
 @pytest.mark.driver_timeout(30)
 def test_runwebworker_numpy(selenium_webworker_standalone):
-    if selenium_webworker_standalone.browser == "firefox":
-        pytest.xfail("Timeout in WebWorker when using numpy in Firefox 87")
-
     output = selenium_webworker_standalone.run_webworker(
         """
         import numpy as np
@@ -343,3 +342,23 @@ def test_get_buffer_error_messages(selenium):
             }
             """
         )
+
+
+def test_fft(selenium):
+    selenium.run_js(
+        """
+        await pyodide.loadPackage(['numpy']);
+        pyodide.runPython(`
+            import numpy
+            assert all(numpy.fft.fft([1, 1]) == [2, 0])
+        `);
+        """
+    )
+
+
+@run_in_pyodide(packages=["numpy"])
+def test_np_unique(selenium):
+    """Numpy comparator functions formerly had a fatal error, see PR #2110"""
+    import numpy as np
+
+    np.unique(np.array([1.1, 1.1]), axis=-1)

@@ -1,78 +1,156 @@
 package:
   name: scipy
-  version: 0.17.1
+  version: 1.11.2
+  tag:
+    - min-scipy-stack
+  top-level:
+    - scipy
+
+# See extra explanation in info.md
+#
+# For future reference: if you see the following errors:
+#   Declaration error: adjustable dimension on non-argument
+# or:
+#   nonconstant array size
+# you are trying to compile code that isn't written to the fortran 77 standard.
+# The line number in the error points to the last line of the problematic
+# subroutine. Try deleting it.
 
 source:
-  # We can't use the version from PyPi as it includes Cythonized files
-  # generated with an older Cython that does not support Python 3.7
-  # This requires,
-  #    pip install Cython Tempita
-  # on the host for the build
-  url: https://github.com/scipy/scipy/archive/v0.17.1.tar.gz
-  sha256: bf22383d9e2526ffdc53a6c7d3d66dab45a86291ed35d8e281bd1a5d2c34187b
+  url: https://files.pythonhosted.org/packages/9c/ef/87a5565907645998d7c62e76b84b0ca9f0b7c25cd433f5617a968051cec3/scipy-1.11.2.tar.gz
+  sha256: b29318a5e39bd200ca4381d80b065cdf3076c7d7281c5e36569e99273867f61d
 
   patches:
-    # these patches can be found as commits in
-    #    https://github.com/rth/scipy/tree/0.17.1-pyodide
-    # on top of the v0.17.1 tag
-    - patches/fix-blas.patch
-    - patches/fix-build-gcc5-a80460.patch
-    - patches/force_malloc.patch
-    - patches/disable_scipy_stats_mvn.patch
-    - patches/skip-fortran-fails-to-link.patch
-    - patches/skip_ellip_harm_2_pyx_ctypes.patch
-    - patches/make-int-return-values.patch
-    - patches/add-missing-extern.patch
-    - patches/fix-typo-flapack-pyf.patch
+    - patches/0001-Fix-dstevr-in-special-lapack_defs.h.patch
+    - patches/0002-int-to-string.patch
+    - patches/0003-fix-fotran-files-minpack.patch
+    - patches/0004-gemm_-no-const.patch
+    - patches/0005-make-int-return-values.patch
+    - patches/0006-Rename-_page_trend_test.py-to-prevent-test-unvendori.patch
+    - patches/0008-Remove-test-modules-that-fails-to-build.patch
+    - patches/0009-Fix-fitpack.patch
+    - patches/0010-Fix-gees-calls.patch
 
 build:
-  # set linker and C flags to error on anything to do with function declarations being wrong.
-  # In webassembbly, any conflicts mean that a randomly selected 50% of calls to the function
-  # will fail. Better to fail at compile or link time.
   cflags: |
-    -I $(PYODIDE_ROOT)/packages/numpy/config
-    -I$(PYODIDE_ROOT)/packages/CLAPACK/build/CLAPACK-3.2.1/INCLUDE
+    -I$(WASM_LIBRARY_DIR)/include
+    -Wno-return-type
     -DUNDERSCORE_G77
-    -Werror=implicit-function-declaration
-    -Werror=mismatched-parameter-types
-    -Werror=mismatched-return-types
+    -fvisibility=default
+  cxxflags: |
+    -fexceptions
+    -fvisibility=default
   ldflags: |
-    -L$(NUMPY_LIB)
-    -Wl,--fatal-warnings
+    -L$(NUMPY_LIB)/core/lib/
+    -L$(NUMPY_LIB)/random/lib/
+    -fexceptions
+  # IMPORTANT: Other locations important in scipy build process:
+  # There are two files built in the "capture" pass that need patching:
+  #    _blas_subroutines.h, and _cython
+  # Scipy has a bunch of custom logic implemented in
+  # pyodide-build/pyodide_build/_f2c_fixes.py.
   script: |
-    # Some fixes were extracted from patches/make-int-return-values.patch as regex.
-    find scipy -name "*.c*" | xargs sed -i 's/extern void F_FUNC/extern int F_FUNC/g'
+    set -x
+    export NPY_BLAS_LIBS="-I$WASM_LIBRARY_DIR/include $WASM_LIBRARY_DIR/lib/libopenblas.so"
+    export NPY_LAPACK_LIBS="-I$WASM_LIBRARY_DIR/include $WASM_LIBRARY_DIR/lib/libopenblas.so"
+
+    sed -i 's/recursive //g' scipy/integrate/quadpack/* scipy/interpolate/fitpack/*
+    sed -i 's/void DQA/int DQA/g' scipy/integrate/__quadpack.h
+
+    # Change many functions that return void into functions that return int
+    find scipy -name "*.c*" -type f | xargs sed -i 's/extern void F_FUNC/extern int F_FUNC/g'
+
     sed -i 's/void F_FUNC/int F_FUNC/g' scipy/odr/__odrpack.c
-    sed -i 's/extern void/extern int/g' scipy/optimize/__minpack.h scipy/fftpack/src/zfftnd.c scipy/fftpack/src/zrfft.c
-    sed -i 's/void f_/int f_/g' scipy/cluster/cluster_blas.pxd
-    sed -i 's/void @pref/int @pref/g' scipy/fftpack/src/dct.c.src scipy/fftpack/src/dst.c.src
-    sed -i 's/^void/int/g' scipy/interpolate/src/__fitpack.h scipy/integrate/__quadpack.h scipy/fftpack/src/drfft.c scipy/fftpack/src/zfft.c
-    sed -i 's/static void/static int/g' scipy/interpolate/src/__fitpack.h
-    sed -i 's/ILAENV/ILAENZ/g' scipy/linalg/src/calc_lwork.f
-    # Regenerate header files after make-int-return-values patch to fix return
-    # types of f2c functions.
-    echo "Regenerating cython wrappers"
-    cd scipy/linalg
-    python _cython_wrapper_generators.py
-    cd ../..
+    sed -i 's/^void/int/g' scipy/odr/odrpack.h
+    sed -i 's/^void/int/g' scipy/odr/__odrpack.c
+
+    sed -i 's/void BLAS_FUNC/int BLAS_FUNC/g' scipy/special/lapack_defs.h
+    # sed -i 's/void F_FUNC/int F_FUNC/g' scipy/linalg/_lapack_subroutines.h
+    sed -i 's/extern void/extern int/g' scipy/optimize/__minpack.h
+    sed -i 's/void/int/g' scipy/linalg/cython_blas_signatures.txt
+    sed -i 's/^void/int/g' scipy/interpolate/src/_fitpackmodule.c
+
+    sed -i 's/extern void/extern int/g' scipy/sparse/linalg/_dsolve/SuperLU/SRC/*.{c,h}
+    sed -i 's/PUBLIC void/PUBLIC int/g' scipy/sparse/linalg/_dsolve/SuperLU/SRC/*.{c,h}
+    sed -i 's/^void/int/g' scipy/sparse/linalg/_dsolve/SuperLU/SRC/*.{c,h}
+    sed -i 's/^void/int/g' scipy/sparse/linalg/_dsolve/*.{c,h}
+    sed -i 's/void \(.\)print/int \1/g' scipy/sparse/linalg/_dsolve/SuperLU/SRC/*.{c,h}
+    sed -i 's/TYPE_GENERIC_FUNC(\(.*\), void)/TYPE_GENERIC_FUNC(\1, int)/g' scipy/sparse/linalg/_dsolve/_superluobject.h
+
+    sed -i 's/^void/int/g' scipy/optimize/_trlib/trlib_private.h
+    sed -i 's/^void/int/g' scipy/optimize/_trlib/trlib/trlib_private.h
+    sed -i 's/, int)/)/g' scipy/optimize/_trlib/trlib_private.h
+    sed -i 's/, 1)/)/g' scipy/optimize/_trlib/trlib_private.h
+
+    sed -i 's/^void/int/g' scipy/spatial/qhull_misc.h
+    sed -i 's/, size_t)/)/g' scipy/spatial/qhull_misc.h
+    sed -i 's/,1)/)/g' scipy/spatial/qhull_misc.h
+
+    # Input error causes "duplicate symbol" linker errors. Empty out the file.
+    echo "" > scipy/sparse/linalg/_dsolve/SuperLU/SRC/input_error.c
+
+  cross-build-env: true
+  cross-build-files:
+    - scipy/linalg/cython_lapack.pxd
+    - scipy/linalg/cython_blas.pxd
 
 requirements:
+  host:
+    - numpy
+    - openblas
+    - boost-cpp
   run:
     - numpy
-    - CLAPACK
+    - openblas
+  executable:
+    - gfortran
+    - f2c
 
 test:
   imports:
     - scipy
     - scipy.cluster
+    - scipy.cluster.vq
+    - scipy.cluster.hierarchy
     - scipy.constants
+    - scipy.fft
     - scipy.fftpack
-    - scipy.odr
-    - scipy.sparse
-    - scipy.interpolate
     - scipy.integrate
+    - scipy.interpolate
+    - scipy.io
+    - scipy.io.arff
+    - scipy.io.matlab
+    - scipy.io.wavfile
     - scipy.linalg
+    - scipy.linalg.blas
+    - scipy.linalg.cython_blas
+    - scipy.linalg.lapack
+    - scipy.linalg.cython_lapack
+    - scipy.linalg.interpolative
     - scipy.misc
     - scipy.ndimage
+    - scipy.odr
+    - scipy.optimize
+    - scipy.signal
+    - scipy.signal.windows
+    - scipy.sparse
+    - scipy.sparse.linalg
+    - scipy.sparse.csgraph
     - scipy.spatial
+    - scipy.spatial.distance
+    - scipy.spatial.transform
     - scipy.special
+    - scipy.stats
+    - scipy.stats.contingency
+    - scipy.stats.distributions
+    - scipy.stats.mstats
+    - scipy.stats.qmc
+about:
+  home: https://www.scipy.org
+  PyPI: https://pypi.org/project/scipy
+  summary: "SciPy: Scientific Library for Python"
+  license: BSD
+extra:
+  recipe-maintainers:
+    - lesteve
+    - steppi

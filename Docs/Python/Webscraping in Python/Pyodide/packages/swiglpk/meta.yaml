@@ -1,20 +1,18 @@
 package:
   name: swiglpk
-  version: 4.65.1
+  version: 5.0.10
+  top-level:
+    - swiglpk
 
 source:
-  sha256: 0216db2930a6fe2c07ac7f0e28e76e9a2711a647836a3a4067113091c7ae221e
-  url: https://files.pythonhosted.org/packages/0e/c9/9b0ec3e2ca942b6d067e84e52d72818fa9c3a1a1524671fcbec4841b54b2/swiglpk-4.65.1.tar.gz
-  extras:
-    - [../glpk/build/glpk-4.65/src/glpk.h, ./glpk.h]
+  sha256: 57ac34ad334da95dd168114bfdb50ae10a2a6a3ddef21e4941f46fe430c5a7e1
+  url: https://files.pythonhosted.org/packages/b7/c3/b635185e6af163af1b6ad786cc5afc6b5926405581c6ddd02c6f93f8a8d3/swiglpk-5.0.10.tar.gz
 
 build:
-  ldflags: -L$(PYODIDE_ROOT)/packages/glpk/build/glpk-4.65/src/.libs/
+  script: |
+    export GLPK_HEADER_PATH="${WASM_LIBRARY_DIR}/include/"
+  ldflags: -L$(WASM_LIBRARY_DIR)/lib
 
 requirements:
-  run:
+  host:
     - glpk
-
-test:
-  imports:
-    - swiglpk

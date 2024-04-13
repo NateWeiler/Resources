@@ -1,0 +1,17 @@
+package:
+  name: sqlalchemy
+  version: 2.0.25
+  top-level:
+    - sqlalchemy
+source:
+  url: https://files.pythonhosted.org/packages/7b/bb/85bd8e211f54983e927c7cd9b2ad66773fbef507957156fc72e481a62681/SQLAlchemy-2.0.25.tar.gz
+  sha256: a2c69a7664fb2d54b8682dd774c3b54f67f84fa123cf84dda2a5f40dcaa04e08
+requirements:
+  run:
+    - sqlite3
+    - typing-extensions
+about:
+  home: https://www.sqlalchemy.org
+  PyPI: https://pypi.org/project/sqlalchemy
+  summary: Database Abstraction Library
+  license: MIT

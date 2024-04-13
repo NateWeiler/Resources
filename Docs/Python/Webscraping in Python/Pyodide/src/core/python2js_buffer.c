@@ -8,21 +8,21 @@
 #include <endian.h>
 #include <stdint.h>
 
-#include "hiwire.h"
+#include "jslib.h"
 #include "jsmemops.h"
 
 // This file handles the conversion of Python buffer objects (which loosely
-// represent Numpy arrays) to Javascript.
-// Converts everything to nested Javascript arrays, where the scalars are
-// standard Javascript numbers (python2js_buffer_recursive)
+// represent Numpy arrays) to JavaScript.
+// Converts everything to nested JavaScript arrays, where the scalars are
+// standard JavaScript numbers (python2js_buffer_recursive)
 
 // clang-format off
 /**
- * A simple helper function that puts the arguments into a Javascript object
+ * A simple helper function that puts the arguments into a JavaScript object
  * (for readability) and looks up the conversion function, then calls into
  * python2js_buffer_recursive.
  */
-EM_JS_REF(JsRef, _python2js_buffer_inner, (
+EM_JS_VAL(JsVal, _python2js_buffer_inner, (
   void* buf,
   Py_ssize_t itemsize,
   int ndim,
@@ -33,7 +33,7 @@ EM_JS_REF(JsRef, _python2js_buffer_inner, (
 ), {
   // get_converter and _python2js_buffer_recursive defined in python2js_buffer.js
   let converter = Module.get_converter(format, itemsize);
-  let result = Module._python2js_buffer_recursive(buf, 0, {
+  return Module._python2js_buffer_recursive(buf, 0, {
     ndim,
     format,
     itemsize,
@@ -42,7 +42,6 @@ EM_JS_REF(JsRef, _python2js_buffer_inner, (
     suboffsets,
     converter,
   });
-  return Module.hiwire.new_value(result);
 });
 // clang-format on
 
@@ -53,15 +52,15 @@ EM_JS_REF(JsRef, _python2js_buffer_inner, (
  * the base case for the recursion and then calls the main js function
  * _python2js_buffer_recursive (defined in python2js_buffer.js).
  */
-JsRef
+JsVal
 _python2js_buffer(PyObject* x)
 {
   Py_buffer view;
   if (PyObject_GetBuffer(x, &view, PyBUF_FULL_RO) == -1) {
-    return NULL;
+    return JS_NULL;
   }
   // clang-format off
-  JsRef result = _python2js_buffer_inner(
+  JsVal result = _python2js_buffer_inner(
     view.buf,
     view.itemsize,
     view.ndim,

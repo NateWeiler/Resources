@@ -1,15 +1,17 @@
-import __main__
-import sys
 import gc
+import sys
+from typing import Any
 
-from ._core import JsProxy
+import __main__
 from _pyodide._importhook import jsfinder
 
+from .ffi import JsProxy
 
-def save_state() -> dict:
+
+def save_state() -> dict[str, Any]:
     """Record the current global state.
 
-    This includes which Javascript packages are loaded and the global scope in
+    This includes which JavaScript packages are loaded and the global scope in
     ``__main__.__dict__``. Many loaded modules might have global state, but
     there is no general way to track it and we don't try to.
     """
@@ -25,7 +27,7 @@ def save_state() -> dict:
     )
 
 
-def restore_state(state: dict):
+def restore_state(state: dict[str, Any]) -> int:
     """Restore the global state to a snapshot. The argument ``state`` should
     come from ``save_state``"""
     __main__.__dict__.clear()

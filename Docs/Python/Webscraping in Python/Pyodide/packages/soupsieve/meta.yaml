@@ -1,16 +1,8 @@
 package:
   name: soupsieve
-  version: 2.2.1
+  version: "2.5"
+  top-level:
+    - soupsieve
 source:
-  sha256: 052774848f448cf19c7e959adf5566904d525f33a3f8b6ba6f6f8f26ec7de0cc
-  url: https://files.pythonhosted.org/packages/c8/3f/e71d92e90771ac2d69986aa0e81cf0dfda6271e8483698f4847b861dd449/soupsieve-2.2.1.tar.gz
-# The following creates a dependency cycle and causes an infinite recurse in
-# buildall. We handle beautifulsoup4 & soupsieve as a special case in 
-# pyodide-build
-
-# requirements:
-#   run:
-#     - beautifulsoup4
-test:
-  imports:
-  - soupsieve
+  sha256: eaa337ff55a1579b6549dc679565eac1e3d000563bcb1c8ab0d0fefbc0c2cdc7
+  url: https://files.pythonhosted.org/packages/4c/f3/038b302fdfbe3be7da016777069f26ceefe11a681055ea1f7817546508e3/soupsieve-2.5-py3-none-any.whl

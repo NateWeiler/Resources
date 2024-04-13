@@ -1,27 +1,34 @@
-from textwrap import dedent
+from pyodide_build._f2c_fixes import (
+    replay_f2c,
+)
 
-from pyodide_build._f2c_fixes import fix_f2c_clapack_calls
+
+def _args_wrapper(func):
+    """Convert function to take as input / return a string instead of a
+    list of arguments
+
+    Also sets dryrun=True
+    """
+
+    def _inner(line, *pargs):
+        args = line.split()
+        res = func(args, *pargs, dryrun=True)
+        if hasattr(res, "__len__"):
+            return " ".join(res)
+        else:
+            return res
+
+    return _inner
 
 
-def test_fix_f2c_clapack_calls(tmpdir):
-    code = dedent(
-        """
-       #include "f2c.h"
+f2c_wrap = _args_wrapper(replay_f2c)
 
-       int sgemv_(char *trans, integer *m, integer *n, real *alpha)
-       {
-          return 0;
-       }
-       """
+
+def test_f2c():
+    assert f2c_wrap("gfortran test.f") == "gcc test.c"
+    assert f2c_wrap("gcc test.c") is None
+    assert f2c_wrap("gfortran --version") is None
+    assert (
+        f2c_wrap("gfortran --shared -c test.o -o test.so")
+        == "gcc --shared -c test.o -o test.so"
     )
-
-    source_file = tmpdir / "sgemv.c"
-    with open(source_file, "w") as fh:
-        fh.write(code)
-
-    fix_f2c_clapack_calls(str(source_file))
-
-    with open(source_file, "r") as fh:
-        code_fixed = fh.read()
-
-    assert code_fixed == code.replace("sgemv_", "wsgemv_")

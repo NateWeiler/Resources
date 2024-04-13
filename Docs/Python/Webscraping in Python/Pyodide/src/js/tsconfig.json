@@ -1,13 +1,26 @@
 {
   "$schema": "http://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "allowJs": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "lib": ["ES2018", "DOM"],
-    "outDir": "../../build",
-    "rootDir": "."
+    "rootDir": "..",
+    "outDir": "../../dist",
+    "esModuleInterop": true,
+    "target": "ES2020",
+    "module": "ES2022",
+    "moduleResolution": "node",
+    "composite": true,
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo",
+    "strict": true,
+    "noUnusedLocals": false,
+    "types": ["node"],
+    "experimentalDecorators": true,
+    "lib": ["ES2022", "DOM"],
+    "resolveJsonModule": true,
+    "baseUrl": "..",
+    "paths": {
+      "generated/*": ["js/generated/*", "core/*"],
+      "*": ["*", "js/*"]
+    }
   },
-  "include": ["./*.js"],
-  "exclude": ["rollup.config.js"]
+  "include": ["../**/*.ts", "*.json"],
+  "exclude": ["../**/*test*/**/*"]
 }

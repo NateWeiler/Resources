@@ -1,0 +1,13 @@
+package:
+  name: fonttools
+  version: 4.48.1
+  top-level:
+    - fontTools
+source:
+  url: https://files.pythonhosted.org/packages/08/d0/cd4ac78efb1cf611a061f4c6300461c70a72b71ce262e37ac2652edfa323/fonttools-4.48.1-py3-none-any.whl
+  sha256: e3e33862fc5261d46d9aae3544acb36203b1a337d00bdb5d3753aae50dac860e
+about:
+  home: http://github.com/fonttools/fonttools
+  PyPI: https://pypi.org/project/fontTools
+  summary: Tools to manipulate font files
+  license: MIT

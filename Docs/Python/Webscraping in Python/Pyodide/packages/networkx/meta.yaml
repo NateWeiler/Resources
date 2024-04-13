@@ -1,42 +1,42 @@
 package:
   name: networkx
-  version: 2.5.1
+  version: 3.2.1
+  top-level:
+    - networkx
 requirements:
   run:
-  - decorator
-  - setuptools
-  # Upstream NetworkX has these as "soft" dependencies, but it's more
-  # convenient to have them come in automatically.
-  - matplotlib
-  - numpy
+    - decorator
+    - setuptools
+    - matplotlib
+    - numpy
 source:
-  sha256: 109cd585cac41297f71103c3c42ac6ef7379f29788eb54cb751be5a663bb235a
-  url: https://files.pythonhosted.org/packages/b0/21/adfbf6168631e28577e4af9eb9f26d75fe72b2bb1d33762a5f2c425e6c2a/networkx-2.5.1.tar.gz
+  sha256: f18c69adc97877c42332c170849c96cefa91881c99a7cb3e95b7c659ebdc1ec2
+  url: https://files.pythonhosted.org/packages/d5/f0/8fbc882ca80cf077f1b246c0e3c3465f7f415439bdea6b899f6b19f61f70/networkx-3.2.1-py3-none-any.whl
 test:
   imports:
-  - networkx
-  - networkx.algorithms
-  - networkx.algorithms.approximation
-  - networkx.algorithms.assortativity
-  - networkx.algorithms.bipartite
-  - networkx.algorithms.centrality
-  - networkx.algorithms.chordal
-  - networkx.algorithms.coloring
-  - networkx.algorithms.community
-  - networkx.algorithms.components
-  - networkx.algorithms.connectivity
-  - networkx.algorithms.flow
-  - networkx.algorithms.isomorphism
-  - networkx.algorithms.link_analysis
-  - networkx.algorithms.node_classification
-  - networkx.algorithms.operators
-  - networkx.algorithms.shortest_paths
-  - networkx.algorithms.traversal
-  - networkx.algorithms.tree
-  - networkx.classes
-  - networkx.drawing
-  - networkx.generators
-  - networkx.linalg
-  - networkx.readwrite
-  - networkx.readwrite.json_graph
-  - networkx.utils
+    - networkx
+    - networkx.algorithms
+    - networkx.algorithms.approximation
+    - networkx.algorithms.assortativity
+    - networkx.algorithms.bipartite
+    - networkx.algorithms.centrality
+    - networkx.algorithms.chordal
+    - networkx.algorithms.coloring
+    - networkx.algorithms.community
+    - networkx.algorithms.components
+    - networkx.algorithms.connectivity
+    - networkx.algorithms.flow
+    - networkx.algorithms.isomorphism
+    - networkx.algorithms.link_analysis
+    - networkx.algorithms.node_classification
+    - networkx.algorithms.operators
+    - networkx.algorithms.shortest_paths
+    - networkx.algorithms.traversal
+    - networkx.algorithms.tree
+    - networkx.classes
+    - networkx.drawing
+    - networkx.generators
+    - networkx.linalg
+    - networkx.readwrite
+    - networkx.readwrite.json_graph
+    - networkx.utils

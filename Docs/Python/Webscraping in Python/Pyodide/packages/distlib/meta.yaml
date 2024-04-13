@@ -1,11 +1,16 @@
 package:
   name: distlib
-  version: 0.3.1
+  version: 0.3.8
+  top-level:
+    - distlib
 source:
-  sha256: edf6116872c863e1aa9d5bb7cb5e05a022c519a4594dc703843343a9ddd9bff1
-  url: https://files.pythonhosted.org/packages/2f/83/1eba07997b8ba58d92b3e51445d5bf36f9fba9cb8166bcae99b9c3464841/distlib-0.3.1.zip
+  sha256: 034db59a0b96f8ca18035f36290806a9a6e6bd9d1ff91e45a7f172eb17e51784
+  url: https://files.pythonhosted.org/packages/8e/41/9307e4f5f9976bc8b7fea0b66367734e8faf3ec84bc0d412d8cfabbb66cd/distlib-0.3.8-py2.py3-none-any.whl
 build:
-  script: "find . -name *.exe -delete"
-test:
-  imports:
-  - distlib
+  post: |
+    find $WHEELDIR -name '*.exe' -delete
+about:
+  home: https://github.com/pypa/distlib
+  PyPI: https://pypi.org/project/distlib
+  summary: Distribution utilities
+  license: Python license

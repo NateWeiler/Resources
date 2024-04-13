@@ -1,4 +1,4 @@
-// Macros to access memory from Javascript
+// Macros to access memory from JavaScript
 
 #define DEREF_U8(addr, offset) HEAPU8[addr + offset]
 #define DEREF_I8(addr, offset) HEAP8[addr + offset]
@@ -12,6 +12,7 @@
 #define DEREF_F32(addr, offset) HEAPF32[(addr >> 2) + offset]
 #define DEREF_F64(addr, offset) HEAPF64[(addr >> 3) + offset]
 
+#define ASSIGN_U32(addr, offset, value) DEREF_U32(addr, offset) = value
 #if WASM_BIGINT
 // We have HEAPU64 / HEAPI64 in this case.
 #define DEREF_U64(addr, offset) HEAPU64[(addr >> 3) + offset]
@@ -27,13 +28,13 @@
 
 // No BigUint64Array, have to manually split / join lower and upper byte
 //
-#define BIGINT_LOWER(x) (Number((x)&BigInt(0xffffffff)) | 0)
+#define BIGINT_LOWER(x) (Number((x) & BigInt(0xffffffff)) | 0)
 #define BIGINT_UPPER(x) (Number((x) >> BigInt(32)) | 0)
 #define UBIGINT_FROM_PAIR(lower, upper)                                        \
   (BigInt(lower) | (BigInt(upper) << BigInt(32)))
 
 #define IBIGINT_FROM_PAIR(lower, upper)                                        \
-  (BigInt(lower) | (BigInt(upper - 2 * (upper & 0x80000000)) << BigInt(32)))
+  (BigInt(lower) | (BigInt(upper + 2 * (upper & 0x80000000)) << BigInt(32)))
 
 #define LOAD_U64(addr, offset)                                                 \
   UBIGINT_FROM_PAIR(DEREF_U32(addr, offset * 2),                               \

@@ -1,12 +1,14 @@
 package:
   name: packaging
-  version: '21.0'
+  version: "23.2"
+  top-level:
+    - packaging
 source:
-  sha256: 7dc96269f53a4ccec5c0670940a4281106dd0bb343f47b7471f779df49c2fbe7
-  url: https://files.pythonhosted.org/packages/df/86/aef78bab3afd461faecf9955a6501c4999933a48394e90f03cd512aad844/packaging-21.0.tar.gz
-requirements:
-  run:
-  - pyparsing
-test:
-  imports:
-  - packaging
+  sha256: 048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5
+  url: https://files.pythonhosted.org/packages/fb/2b/9b9c33ffed44ee921d0967086d653047286054117d584f1b1a7c22ceaf7b/packaging-23.2.tar.gz
+
+about:
+  home: https://github.com/pypa/packaging
+  PyPI: https://pypi.org/project/packaging
+  summary: Core utilities for Python packages
+  license: BSD-2-Clause or Apache-2.0

@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: cmsmap
+Version: 1.0
+Summary: CMS vulnerability scanner
+Home-page: https://github.com/Dionach/CMSmap
+Author: Mike Manzotti
+License: GPL

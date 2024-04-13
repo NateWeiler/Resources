@@ -1,25 +1,22 @@
 # Using Pyodide
 
-Pyodide may be used in any context where you want to run Python inside a web
-browser or a backend JavaScript environment.
+Pyodide may be used in a web browser or a backend JavaScript environment.
 
 ## Web browsers
 
-To use Pyodide on a web page you need to load `pyodide.js` and initialize
-Pyodide with {any}`loadPyodide` specifying a index URL for packages:
+To use Pyodide in a web page you need to load `pyodide.js` and initialize
+Pyodide with {js:func}`~globalThis.loadPyodide`.
 
 ```html-pyodide
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-      <script src="https://cdn.jsdelivr.net/pyodide/dev/full/pyodide.js"></script>
+      <script src="{{PYODIDE_CDN_URL}}pyodide.js"></script>
   </head>
   <body>
     <script type="text/javascript">
       async function main(){
-        let pyodide = await loadPyodide({
-          indexURL : "https://cdn.jsdelivr.net/pyodide/dev/full/"
-        });
+        let pyodide = await loadPyodide();
         console.log(pyodide.runPython("1 + 2"));
       }
       main();
@@ -28,7 +25,7 @@ Pyodide with {any}`loadPyodide` specifying a index URL for packages:
 </html>
 ```
 
-See the {ref}`quickstart` for a walk through tutorial as well as
+See the {ref}`quickstart` for a walk-through tutorial as well as
 {ref}`loading_packages` and {ref}`type-translations` for a more in depth
 discussion about existing capabilities.
 
@@ -39,79 +36,93 @@ application.
 ```{note}
 To avoid confusion, note that:
  - `cdn.jsdelivr.net/pyodide/` distributes Python packages built with Pyodide as well as `pyodide.js`
- - `cdn.jsdelivr.net/npm/pyodide@0.18.0/` is a mirror of the Pyodide NPM package, which includes none of the WASM files
+ - `cdn.jsdelivr.net/npm/pyodide@0.19.0/` is a mirror of the Pyodide NPM package, which includes none of the WASM files
 ```
 
 ### Supported browsers
 
-Pyodide works in any modern web browser with WebAssembly support.
+Webassembly support in browsers is evolving very rapidly,
+and we recommend using the latest browsers whenever possible
+to take full advantage of Pyodide and its webassembly features.
+If you are using an older browser, some features may not work properly.
 
-**Tier 1** browsers are tested as part of the test suite with continuous integration,
+Currently, Pyodide is being tested against the following browser versions,
+so we recommend using a browser version at least equal to or higher than these.
 
-| Browser | Minimal supported version | Release date    |
-| ------- | ------------------------- | --------------- |
-| Firefox | 70.0                      | 22 October 2019 |
-| Chrome  | 71.0                      | 4 December 2018 |
-
-```{note}
-Latest browser versions generally provide more reliable WebAssembly support
-and will run Pyodide faster, so their use is recommended.
-```
-
-**Tier 2** browsers are known to work but they are not systematically tested in
-Pyodide,
-
-| Browser | Minimal supported version | Release date      |
-| ------- | ------------------------- | ----------------- |
-| Safari  | 13.1                      | 19 September 2019 |
-| Edge    | 80                        | 26 Feb 2020       |
-
-Other browsers with WebAssembly support might also work however they are not
-officially supported.
+| Browser | Version | Release date  |
+| ------- | ------- | ------------- |
+| Firefox | 112     | 11 April 2023 |
+| Chrome  | 112     | 29 March 2023 |
+| Safari  | 16.4    | 27 March 2023 |
 
 ## Web Workers
 
-By default, WebAssembly runs in the main browser thread, and it can make UI non
-responsive for long running computations.
+By default, WebAssembly runs in the main browser thread, and it can make UI
+non-responsive for long-running computations.
 
 To avoid this situation, one solution is to run {ref}`Pyodide in a WebWorker <using_from_webworker>`.
 
+It's also possible to run {ref}`Pyodide in a Service Worker <using_from_service_worker>`.
+
+If you're not sure whether you need web workers or service workers, here's an [overview and comparison of the two](https://web.dev/workers-overview/).
+
 ## Node.js
 
-As of version 0.18.0 Pyodide can experimentally run in Node.js.
-
-Install the [Pyodide npm package](https://www.npmjs.com/package/pyodide),
-
-```
-npm install pyodide
-```
-
-Download and extract Pyodide packages from [Github
-releases](https://github.com/pyodide/pyodide/releases)
-(**pyodide-build-\*.tar.bz2** file). The version of the release needs to match
-exactly the version of this package.
-
-Then you can load Pyodide in Node.js as follows,
-
-```js
-let pyodide_pkg = await import("pyodide/pyodide.js");
-
-let pyodide = await pyodide_pkg.loadPyodide({
-  indexURL: "<pyodide artifacts folder>",
-});
-
-await pyodide.runPythonAsync("1+1");
+```{warning}
+Starting with Pyodide 0.25.0, Node.js < 18 is no longer officially supported.
+Older versions of Node.js might still work, but they are not tested or guaranteed to work.
 ```
 
 ```{note}
-To start Node.js REPL with support for top level await, use `node --experimental-repl-await`.
+The following instructions have been tested with Node.js 18.5.0. To use
+Pyodide with older versions of Node, you might need to use  additional command line
+arguments, see below.
 ```
 
-```{warning}
-Download of packages from PyPi is currently not cached when run in
-Node.js. Packages will be re-downloaded each time `micropip.install` is run.
+It is now possible to install the
+[Pyodide npm package](https://www.npmjs.com/package/pyodide) in Node.js. To
+follow these instructions you need at least Pyodide 0.21.0.
+You can explicitly ask npm to use
+the alpha version:
 
-For this same reason, installing Pyodide packages from the CDN is explicitly not supported for now.
+```
+$ npm install "pyodide@>=0.21.0-alpha.2"
+```
+
+Once installed, you can run the following simple script:
+
+```js
+// hello_python.js
+const { loadPyodide } = require("pyodide");
+
+async function hello_python() {
+  let pyodide = await loadPyodide();
+  return pyodide.runPythonAsync("1+1");
+}
+
+hello_python().then((result) => {
+  console.log("Python says that 1+1 =", result);
+});
+```
+
+```
+$ node hello_python.js
+Python says that 1+1= 2
+```
+
+Or you can use the REPL. To start the Node.js REPL with support for top level
+await, use `node --experimental-repl-await`:
+
+```
+$ node --experimental-repl-await
+Welcome to Node.js v18.5.0.
+Type ".help" for more information.
+> const { loadPyodide } = require("pyodide");
+undefined
+> let pyodide = await loadPyodide();
+undefined
+> await pyodide.runPythonAsync("1+1");
+2
 ```
 
 ```{eval-rst}
@@ -119,4 +130,7 @@ For this same reason, installing Pyodide packages from the CDN is explicitly not
    :hidden:
 
    webworker.md
+   loading-custom-python-code.md
+   file-system.md
+   service-worker.md
 ```

@@ -3,14 +3,14 @@ JS_FILE(python2js_buffer_init, () => {
 
   /**
    * Determine type and endianness of data from format. This is a helper
-   * function for converting buffers from Python to Javascript, used in
+   * function for converting buffers from Python to JavaScript, used in
    * PyProxyBufferMethods and in `toJs` on a buffer.
    *
    * To understand this function it will be helpful to look at the tables here:
    * https://docs.python.org/3/library/struct.html#format-strings
    *
    * @arg format {String} A Python format string (caller must convert it to a
-   *      Javascript string).
+   *      JavaScript string).
    * @arg errorMessage {String} Extra stuff to append to an error message if
    *      thrown. Should be a complete sentence.
    * @returns A pair, an appropriate TypedArray constructor and a boolean which
@@ -22,7 +22,7 @@ JS_FILE(python2js_buffer_init, () => {
       throw new Error(
         "Expected format string to have length <= 2, " +
           `got '${formatStr}'.` +
-          errorMessage
+          errorMessage,
       );
     }
     let formatChar = formatStr.slice(-1);
@@ -41,7 +41,7 @@ JS_FILE(python2js_buffer_init, () => {
         break;
       default:
         throw new Error(
-          `Unrecognized alignment character ${alignChar}.` + errorMessage
+          `Unrecognized alignment character ${alignChar}.` + errorMessage,
         );
     }
     let arrayType;
@@ -76,7 +76,7 @@ JS_FILE(python2js_buffer_init, () => {
       case "q":
         if (globalThis.BigInt64Array === undefined) {
           throw new Error(
-            "BigInt64Array is not supported on this browser." + errorMessage
+            "BigInt64Array is not supported on this browser." + errorMessage,
           );
         }
         arrayType = BigInt64Array;
@@ -84,7 +84,7 @@ JS_FILE(python2js_buffer_init, () => {
       case "Q":
         if (globalThis.BigUint64Array === undefined) {
           throw new Error(
-            "BigUint64Array is not supported on this browser." + errorMessage
+            "BigUint64Array is not supported on this browser." + errorMessage,
           );
         }
         arrayType = BigUint64Array;
@@ -99,14 +99,14 @@ JS_FILE(python2js_buffer_init, () => {
         throw new Error("Javascript has no Float16 support.");
       default:
         throw new Error(
-          `Unrecognized format character '${formatChar}'.` + errorMessage
+          `Unrecognized format character '${formatChar}'.` + errorMessage,
         );
     }
     return [arrayType, bigEndian];
   };
 
   /**
-   * Convert a 1-dimensional contiguous buffer to Javascript.
+   * Convert a 1-dimensional contiguous buffer to JavaScript.
    *
    * In this case we can just slice the memory out of the wasm HEAP.
    * @param {number} ptr A pointer to the start of the buffer in wasm memory
@@ -117,14 +117,13 @@ JS_FILE(python2js_buffer_init, () => {
    * @private
    */
   Module.python2js_buffer_1d_contiguous = function (ptr, stride, n) {
-    "use strict";
     let byteLength = stride * n;
     // Note: slice here is a copy (as opposed to subarray which is not)
     return HEAP8.slice(ptr, ptr + byteLength).buffer;
   };
 
   /**
-   * Convert a 1d noncontiguous buffer to Javascript.
+   * Convert a 1d noncontiguous buffer to JavaScript.
    *
    * Since the buffer is not contiguous we have to copy it in chunks.
    * @param {number} ptr The WAM memory pointer to the start of the buffer.
@@ -143,9 +142,8 @@ JS_FILE(python2js_buffer_init, () => {
     stride,
     suboffset,
     n,
-    itemsize
+    itemsize,
   ) {
-    "use strict";
     let byteLength = itemsize * n;
     // Make new memory of the appropriate size
     let buffer = new Uint8Array(byteLength);
@@ -160,7 +158,7 @@ JS_FILE(python2js_buffer_init, () => {
   };
 
   /**
-   * Convert an ndarray to a nested Javascript array, the main function.
+   * Convert an ndarray to a nested JavaScript array, the main function.
    *
    * This is called by _python2js_buffer_inner (defined in python2js_buffer.c).
    * There are two layers of setup that need to be done to get the base case of
@@ -176,11 +174,10 @@ JS_FILE(python2js_buffer_init, () => {
    * @param {number} bufferData All of the data out of the Py_buffer, plus the
    * converter function: ndim, format, itemsize, shape (a ptr), strides (a ptr),
    * suboffsets (a ptr), converter,
-   * @returns A nested Javascript array, the result of the conversion.
+   * @returns A nested JavaScript array, the result of the conversion.
    * @private
    */
   Module._python2js_buffer_recursive = function (ptr, curdim, bufferData) {
-    "use strict";
     // Stride and suboffset are signed, n is unsigned.
     let n = DEREF_U32(bufferData.shape, curdim);
     let stride = DEREF_I32(bufferData.strides, curdim);
@@ -199,7 +196,7 @@ JS_FILE(python2js_buffer_init, () => {
           stride,
           suboffset,
           n,
-          bufferData.itemsize
+          bufferData.itemsize,
         );
       }
       return bufferData.converter(arraybuffer);
@@ -214,7 +211,7 @@ JS_FILE(python2js_buffer_init, () => {
         curptr = DEREF_U32(curptr, 0) + suboffset;
       }
       result.push(
-        Module._python2js_buffer_recursive(curPtr, curdim + 1, bufferData)
+        Module._python2js_buffer_recursive(curPtr, curdim + 1, bufferData),
       );
     }
     return result;
@@ -238,13 +235,12 @@ JS_FILE(python2js_buffer_init, () => {
    * @private
    */
   Module.get_converter = function (format, itemsize) {
-    "use strict";
     let formatStr = UTF8ToString(format);
     let [ArrayType, bigEndian] = Module.processBufferFormatString(formatStr);
     let formatChar = formatStr.slice(-1);
     switch (formatChar) {
       case "s":
-        let decoder = new TextDecoder("utf8");
+        let decoder = new TextDecoder("utf8", { ignoreBOM: true });
         return (buff) => decoder.decode(buff);
       case "?":
         return (buff) => Array.from(new Uint8Array(buff), (x) => !!x);

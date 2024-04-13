@@ -1,5 +1,5 @@
 import pytest
-from pyodide_build.testing import run_in_pyodide
+from pytest_pyodide import run_in_pyodide
 
 
 @pytest.mark.parametrize(
@@ -23,8 +23,10 @@ def test_fnmatch(selenium_module_scope, pattern, name, flags, expected):
     assert result == expected
 
 
-@run_in_pyodide(packages=["cffi_example"], module_scope=True)
-def test_person():
+@run_in_pyodide(
+    packages=["cffi_example"],
+)
+def test_person(selenium_module_scope):
     from cffi_example.person import Person
 
     p = Person("Alex", "Smith", 72)

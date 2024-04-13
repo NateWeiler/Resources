@@ -1,0 +1,18 @@
+package:
+  name: pyerfa
+  version: 2.0.1.1
+  top-level:
+    - erfa
+source:
+  url: https://files.pythonhosted.org/packages/4e/09/aaa59a4b4c22574fbe08e58e181933f19e455aef9b1a21a4eca026cd7d8f/pyerfa-2.0.1.1.tar.gz
+  sha256: dbac74ef8d3d3b0f22ef0ad3bbbdb30b2a9e10570b1fa5a98be34c7be36c9a6b
+requirements:
+  host:
+    - numpy
+  run:
+    - numpy
+about:
+  home: https://github.com/liberfa/pyerfa
+  PyPI: https://pypi.org/project/pyerfa
+  summary: Python bindings for ERFA
+  license: BSD 3-Clause License

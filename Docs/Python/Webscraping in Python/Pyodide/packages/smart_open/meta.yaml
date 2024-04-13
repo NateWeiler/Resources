@@ -1,0 +1,15 @@
+package:
+  name: smart_open
+  version: 6.4.0
+  top-level:
+    - smart_open
+source:
+  url: https://files.pythonhosted.org/packages/fc/d9/d97f1db64b09278aba64e8c81b5d322d436132df5741c518f3823824fae0/smart_open-6.4.0-py3-none-any.whl
+  sha256: 8d3ef7e6997e8e42dd55c74166ed21e6ac70664caa32dd940b26d54a8f6b4142
+about:
+  home: https://github.com/piskvorky/smart_open
+  PyPI: https://pypi.org/project/smart_open
+  summary:
+    Utils for streaming large files (S3, HDFS, GCS, Azure Blob Storage, gzip,
+    bz2...)
+  license: MIT

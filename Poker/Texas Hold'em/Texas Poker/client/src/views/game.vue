@@ -36,6 +36,7 @@
                   :min-action-size="minActionSize"
                   :is-two-player="gamePlayers.length === 2"
                   :pot="pot"
+                  :audio-status="audioStatus"
                   :prev-size="prevSize"
                   @action = 'action'
     ></actionDialog>
@@ -47,6 +48,7 @@
         <i @click="showBuyInDialog()">buy in</i>
         <i @click="standUp()">stand Up</i>
         <i @click="showCounterRecord">counter record</i>
+        <i @click="closeAudio()">audio ({{`${audioStatus ? 'open' : 'close'}`}})</i>
       </div>
     </div>
     <BuyIn :showBuyIn.sync='showBuyIn'
@@ -58,7 +60,7 @@
     <record :players="players"
             v-model="showRecord"></record>
     <sendMsg @send = 'sendMsgHandle' :msg-list="msgListReverse"></sendMsg>
-<!--    <iAudio :play="playIncome" type="income"></iAudio>-->
+    <iAudio :play="playIncome && audioStatus" type="income" ></iAudio>
     <gameRecord v-model="showCommandRecord"
                 :game-list="gameList"
                 @getRecord = "getRecord"
@@ -145,7 +147,7 @@
     private actionUserId = '';
     private showAllin = false;
     private showMsg = false;
-    // private playIncome = false;
+    private playIncome = false;
     private msg = '';
     private time = ACTION_TIME;
     private timeSt = 0;
@@ -154,6 +156,7 @@
     private showCommandRecord = false;
     private gameList: IGameRecord [] = [];
     private currGameIndex = 0;
+    private audioStatus = true;
     private roomConfig: IRoom = {
       isShort: false,
       smallBlind: 1,
@@ -303,8 +306,7 @@
       const sit = [];
       for (let i = 0; i < 9; i++) {
         sit.push(node.node);
-        const next = node.next;
-        node = next;
+        node = node.next;
       }
       return sit;
     }
@@ -441,10 +443,10 @@
             });
           });
           // income music
-          // this.playIncome = true;
-          // setTimeout(() => {
-          //   this.playIncome = false;
-          // }, 1000);
+          this.playIncome = true;
+          setTimeout(() => {
+            this.playIncome = false;
+          }, 1000);
         }
 
         if (msg.action === 'newGame') {
@@ -522,6 +524,10 @@
       this.showSetting = false;
     }
 
+    private closeAudio() {
+      this.audioStatus = !this.audioStatus;
+    }
+
     private play() {
       if (this.players.length >= 2) {
         this.gaming = true;
@@ -587,7 +593,6 @@
         this.$plugin.toast('can\'t find the room');
       }
     }
-
     private created() {
       try {
         this.socketInit();

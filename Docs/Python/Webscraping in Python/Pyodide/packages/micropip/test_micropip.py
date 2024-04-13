@@ -1,10 +1,32 @@
-import asyncio
 import sys
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import pytest
+from pytest_pyodide import run_in_pyodide, spawn_web_server
 
-sys.path.append(str(Path(__file__).resolve().parent / "src"))
+from conftest import package_is_built
+
+cpver = f"cp{sys.version_info.major}{sys.version_info.minor}"
+
+
+WHEEL_BASE = None
+
+
+@pytest.fixture
+def wheel_base(monkeypatch):
+    with TemporaryDirectory() as tmpdirname:
+        global WHEEL_BASE
+        WHEEL_BASE = Path(tmpdirname).absolute()
+        import site
+
+        monkeypatch.setattr(
+            site, "getsitepackages", lambda: [WHEEL_BASE], raising=False
+        )
+        try:
+            yield
+        finally:
+            WHEEL_BASE = None
 
 
 @pytest.fixture
@@ -21,15 +43,17 @@ def selenium_standalone_micropip(selenium_standalone):
     yield selenium_standalone
 
 
+SNOWBALL_WHEEL = "snowballstemmer-2.0.0-py2.py3-none-any.whl"
+
+
 def test_install_simple(selenium_standalone_micropip):
     selenium = selenium_standalone_micropip
-    assert (
-        selenium.run_js(
-            """
+    assert selenium.run_js(
+        """
             return await pyodide.runPythonAsync(`
                 import os
                 import micropip
-                from pyodide import to_js
+                from pyodide.ffi import to_js
                 # Package 'pyodide-micropip-test' has dependency on 'snowballstemmer'
                 # It is used to test markers support
                 await micropip.install('pyodide-micropip-test')
@@ -38,132 +62,44 @@ def test_install_simple(selenium_standalone_micropip):
                 to_js(stemmer.stemWords('go going goes gone'.split()))
             `);
             """
-        )
-        == ["go", "go", "goe", "gone"]
-    )
-
-
-def test_parse_wheel_url():
-    pytest.importorskip("packaging")
-    from micropip import micropip
-
-    url = "https://a/snowballstemmer-2.0.0-py2.py3-none-any.whl"
-    name, wheel, version = micropip._parse_wheel_url(url)
-    assert name == "snowballstemmer"
-    assert version == "2.0.0"
-    assert wheel == {
-        "digests": None,
-        "filename": "snowballstemmer-2.0.0-py2.py3-none-any.whl",
-        "packagetype": "bdist_wheel",
-        "python_version": "py2.py3",
-        "abi_tag": "none",
-        "platform": "any",
-        "url": url,
-    }
-
-    msg = "not a valid wheel file name"
-    with pytest.raises(ValueError, match=msg):
-        url = "https://a/snowballstemmer-2.0.0-py2.whl"
-        name, params, version = micropip._parse_wheel_url(url)
-
-    url = "http://scikit_learn-0.22.2.post1-cp35-cp35m-macosx_10_9_intel.whl"
-    name, wheel, version = micropip._parse_wheel_url(url)
-    assert name == "scikit_learn"
-    assert wheel["platform"] == "macosx_10_9_intel"
+    ) == ["go", "go", "goe", "gone"]
 
 
 @pytest.mark.parametrize("base_url", ["'{base_url}'", "'.'"])
 def test_install_custom_url(selenium_standalone_micropip, base_url):
     selenium = selenium_standalone_micropip
-    base_url = base_url.format(base_url=selenium.base_url)
 
-    root = Path(__file__).resolve().parents[2]
-    src = root / "src" / "tests" / "data"
-    target = root / "build" / "test_data"
-    target.symlink_to(src, True)
-    path = "/test_data/snowballstemmer-2.0.0-py2.py3-none-any.whl"
-    try:
+    with spawn_web_server(Path(__file__).parent / "test") as server:
+        server_hostname, server_port, _ = server
+        base_url = f"http://{server_hostname}:{server_port}/"
+        url = base_url + SNOWBALL_WHEEL
+
         selenium.run_js(
             f"""
-            let url = {base_url} + '{path}';
-            let resp = await fetch(url);
             await pyodide.runPythonAsync(`
                 import micropip
-                await micropip.install('${{url}}')
+                await micropip.install('{url}')
                 import snowballstemmer
             `);
             """
         )
-    finally:
-        target.unlink()
 
 
-def test_add_requirement(web_server_tst_data):
-    pytest.importorskip("packaging")
-    from micropip import micropip
+@pytest.mark.xfail_browsers(chrome="node only", firefox="node only")
+def test_install_file_protocol_node(selenium_standalone_micropip):
+    selenium = selenium_standalone_micropip
+    from conftest import DIST_PATH
 
-    server_hostname, server_port, server_log = web_server_tst_data
-    base_url = f"http://{server_hostname}:{server_port}/"
-    url = base_url + "snowballstemmer-2.0.0-py2.py3-none-any.whl"
-
-    transaction = {"wheels": [], "locked": {}}
-    asyncio.get_event_loop().run_until_complete(
-        micropip.PACKAGE_MANAGER.add_requirement(url, {}, transaction)
+    pyparsing_wheel_name = list(DIST_PATH.glob("pyparsing*.whl"))[0].name
+    selenium.run_js(
+        f"""
+        await pyodide.runPythonAsync(`
+            import micropip
+            await micropip.install('file:{pyparsing_wheel_name}')
+            import pyparsing
+        `);
+        """
     )
-
-    [name, req, version] = transaction["wheels"][0]
-    assert name == "snowballstemmer"
-    assert version == "2.0.0"
-    assert req["filename"] == "snowballstemmer-2.0.0-py2.py3-none-any.whl"
-    assert req["packagetype"] == "bdist_wheel"
-    assert req["python_version"] == "py2.py3"
-    assert req["abi_tag"] == "none"
-    assert req["platform"] == "any"
-    assert req["url"] == url
-
-
-def test_add_requirement_marker():
-    pytest.importorskip("packaging")
-    from micropip import micropip
-
-    transaction = asyncio.get_event_loop().run_until_complete(
-        micropip.PACKAGE_MANAGER.gather_requirements(
-            [
-                "werkzeug",
-                'contextvars ; python_version < "3.7"',
-                'aiocontextvars ; python_version < "3.7"',
-                "numpy ; extra == 'full'",
-                "zarr ; extra == 'full'",
-                "numpy ; extra == 'jupyter'",
-                "ipykernel ; extra == 'jupyter'",
-                "numpy ; extra == 'socketio'",
-                "python-socketio[client] ; extra == 'socketio'",
-            ]
-        )
-    )
-    assert len(transaction["wheels"]) == 1
-
-
-def test_last_version_from_pypi():
-    pytest.importorskip("packaging")
-    from micropip import micropip
-    from packaging.requirements import Requirement
-
-    requirement = Requirement("dummy_module")
-    versions = ["0.0.1", "0.15.5", "0.9.1"]
-
-    # building metadata as returned from
-    # https://pypi.org/pypi/{pkgname}/json
-    metadata = {
-        "releases": {
-            v: [{"filename": f"dummy_module-{v}-py3-none-any.whl"}] for v in versions
-        }
-    }
-
-    # get version number from find_wheel
-    wheel, ver = micropip.PACKAGE_MANAGER.find_wheel(metadata, requirement)
-
-    assert str(ver) == "0.15.5"
 
 
 def test_install_different_version(selenium_standalone_micropip):
@@ -221,5 +157,103 @@ def test_install_mixed_case2(selenium_standalone_micropip, jinja2):
             await micropip.install("{jinja2}")
             import jinja2
         `);
+        """
+    )
+
+
+def test_list_load_package_from_url(selenium_standalone_micropip):
+    with spawn_web_server(Path(__file__).parent / "test") as server:
+        server_hostname, server_port, _ = server
+        base_url = f"http://{server_hostname}:{server_port}/"
+        url = base_url + SNOWBALL_WHEEL
+
+        selenium = selenium_standalone_micropip
+        selenium.run_js(
+            f"""
+            await pyodide.loadPackage({url!r});
+            await pyodide.runPythonAsync(`
+                import micropip
+                assert "snowballstemmer" in micropip.list()
+            `);
+            """
+        )
+
+
+def test_list_pyodide_package(selenium_standalone_micropip):
+    selenium = selenium_standalone_micropip
+    selenium.run_js(
+        """
+        await pyodide.runPythonAsync(`
+            import micropip
+            await micropip.install(
+                "regex"
+            );
+        `);
+        """
+    )
+    selenium.run_js(
+        """
+        await pyodide.runPythonAsync(`
+            import micropip
+            pkgs = micropip.list()
+            assert "regex" in pkgs
+            assert pkgs["regex"].source.lower() == "pyodide"
+        `);
+        """
+    )
+
+
+def test_list_loaded_from_js(selenium_standalone_micropip):
+    selenium = selenium_standalone_micropip
+    selenium.run_js(
+        """
+        await pyodide.loadPackage("regex");
+        await pyodide.runPythonAsync(`
+            import micropip
+            pkgs = micropip.list()
+            assert "regex" in pkgs
+            assert pkgs["regex"].source.lower() == "pyodide"
+        `);
+        """
+    )
+
+
+def test_emfs(selenium_standalone_micropip):
+    with spawn_web_server(Path(__file__).parent / "test") as server:
+        server_hostname, server_port, _ = server
+        url = f"http://{server_hostname}:{server_port}/"
+
+        @run_in_pyodide(packages=["micropip"])
+        async def run_test(selenium, url, wheel_name):
+            import micropip
+            from pyodide.http import pyfetch
+
+            resp = await pyfetch(url + wheel_name)
+            await resp._into_file(open(wheel_name, "wb"))
+            await micropip.install("emfs:" + wheel_name)
+            import snowballstemmer
+
+            stemmer = snowballstemmer.stemmer("english")
+            assert stemmer.stemWords("go going goes gone".split()) == [
+                "go",
+                "go",
+                "goe",
+                "gone",
+            ]
+
+        run_test(selenium_standalone_micropip, url, SNOWBALL_WHEEL)
+
+
+def test_install_non_normalized_package(selenium_standalone_micropip):
+    if not package_is_built("ruamel-yaml"):
+        pytest.skip("ruamel.yaml not built")
+
+    selenium = selenium_standalone_micropip
+
+    selenium.run_async(
+        """
+        import micropip
+        await micropip.install("ruamel.yaml")
+        import ruamel.yaml
         """
     )

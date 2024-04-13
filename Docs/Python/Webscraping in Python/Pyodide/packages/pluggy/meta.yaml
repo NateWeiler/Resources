@@ -1,9 +1,13 @@
 package:
   name: pluggy
-  version: 0.13.1
+  version: 1.4.0
+  top-level:
+    - pluggy
 source:
-  sha256: 15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0
-  url: https://files.pythonhosted.org/packages/f8/04/7a8542bed4b16a65c2714bf76cf5a0b026157da7f75e87cc88774aa10b14/pluggy-0.13.1.tar.gz
-test:
-  imports:
-  - pluggy
+  sha256: 7db9f7b503d67d1c5b95f59773ebb58a8c1c288129a88665838012cfb07b8981
+  url: https://files.pythonhosted.org/packages/a5/5b/0cc789b59e8cc1bf288b38111d002d8c5917123194d45b29dcdac64723cc/pluggy-1.4.0-py3-none-any.whl
+about:
+  home: https://github.com/pytest-dev/pluggy
+  PyPI: https://pypi.org/project/pluggy
+  summary: plugin and hook calling mechanisms for python
+  license: MIT

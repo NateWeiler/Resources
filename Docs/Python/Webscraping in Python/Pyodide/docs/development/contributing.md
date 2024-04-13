@@ -8,17 +8,56 @@ for diving into it.
 
 ## Development Workflow
 
-See {ref}`building_from_sources` and {ref}`testing` documentation.
+To contribute code, see the following steps,
 
-For code-style the use of [pre-commit](https://pre-commit.com/) is also recommended,
+1. Fork the Pyodide repository [https://github.com/pyodide/pyodide](https://github.com/pyodide/pyodide) on Github.
+2. If you are on Linux, you can skip this step. On Windows and MacOS you have a
+   choice. The first option is to manually install Docker:
 
-```
-pip install pre-commit
-pre-commit install
-```
+   - on MacOS follow [these instructions](https://docs.docker.com/desktop/mac/install/)
+   - on Windows, [install WSL
+     2](https://docs.microsoft.com/en-us/windows/wsl/install), then Docker.
+     Note that Windows filesystem access from WSL2 is very slow and should
+     be avoided when building Pyodide.
 
-This will run a set of linters at each commit. Currently it runs yaml syntax
-validation and is removing trailing whitespaces.
+   The second option is to use a service that provides a Linux
+   development environment, such as
+
+   - [Github Codespaces](https://github.com/features/codespaces)
+   - [gitpod.io](https://gitpod.io)
+   - or a remote Linux VM with SSH connection.
+
+3. Clone your fork of Pyodide
+   ```
+   git clone https://github.com/<your-username>/pyodide.git
+   ```
+   and add the upstream remote,
+   ```
+   git remote add upstream https://github.com/pyodide/pyodide.git
+   ```
+4. While the build will happen inside Docker you still need a development
+   environment with Python 3.11 and ideally Node.js. These can be installed
+   for instance with,
+   ```
+   conda env create -f environment.yml
+   conda activate pyodide-env
+   ```
+   or via your system package manager.
+5. Install requirements (it's recommended to use a virtualenv or a conda env),
+   ```
+   pip install -r requirements.txt
+   ```
+6. Enable [pre-commit](https://pre-commit.com/) for code style,
+
+   ```
+   pre-commit install
+   ```
+
+   This will run a set of linters for each commit.
+
+7. Follow {ref}`building_from_sources` instructions.
+
+8. See {ref}`testing` documentation.
 
 ## Code of Conduct
 
@@ -27,7 +66,7 @@ core members to adhere to.
 
 ## Development
 
-Work on Pyodide happens on Github. Core members and contributors can make Pull
+Work on Pyodide happens on GitHub. Core members and contributors can make Pull
 Requests to fix issues and add features, which all go through the same review
 process. We’ll detail how you can start making PRs below.
 
@@ -36,7 +75,7 @@ always passing. The unfortunate reality of software development is sometimes
 things break. As such, `main` cannot be expected to remain reliable at all
 times. We recommend using the latest stable version of Pyodide.
 
-Pyodide follows semantic versioning (http://semver.org/) - major versions for
+Pyodide follows [semantic versioning](http://semver.org/) - major versions for
 breaking changes (x.0.0), minor versions for new features (0.x.0), and patches
 for bug fixes (0.0.x).
 
@@ -87,7 +126,7 @@ comment asking if you can take over, and we’ll figure it out from there.
 We use [pytest](https://pytest.org), driving
 [Selenium](https://www.seleniumhq.org) as our testing framework. Every PR will
 automatically run through our tests, and our test framework will alert you on
-Github if your PR doesn’t pass all of them. If your PR fails a test, try to
+GitHub if your PR doesn’t pass all of them. If your PR fails a test, try to
 figure out whether or not you can update your code to make the test pass again,
 or ask for help. As a policy we will not accept a PR that fails any of our
 tests, and will likely ask you to add tests if your PR adds new functionality.
@@ -96,9 +135,9 @@ everyone to assess. Take a moment and look through how we’ve written our tests
 and try to make your tests match. If you are having trouble, we can help you get
 started on our test-writing journey.
 
-All code submissions should pass `make lint`. Python is checked with the
-default settings of `flake8`. C and Javascript are checked against the Mozilla
-style in `clang-format`.
+All code submissions should pass `make lint`. Python is checked with `flake8`,
+`black` and `mypy`. JavaScript is checked with `prettier`.
+C is checked against the Mozilla style in `clang-format`.
 
 ### Contributing to the “core” C Code
 
@@ -106,7 +145,7 @@ See {ref}`contributing-core`.
 
 ## Documentation
 
-Documentation is a critical part of any open source project and we are very
+Documentation is a critical part of any open source project, and we are very
 welcome to any documentation improvements. Pyodide has a documentation written
 in Markdown in the `docs/` folder. We use the
 [MyST](https://myst-parser.readthedocs.io/en/latest/using/syntax.html#targets-and-cross-referencing)

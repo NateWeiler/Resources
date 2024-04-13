@@ -1,23 +1,27 @@
 package:
   name: pandas
-  version: 1.0.5
-
+  version: 2.2.0
+  tag:
+    - min-scipy-stack
+  top-level:
+    - pandas
 source:
-  url: https://files.pythonhosted.org/packages/31/29/ede692aa6547dfc1f07a4d69e8411b35225218bcfbe9787e78b67a35d103/pandas-1.0.5.tar.gz
-  sha256: 69c5d920a0b2a9838e677f78f4dde506b95ea8e4d30da25859db6469ded84fa8
-  patches:
-    - patches/fix_json_signature.patch
-
+  url: https://files.pythonhosted.org/packages/03/d2/6fb05f20ee1b3961c7b283c1f8bafc6de752155d075c5db61c173de0de62/pandas-2.2.0.tar.gz
+  sha256: 30b83f7c3eb217fb4d1b494a57a2fda5444f17834f5df2de6b2ffff68dc3c8e2
 build:
-  cflags: -Werror=implicit-function-declaration -Werror=mismatched-parameter-types -Werror=mismatched-return-types
-  ldflags: --Wl,--fatal-warnings
+  cflags:
+    -Werror=implicit-function-declaration -Werror=mismatched-parameter-types
+    -Werror=mismatched-return-types -Oz
+  ldflags: --Wl,--fatal-warnings -Oz
 requirements:
+  host:
+    - numpy
   run:
-    - distutils
     - numpy
     - python-dateutil
     - pytz
-
-test:
-  imports:
-    - pandas
+about:
+  home: https://pandas.pydata.org
+  PyPI: https://pypi.org/project/pandas
+  summary: Powerful data structures for data analysis, time series, and statistics
+  license: BSD-3-Clause

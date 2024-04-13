@@ -2,82 +2,161 @@
 
 # Building from sources
 
-Building is easiest on Linux and relatively straightforward on Mac. For Windows,
-we currently recommend using the Docker image (described below) to build
-Pyodide. Another option for building on Windows is to use
-[WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to create a
-Linux build environment.
+```{warning}
+If you are building the latest development version of Pyodide from the `main`
+branch, please make sure to follow the build instructions from the dev
+version of the documentation at
+[pyodide.org/en/latest/](https://pyodide.org/en/latest/development/building-from-sources.html)
+```
 
-## Build using `make`
+Pyodide can be built from sources on different platforms,
+
+- on **Linux** it is easiest using the Pyodide Docker image. This approach
+  works with any native operating system as long as Docker is installed. You
+  can also build on your native Linux OS if the correct build prerequisites
+  are installed.
+- on **MacOS** it is recommended to install dependencies via conda-forge or
+  using Homebrew, particularly with the M1 ARM CPU. Building with Docker is
+  possible but very slow.
+- It is not possible to build on **Windows**, but you can use [Windows Subsystem
+  for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to
+  create a Linux build environment.
+
+## Build instructions
+
+### Using Docker
+
+We provide a Debian-based x86_64 Docker image
+([`pyodide/pyodide-env`](https://hub.docker.com/r/pyodide/pyodide-env)) on
+Docker Hub with the dependencies already installed to make it easier to build
+Pyodide.
+
+```{note}
+These Docker images are also available from the Github packages at
+[`github.com/orgs/pyodide/packages`](https://github.com/orgs/pyodide/packages).
+```
+
+1. Install Docker
+
+2. From a git checkout of Pyodide, run `./run_docker`
+
+3. Run `make` to build.
+
+```{note}
+You can control the resources allocated to the build by setting the env
+vars `EMSDK_NUM_CORE`, `EMCC_CORES` and `PYODIDE_JOBS` (the default for each is
+4).
+```
+
+If running `make` deterministically stops at some point,
+increasing the maximum RAM usage available to the docker container might help.
+(The RAM available to the container is different from the physical RAM capacity of the machine.)
+Ideally,
+at least 3 GB of RAM should be available to the docker container to build
+Pyodide smoothly. These settings can be changed via Docker preferences (see
+[here](https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container)).
+
+You can edit the files in the shared `pyodide` source folder on your host
+machine (outside of Docker), and then repeatedly run `make` inside the Docker
+environment to test your changes.
+
+### Using the "Docker" dev container
+
+We provide a dev container configuration that is equivalent to the use of
+`./run_docker` script. It can be used in [Visual Studio Code](https://code.visualstudio.com/docs/devcontainers/containers) and
+on [GitHub Codespaces](https://docs.github.com/en/codespaces/overview).
+When prompted, select "Docker".
+
+### Using the "Conda" dev container
+
+We provide another dev container configuration that corresponds to
+the "Linux with conda" method described below. When [Visual Studio Code](https://code.visualstudio.com/docs/devcontainers/containers) or
+[GitHub Codespaces](https://docs.github.com/en/codespaces/overview)
+prompts for the dev container configuration, select "Conda".
+
+## Using `make`
 
 Make sure the prerequisites for
 [emsdk](https://github.com/emscripten-core/emsdk) are installed. Pyodide will
 build a custom, patched version of emsdk, so there is no need to build it
 yourself prior.
 
-Additional build prerequisites are:
+You need Python 3.11.2 to run the build scripts. To make sure that the correct
+Python is used during the build it is recommended to use a [virtual
+environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment)
+or a conda environment.
+
+````{tab-set}
+
+```{tab-item} Linux
+
+To build on Linux, you need:
 
 - A working native compiler toolchain, enough to build
-  [CPython](https://devguide.python.org/setup/#linux).
-- A native Python 3.9 to run the build scripts.
-- CMake
-- PyYAML
-- FreeType 2 development libraries to compile Matplotlib.
-- Cython to compile SciPy
-- SWIG to compile NLopt
-- gfortran (GNU Fortran 95 compiler)
-- [f2c](http://www.netlib.org/f2c/)
-- [ccache](https://ccache.samba.org) (optional) _highly_ recommended for much faster rebuilds.
+  [CPython](https://devguide.python.org/getting-started/setup-building/index.html#linux).
+- CMake (required to install Emscripten)
 
-On Mac, you will also need:
+```
 
+```{tab-item} Linux with conda
+
+
+You would need a working native compiler toolchain, enough to build
+  [CPython](https://devguide.python.org/getting-started/setup-building/index.html#linux), for example,
+- `apt install build-essential` on Debian based systems.
+- Conda which can be installed from [MiniForge](https://github.com/conda-forge/miniforge)
+
+Then install the required Python version and other build dependencies in a separate conda environment,
+
+    conda env create -f environment.yml
+    conda activate pyodide-env
+
+```
+```{tab-item} MacOS with conda
+
+You would need,
+- System libraries in the root directory:
+  `xcode-select --install`
+- Conda which can be installed using [Miniforge](https://github.com/conda-forge/miniforge) (both for Intel and M1 CPU)
+
+
+Then install the required Python version and other build dependencies in a separate conda environment,
+
+    conda env create -f environment.yml
+    conda activate pyodide-env
+
+```
+
+```{tab-item} MacOS with Homebrew
+
+To build on MacOS with Homebrew, you need:
+
+- System command line tools
+  `xcode-select --install`
 - [Homebrew](https://brew.sh/) for installing dependencies
-- System libraries in the root directory (
-  `sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /`
-  should do it, see https://github.com/pyenv/pyenv/issues/1219#issuecomment-428305417)
-- coreutils for md5sum and other essential Unix utilities (`brew install coreutils`)
-- cmake (`brew install cmake`)
-- Cython to compile SciPy (`brew install cython`)
-- SWIG to compile NLopt (`brew install swig`)
-- pkg-config (`brew install pkg-config`)
-- openssl (`brew install openssl`)
-- gfortran (`brew cask install gfortran`)
-- f2c: Install wget (`brew install wget`), and then run the buildf2c script from
-  the root directory (`sudo ./tools/buildf2c`)
+- `brew install coreutils cmake autoconf automake libtool libffi ccache`
+- It is also recommended installing the GNU patch and
+  GNU sed (`brew install gpatch gnu-sed`)
+  and [re-defining them temporarily as `patch` and
+  `sed`](https://formulae.brew.sh/formula/gnu-sed).
+```
+````
+
+```{note}
+If you encounter issues with the requirements, it is useful to check the exact
+list in the
+[Dockerfile](https://github.com/pyodide/pyodide/blob/main/Dockerfile) which is
+tested in the CI.
+```
+
+You can install the Python dependencies from the requirement file at the root of Pyodide folder:
+`pip install -r requirements.txt`
 
 After installing the build prerequisites, run from the command line:
 
 ```bash
 make
 ```
-
-## Using Docker
-
-We provide a Debian-based Docker image on Docker Hub with the dependencies
-already installed to make it easier to build Pyodide. On top of that we provide
-a pre-built image which can be used for fast custom and partial builds of
-Pyodide. Note that building from the non pre-built the Docker image is _very_
-slow on Mac, building on the host machine is preferred if at all possible.
-
-1. Install Docker
-
-2. From a git checkout of Pyodide, run `./run_docker` or `./run_docker --pre-built`
-
-3. Run `make` to build.
-
-Note: You can control the resources allocated to the build by setting the env
-vars `EMSDK_NUM_CORE`, `EMCC_CORES` and `PYODIDE_JOBS` (the default for each is
-4).
-
-If running `make` deterministically stops at one point in each subsequent try,
-increasing the maximum RAM usage available to the docker container might help
-[This is different from the physical RAM capacity inside the system]. Ideally,
-at least 3 GB of RAM should be available to the docker container to build
-Pyodide smoothly. These settings can be changed via Docker Preferences (See
-[here](https://stackoverflow.com/questions/44533319/how-to-assign-more-memory-to-docker-container)).
-
-You can edit the files in your source checkout on your host machine, and then
-repeatedly run `make` inside the Docker environment to test your changes.
 
 (partial-builds)=
 
@@ -92,21 +171,23 @@ PYODIDE_PACKAGES="toolz,attrs" make
 
 Dependencies of the listed packages will be built automatically as well. The
 package names must match the folder names in `packages/` exactly; in particular
-they are case sensitive.
+they are case-sensitive.
 
-If `PYODIDE_PACKAGES` is not set, a minimal set of packages necessairy to run
+If `PYODIDE_PACKAGES` is not set, a minimal set of packages necessary to run
 the core test suite is installed, including "micropip", "pyparsing", "pytz",
-"packaging", "Jinja2". This is equivalent to setting `PYODIDE_PACKAGES='core'`
+"packaging", "Jinja2", "regex". This is equivalent to setting
+`PYODIDE_PACKAGES='tag:core'`
 meta-package. Other supported meta-packages are,
 
-- "min-scipy-stack": includes the "core" meta-package as well as some of the
+- "tag:min-scipy-stack": includes the "core" meta-package as well as some
   core packages from the scientific python stack and their dependencies:
   "numpy", "scipy", "pandas", "matplotlib", "scikit-learn", "joblib",
-  "pytest". This option is non exaustive and is mainly intended to make build
+  "pytest". This option is non exhaustive and is mainly intended to make build
   faster while testing a diverse set of scientific packages.
 - "\*" builds all packages
+- You can exclude a package by prefixing it with "!".
 
-micropip and distutils are always automatically included.
+micropip is always automatically included.
 
 ## Environment variables
 
@@ -117,12 +198,12 @@ The following environment variables additionally impact the build:
 - `PYODIDE_BASE_URL`: Base URL where Pyodide packages are deployed. It must end
   with a trailing `/`. Default: `./` to load Pyodide packages from the same
   base URL path as where `pyodide.js` is located. Example:
-  `https://cdn.jsdelivr.net/pyodide/v0.18.0/full/`
-- `EXTRA_CFLAGS` : Add extra compilation flags.
-- `EXTRA_LDFLAGS` : Add extra linker flags.
+  `{{PYODIDE_CDN_URL}}`
+- `EXTRA_CFLAGS`: Add extra compilation flags.
+- `EXTRA_LDFLAGS`: Add extra linker flags.
 
 Setting `EXTRA_CFLAGS="-D DEBUG_F"` provides detailed diagnostic information
-whenever error branches are taken inside of the Pyodide core code. These error
+whenever error branches are taken inside the Pyodide core code. These error
 messages are frequently helpful even when the problem is a fatal configuration
 problem and Pyodide cannot even be initialized. These error branches occur also
 in correctly working code, but they are relatively uncommon so in practice the

@@ -1,0 +1,33 @@
+package:
+  name: msprime
+  version: 1.3.0
+  top-level:
+    - msprime
+source:
+  url: https://files.pythonhosted.org/packages/f8/2b/1780132179a283e6abdd5565832d650ea4cd525f40439e1da4dc4e9b9252/msprime-1.3.0.tar.gz
+  sha256: 7988c61ef9495c367e82efc9fb9d8023c3db2a207a6445d4391953af3c426c29
+build:
+  script: |
+    export LIBGSL_INCLUDE_PATH=$(pkg-config --cflags-only-I --dont-define-prefix gsl)
+    export LIBGSL_LIBRARY_PATH=$(pkg-config --libs-only-L --dont-define-prefix gsl)
+  cflags: |
+    $(LIBGSL_INCLUDE_PATH)
+  ldflags: |
+    $(LIBGSL_LIBRARY_PATH)
+requirements:
+  run:
+    - numpy
+    - newick
+    - tskit
+    - demes
+    - rpds-py
+  host:
+    - libgsl
+    - numpy
+about:
+  home: https://tskit.dev/msprime
+  PyPI: https://pypi.org/project/msprime
+  summary:
+    Simulate genealogical trees and genomic sequence data using population
+    genetic models
+  license: GNU GPLv3+

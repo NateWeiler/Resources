@@ -1,12 +1,9 @@
-import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).resolve().parents[2] / "src" / "py"))
-
-import pytest  # type: ignore
-import time
-from pyodide import eval_code_async
 import asyncio
+import time
+
+import pytest
+
+from pyodide.code import eval_code_async
 
 
 def test_await_jsproxy(selenium):
@@ -16,7 +13,7 @@ def test_await_jsproxy(selenium):
             global resolve
             resolve = res
         from js import Promise
-        from pyodide import create_once_callable
+        from pyodide.ffi import create_once_callable
         p = Promise.new(create_once_callable(prom))
         async def temp():
             x = await p
@@ -46,7 +43,7 @@ def test_then_jsproxy(selenium):
             reject = rej
 
         from js import Promise
-        from pyodide import create_once_callable
+        from pyodide.ffi import create_once_callable
         result = None
         err = None
         finally_occurred = False
@@ -176,7 +173,7 @@ def test_await_fetch(selenium):
         """
     )
     time.sleep(0.1)
-    msg = "StopIteration: <!DOCTYPE html>"
+    msg = "StopIteration: <!doctype html>"
     with pytest.raises(selenium.JavascriptException, match=msg):
         selenium.run(
             """
@@ -192,12 +189,8 @@ def test_await_error(selenium):
             throw new Error("This is an error message!");
         }
         self.async_js_raises = async_js_raises;
-        function js_raises(){
-            throw new Error("This is an error message!");
-        }
-        self.js_raises = js_raises;
         pyodide.runPython(`
-            from js import async_js_raises, js_raises
+            from js import async_js_raises
             async def test():
                 c = await async_js_raises()
                 return c
@@ -211,7 +204,10 @@ def test_await_error(selenium):
         # Wait for event loop to go around for chome
         selenium.run(
             """
-            r2 = c.send(r1.result())
+            try:
+                r2 = c.send(r1.result())
+            finally:
+                del async_js_raises
             """
         )
 
@@ -249,9 +245,9 @@ def test_eval_code_await_jsproxy(selenium):
             global resolve
             resolve = res
         from js import Promise
-        from pyodide import create_once_callable
+        from pyodide.ffi import create_once_callable
         p = Promise.new(create_once_callable(prom))
-        from pyodide import eval_code_async
+        from pyodide.code import eval_code_async
         c = eval_code_async(
             '''
             x = await p
@@ -277,7 +273,7 @@ def test_eval_code_await_fetch(selenium):
     selenium.run(
         """
         from js import fetch
-        from pyodide import eval_code_async
+        from pyodide.code import eval_code_async
         c = eval_code_async(
             '''
             response = await fetch("console.html")
@@ -295,7 +291,7 @@ def test_eval_code_await_fetch(selenium):
         """
     )
     time.sleep(0.1)
-    msg = "StopIteration: <!DOCTYPE html>"
+    msg = "StopIteration: <!doctype html>"
     with pytest.raises(selenium.JavascriptException, match=msg):
         selenium.run(
             """
@@ -314,7 +310,7 @@ def test_eval_code_await_error(selenium):
         self.async_js_raises = async_js_raises;
         pyodide.runPython(`
             from js import async_js_raises
-            from pyodide import eval_code_async
+            from pyodide.code import eval_code_async
             c = eval_code_async(
                 '''
                 await async_js_raises()
@@ -355,7 +351,7 @@ def test_await_pyproxy_eval_async(selenium):
     assert (
         selenium.run_js(
             """
-            let c = pyodide.pyodide_py.eval_code_async("1+1");
+            let c = pyodide._api.pyodide_code.eval_code_async("1+1");
             let result = await c;
             c.destroy();
             return result;
@@ -364,25 +360,21 @@ def test_await_pyproxy_eval_async(selenium):
         == 2
     )
 
-    assert (
-        selenium.run_js(
-            """
+    assert selenium.run_js(
+        """
             let finally_occurred = false;
-            let c = pyodide.pyodide_py.eval_code_async("1+1");
+            let c = pyodide._api.pyodide_code.eval_code_async("1+1");
             let result = await c.finally(() => { finally_occurred = true; });
             c.destroy();
             return [result, finally_occurred];
             """
-        )
-        == [2, True]
-    )
+    ) == [2, True]
 
-    assert (
-        selenium.run_js(
-            """
+    assert selenium.run_js(
+        """
             let finally_occurred = false;
             let err_occurred = false;
-            let c = pyodide.pyodide_py.eval_code_async("raise ValueError('hi')");
+            let c = pyodide._api.pyodide_code.eval_code_async("raise ValueError('hi')");
             try {
                 let result = await c.finally(() => { finally_occurred = true; });
             } catch(e){
@@ -391,13 +383,11 @@ def test_await_pyproxy_eval_async(selenium):
             c.destroy();
             return [finally_occurred, err_occurred];
             """
-        )
-        == [True, True]
-    )
+    ) == [True, True]
 
     assert selenium.run_js(
         """
-        let c = pyodide.pyodide_py.eval_code_async("raise ValueError('hi')");
+        let c = pyodide._api.pyodide_code.eval_code_async("raise ValueError('hi')");
         try {
             return await c.catch(e => e.constructor.name === "PythonError");
         } finally {
@@ -408,29 +398,13 @@ def test_await_pyproxy_eval_async(selenium):
 
     assert selenium.run_js(
         """
-        let c = pyodide.pyodide_py.eval_code_async(`
+        let c = pyodide._api.pyodide_code.eval_code_async(`
             from js import fetch
-            await (await fetch('packages.json')).json()
+            await (await fetch('pyodide-lock.json')).json()
         `);
         let result = await c;
         c.destroy();
         return (!!result) && ("packages" in result);
-        """
-    )
-
-    assert selenium.run_js(
-        """
-        let c = pyodide.pyodide_py.eval_code_async("1+1");
-        await c;
-        c.destroy();
-        let err_occurred = false;
-        try {
-            // Triggers: cannot await already awaited coroutine
-            await c;
-        } catch(e){
-            err_occurred = true;
-        }
-        return err_occurred;
         """
     )
 
@@ -441,7 +415,7 @@ def test_await_pyproxy_async_def(selenium):
         let packages = await pyodide.runPythonAsync(`
             from js import fetch
             async def temp():
-                return await (await fetch('packages.json')).json()
+                return await (await fetch('pyodide-lock.json')).json()
             await temp()
         `);
         return (!!packages.packages) && (!!packages.info);

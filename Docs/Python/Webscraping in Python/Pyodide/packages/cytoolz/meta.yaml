@@ -1,13 +1,16 @@
 package:
   name: cytoolz
-  version: 0.11.0
+  version: 0.12.3
+  top-level:
+    - cytoolz
 source:
-  sha256: c64f3590c3eb40e1548f0d3c6b2ccde70493d0b8dc6cc7f9f3fec0bb3dcd4222
-  url: https://files.pythonhosted.org/packages/58/67/1c60da8ba831bfefedb64c78b9f6820bdf58972797c95644ee3191daf27a/cytoolz-0.11.0.tar.gz
+  sha256: 4503dc59f4ced53a54643272c61dc305d1dbbfbd7d6bdf296948de9f34c3a282
+  url: https://files.pythonhosted.org/packages/70/d8/8df71050b214686591241a1826d2e6934b5c295c5bc57f643e4ed697f1eb/cytoolz-0.12.3.tar.gz
 requirements:
   run:
-  - nose
-  - toolz
-test:
-  imports:
-  - cytoolz
+    - toolz
+about:
+  home: https://github.com/pytoolz/cytoolz
+  PyPI: https://pypi.org/project/cytoolz
+  summary: "Cython implementation of Toolz: High performance functional utilities"
+  license: BSD

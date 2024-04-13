@@ -1,22 +1,25 @@
 package:
   name: scikit-learn
-  version: 0.22.2
-
+  version: 1.4.1.post1
+  tag:
+    - min-scipy-stack
+  top-level:
+    - sklearn
 source:
-  url: https://github.com/scikit-learn/scikit-learn/archive/0.22.2.tar.gz
-  sha256: 54ae27be30ef26718c9e517c4c8f23b6af26c66e52cf16d38799ba4262d4fd3b
-
-  patches:
-    - patches/disable-openmp.patch
+  url: https://files.pythonhosted.org/packages/da/b4/5d7b9f64d2c3795ac37da3d8bc303be7950e575ec21ac7d0eb9de34fe0d5/scikit-learn-1.4.1.post1.tar.gz
+  sha256: 93d3d496ff1965470f9977d05e5ec3376fb1e63b10e4fda5e39d23c2d8969a30
 
 build:
   cflags: -Wno-implicit-function-declaration
 
 requirements:
-  run:
+  host:
     - numpy
     - scipy
+  run:
+    - scipy
     - joblib
+    - threadpoolctl
 
 test:
   imports:
@@ -57,3 +60,11 @@ test:
     - sklearn.svm
     - sklearn.tree
     - sklearn.utils
+about:
+  home: http://scikit-learn.org
+  PyPI: https://pypi.org/project/scikit-learn
+  summary: A set of python modules for machine learning and data mining
+  license: new BSD
+extra:
+  recipe-maintainers:
+    - lesteve

@@ -1,9 +1,14 @@
 package:
   name: toolz
-  version: 0.11.1
+  version: 0.12.1
+  top-level:
+    - tlz
+    - toolz
 source:
-  sha256: c7a47921f07822fe534fb1c01c9931ab335a4390c782bd28c6bcc7c2f71f3fbf
-  url: https://files.pythonhosted.org/packages/d6/0d/fdad31347bf3d058002993a094da1ca95f0f3ef9beec08856d0fe4ad9766/toolz-0.11.1.tar.gz
-test:
-  imports:
-  - toolz
+  sha256: d22731364c07d72eea0a0ad45bafb2c2937ab6fd38a3507bf55eae8744aa7d85
+  url: https://files.pythonhosted.org/packages/b7/8a/d82202c9f89eab30f9fc05380daae87d617e2ad11571ab23d7c13a29bb54/toolz-0.12.1-py3-none-any.whl
+about:
+  home: https://github.com/pytoolz/toolz/
+  PyPI: https://pypi.org/project/toolz
+  summary: List processing tools and functional utilities
+  license: BSD

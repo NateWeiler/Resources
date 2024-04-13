@@ -1,18 +1,55 @@
 package:
   name: astropy
-  version: 3.2.3
-
+  version: 6.0.0
+  top-level:
+    - astropy
 source:
-  url: https://pypi.io/packages/source/a/astropy/astropy-3.2.3.tar.gz
-  sha256: 47f00816c2978fdd10f448c8f0337d6dca7b8cbeaab4bf272b5fd37cb4b890d3
-  patches:
-    - patches/fix_link_opts.patch
-
+  url: https://files.pythonhosted.org/packages/29/32/43996ea21f8d5579639721bf2f2a0133cd39b20693e679b859ffdb3971a3/astropy-6.0.0.tar.gz
+  sha256: 03cd801a55305da523cd8d780d76359f57255dcdc59fe0bdd71fd5154fc777d9
+build:
+  # The test module is imported from the top level `__init__.py`
+  # so it cannot be unvendored
+  unvendor-tests: false
+  exports: requested # Astropy uses dlsym so we need to export more than just PyInit_astropy
+  cflags: |
+    -I $(HOSTSITEPACKAGES)/numpy/core/include
 requirements:
-  run:
-    - distutils
+  host:
+    - packaging
     - numpy
-
+  run:
+    - packaging
+    - numpy
+    - pyerfa
+    - pyyaml
+    - astropy_iers_data
 test:
   imports:
     - astropy
+    - astropy.config
+    - astropy.constants
+    - astropy.convolution
+    - astropy.coordinates
+    - astropy.cosmology
+    - astropy.extern
+    - astropy.io
+    - astropy.modeling
+    - astropy.nddata
+    - astropy.samp
+    - astropy.stats
+    - astropy.table
+    - astropy.time
+    - astropy.timeseries
+    - astropy.uncertainty
+    - astropy.units
+    - astropy.utils
+    - astropy.visualization
+    - astropy.wcs
+about:
+  home: http://astropy.org
+  PyPI: https://pypi.org/project/astropy
+  summary: Astronomy and astrophysics core library
+  license: BSD 3-Clause License
+extra:
+  recipe-maintainers:
+    - jobovy

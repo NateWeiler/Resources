@@ -4,51 +4,48 @@
 #define PY_SSIZE_T_CLEAN
 #include "Python.h"
 // clang-format on
+#include "jslib.h"
 #include <emscripten.h>
-
-typedef int errcode;
-#include "hiwire.h"
 #define likely(x) __builtin_expect((x), 1)
 #define unlikely(x) __builtin_expect((x), 0)
 
 int
-error_handling_init();
+error_handling_init(PyObject* core_module);
 
 extern PyObject* internal_error;
 
+// If we are in the test suite, ensure that the current test fails.
+void
+fail_test();
+
 /**
- * Raised when conversion between Javascript and Python fails.
+ * Raised when conversion between JavaScript and Python fails.
  */
 extern PyObject* conversion_error;
 
 /**
- * Wrap the current Python exception in a Javascript Error and return the
+ * Wrap the current Python exception in a JavaScript Error and return the
  * result. Usually we use pythonexc2js instead, but for futures and for some
  * internal error messages it's useful to have this separate.
  */
-JsRef
+JsVal
 wrap_exception();
 
 /**
- * Log an error to the console. Argument should be output of wrap_exception.
- */
-errcode log_python_error(JsRef);
-
-/**
- * Convert the active Python exception into a Javascript Error object, print
+ * Convert the active Python exception into a JavaScript Error object, print
  * an appropriate message to the console and throw the error.
  */
 void _Py_NO_RETURN
 pythonexc2js();
 
 // Used by LOG_EM_JS_ERROR (behind DEBUG_F flag)
-errcode
+void
 console_error(char* msg);
 
 // Right now this is dead code (probably), please don't remove it.
 // Intended for debugging purposes.
-errcode
-console_error_obj(JsRef obj);
+void
+console_error_obj(JsVal obj);
 
 /**
  * EM_JS Wrappers
@@ -86,13 +83,23 @@ console_error_obj(JsRef obj);
 #define LOG_EM_JS_ERROR(__funcname__, err)
 #endif
 
+#ifdef DEBUG_F
+#define IF_DEBUG(arg) arg
+#else
+#define IF_DEBUG(arg)
+#endif
+
 // Need an extra layer to expand LOG_EM_JS_ERROR.
-#define EM_JS_DEFER(ret, func_name, args, body...)                             \
+#define EM_JS_MACROS(ret, func_name, args, body...)                            \
   EM_JS(ret, func_name, args, body)
 
+#define EM_JS_UNCHECKED(ret, func_name, args, body...)                         \
+  EM_JS(ret, func_name, args, body)
+
+#define WARN_UNUSED __attribute__((warn_unused_result))
+
 #define EM_JS_REF(ret, func_name, args, body...)                               \
-  EM_JS_DEFER(ret, func_name, args, {                                          \
-    "use strict";                                                              \
+  EM_JS_MACROS(ret WARN_UNUSED, func_name, args, {                             \
     try    /* intentionally no braces, body already has them */                \
       body /* <== body of func */                                              \
     catch (e) {                                                                \
@@ -100,14 +107,23 @@ console_error_obj(JsRef obj);
         Module.handle_js_error(e);                                             \
         return 0;                                                              \
     }                                                                          \
-    throw new Error(                                                           \
-      "Assertion error: control reached end of function without return"        \
-    );                                                                         \
+    errNoRet();                                                                \
+  })
+
+#define EM_JS_VAL(ret, func_name, args, body...)                               \
+  EM_JS_MACROS(ret WARN_UNUSED, func_name, args, {                             \
+    try    /* intentionally no braces, body already has them */                \
+      body /* <== body of func */                                              \
+    catch (e) {                                                                \
+        LOG_EM_JS_ERROR(func_name, e);                                         \
+        Module.handle_js_error(e);                                             \
+        return null;                                                           \
+    }                                                                          \
+    errNoRet();                                                                \
   })
 
 #define EM_JS_NUM(ret, func_name, args, body...)                               \
-  EM_JS_DEFER(ret, func_name, args, {                                          \
-    "use strict";                                                              \
+  EM_JS_MACROS(ret WARN_UNUSED, func_name, args, {                             \
     try    /* intentionally no braces, body already has them */                \
       body /* <== body of func */                                              \
     catch (e) {                                                                \
@@ -117,6 +133,18 @@ console_error_obj(JsRef obj);
     }                                                                          \
     return 0;  /* some of these were void */                                   \
   })
+
+// If there is a Js error, catch it and return false.
+#define EM_JS_BOOL(ret, func_name, args, body...)                              \
+  EM_JS_MACROS(ret WARN_UNUSED, func_name, args, {                             \
+    try    /* intentionally no braces, body already has them */                \
+      body /* <== body of func */                                              \
+    catch (e) {                                                                \
+        LOG_EM_JS_ERROR(func_name, e);                                         \
+        return false;                                                          \
+    }                                                                          \
+  })
+
 // clang-format on
 
 /**
@@ -163,6 +191,13 @@ console_error_obj(JsRef obj);
 #define FAIL_IF_NULL(ref)                                                      \
   do {                                                                         \
     if (unlikely((ref) == NULL)) {                                             \
+      FAIL();                                                                  \
+    }                                                                          \
+  } while (0)
+
+#define FAIL_IF_JS_NULL(ref)                                                   \
+  do {                                                                         \
+    if (unlikely(JsvNull_Check(ref))) {                                        \
       FAIL();                                                                  \
     }                                                                          \
   } while (0)

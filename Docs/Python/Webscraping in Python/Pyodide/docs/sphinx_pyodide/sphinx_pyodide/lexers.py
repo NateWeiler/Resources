@@ -1,7 +1,7 @@
-from pygments.lexer import bygroups, inherit, using, default
+from pygments.lexer import bygroups, default, inherit, using
 from pygments.lexers import PythonLexer
-from pygments.lexers.javascript import JavascriptLexer
 from pygments.lexers.html import HtmlLexer
+from pygments.lexers.javascript import JavascriptLexer
 from pygments.token import Name, Punctuation, Text, Token
 
 
@@ -22,9 +22,12 @@ class PyodideLexer(JavascriptLexer):
         ],
         "python-code": [
             (
-                rf"({quotemark})((?:\\\\|\\[^\\]|[^{quotemark}\\])*)({quotemark})",
+                rf"([A-Za-z.]*)({quotemark})((?:\\\\|\\[^\\]|[^{quotemark}\\])*)({quotemark})",
                 bygroups(
-                    Token.Literal.String, using(PythonLexer), Token.Literal.String
+                    using(JavascriptLexer),
+                    Token.Literal.String,
+                    using(PythonLexer),
+                    Token.Literal.String,
                 ),
                 "#pop",
             )

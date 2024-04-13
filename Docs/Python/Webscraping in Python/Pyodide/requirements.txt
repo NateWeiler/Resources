@@ -1,20 +1,16 @@
-  # core
-  cython<3.0
-  packaging
-  pyyaml
-  ruamel.yaml
-  # lint
-  black
-  flake8
-  mypy==0.812
-  # testing
-  hypothesis
-  pexpect
-  pytest
-  pytest-asyncio
-  pytest-cov
-  pytest-httpserver
-  pytest-instafail
-  pytest-rerunfailures
-  pytest-xdist
-  selenium==4.0.0.b3
+# build
+cmake
+ruamel.yaml
+# lint
+pre-commit
+# testing
+build==1.0.3
+sphinx-click
+hypothesis
+# (FIXME: 2024/01/28) The latest pytest-asyncio 0.23.3 is not compatible with pytest 8.0.0
+pytest<8.0.0
+pytest-asyncio
+pytest-cov
+pytest-httpserver
+pytest-benchmark
+pytest-pyodide==0.56.2

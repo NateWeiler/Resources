@@ -1,360 +1,249 @@
-from docutils import nodes
-from docutils.parsers.rst import Directive, Parser as RstParser, directives
-from docutils.statemachine import StringList
-from docutils.utils import new_document
+from collections.abc import Iterator
 
-from collections import OrderedDict
-import re
+from sphinx_js import ir, typedoc
+from sphinx_js.ir import Class
+from sphinx_js.typedoc import Analyzer as TsAnalyzer
+from sphinx_js.typedoc import Base, Callable, Converter, ReflectionType
 
-from sphinx import addnodes
-from sphinx.util import rst
-from sphinx.util.docutils import switch_source_input
-from sphinx.ext.autosummary import autosummary_table, extract_summary
-from sphinx.domains.javascript import JSCallable, JavaScriptDomain
-
-from sphinx_js.jsdoc import Analyzer as JsAnalyzer
-from sphinx_js.ir import Class, Function
-from sphinx_js.parsers import path_and_formal_params, PathVisitor
-from sphinx_js.renderers import (
-    AutoFunctionRenderer,
-    AutoAttributeRenderer,
-    AutoClassRenderer,
-)
+# Custom tags are a great way of conveniently passing information from the
+# source code to this file. No custom tags will be seen by this code unless they
+# are registered in src/js/tsdoc.json
+#
+# Modifier tags act like a flag, block tags have content.
 
 
-class JSFuncMaybeAsync(JSCallable):
-    option_spec = {
-        **JSCallable.option_spec,
-        "async": directives.flag,
-    }
-
-    def handle_signature(self, sig, signode):
-        if "async" in self.options:
-            self.display_prefix = "async"
-        return super().handle_signature(sig, signode)
+def patch_sphinx_js():
+    Base.member_properties = member_properties
+    Converter.convert_all_nodes = convert_all_nodes
+    TsAnalyzer._get_toplevel_objects = _get_toplevel_objects
 
 
-JavaScriptDomain.directives["function"] = JSFuncMaybeAsync
+def ts_should_destructure_arg(sig, param):
+    """Destructure all parameters named 'options'"""
+    return param.name == "options"
 
 
-def flatten_suffix_tree(tree):
-    """Flatten suffix tree into a dictionary.
+def ts_xref_formatter(_config, xref):
+    """Format cross references info sphinx roles"""
+    from sphinx_pyodide.mdn_xrefs import JSDATA
 
-    self._doclets_by_class already has stuff in the correct layout but it
-    does not contain top level file attributes. They are contained in the
-    suffix tree, but the suffix tree is inconveniently shaped. So we flatten
-    it...
+    name = xref.name
+    if name == "PyodideInterface":
+        return ":ref:`PyodideInterface <js-api-pyodide>`"
+    if name in JSDATA:
+        return f":js:data:`{name}`"
+    if name in FFI_FIELDS:
+        return f":js:class:`~pyodide.ffi.{name}`"
+    if name in ["ConcatArray", "IterableIterator", "unknown", "U"]:
+        return f"``{name}``"
+    return f":js:class:`{name}`"
+
+
+def member_properties(self):
+    """Monkey patch for node.member_properties that hides all external nodes by
+    marking them as private."""
+    return dict(
+        is_abstract=self.flags.isAbstract,
+        is_optional=self.flags.isOptional,
+        is_static=self.flags.isStatic,
+        is_private=self.flags.isPrivate or self.flags.isExternal,
+    )
+
+
+def has_tag(doclet, tag):
+    """Detects whether the doclet comes from a node that has the given modifier
+    tag.
     """
-    result = {}
-    path = []
-    iters = []
-    cur_iter = iter(tree.items())
-    while True:
-        try:
-            [key, val] = next(cur_iter)
-        except StopIteration:
-            if not iters:
-                return result
-            cur_iter = iters.pop()
-            path.pop()
+    return ("@" + tag) in doclet.modifier_tags
+
+
+# We hide the PyXXXMethods from the documentation and add their children to the
+# documented PyXXX class. We'll stick them here in ts_post_convert and read them
+# out later
+PYPROXY_METHODS = {}
+
+
+def ts_post_convert(converter, node, doclet):
+    # hide exported_from
+    doclet.exported_from = None
+
+    if has_tag(doclet, "hidetype"):
+        doclet.type = ""
+        if isinstance(node, typedoc.Callable):
+            node.signatures[0].type = ""
+
+    if isinstance(doclet, ir.Class) and has_tag(doclet, "hideconstructor"):
+        doclet.constructor = None
+
+    if node.name == "setStdin":
+        fix_set_stdin(converter, node, doclet)
+
+    if node.name == "mountNativeFS":
+        fix_native_fs(converter, node, doclet)
+
+    if doclet.deppath == "./core/pyproxy" and doclet.path.segments[-1].endswith(
+        "Methods"
+    ):
+        PYPROXY_METHODS[doclet.name] = doclet.members
+
+
+def fix_set_stdin(converter, node, doclet):
+    """The type of stdin is given as StdinFunc which is opaque. Replace it with
+    the definition of StdinFunc.
+
+    TODO: Find a better way!
+    """
+    assert isinstance(node, Callable)
+    options = node.signatures[0].parameters[0]
+    assert isinstance(options.type, ReflectionType)
+    for param in options.type.declaration.children:
+        if param.name == "stdin":
+            break
+    else:
+        raise RuntimeError("Stdin param not found")
+    target = converter.index[param.type.target]
+    for docparam in doclet.params:
+        if docparam.name == "options.stdin":
+            break
+    else:
+        raise RuntimeError("Stdin param not found")
+    docparam.type = target.type.render_name(converter)
+
+
+NATIVE_FS_DOCLET = None
+
+
+def fix_native_fs(converter, node, doclet):
+    """mountNativeFS has NativeFS as it's return type. This is a bit opaque, so
+    we resolve the reference to the reference target which is
+    Promise<{ syncfs: () => Promise<void>; }>
+
+    TODO: find a better way.
+    """
+    assert isinstance(node, Callable)
+    ty = node.signatures[0].type
+    if not ty.typeArguments[0].type == "reference":
+        return
+    target = converter.index[ty.typeArguments[0].target]
+    ty.typeArguments[0] = target.type
+    return_type = ty.render_name(converter)
+    doclet.returns[0].type = return_type
+
+
+# locate the ffi fields. We use this to redirect the documentation items to be
+# documented under pyodide.ffi and to adjust the xrefs to point appropriately to
+# `pyodide.ffi.xxx`
+FFI_FIELDS: set[str] = set()
+
+orig_convert_all_nodes = Converter.convert_all_nodes
+
+
+def convert_all_nodes(self, root):
+    children = children_dict(root)
+    locate_ffi_fields(children["js/ffi"])
+    return orig_convert_all_nodes(self, root)
+
+
+def children_dict(root):
+    return {node.name: node for node in root.children}
+
+
+def locate_ffi_fields(ffi_module):
+    for child in ffi_module.children:
+        if child.name == "ffi":
+            break
+    fields = child.type.declaration.children
+    FFI_FIELDS.update(x.name for x in fields)
+
+
+def _get_toplevel_objects(
+    self: TsAnalyzer, ir_objects: list[ir.TopLevel]
+) -> Iterator[tuple[ir.TopLevel, str | None, str | None]]:
+    """Monkeypatch: yield object, module, kind for each triple we want to
+    document.
+    """
+    for obj in ir_objects:
+        if obj.name == "PyodideAPI":
+            yield from _get_toplevel_objects(self, obj.members)
             continue
-        if isinstance(val, dict):
-            iters.append(cur_iter)
-            path.append(key)
-            cur_iter = iter(val.items())
-        else:
-            path.append(key)
-            result[tuple(reversed(path))] = val
-            path.pop()
+        if doclet_is_private(obj):
+            continue
+        mod = get_obj_mod(obj)
+        set_kind(obj)
+        if obj.deppath == "./core/pyproxy" and isinstance(obj, Class):
+            fix_pyproxy_class(obj)
+
+        yield obj, mod, obj.kind
 
 
-class PyodideAnalyzer:
-    """JsDoc automatically instantiates the JsAnalyzer. Rather than subclassing
-    or monkey patching it, we use composition (see getattr impl).
+def doclet_is_private(doclet: ir.TopLevel) -> bool:
+    """Should we render this object?"""
+    if getattr(doclet, "is_private", False):
+        return True
+    key = doclet.path.segments
+    key = [x for x in key if "/" not in x]
+    filename = key[0]
+    toplevelname = key[1]
+    if key[-1].startswith("$"):
+        return True
+    if key[-1] == "constructor":
+        # For whatever reason, sphinx-js does not properly record
+        # whether constructors are private or not. For now, all
+        # constructors are private so leave them all off. TODO: handle
+        # this via a @private decorator in the documentation comment.
+        return True
 
-    The main extra thing we do is reorganize the doclets based on our globals /
-    functions / attributes scheme. This we use to subdivide the sections in our
-    summary. We store these in the "js_docs" field which is the only field that
-    we access later.
+    if filename in ["module.", "compat.", "types."]:
+        return True
+
+    if filename == "pyproxy." and toplevelname.endswith("Methods"):
+        # Don't document methods classes. We moved them to the
+        # corresponding PyProxy subclass.
+        return True
+    return False
+
+
+def get_obj_mod(doclet: ir.TopLevel) -> str:
+    """Categorize objects by what section they should go into"""
+    key = doclet.path.segments
+    key = [x for x in key if "/" not in x]
+    filename = key[0]
+    doclet.name = doclet.name.rpartition(".")[2]
+
+    if filename == "pyodide.":
+        return "globalThis"
+
+    if filename == "canvas.":
+        return "pyodide.canvas"
+
+    if doclet.name in FFI_FIELDS and not has_tag(doclet, "alias"):
+        return "pyodide.ffi"
+    doclet.is_static = False
+    return "pyodide"
+
+
+def set_kind(obj: ir.TopLevel) -> None:
+    """If there is a @dockind tag, change obj.kind to reflect this"""
+    k = obj.block_tags.get("dockind", [None])[0]
+    if not k:
+        return
+    kind = k[0].text.strip()
+    if kind == "class":
+        kind += "es"
+    else:
+        kind += "s"
+    obj.kind = kind
+
+
+def fix_pyproxy_class(cls: ir.Class) -> None:
     """
-
-    def __init__(self, analyzer: JsAnalyzer) -> None:
-        self.inner = analyzer
-        self.create_js_doclets()
-
-    def __getattr__(self, key):
-        return getattr(self.inner, key)
-
-    def longname_to_path(self, name):
-        """Convert the longname field produced by jsdoc to a path appropriate to use
-        with _sphinxjs_analyzer.get_object. Based on:
-        https://github.com/mozilla/sphinx-js/blob/3.1/sphinx_js/jsdoc.py#L181
-        """
-        return PathVisitor().visit(path_and_formal_params["path"].parse(name))
-
-    def get_object_from_json(self, json):
-        """Look up the JsDoc IR object corresponding to this object. We use the
-        "kind" field to decide whether the object is a "function" or an
-        "attribute". We use longname_to_path to convert the path into a list of
-        path components which JsAnalyzer.get_object requires.
-        """
-        path = self.longname_to_path(json["longname"])
-        if json["kind"] == "function":
-            kind = "function"
-        elif json["kind"] == "class":
-            kind = "class"
-        else:
-            kind = "attribute"
-        obj = self.inner.get_object(path, kind)
-        obj.kind = kind
-        return obj
-
-    def create_js_doclets(self):
-        """Search through the doclets generated by JsDoc and categorize them by
-        summary section. Skip docs labeled as "@private".
-        """
-        self.doclets = flatten_suffix_tree(self._doclets_by_path._tree)
-
-        def get_val():
-            return OrderedDict([["attribute", []], ["function", []], ["class", []]])
-
-        modules = ["globalThis", "pyodide", "PyProxy"]
-        self.js_docs = {key: get_val() for key in modules}
-        items = {key: [] for key in modules}
-        for (key, doclet) in self.doclets.items():
-            if doclet.value.get("access", None) == "private":
-                continue
-            # Remove the part of the key corresponding to the file
-            key = [x for x in key if "/" not in x][1:]
-            toplevelname = key[0]
-            doclet.value["name"] = doclet.value["name"].rpartition(".")[2]
-            if toplevelname == "globalThis.":
-                # Might be named globalThis.something or exports.something.
-                # Trim off the prefix.
-                items["globalThis"] += doclet
-                continue
-            if toplevelname.endswith("#"):
-                # This is a class method.
-                if toplevelname.startswith("PyProxy"):
-                    # Merge all of the PyProxy methods into one API
-                    items["PyProxy"] += doclet
-                # If it's not part of a PyProxy class, the method will be
-                # documented as part of the class.
-                continue
-            if toplevelname.startswith("PyProxy"):
-                # Skip all PyProxy classes, they are documented as one merged
-                # API.
-                continue
-            items["pyodide"] += doclet
-        from operator import itemgetter
-
-        for key, value in items.items():
-            for json in sorted(value, key=itemgetter("name")):
-                obj = self.get_object_from_json(json)
-                obj.async_ = json.get("async", False)
-                if isinstance(obj, Class):
-                    # sphinx-jsdoc messes up array types. Fix them.
-                    for x in obj.members:
-                        if hasattr(x, "type") and x.type:
-                            x.type = re.sub("Array\.<([a-zA-Z_0-9]*)>", r"\1[]", x.type)
-                if obj.name == "iterator":
-                    # sphinx-jsdoc messes up Symbol attributes. Fix them.
-                    obj.name = "[Symbol.iterator]"
-                self.js_docs[key][obj.kind].append(obj)
-
-
-def get_jsdoc_content_directive(app):
-    """These directives need to close over app"""
-
-    class JsDocContent(Directive):
-        """A directive that just dumps a summary table in place. There are no
-        options, it only prints the one thing, we control the behavior from
-        here
-        """
-
-        required_arguments = 1
-
-        def get_rst(self, obj):
-            """Grab the appropriate renderer and render us to rst.
-            JsDoc also has an AutoClassRenderer which may be useful in the future."""
-            if isinstance(obj, Function):
-                renderer = AutoFunctionRenderer
-            elif isinstance(obj, Class):
-                renderer = AutoClassRenderer
-            else:
-                renderer = AutoAttributeRenderer
-            rst = renderer(
-                self, app, arguments=["dummy"], options={"members": ["*"]}
-            ).rst([obj.name], obj, use_short_name=False)
-            if obj.async_:
-                rst = self.add_async_option_to_rst(rst)
-            return rst
-
-        def add_async_option_to_rst(self, rst):
-            rst_lines = rst.split("\n")
-            for i, line in enumerate(rst_lines):
-                if line.startswith(".."):
-                    break
-            rst_lines.insert(i + 1, "   :async:")
-            return "\n".join(rst_lines)
-
-        def get_rst_for_group(self, objects):
-            return [self.get_rst(obj) for obj in objects]
-
-        def parse_rst(self, rst):
-            """We produce a bunch of rst but directives are supposed to output
-            docutils trees. This is a helper that converts the rst to docutils.
-            """
-            settings = self.state.document.settings
-            doc = new_document("", settings)
-            RstParser().parse(rst, doc)
-            return doc.children
-
-        def run(self):
-            module = self.arguments[0]
-            values = app._sphinxjs_analyzer.js_docs[module]
-            rst = []
-            rst.append([f".. js:module:: {module}"])
-            for group in values.values():
-                rst.append(self.get_rst_for_group(group))
-            joined_rst = "\n\n".join(["\n\n".join(r) for r in rst])
-            return self.parse_rst(joined_rst)
-
-    return JsDocContent
-
-
-def get_jsdoc_summary_directive(app):
-    class JsDocSummary(Directive):
-        """A directive that just dumps the Js API docs in place. There are no
-        options, it only prints the one thing, we control the behavior from
-        here
-        """
-
-        required_arguments = 1
-
-        def run(self):
-            result = []
-            module = self.arguments[0]
-            value = app._sphinxjs_analyzer.js_docs[module]
-            for group_name, group_objects in value.items():
-                if not group_objects:
-                    continue
-                if group_name == "class":
-                    # Plural of class is "classes" not "classs"
-                    group_name += "e"
-                result.append(self.format_heading(group_name.title() + "s:"))
-                table_items = self.get_summary_table(module, group_objects)
-                table_markup = self.format_table(table_items)
-                result.extend(table_markup)
-            return result
-
-        def format_heading(self, text):
-            """Make a section heading. This corresponds to the rst: "**Heading:**"
-            autodocsumm uses headings like that, so this will match that style.
-            """
-            heading = nodes.paragraph("")
-            strong = nodes.strong("")
-            strong.append(nodes.Text(text))
-            heading.append(strong)
-            return heading
-
-        def extract_summary(self, descr):
-            """Wrapper around autosummary extract_summary that is easier to use.
-            It seems like colons need escaping for some reason.
-            """
-            colon_esc = "esccolon\\\xafhoa:"
-            # extract_summary seems to have trouble if there are Sphinx
-            # directives in descr
-            descr, _, _ = descr.partition("\n..")
-            return extract_summary(
-                [descr.replace(":", colon_esc)], self.state.document
-            ).replace(colon_esc, ":")
-
-        def get_sig(self, obj):
-            """If the object is a function, get its signature (as figured by JsDoc)"""
-            if isinstance(obj, Function):
-                return AutoFunctionRenderer(
-                    self, app, arguments=["dummy"]
-                )._formal_params(obj)
-            else:
-                return ""
-
-        def get_summary_row(self, pkgname, obj):
-            """Get the summary table row for obj.
-
-            The output is designed to be input to format_table. The link name
-            needs to be set up so that :any:`link_name` makes a link to the
-            actual API docs for this object.
-            """
-            sig = self.get_sig(obj)
-            display_name = obj.name
-            prefix = "*async* " if obj.async_ else ""
-            summary = self.extract_summary(obj.description)
-            link_name = pkgname + "." + display_name
-            return (prefix, display_name, sig, summary, link_name)
-
-        def get_summary_table(self, pkgname, group):
-            """Get the data for a summary table. Return value is set up to be an
-            argument of format_table.
-            """
-            return [self.get_summary_row(pkgname, obj) for obj in group]
-
-        # This following method is copied almost verbatim from autosummary
-        # (where it is called get_table).
-        #
-        # We have to change the value of one string: qualifier = 'obj   ==>
-        # qualifier = 'any'
-        # https://github.com/sphinx-doc/sphinx/blob/3.x/sphinx/ext/autosummary/__init__.py#L392
-        def format_table(self, items):
-            """Generate a proper list of table nodes for autosummary:: directive.
-
-            *items* is a list produced by :meth:`get_items`.
-            """
-            table_spec = addnodes.tabular_col_spec()
-            table_spec["spec"] = r"\X{1}{2}\X{1}{2}"
-
-            table = autosummary_table("")
-            real_table = nodes.table("", classes=["longtable"])
-            table.append(real_table)
-            group = nodes.tgroup("", cols=2)
-            real_table.append(group)
-            group.append(nodes.colspec("", colwidth=10))
-            group.append(nodes.colspec("", colwidth=90))
-            body = nodes.tbody("")
-            group.append(body)
-
-            def append_row(*column_texts: str) -> None:
-                row = nodes.row("")
-                source, line = self.state_machine.get_source_and_line()
-                for text in column_texts:
-                    node = nodes.paragraph("")
-                    vl = StringList()
-                    vl.append(text, "%s:%d:<autosummary>" % (source, line))
-                    with switch_source_input(self.state, vl):
-                        self.state.nested_parse(vl, 0, node)
-                        try:
-                            if isinstance(node[0], nodes.paragraph):
-                                node = node[0]
-                        except IndexError:
-                            pass
-                        row.append(nodes.entry("", node))
-                body.append(row)
-
-            for prefix, name, sig, summary, real_name in items:
-                qualifier = "any"  # <== Only thing changed from autosummary version
-                if "nosignatures" not in self.options:
-                    col1 = "%s:%s:`%s <%s>`\\ %s" % (
-                        prefix,
-                        qualifier,
-                        name,
-                        real_name,
-                        rst.escape(sig),
-                    )
-                else:
-                    col1 = "%s:%s:`%s <%s>`" % (prefix, qualifier, name, real_name)
-                col2 = summary
-                append_row(col1, col2)
-
-            return [table_spec, table]
-
-    return JsDocSummary
+    1. Filter supers to remove PyXxxMethods
+    2. For each PyXxxMethods in supers, add PyXxxMethods.children to
+       cls.children
+    """
+    methods_supers = [x for x in cls.supers if x.segments[-1] in PYPROXY_METHODS]
+    cls.supers = [x for x in cls.supers if x.segments[-1] not in PYPROXY_METHODS]
+    for x in cls.supers:
+        x.segments = [x.segments[-1]]
+    for x in methods_supers:
+        cls.members.extend(PYPROXY_METHODS[x.segments[-1]])

@@ -1,15 +1,18 @@
 import pytest
 
 
-def test_init(selenium_standalone):
-    assert "Python initialization complete" in selenium_standalone.logs.splitlines()
-
-
+@pytest.mark.xfail_browsers(node="Webbrowser doesn't work in node")
 def test_webbrowser(selenium):
-    if selenium.browser == "node":
-        pytest.xfail("Webbrowser doesn't work in node")
-    selenium.run_async("import antigravity")
-    assert len(selenium.driver.window_handles) == 2
+    # Selenium
+    if hasattr(selenium.driver, "window_handles"):
+        selenium.run_async("import antigravity")
+        assert len(selenium.driver.window_handles) == 2
+
+    # Playwright
+    elif hasattr(selenium.driver, "context"):
+        with selenium.driver.context.expect_page() as new_page:
+            selenium.run_async("import antigravity")
+        assert new_page
 
 
 def test_print(selenium):
@@ -17,9 +20,8 @@ def test_print(selenium):
     assert "This should be logged" in selenium.logs.splitlines()
 
 
+@pytest.mark.xfail_browsers(node="No window in node")
 def test_import_js(selenium):
-    if selenium.browser == "node":
-        pytest.xfail("No window in node")
     result = selenium.run(
         """
         import js
@@ -46,25 +48,6 @@ def test_globals_get_multiple(selenium):
         pyodide.globals.get('v')
         pyodide.globals.get('v')
         """
-    )
-
-
-def test_open_url(selenium, httpserver):
-    if selenium.browser == "node":
-        pytest.xfail("XMLHttpRequest not available in node")
-    httpserver.expect_request("/data").respond_with_data(
-        b"HELLO", content_type="text/text", headers={"Access-Control-Allow-Origin": "*"}
-    )
-    request_url = httpserver.url_for("/data")
-
-    assert (
-        selenium.run(
-            f"""
-        import pyodide
-        pyodide.open_url('{request_url}').read()
-        """
-        )
-        == "HELLO"
     )
 
 
