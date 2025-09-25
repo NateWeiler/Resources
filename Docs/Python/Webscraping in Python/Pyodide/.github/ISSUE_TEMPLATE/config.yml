@@ -1,8 +1,0 @@
-blank_issues_enabled: true
-contact_links:
-  - name: Ask a Question
-    url: https://github.com/pyodide/pyodide/discussions
-    about: Ask and answer Pyodide related questions
-  - name: 💬 Gitter
-    url: https://gitter.im/pyodide/community
-    about: Chat with Pyodide community

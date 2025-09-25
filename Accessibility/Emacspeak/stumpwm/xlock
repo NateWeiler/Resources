@@ -1,9 +1,0 @@
-#!/bin/sh
-# Lock screen 
-
-
-
-xbacklight -set 0
-gnome-screensaver-command -a  -l 
-
-

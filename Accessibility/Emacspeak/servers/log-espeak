@@ -1,3 +1,0 @@
-#!/bin/sh
-LOG=/tmp/espeak-$$.log
-tee -a $LOG | `dirname $0`/espeak

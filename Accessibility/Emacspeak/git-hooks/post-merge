@@ -1,7 +1,0 @@
-#!/bin/sh
-#
-# Run make config  followed by make after an update 
-
-make qq
-make outloud 
-cd tvr && make
